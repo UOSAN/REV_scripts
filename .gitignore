@@ -1,0 +1,35 @@
+## Files
+sshKey*
+*.nii
+*.pdf
+.DS_Store
+._.DS_Store
+*.sh.o*
+*.Rhistory
+GNG_results.html
+GNG_results.pdf
+SSRT_results.html
+SSRT_results.pdf
+credentials.yaml.DEFAULT
+*.Rmd
+*.Rda
+*.rda
+*.html
+*.jpg
+
+## Folders
+fmaptest/
+subjects/
+subjects_old/
+subjectsAuto/
+GNG/data/
+GNG/output/
+behavioral/REV_SST/info/
+behavioral/REV_SST/output/
+behavioral/REV_SST/scanning/
+behavioral/REV_SST/training/
+output/
+Figs/
+initialCheck/
+singleVarTxtx/
+varMats/

@@ -1,0 +1,7 @@
+You create a MacStim script in excel format. Each trial is a row, and the different properties of the trial are included in the columns. The attached PDF ("MacStimInstructions.pdf") tells you exactly what each of the columns does. For our purposes, almost every trial will be a "single" "picture" trial, where we display an image file with the math problem and letter.
+
+The main change from this document is that we can now display jpgs (not just picts) for images.
+
+Once you have a rough grasp of how MacStim works, check out the documentation for MSS, which is the matlab program that will actually parse the script that you write: 
+
+http://wiki.scn.ucla.edu/index.php5/MSS_and_the_Psychtoolbox_for_Matlab
