@@ -53,8 +53,6 @@ mv sub18_run3_train1_06-Apr-2015_12-14.mat ../omitted/sub18_run3_train1_06-Apr-2
 echo "removed sub18_run3_train1_06-Apr-2015_12-14.mat" >> $outputlog
 
 
-
-
 cd ../post
 echo "----------------RENAMING POST FILES----------------" >> $outputlog
 mv sub55_run12_scan1_05-Sep-2015_10-10.mat sub55_run13_scan3_05-Sep-2015_10-10.mat

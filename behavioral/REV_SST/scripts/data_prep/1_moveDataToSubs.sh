@@ -7,7 +7,7 @@
 #########################################################################
 
 outputdir="/Users/kristadestasio/Desktop/REV_scripts/behavioral/REV_SST/output"
-sourcedir="/Users/kristadestasio/Desktop/REV_scripts/behavioral/data"
+sourcedir="/Users/kristadestasio/Desktop/REV_behavioral_data"
 outputlog=$outputdir/outputlog_populate.txt
 errorlog=$outputdir/errorlog_populate.txt
 allsubs=$outputdir/subjectlist.txt
