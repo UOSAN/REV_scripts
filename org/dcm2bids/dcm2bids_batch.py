@@ -72,7 +72,7 @@ if not os.path.isdir(niidir + "/logs"):
 ##################################
 
 # Source the subject list (needs to be in your current working directory)
-subjectlist="subject_list_test.txt" 
+subjectlist="subject_list.txt" 
 
 # Create a function to write files
 def touch(path): # make a function: 
