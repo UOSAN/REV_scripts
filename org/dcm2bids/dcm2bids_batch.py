@@ -25,7 +25,6 @@ import subprocess
 # Set study info (change these for your study)
 group="sanlab"
 study="REV"
-subid=glob.glob('REV[0-9][0-9[0-9]')
 
 # Set directories
 currentdir=os.getcwd()
@@ -36,13 +35,11 @@ bidsdir="/projects/" + group + "/shared/" + study + "bids_data"
 
 outputlog=currentdir + "/outputlog_nii2bids.txt"
 errorlog=currentdir + "/errorlog_nii2bids.txt"
-#######################
-#######################
-# NEED TO CREATE THESE
-configfile= currentdir + group"_config.json"
-wave=
-#######################
-#######################
+
+configdir= "/projects/" + group + "/shared/" + study + "/" + study + "_scripts/org/dcm2bids/" 
+configfile= configdir + study + "_config.json"
+image= "/projects/" + group + "/shared/" + study + "containers/Dcm2Bids-master.simg"
+
 
 # Create log files
 ## Define a function to create files
@@ -73,7 +70,7 @@ if not os.path.isdir(bidsdir + "/derivatives"):
 ##################################
 
 # Source the subject list (needs to be in your current working directory)
-subjectlist="subject_list.txt" 
+subjectlist="subject_list_test.txt" 
 
 # Create a function to write files
 def touch(path): # make a function: 
@@ -81,46 +78,23 @@ def touch(path): # make a function:
         os.utime(path, None) # make the file
 
 
-# If the subid appears once
-	# then assign that directory to wave1
- 
-# If the subid appears twice
-	# then assign the directory with earlier date to wave1 and the later date to wave2
-# If the subid appears thrice
-	# then assign the directory with earliest date to wave1, the directory with the second date to wave2, and the third date to wave2
-# else, print an error to the error log
-
-
-
-
-
 # Convert the dicoms of each participant in the subject_list.txt file
 with open(subjectlist) as file:
 	lines = file.readlines() # set variable name to file and read the lines from the file
 
+# Split the subject list into participant ID and session number
 for line in lines:
-	subject=line.strip()
+	entry=line.strip()
+	subject=entry.split(",")[0]
+	wave=entry.split(",")[1]
 	subjectpath=dicomdir+"/"+subject
 	if os.path.isdir(subjectpath):
 		with open(outputlog, 'a') as logfile:
 			logfile.write(subject+os.linesep)
 		# Create a job to submit to the HPC with sbatch 
-		batch_cmd = 'sbatch --job-name dcm2bids_{subject} --partition=short --time 00:60:00 --mem-per-cpu=2G --cpus-per-task=1 -o {niidir}/{subject}_dcm2bids_output.txt -e {niidir}/{subject}_dcm2bids_error.txt --wrap="singulariy exec dcm2bids.img dcm2bids -d {subjectpath} -s {wave} -p {subject} -c {configfile}"'.format(wave=wave,configfile=configfile,subject=subject,niidir=niidir,subjectpath=subjectpath,group=group)
+		batch_cmd = 'sbatch --job-name dcm2bids_{subject} --partition=short --time 00:60:00 --mem-per-cpu=2G --cpus-per-task=1 -o {niidir}/{subject}_dcm2bids_output.txt -e {niidir}/{subject}_dcm2bids_error.txt --wrap="singulariy run -B {archivedir} -B {configdir} {image} -d {subjectpath} -s {wave} -p {subject} -c {configfile} -o {niidir}"'.format(wave=wave,configdir=configdir,configfile=configfile,subject=subject,niidir=niidir,subjectpath=subjectpath,group=group)
 		# Submit the job
 		subprocess.call([batch_cmd], shell=True)
 	else:
 		with open(errorlog, 'a') as logfile:
 			logfile.write(subject+os.linesep)
-
-##################################
-# BIDS-ification
-##################################
-
-# Code example for my sanity, iteratively printing items in a list
->>> x=["a", "bunch", "of", "words"]
->>> i=0
->>> while i<len(x):
-...     print(x[i])
-...     i=i+1
-... 
-
