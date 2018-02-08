@@ -2,7 +2,7 @@
     "descriptions": [
         {
             "dataType": "anat",
-            "modalityLabel": "MR",
+            "modalityLabel": "T1",
             "criteria": {
                 "SeriesDescription": "mprage*"
             }

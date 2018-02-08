@@ -40,6 +40,9 @@ configdir= "/projects/" + group + "/shared/" + study + "/" + study + "_scripts/o
 configfile= configdir + study + "_config.json"
 image= "/projects/" + group + "/shared/" + "containers/Dcm2Bids-master.simg"
 
+##################################
+# Directory Check & Log Creation
+##################################
 
 # Create log files
 ## Define a function to create files
@@ -68,7 +71,7 @@ if not os.path.isdir(niidir + "/logs"):
 	os.mkdir(niidir + "/logs")
 
 ##################################
-# DICOM To Nifti Conversion
+# DICOM To BIDS Conversion
 ##################################
 
 # Source the subject list (needs to be in your current working directory)
