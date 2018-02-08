@@ -87,14 +87,15 @@ with open(subjectlist) as file:
 # Split the subject list into participant ID and session number
 for line in lines:
 	entry=line.strip()
-	subject=entry.split(",")[0]
+	subjectdir=entry.split(",")[0]
+	subject=subjectdir.split("_")[0]
 	wave=entry.split(",")[1]
-	subjectpath=dicomdir+"/"+subject
+	subjectpath=dicomdir+"/"+subjectdir
 	if os.path.isdir(subjectpath):
 		with open(outputlog, 'a') as logfile:
 			logfile.write(subject+os.linesep)
 		# Create a job to submit to the HPC with sbatch 
-		batch_cmd = 'sbatch --job-name dcm2bids_{subject} --partition=short --time 00:60:00 --mem-per-cpu=2G --cpus-per-task=1 -o {niidir}/logs/{subject}_dcm2bids_output.txt -e {niidir}/logs/{subject}_dcm2bids_error.txt --wrap="singularity run -B {dicomdir} -B {niidir} -B {configdir} {image} -d {subjectpath} -s {wave} -p {subject} -c {configfile} -o {niidir}"'.format(dicomdir=dicomdir,wave=wave,configdir=configdir,configfile=configfile,subject=subject,niidir=niidir,subjectpath=subjectpath,group=group,image=image)
+		batch_cmd = 'sbatch --job-name dcm2bids_{subjectdir} --partition=short --time 00:60:00 --mem-per-cpu=2G --cpus-per-task=1 -o {niidir}/logs/{subjectdir}_dcm2bids_output.txt -e {niidir}/logs/{subjectdir}_dcm2bids_error.txt --wrap="singularity run -B {dicomdir} -B {niidir} -B {configdir} {image} -d {subjectpath} -s {wave} -p {subject} -c {configfile} -o {niidir}"'.format(subjectdir=subjectdir,dicomdir=dicomdir,wave=wave,configdir=configdir,configfile=configfile,subject=subject,niidir=niidir,subjectpath=subjectpath,group=group,image=image)
 		# Submit the job
 		subprocess.call([batch_cmd], shell=True)
 	else:
