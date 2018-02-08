@@ -38,7 +38,7 @@ errorlog=currentdir + "/errorlog_nii2bids.txt"
 
 configdir= "/projects/" + group + "/shared/" + study + "/" + study + "_scripts/org/dcm2bids/" 
 configfile= configdir + study + "_config.json"
-image= "/projects/" + group + "/shared/" + study + "containers/Dcm2Bids-master.simg"
+image= "/projects/" + group + "/shared/" + "containers/Dcm2Bids-master.simg"
 
 
 # Create log files
