@@ -94,7 +94,7 @@ for line in lines:
 		with open(outputlog, 'a') as logfile:
 			logfile.write(subject+os.linesep)
 		# Create a job to submit to the HPC with sbatch 
-		batch_cmd = 'sbatch --job-name dcm2bids_{subject} --partition=short --time 00:60:00 --mem-per-cpu=2G --cpus-per-task=1 -o {niidir}/logs/{subject}_dcm2bids_output.txt -e {niidir}/logs/{subject}_dcm2bids_error.txt --wrap="singularity run -B {archivedir} -B {configdir} {image} -d {subjectpath} -s {wave} -p {subject} -c {configfile} -o {niidir}"'.format(archivedir=archivedir,wave=wave,configdir=configdir,configfile=configfile,subject=subject,niidir=niidir,subjectpath=subjectpath,group=group,image=image)
+		batch_cmd = 'sbatch --job-name dcm2bids_{subject} --partition=short --time 00:60:00 --mem-per-cpu=2G --cpus-per-task=1 -o {niidir}/logs/{subject}_dcm2bids_output.txt -e {niidir}/logs/{subject}_dcm2bids_error.txt --wrap="singularity run -B {dicomdir} -B {niidir} -B {configdir} {image} -d {subjectpath} -s {wave} -p {subject} -c {configfile} -o {niidir}"'.format(dicomdir=dicomdir,wave=wave,configdir=configdir,configfile=configfile,subject=subject,niidir=niidir,subjectpath=subjectpath,group=group,image=image)
 		# Submit the job
 		subprocess.call([batch_cmd], shell=True)
 	else:
