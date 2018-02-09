@@ -2,15 +2,16 @@
 # for participant directories that are listed in the subject_list.txt file.
 # Niftis will be renamed and put into BIDS structure using the dcm2Bids package
 # 
-# See the dcm2Bids repo for instructions to create the config file
-# < link to dcm2Bids >
-# < link to more detailed instructions on san wiki >
+# See the dcm2Bids repo for instructions to create the config file:
+# https://github.com/cbedetti/Dcm2Bids
+#
+# More detailed instructions on san wiki: 
+# https://uosanlab.atlassian.net/wiki/spaces/SW/pages/44269646/Convert+DICOM+to+BIDS
 #
 # In your current directory, you will need:
 #		- nii2bids_batch.py
 #		- subject_list.txt
 #		- the study config file (e.g. REV_config.json) (actually, maybe this will be in the container?)
-#
 
 
 ##################################
