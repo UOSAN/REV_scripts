@@ -16,6 +16,8 @@ credentials.yaml.DEFAULT
 *.rda
 *.html
 *.jpg
+errorlog*
+outputlog*
 
 ## Folders
 fmaptest/
