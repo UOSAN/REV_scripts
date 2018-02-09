@@ -19,7 +19,6 @@
 
 # Import libraries
 import os
-import glob
 import subprocess 
 
 # Set study info (change these for your study)
@@ -31,14 +30,16 @@ currentdir=os.getcwd()
 dicomdir="/projects/" + group + "/shared/DICOMS/" + study
 archivedir="/projects/" + group + "/shared/" + study + "/archive"
 niidir=archivedir + "/clean_nii"
-bidsdir="/projects/" + group + "/shared/" + study + "bids_data"
 
 outputlog=currentdir + "/outputlog_nii2bids.txt"
 errorlog=currentdir + "/errorlog_nii2bids.txt"
 
 configdir= "/projects/" + group + "/shared/" + study + "/" + study + "_scripts/org/dcm2bids/" 
 configfile= configdir + study + "_config.json"
-image= "/projects/" + group + "/shared/" + "containers/Dcm2Bids-master.simg"
+image= "/projects/" + group + "/shared/containers/Dcm2Bids-master.simg"
+
+# Source the subject list (needs to be in your current working directory)
+subjectlist="subject_list.txt" 
 
 ##################################
 # Directory Check & Log Creation
@@ -73,14 +74,6 @@ if not os.path.isdir(niidir + "/logs"):
 ##################################
 # DICOM To BIDS Conversion
 ##################################
-
-# Source the subject list (needs to be in your current working directory)
-subjectlist="subject_list.txt" 
-
-# Create a function to write files
-def touch(path): # make a function: 
-    with open(path, 'a'): # open it in append mode, but don't do anything to it yet
-        os.utime(path, None) # make the file
 
 
 # Convert the dicoms of each participant in the subject_list.txt file
