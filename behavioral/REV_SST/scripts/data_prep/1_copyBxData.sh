@@ -7,7 +7,7 @@
 #########################################################################
 
 outputdir="/Users/kristadestasio/Desktop/REV_scripts/behavioral/REV_SST/output"
-sourcedir="/Users/kristadestasio/Desktop/behavioral_data"
+sourcedir="/Users/kristadestasio/Desktop/REV_BxData"
 outputlog=$outputdir/outputlog_populate.txt
 errorlog=$outputdir/errorlog_populate.txt
 allsubs=$outputdir/subjectlist.txt
@@ -41,6 +41,9 @@ fi
 touch "${outputlog}"
 touch "${errorlog}"
 touch "${allsubs}"
+
+echo "Copying data from $sourcedir to $outputdir" > $outputlog
+echo "Errors during copy data from $sourcedir to $outputdir" > $errorlog
 
 # Create a text file of all participants in the behavioral data folder
 cd $sourcedir/scanning
@@ -97,4 +100,4 @@ for sub in ${sublist[@]}; do
 	fi
 done
 
-echo "done"
+echo "done copying data"

@@ -15,6 +15,9 @@ niidir="/projects/" + group + "/shared/" + study + "/archive/clean_nii"
 tempdir=niidir + "/tmp_dcm2bids"
 bidsdir="/projects/" + group + "/shared/" + study + "bids_data"
 
+### SET THIS ###
+derivatives=
+
 outputlog=currentdir + "/outputlog_bidsQC.txt"
 errorlog=currentdir + "/errorlog_bidsQC.txt"
 
@@ -29,6 +32,11 @@ if not os.path.isfile(outputlog):
 if not os.path.isfile(errorlog):
 	touch(errorlog)
 
+# Check and create directories
+if not os.path.isdir(bidsdir):
+	os.mkdir(bidsdir)
+if not os.path.isdir(bidsdir + "/derivatives"):
+	os.mkdir(bidsdir + "/derivatives")	
 ##################################
 #  Standard Options
 ##################################
@@ -37,7 +45,7 @@ if not os.path.isfile(errorlog):
 
 # Print a list of files in the error log
 
-# Copy the largest file
+# Move the largest file into the subject directories
 
 
 
@@ -48,6 +56,8 @@ if not os.path.isfile(errorlog):
 # Fix incorrect sequence names
 
 # Fix incorrect participant IDs
+
+# Move the files into the subject directories
 
 
 

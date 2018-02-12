@@ -11,7 +11,8 @@ outputlog=$datadir/outputlog_renamed.txt
 
 # Create output log
 touch "${outputlog}"
-echo "----------------CORRECTING RUN NUMBERS----------------" >> $outputlog
+echo "----------------CORRECTING RUN NUMBERS----------------" > $outputlog
+echo "----------------ERRORS IN RENAMING----------------" > $outputlog
 
 # Rename files in the pre folder
 cd $datadir/pre
@@ -66,4 +67,4 @@ echo "removed sub17_run14_scan4_23-Apr-2015_10-41.mat" >> $outputlog
 mv sub116_run11_scan1_25-Mar-2016_11-34.mat ../omitted/sub116_run11_scan1_25-Mar-2016_11-34.mat >> $outputlog
 echo "removed sub116_run11_scan1_25-Mar-2016_11-34.mat" >> $outputlog
 
-echo "done"
+echo "done renaming files"

@@ -20,8 +20,8 @@ touch "${errorlog}"
 # Check behavioral SST data from the base scan
 cd $datadir/pre
 runnum=$(seq 1 2)
-echo "--------------PRE DATA--------------" >> $outputlog
-echo "--------------PRE DATA--------------" >> $errorlog
+echo "--------------PRE DATA--------------" > $outputlog
+echo "--------------PRE DATA--------------" > $errorlog
 for sub in ${pre_sublist[@]}; do
 	for run in $runnum; do
 		if [ $(ls "${datadir}"/pre/"${sub}_run${run}_"*.mat | wc -l) -eq 1 ]; then
@@ -68,4 +68,4 @@ for sub in ${post_sublist[@]}; do
 	done
 done
 
-echo "done"
+echo "done checking files"
