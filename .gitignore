@@ -20,7 +20,6 @@ errorlog*
 outputlog*
 
 ## Folders
-compiledResults/
 fmaptest/
 subjects/
 subjects_old/
