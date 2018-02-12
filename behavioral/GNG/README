@@ -2,7 +2,7 @@ This folder contains the scripts and behavioral data for the Go/No-Go task.
 
 
 *Data prep script:*
-populate-data.sh (move and rename behavioral data files)
+copyData.sh (copy and rename behavioral data files)
 
 *Analysis script:*
 extractAllGNGA_all.m

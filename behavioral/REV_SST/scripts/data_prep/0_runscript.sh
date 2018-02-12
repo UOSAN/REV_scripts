@@ -6,6 +6,6 @@ repopath="/Users/kristadestasio/Desktop"
 
 sh ${repopath}/REV_scripts/behavioral/REV_SST/scripts/data_prep/1_copyBxData.sh
 
-sh ${repopath}/REV_scripts/behavioral/REV_SST/scripts/data_prep/2_renameBehavioralData.sh
+sh ${repopath}/REV_scripts/behavioral/REV_SST/scripts/data_prep/2_renameBxData.sh
 
 sh ${repopath}/REV_scripts/behavioral/REV_SST/scripts/data_prep/3_checkExistsData.sh

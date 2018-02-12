@@ -1,4 +1,4 @@
-cd('~/Desktop/REV/REV_SST/bData/analysisReady')
+cd('~/Desktop/REV_scripts/behavioral/REV_SST/output/analysisReady')
 numSubs = 2;
 numRuns = 2;
 exclude = [1:143]; % If you want to exclude any numbers, put them in this vector (e.g. exclude = [5 20];)

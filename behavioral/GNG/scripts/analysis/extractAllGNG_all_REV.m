@@ -4,7 +4,7 @@
 %% extract # and RT of correct and incorrect Go and NoGo trials
 
 % create a vector of the trial numbers for each condition
-cd('~/Desktop/REV/GNG/analysis-scripts');
+cd('~/Desktop/REV_scripts/behavioral/GNG/scripts/analysis');
 
 % Define columns in the task template
 stimTypeCol=1;
@@ -38,7 +38,7 @@ for runNum=1:numRuns
         NeutralCue = data(:,stimTypeCol)==2;
     end
     
-    cd('~/Desktop/REV/GNG/data')
+    cd('~/Desktop/REV_scripts/behavioral/GNG/data')
     files = dir(['*' num2str(runNum) '.mat']); %loads all the .mats in that directory into matlab's workspace.
     numFiles = length(files);
     
@@ -111,27 +111,27 @@ for runNum=1:numRuns
 end
 
 % save('~/Desktop/REV/GNG/output/acc_GNG4');
-save('~/Desktop/REV/GNG/output/rtMean_GNG');
+save('~/Desktop/REV_scripts/behavioral/GNG/output/rtMean_GNG');
 % dlmwrite('~/Desktop/REV/GNG/output/accuracyGNG4.txt', acc_GNG4, 'delimiter','\t');
-dlmwrite('~/Desktop/REV/GNG/output/GNG_CorrGo_RT.txt', GNG_CorrGo_RT, 'delimiter','\t');
-dlmwrite('~/Desktop/REV/GNG/output/GNG_IncorrNoGo_RT.txt', GNG_IncorrNoGo_RT, 'delimiter','\t');
-dlmwrite('~/Desktop/REV/GNG/output/GNG_CorrGo_RT_Risk.txt', GNG_CorrGo_RT_Risk, 'delimiter','\t');
-dlmwrite('~/Desktop/REV/GNG/output/GNG_CorrGo_RT_Neutral.txt', GNG_CorrGo_RT_Neutral, 'delimiter','\t');
+dlmwrite('~/Desktop/REV_scripts/behavioral/GNG/output/GNG_CorrGo_RT.txt', GNG_CorrGo_RT, 'delimiter','\t');
+dlmwrite('~/Desktop/REV_scripts/behavioral/GNG/output/GNG_IncorrNoGo_RT.txt', GNG_IncorrNoGo_RT, 'delimiter','\t');
+dlmwrite('~/Desktop/REV_scripts/behavioral/GNG/output/GNG_CorrGo_RT_Risk.txt', GNG_CorrGo_RT_Risk, 'delimiter','\t');
+dlmwrite('~/Desktop/REV_scripts/behavioral/GNG/output/GNG_CorrGo_RT_Neutral.txt', GNG_CorrGo_RT_Neutral, 'delimiter','\t');
 
-dlmwrite('~/Desktop/REV/GNG/output/GNG_CorrGo_Count.txt', GNG_CorrGo_Count, 'delimiter','\t');
-dlmwrite('~/Desktop/REV/GNG/output/GNG_CorrGo_Count_Risk.txt', GNG_CorrGo_Count_Risk, 'delimiter','\t');
-dlmwrite('~/Desktop/REV/GNG/output/GNG_CorrGo_Count_Neutral.txt', GNG_CorrGo_Count_Neutral, 'delimiter','\t');
+dlmwrite('~/Desktop/REV_scripts/behavioral/GNG/output/GNG_CorrGo_Count.txt', GNG_CorrGo_Count, 'delimiter','\t');
+dlmwrite('~/Desktop/REV_scripts/behavioral/GNG/output/GNG_CorrGo_Count_Risk.txt', GNG_CorrGo_Count_Risk, 'delimiter','\t');
+dlmwrite('~/Desktop/REV_scripts/behavioral/GNG/output/GNG_CorrGo_Count_Neutral.txt', GNG_CorrGo_Count_Neutral, 'delimiter','\t');
 
-dlmwrite('~/Desktop/REV/GNG/output/GNG_CorrNoGo_Count.txt', GNG_CorrNoGo_Count, 'delimiter','\t');
-dlmwrite('~/Desktop/REV/GNG/output/GNG_CorrNoGo_Count_Risk.txt', GNG_CorrNoGo_Count_Risk, 'delimiter','\t');
-dlmwrite('~/Desktop/REV/GNG/output/GNG_CorrNoGo_Count_Neutral.txt', GNG_CorrNoGo_Count_Neutral, 'delimiter','\t');
+dlmwrite('~/Desktop/REV_scripts/behavioral/GNG/output/GNG_CorrNoGo_Count.txt', GNG_CorrNoGo_Count, 'delimiter','\t');
+dlmwrite('~/Desktop/REV_scripts/behavioral/GNG/output/GNG_CorrNoGo_Count_Risk.txt', GNG_CorrNoGo_Count_Risk, 'delimiter','\t');
+dlmwrite('~/Desktop/REV_scripts/behavioral/GNG/output/GNG_CorrNoGo_Count_Neutral.txt', GNG_CorrNoGo_Count_Neutral, 'delimiter','\t');
 
-dlmwrite('~/Desktop/REV/GNG/output/GNG_IncorrNoGo_Count.txt', GNG_IncorrNoGo_Count, 'delimiter','\t');
-dlmwrite('~/Desktop/REV/GNG/output/GNG_IncorrNoGo_Count_Risk.txt', GNG_IncorrNoGo_Count_Risk, 'delimiter','\t');
-dlmwrite('~/Desktop/REV/GNG/output/GNG_IncorrNoGo_Count_Neutral.txt', GNG_IncorrNoGo_Count_Neutral, 'delimiter','\t');
+dlmwrite('~/Desktop/REV_scripts/behavioral/GNG/output/GNG_IncorrNoGo_Count.txt', GNG_IncorrNoGo_Count, 'delimiter','\t');
+dlmwrite('~/Desktop/REV_scripts/behavioral/GNG/output/GNG_IncorrNoGo_Count_Risk.txt', GNG_IncorrNoGo_Count_Risk, 'delimiter','\t');
+dlmwrite('~/Desktop/REV_scripts/behavioral/GNG/output/GNG_IncorrNoGo_Count_Neutral.txt', GNG_IncorrNoGo_Count_Neutral, 'delimiter','\t');
 
-dlmwrite('~/Desktop/REV/GNG/output/GNG_IncorrGo_Count.txt', GNG_IncorrGo_Count, 'delimiter','\t');
-dlmwrite('~/Desktop/REV/GNG/output/GNG_IncorrGo_Count_Risk.txt', GNG_IncorrGo_Count_Neutral, 'delimiter','\t');
-dlmwrite('~/Desktop/REV/GNG/output/GNG_IncorrGo_Count_Risk.txt', GNG_IncorrGo_Count_Neutral, 'delimiter','\t');
+dlmwrite('~/Desktop/REV_scripts/behavioral/GNG/output/GNG_IncorrGo_Count.txt', GNG_IncorrGo_Count, 'delimiter','\t');
+dlmwrite('~/Desktop/REV_scripts/behavioral/GNG/output/GNG_IncorrGo_Count_Risk.txt', GNG_IncorrGo_Count_Neutral, 'delimiter','\t');
+dlmwrite('~/Desktop/REV_scripts/behavioral/GNG/output/GNG_IncorrGo_Count_Risk.txt', GNG_IncorrGo_Count_Neutral, 'delimiter','\t');
 
-dlmwrite('~/Desktop/REV/GNG/output/GNG_Corr_Count.txt', GNG_Corr_Count, 'delimiter','\t');
+dlmwrite('~/Desktop/REV_scripts/behavioral/GNG/output/GNG_Corr_Count.txt', GNG_Corr_Count, 'delimiter','\t');
