@@ -1,7 +1,8 @@
 #!/bin/bash
 
 
-repopath="/Users/kristadestasio/Desktop" #Path to REV_scripts directory
+# Change this, path to data and script repos
+repopath="/Users/kristadestasio/Desktop" 
 
 sh ${repopath}/REV_scripts/behavioral/REV_SST/scripts/data_prep/1_copyBxData.sh
 

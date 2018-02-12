@@ -6,8 +6,12 @@
 # KD 2017.04.05															#
 #########################################################################
 
-outputdir="/Users/kristadestasio/Desktop/REV_scripts/behavioral/REV_SST/output"
-sourcedir="/Users/kristadestasio/Desktop/REV_BxData"
+# Change this, path to data and script repos
+repopath="/Users/kristadestasio/Desktop"
+
+# Set paths
+outputdir=$repopath/REV_scripts/behavioral/REV_SST/output
+sourcedir=$repopath/REV_BxData
 outputlog=$outputdir/outputlog_populate.txt
 errorlog=$outputdir/errorlog_populate.txt
 allsubs=$outputdir/subjectlist.txt

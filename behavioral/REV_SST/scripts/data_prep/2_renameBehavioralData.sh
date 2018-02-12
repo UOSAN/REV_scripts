@@ -5,8 +5,11 @@
 #	are in the behavioral analysis folders				  #
 ###################################################
 
-# Set variables
-datadir="/Users/kristadestasio/Desktop/REV_scripts/behavioral/REV_SST/output"
+# Change this, path to data and script repos
+repopath="/Users/kristadestasio/Desktop"
+ 
+# Set paths
+datadir= $repopath/REV_scripts/behavioral/REV_SST/output
 outputlog=$datadir/outputlog_renamed.txt
 
 # Create output log
