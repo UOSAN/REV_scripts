@@ -52,15 +52,12 @@ for dirpath, subdirs, files in os.walk(tempdir):
 # For each sequence type in the subdirectory
 	for subdir in subdirs:
 		wave=subdir.split("_")[1]
-		print("wave " + wave)
-	
-
-	# for file in files:
-	# 	sequenceNumber=file.split("_")[0]
-	# 	subject=file.split("_")[1]
-	# 	sequenceName=file.split("_")[3]
-	# 	with open(outputlog, 'a') as logfile:
-	# 		logfile.write(subject+"-"+wave+"_"+sequenceNumber+"-"+sequenceName+os.linesep)
+	for file in files:
+		sequenceNumber=file.split("_")[0]
+		subject=file.split("_")[1]
+		sequenceName=file.split("_")[3]
+		with open(outputlog, 'a') as logfile:
+			logfile.write(subject+"-"+wave+"_"+sequenceNumber+"-"+sequenceName+os.linesep)
 	# If there are duplicates of any sequences of interest (task, anat, fmap)
 	# Then copy the largest of those files to that participant's BIDS directory
 	# Rename that file with BIDS format
