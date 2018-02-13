@@ -51,8 +51,7 @@ if not os.path.isfile(errorlog):
 for dirpath, subdirs, files in os.walk(tempdir):
 # For each sequence type in the subdirectory
 	for dirname in subdirs:
-		print(dirname.split("_")[1])
-		#wave=dirname.split("_")[1]
+		wave=print(dirname.split("_")[1])
 	for file in files:
 		sequenceNumber=file.split("_")[0]
 		subject=file.split("_")[1]
