@@ -53,6 +53,9 @@ for dirpath, subdirs, files in os.walk(tempdir):
 	for dirname in subdirs:
 		wave=dirname.split("_")[0]
 		print(wave)
+	for subdir in subdirs:
+		print(subdir)
+
 	# for file in files:
 	# 	sequenceNumber=file.split("_")[0]
 	# 	subject=file.split("_")[1]
