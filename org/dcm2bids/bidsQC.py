@@ -18,6 +18,9 @@ bidsdir="/projects/" + group + "/shared/" + study + "bids_data"
 outputlog=logdir + "/outputlog_bidsQC.txt"
 errorlog=logdir + "/errorlog_bidsQC.txt"
 
+# Sequence identifiers
+seqnum _ study subject _ date _ seqname _ date .nii.gz (or .json)
+
 ### SET THIS ###
 derivatives=bidsdir + "/derivatives"
 
@@ -48,9 +51,14 @@ if not os.path.isfile(errorlog):
 # For each subdirectory
 for dirpath, dirnames, files in os.walk(tempdir):
 # For each sequence type in the subdirectory
+	for directory in dirnames:
+		wave=file.split("_")[1]
 	for file in files:
+		sequenceNumber=file.split("_")[0]
+		subject=file.split("_")[1]
+		sequenceName=file.split("_")[3]
 		with open(outputlog, 'a') as logfile:
-			logfile.write(os.path.join(dirpath, file))
+			logfile.write(subject+"-"+wave+"_"+sequenceNumber+"-"+sequenceName+os.linesep)
 	# If there are duplicates of any sequences of interest (task, anat, fmap)
 	# Then copy the largest of those files to that participant's BIDS directory
 	# Rename that file with BIDS format
