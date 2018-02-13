@@ -19,7 +19,6 @@ outputlog=logdir + "/outputlog_bidsQC.txt"
 errorlog=logdir + "/errorlog_bidsQC.txt"
 
 # Sequence identifiers
-seqnum _ study subject _ date _ seqname _ date .nii.gz (or .json)
 
 ### SET THIS ###
 derivatives=bidsdir + "/derivatives"
