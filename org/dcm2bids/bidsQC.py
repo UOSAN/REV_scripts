@@ -69,10 +69,11 @@ if not os.path.isfile(errorlog):
 # For each subdirectory
 for dirpath, subdirs, files in os.walk(niidir):
 # For each sequence type in the subdirectory
+	print(dirpath)
 	for subdir in subdirs:
-		print(subdir)
+		print("subdir " + subdir)
 	for file in files:
-		print(file)
+		print("file " + file)
 
 	# If there are duplicates of any sequences of interest (task, anat, fmap)
 	# Then copy the largest of those files to that participant's BIDS directory
