@@ -86,7 +86,7 @@ for line in lines:
 		with open(outputlog, 'a') as logfile:
 			logfile.write(subjectdir+os.linesep)
 		# Create a job to submit to the HPC with sbatch 
-		batch_cmd = 'sbatch --job-name dcm2bids_{subjectdir} --partition=short --time 00:60:00 --mem-per-cpu=2G --cpus-per-task=1 -o {logdir}/{subjectdir}_dcm2bids_output.txt -e {logdir}/{subjectdir}_dcm2bids_error.txt --wrap="singularity run -B {dicomdir} -B {niidir} -B {codedir} {image} -d {subjectpath} -s {wave} -p {subject} -c {configfile} -o {niidir}"'.format(logdir=logdir,subjectdir=subjectdir,dicomdir=dicomdir,wave=wave,codedir=codedir,configfile=configfile,subject=subject,niidir=niidir,subjectpath=subjectpath,group=group,image=image)
+		batch_cmd = 'sbatch --job-name dcm2bids_{subjectdir} --partition=short --time 00:60:00 --mem-per-cpu=2G --cpus-per-task=1 -o {logdir}/{subjectdir}_dcm2bids_output.txt -e {logdir}/{subjectdir}_dcm2bids_error.txt --wrap="singularity run -B {dicomdir} -B {niidir} -B {codedir} {image} -d {subjectpath} -s {wave} -p {subject} -c {configfile} -o {niidir}  --forceDcm2niix --clobber -a"'.format(logdir=logdir,subjectdir=subjectdir,dicomdir=dicomdir,wave=wave,codedir=codedir,configfile=configfile,subject=subject,niidir=niidir,subjectpath=subjectpath,group=group,image=image)
 		# Submit the job
 		subprocess.call([batch_cmd], shell=True)
 	else:
