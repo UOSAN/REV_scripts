@@ -52,10 +52,10 @@ for dirpath, subdirs, files in os.walk(tempdir):
 # For each sequence type in the subdirectory
 	for dirname in subdirs:
 		wave=dirname.split("_")[0]
-		for file in files:
-			sequenceNumber=file.split("_")[0]
-			subject=file.split("_")[1]
-			sequenceName=file.split("_")[3]
+	for file in files:
+		sequenceNumber=file.split("_")[0]
+		subject=file.split("_")[1]
+		sequenceName=file.split("_")[3]
 		with open(outputlog, 'a') as logfile:
 			logfile.write(subject+"-"+wave+"_"+sequenceNumber+"-"+sequenceName+os.linesep)
 	# If there are duplicates of any sequences of interest (task, anat, fmap)
