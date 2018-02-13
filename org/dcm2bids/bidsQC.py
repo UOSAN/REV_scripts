@@ -51,10 +51,8 @@ if not os.path.isfile(errorlog):
 for dirpath, subdirs, files in os.walk(tempdir):
 # For each sequence type in the subdirectory
 	for subdir in subdirs:
-		print("dir" + subdir)
-	for dirname in subdirs:
 		wave=dirname.split("_")[1]
-		print("wave" + wave)
+		print("wave " + wave)
 	
 
 	# for file in files:
