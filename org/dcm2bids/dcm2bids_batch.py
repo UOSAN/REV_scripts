@@ -27,7 +27,7 @@ group="sanlab"
 study="REV"
 
 # Set directories
-logdir=os.getcwd()+"/logs"
+logdir=os.getcwd()+"/logs/dcm2bids"
 dicomdir="/projects/" + group + "/shared/DICOMS/" + study
 archivedir="/projects/" + group + "/shared/" + study + "/archive"
 niidir=archivedir + "/clean_nii"

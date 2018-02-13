@@ -11,7 +11,7 @@ group="sanlab"
 study="REV"
 
 # Set directories
-logdir=os.getcwd()+"/logs"
+logdir=os.getcwd()+"/logs/bidsQC"
 niidir="/projects/" + group + "/shared/" + study + "/archive/clean_nii"
 tempdir=niidir + "/tmp_dcm2bids"
 bidsdir="/projects/" + group + "/shared/" + study + "bids_data"
@@ -48,22 +48,37 @@ if not os.path.isfile(errorlog):
 
 # For each directoriy in the temp directory
 # For each subdirectory
-for dirpath, subdirs, files in os.walk(tempdir):
-# For each sequence type in the subdirectory
-	for subdir in subdirs:
-		wave=subdir.split("_")[1]
-	for file in files:
-		sequenceNumber=file.split("_")[0]
-		subject=file.split("_")[1]
-		sequenceName=file.split("_")[3]
-		with open(outputlog, 'a') as logfile:
-			logfile.write(subject+"-"+wave+"_"+sequenceNumber+"-"+sequenceName+os.linesep)
+# for dirpath, subdirs, files in os.walk(tempdir):
+# # For each sequence type in the subdirectory
+# 	for subdir in subdirs:
+# 		wave=subdir.split("_")[1]
+# 	for file in files:
+# 		sequenceNumber=file.split("_")[0]
+# 		subject=file.split("_")[1]
+# 		sequenceName=file.split("_")[3]
+# 		with open(outputlog, 'a') as logfile:
+# 			logfile.write(subject+"-"+wave+"_"+sequenceNumber+"-"+sequenceName+os.linesep)
+
 	# If there are duplicates of any sequences of interest (task, anat, fmap)
 	# Then copy the largest of those files to that participant's BIDS directory
 	# Rename that file with BIDS format
 	# Print that file to the output log
 	# Print the smaller files to an error log
 
+# For each directoriy in the clean_nii directory
+# For each subdirectory
+for dirpath, subdirs, files in os.walk(niidir):
+# For each sequence type in the subdirectory
+	for subdir in subdirs:
+		print(subdir)
+	for file in files:
+		print(file)
+
+	# If there are duplicates of any sequences of interest (task, anat, fmap)
+	# Then copy the largest of those files to that participant's BIDS directory
+	# Rename that file with BIDS format
+	# Print that file to the output log
+	# Print the smaller files to an error log
 
 ##################################
 #  Idiosyncratic Study Renaming
