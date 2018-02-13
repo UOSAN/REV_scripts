@@ -4,7 +4,14 @@
             "dataType": "anat",
             "modalityLabel": "T1",
             "criteria": {
-                "SeriesDescription": "mprage*"
+                "SeriesDescription": "mprage1*"
+            }
+        },
+        {
+            "dataType": "anat",
+            "modalityLabel": "T1",
+            "criteria": {
+                "SeriesDescription": "mprage2*"
             }
         },
         {
