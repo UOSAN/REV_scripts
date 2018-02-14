@@ -88,7 +88,7 @@ for line in lines:
 		with open(outputlog, 'a') as logfile:
 			logfile.write(subjectdir+os.linesep)
 		# Create a job to submit to the HPC with sbatch 
-		batch_cmd = 'module load dicom2niix/15; sbatch --job-name dcm2bids_{subjectdir} --partition=short --time 00:60:00 --mem-per-cpu=2G --cpus-per-task=1 -o {logdir}/{subjectdir}_dcm2bids_output.txt -e {logdir}/{subjectdir}_dcm2bids_error.txt --wrap="dcm2niix {subjectpath} -o {niidir}/{subject}-{wave} --forceDcm2niix --clobber"'.format(logdir=logdir,subjectdir=subjectdir,wave=wave,subject=subject,niidir=niidir,subjectpath=subjectpath)
+		batch_cmd = 'module load dicom2niix; sbatch --job-name dcm2bids_{subjectdir} --partition=short --time 00:60:00 --mem-per-cpu=2G --cpus-per-task=1 -o {logdir}/{subjectdir}_dcm2bids_output.txt -e {logdir}/{subjectdir}_dcm2bids_error.txt --wrap="/packages/modulefiles/Core/dcm2niix {subjectpath} -o {niidir}/{subject}-{wave}"'.format(logdir=logdir,subjectdir=subjectdir,wave=wave,subject=subject,niidir=niidir,subjectpath=subjectpath)
 		# Submit the job
 		subprocess.call([batch_cmd], shell=True)
 	else:
