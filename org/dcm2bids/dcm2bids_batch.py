@@ -27,10 +27,10 @@ group="sanlab"
 study="REV"
 
 # Set directories
-logdir=os.getcwd()+"/logs/dcm2bids"
+logdir=os.getcwd()+"/logs_dcm2bids"
 dicomdir="/projects/" + group + "/shared/DICOMS/" + study
 archivedir="/projects/" + group + "/shared/" + study + "/archive"
-niidir=archivedir + "/clean_nii"
+niidir=archivedir + "/clean_nii/test"
 codedir= "/projects/" + group + "/shared/" + study + "/" + study + "_scripts/org/dcm2bids/" # Contains subject_list.txt, config file, and dcm2bids_batch.py
 configfile= codedir + study + "_config.json" # path to and name of config file
 image= "/projects/" + group + "/shared/containers/Dcm2Bids-master.simg"
