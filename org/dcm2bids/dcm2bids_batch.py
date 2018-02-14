@@ -60,12 +60,11 @@ if not os.path.isfile(errorlog):
 	touch(errorlog)
 
 # Check directory dependencies
+if not os.path.isdir(niidir):
+	touch(niidir)
 if not os.path.isdir(dicomdir):
 	with open(errorlog, 'a') as logfile:
 			logfile.write("Incorrect dicom directory specified")
-if not os.path.isdir(niidir):
-		with open(errorlog, 'a') as logfile:
-			logfile.write("Incorrect nifti directory specified")
 if not os.path.isdir(archivedir):
 		with open(errorlog, 'a') as logfile:
 			logfile.write("Incorrect archive directory specified")
