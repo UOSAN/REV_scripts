@@ -4,7 +4,7 @@
 
 # Import libraries
 import os
-import fnmatch
+import glob
 
 # Set study info (change these for your study)
 group="sanlab"
