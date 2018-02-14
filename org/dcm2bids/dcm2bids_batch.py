@@ -39,7 +39,7 @@ outputlog=logdir + "/outputlog_nii2bids.txt"
 errorlog=logdir + "/errorlog_nii2bids.txt"
 
 # Source the subject list (needs to be in your current working directory)
-subjectlist="subject_list_test.txt" 
+subjectlist="subject_list.txt" 
 
 ##################################
 # Directory Check & Log Creation
