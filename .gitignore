@@ -37,4 +37,5 @@ singleVarTxtx/
 varMats/
 compiledResults/
 data/
-*logs*/
+logs_dcm2nii/
+logs_dcm2bids/
