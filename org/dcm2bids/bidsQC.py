@@ -71,7 +71,8 @@ for dirpath, subdirs, files in os.walk(niidir):
 # For each sequence type in the subdirectory
 	for subdir in subdirs:
 		directory = glob.glob(subdir + "sub-REV*")
-		print("subdir " + directory)
+		for entry in directory:
+			print(entry)
 			#if file in files : # has run then
 		# retain the last run
 		# Print that file to the output log
