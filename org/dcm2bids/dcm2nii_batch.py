@@ -27,7 +27,7 @@ group="sanlab"
 study="REV"
 
 # Set directories
-logdir=os.getcwd()+"/logs/dcm2bids"
+logdir=os.getcwd()+"/logs_dcm2nii"
 dicomdir="/projects/" + group + "/shared/DICOMS/" + study
 archivedir="/projects/" + group + "/shared/" + study + "/archive"
 niidir=archivedir + "/clean_nii"
@@ -58,8 +58,6 @@ if not os.path.isdir(niidir):
 	print("Incorrect nifti directory specified")
 if not os.path.isdir(archivedir):
 	print("Incorrect archive directory specified")
-if not os.path.isdir(os.getcwd()+"/logs"):
-	os.mkdir(os.getcwd()+"/logs")
 if not os.path.isdir(logdir):
 	os.mkdir(logdir)
 
