@@ -70,9 +70,8 @@ if not os.path.isfile(errorlog):
 for dirpath, subdirs, files in os.walk(niidir):
 # For each sequence type in the subdirectory
 	for subdir in subdirs:
-		directory = subdir.glob.glob("*_*")
-		for each in directory:
-			print("subdir " + each)
+		directory = glob.glob(subdir + "sub-REV*")
+		print("subdir " + each)
 			#if file in files : # has run then
 		# retain the last run
 		# Print that file to the output log
