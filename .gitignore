@@ -37,4 +37,4 @@ singleVarTxtx/
 varMats/
 compiledResults/
 data/
-logs/
+*logs*/
