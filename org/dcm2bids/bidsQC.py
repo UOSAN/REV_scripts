@@ -68,10 +68,10 @@ if not os.path.isfile(errorlog):
 # For each directoriy in the clean_nii directory
 # For each subdirectory
 for root, dirnames, filenames in os.walk(niidir):
-	print(root)
+	print("root" + root)
 	for dirname in fnmatch.filter(dirnames, "sub-REV*"):
 		#for filename in filenames:
-			print(dirname)
+			print("dirname" + dirname)
 			#if file in files : # has run then
 		# retain the last run
 		# Print that file to the output log
