@@ -4,7 +4,7 @@
 
 # Import libraries
 import os
-import glob
+import fnmatch
 
 # Set study info (change these for your study)
 group="sanlab"
@@ -67,12 +67,11 @@ if not os.path.isfile(errorlog):
 
 # For each directoriy in the clean_nii directory
 # For each subdirectory
-for dirpath, subdirs, files in os.walk(niidir):
+for root, dirnames, filenames in os.walk(niidir):
 # For each sequence type in the subdirectory
-	for subdir in subdirs:
-		directory = glob.glob(dirpath + subdir + "sub-REV*")
-		for entry in directory:
-			print(entry)
+	for dirname in fnmatch.filter(dirnames, "sub-REV*"):
+		for filename in filenames:
+			print(filename)
 			#if file in files : # has run then
 		# retain the last run
 		# Print that file to the output log
