@@ -58,6 +58,8 @@ if not os.path.isdir(niidir):
 	print("Incorrect nifti directory specified")
 if not os.path.isdir(archivedir):
 	print("Incorrect archive directory specified")
+if not os.path.isdir(os.getcwd()+"/logs"):
+	os.mkdir(os.getcwd()+"/logs")
 if not os.path.isdir(logdir):
 	os.mkdir(logdir)
 
