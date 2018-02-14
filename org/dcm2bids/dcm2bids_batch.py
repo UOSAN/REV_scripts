@@ -30,7 +30,7 @@ study="REV"
 logdir=os.getcwd()+"/logs_dcm2bids"
 dicomdir="/projects/" + group + "/shared/DICOMS/" + study
 archivedir="/projects/" + group + "/shared/" + study + "/archive"
-niidir=archivedir + "/clean_nii/test"
+niidir=archivedir + "/test"
 codedir= "/projects/" + group + "/shared/" + study + "/" + study + "_scripts/org/dcm2bids/" # Contains subject_list.txt, config file, and dcm2bids_batch.py
 configfile= codedir + study + "_config.json" # path to and name of config file
 image= "/projects/" + group + "/shared/containers/Dcm2Bids-master.simg"
@@ -39,7 +39,7 @@ outputlog=logdir + "/outputlog_nii2bids.txt"
 errorlog=logdir + "/errorlog_nii2bids.txt"
 
 # Source the subject list (needs to be in your current working directory)
-subjectlist="subject_list.txt" 
+subjectlist="subject_list_test.txt" 
 
 ##################################
 # Directory Check & Log Creation
@@ -51,21 +51,24 @@ def touch(path):
 	with open(path, 'a'):
 		os.utime(path, None)
 
-# Check directory dependencies
-if not os.path.isdir(dicomdir):
-	print("Incorrect dicom directory specified")
-if not os.path.isdir(niidir):
-	print("Incorrect nifti directory specified")
-if not os.path.isdir(archivedir):
-	print("Incorrect archive directory specified")
+## Check/create log files
 if not os.path.isdir(logdir):
 	os.mkdir(logdir)
-
-## Check/create log files
 if not os.path.isfile(outputlog):
 	touch(outputlog)
 if not os.path.isfile(errorlog):
 	touch(errorlog)
+
+# Check directory dependencies
+if not os.path.isdir(dicomdir):
+	with open(errorlog, 'a') as logfile:
+			logfile.write("Incorrect dicom directory specified")
+if not os.path.isdir(niidir):
+		with open(errorlog, 'a') as logfile:
+			logfile.write("Incorrect nifti directory specified")
+if not os.path.isdir(archivedir):
+		with open(errorlog, 'a') as logfile:
+			logfile.write("Incorrect archive directory specified")
 
 ##################################
 # DICOM To BIDS Conversion
