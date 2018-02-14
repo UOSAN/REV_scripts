@@ -71,7 +71,7 @@ for dirpath, subdirs, files in os.walk(niidir):
 # For each sequence type in the subdirectory
 	for subdir in subdirs:
 		directory = glob.glob("*_*")
-			for each in directory
+			for each in directory:
 				print("subdir " + each)
 			#if file in files : # has run then
 		# retain the last run
