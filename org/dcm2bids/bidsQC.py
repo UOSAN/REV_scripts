@@ -69,18 +69,15 @@ if not os.path.isfile(errorlog):
 # For each subdirectory
 for dirpath, subdirs, files in os.walk(niidir):
 # For each sequence type in the subdirectory
-	for parent in dirpath:
-		print("path " + parent)
 	for subdir in subdirs:
-		print("subdir " + subdir)
-	for file in files:
-		print("file " + file)
-
-	# If there are duplicates of any sequences of interest (task, anat, fmap)
-	# Then copy the largest of those files to that participant's BIDS directory
-	# Rename that file with BIDS format
-	# Print that file to the output log
-	# Print the smaller files to an error log
+		if subdir glob.glob("*_*"):
+			print("subdir " + subdir)
+			for file in files:
+				print(file)
+			#if file in files : # has run then
+		# retain the last run
+		# Print that file to the output log
+		# Remove the earlier runs and print them to an error log
 
 ##################################
 #  Idiosyncratic Study Renaming
