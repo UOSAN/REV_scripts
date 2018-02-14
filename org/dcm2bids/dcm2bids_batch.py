@@ -28,7 +28,7 @@ study="REV"
 
 # Set directories
 logdir=os.getcwd()+"/logs_dcm2bids"
-dicomdir="/projects/" + group + "/shared/DICOMS/" + study
+dicomdir="/projects/lcni/dcm/" + group + "/Archive/" + study
 archivedir="/projects/" + group + "/shared/" + study + "/archive"
 niidir=archivedir + "/test"
 codedir= "/projects/" + group + "/shared/" + study + "/" + study + "_scripts/org/dcm2bids/" # Contains subject_list.txt, config file, and dcm2bids_batch.py
