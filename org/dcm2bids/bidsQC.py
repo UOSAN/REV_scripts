@@ -65,10 +65,9 @@ if not os.path.isfile(errorlog):
 	# Print that file to the output log
 	# Print the smaller files to an error log
 
-# For each directoriy in the clean_nii directory
-# For each subdirectory
-for dirname in glob.iglob(niidir + "/sub-REV*"):
-	print("dir " + dirname)
+# For each subject directoriy in the clean_nii directory
+for filename in glob.iglob(niidir + "/sub-REV*/**/sub-REV*run-[0-9][0-9]*", recursive=True):
+	print(filename)
 		#for filename in filenames:
 			#if file in files : # has run then
 		# retain the last run
