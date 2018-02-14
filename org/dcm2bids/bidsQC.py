@@ -66,7 +66,7 @@ if not os.path.isfile(errorlog):
 	# Print the smaller files to an error log
 
 # For each subject directoriy in the clean_nii directory
-for filename in glob.iglob(niidir + "/sub-REV*/**/sub-REV*run-[0-9][0-9]*", recursive=True):
+for filename in glob.iglob(niidir + "/sub-REV*/**/sub-REV*run-[0-9]{2}*", recursive=True):
 	print(filename)
 		#for filename in filenames:
 			#if file in files : # has run then
