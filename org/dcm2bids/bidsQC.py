@@ -79,9 +79,9 @@ for dirpath, dirnames, files in os.walk(niidir):
 # check for run string in correct place
 			for file in os.listdir(fullpath):
 				if file.split("_")[0] != glob.glob("run-[0-9]{2}"):
-				# and file.split("_")[1] != glob.glob("run-[0-9][0-9]") 
-				# and file.split("_")[2] != glob.glob("run-[0-9][0-9]") 
-				# and file.split("_")[3] == glob.glob("run-[0-9][0-9]")
+					and file.split("_")[1] != glob.glob("run-[0-9][0-9]") 
+					and file.split("_")[2] != glob.glob("run-[0-9][0-9]") 
+					and file.split("_")[3] == glob.glob("run-[0-9][0-9]")
 					print(file) 
 
 
