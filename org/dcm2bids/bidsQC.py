@@ -77,9 +77,9 @@ for dirpath, dirnames, files in os.walk(niidir):
 		fmap = glob.glob(subdir + "/fmap")
 		anat = glob.glob(subdir + "/anat")
 		func = glob.glob(subdir + "/func")
-		print("fmap = " + fmap)
-		print("anat = " + anat)
-		print("func = " + func)
+		print(fmap)
+		print(anat)
+		print(func)
 
 			#if file in files : # has run then
 		# retain the last run
