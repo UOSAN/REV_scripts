@@ -7,6 +7,8 @@ import os
 import fnmatch
 import glob
 import re
+import os.path
+import fnmatch
 
 # Set study info (change these for your study)
 group="sanlab"
@@ -65,22 +67,24 @@ if not os.path.isfile(errorlog):
 	# Print that file to the output log
 	# Print the smaller files to an error log
 
-# For each directoriy in the clean_nii directory
-# For each subdirectory
-#for dirpath, dirnames, files in os.walk(niidir):
-	# for file in files:
-	# 	print(file)
-# For each sequence type in the subdirectory
+
+
 
 for dirpath, dirnames, files in os.walk(niidir): 
     directory_name = os.path.basename(dirpath)
     if directory not in {'fmap', 'anat', 'func'}:
         # Only process files in specific subdirectories
         continue
-    for file in fnmatch.filter(files, "run-[0-9][0-9]*"):
-    	print(file)
-
-
+    for filename in files:
+        prefix, remainder = filename.partition('_')
+        if fnmatch.fnmatch(prefix, 'run-[0-9][0-9]'):
+        	print(filename)
+# For each directoriy in the clean_nii directory
+# For each subdirectory
+# for dirpath, dirnames, files in os.walk(niidir):
+	# for file in files:
+	# 	print(file)
+# For each sequence type in the subdirectory
 
 # clear variable (last = nothing)
 	# for dirname in dirnames:
