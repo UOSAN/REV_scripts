@@ -69,6 +69,8 @@ for dirpath, dirnames, files in os.walk(niidir):
 	# for file in files:
 	# 	print(file)
 # For each sequence type in the subdirectory
+
+# clear variable (last = nothing)
 	for dirname in dirnames:
 		# print("dirname = " + dirname)
 		if dirname == "fmap" or dirname == "anat" or dirname == "func":
@@ -81,6 +83,9 @@ for dirpath, dirnames, files in os.walk(niidir):
 				and file.split("_")[2] != glob.glob("run-[0-9][0-9]") 
 				and file.split("_")[3] == glob.glob("run-[0-9][0-9]")
 				print(file) 
+
+
+	
 
 
 	#subdirs = glob.glob(dirpath + "/sub-REV*")
