@@ -72,9 +72,9 @@ for dirpath, dirnames, files in os.walk(niidir):
 	for dirname in dirnames:
 		subdir = glob.glob(dirname + "/sub-REV*")
 		for sequencedir in subdir:
-			fmap = glob.glob(subdir + "/fmap")
-			anat = glob.glob(subdir + "/anat")
-			func = glob.glob(subdir + "/func")
+			fmap = glob.glob("fmap")
+			anat = glob.glob("anat")
+			func = glob.glob("func")
 			print("fmap = " + subdir + fmap)
 			print("anat = " + subdir + anat)
 			print("func = " + subdir + func)
