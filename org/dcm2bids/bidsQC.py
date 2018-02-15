@@ -68,12 +68,14 @@ if not os.path.isfile(errorlog):
 # For each directoriy in the clean_nii directory
 # For each subdirectory
 for dirpath, dirnames, files in os.walk(niidir):
+	for file in files:
+		print(file)
 # For each sequence type in the subdirectory
 	#for dirname in dirnames:
 		#print(dirname)
-	subdirs = glob.glob(dirpath + "/sub-REV*")
-	for subdir in subdirs:
-		print(subdir)
+	#subdirs = glob.glob(dirpath + "/sub-REV*")
+	#for subdir in subdirs:
+		#print(subdir)
 		# 	fmap = glob.glob(subdir + "/fmap")
 		# 	anat = glob.glob(subdir + "/anat")
 		# 	func = glob.glob(subdir + "/func")
