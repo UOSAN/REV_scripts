@@ -77,11 +77,11 @@ for dirpath, dirnames, files in os.walk(niidir):
 		if dirname == "fmap" or dirname == "anat" or dirname == "func":
 			fullpath = dirpath + "/" + dirname
 			# check if run string in correct place
-			for files in fullpath:
-				for file in os.listdir(fullpath):
-					chunks = file.split("_")
+			#for files in fullpath:
+			for file in os.listdir(fullpath):
+				chunks = file.split("_")
 					#if (chunks[-2]) == glob.glob("run-[0-9][0-9]*"):
-					print(chunks[-2])
+				print(chunks[-2])	
 					#if chunks[-3] == glob.glob(regex):
 					#	print(file)
 							#file.split("_")[0:2] != glob.glob("run-[0-9]{2}") and 
