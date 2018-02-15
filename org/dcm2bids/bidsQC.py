@@ -71,14 +71,13 @@ for dirpath, dirnames, files in os.walk(niidir):
 # For each sequence type in the subdirectory
 	for dirname in dirnames:
 		subdir = glob.glob(dirname + "/sub-REV*")
-		print(dirname)
-		# for sequencedir in subdir:
-		# 	fmap = glob.glob("fmap")
-		# 	anat = glob.glob("anat")
-		# 	func = glob.glob("func")
-		# 	print("fmap = " + subdir + fmap)
-		# 	print("anat = " + subdir + anat)
-		# 	print("func = " + subdir + func)
+		print("subdir = "subdir)
+		fmap = glob.glob("fmap")
+		anat = glob.glob("anat")
+		func = glob.glob("func")
+		print("fmap = " + subdir + fmap)
+		print("anat = " + subdir + anat)
+		print("func = " + subdir + func)
 
 			#if file in files : # has run then
 		# retain the last run
