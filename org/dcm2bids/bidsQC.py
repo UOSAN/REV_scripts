@@ -5,7 +5,6 @@
 # Import libraries
 import os
 import fnmatch
-import glob
 
 # Set study info (change these for your study)
 group="sanlab"
@@ -78,8 +77,8 @@ for dirpath, dirnames, files in os.walk(niidir):
 			# check if run string in correct place
 			for files in fullpath:
 				for file in os.listdir(fullpath):
-					if file.split("_")[-3] == glob.glob("run-[0-9]{2}"):
-							print(file.split("_")[-3])
+					if fnmatch.fnmatch(file.split("_")[-3], "run-[0-9]{2}"):
+							print(file)
 							#file.split("_")[0:2] != glob.glob("run-[0-9]{2}") and 
 							#if :
 						#print(file.split("_")[-2]) 
