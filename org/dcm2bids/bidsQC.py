@@ -81,7 +81,7 @@ for dirpath, dirnames, files in os.walk(niidir):
 				print(fullpath)
 				# if file.split("_")[0:2] != glob.glob("run-[0-9]{2}"):
 				# 	print(file.split("_")[-2]) # == glob.glob("run-[0-9]{2}"):
-				# 		#print(file.split("_")[-2]) 
+						#print(file.split("_")[-2]) 
 
 	#subdirs = glob.glob(dirpath + "/sub-REV*")
 	# for subdir in subdirs:
