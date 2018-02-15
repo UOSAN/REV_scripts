@@ -4,7 +4,7 @@
 
 # Import libraries
 import os
-import glob
+import fnmatch
 
 # Set study info (change these for your study)
 group="sanlab"
@@ -50,12 +50,12 @@ if not os.path.isfile(errorlog):
 # # For each sequence type in the subdirectory
 # 	for subdir in subdirs:
 # 		wave=subdir.split("_")[1]
-	for file in files:
-		sequenceNumber=file.split("_")[0]
-		subject=file.split("_")[1]
-		sequenceName=file.split("_")[3]
-		with open(outputlog, 'a') as logfile:
-			logfile.write(subject+"-"+wave+"_"+sequenceNumber+"-"+sequenceName+os.linesep)
+	# for file in files:
+	# 	sequenceNumber=file.split("_")[0]
+	# 	subject=file.split("_")[1]
+	# 	sequenceName=file.split("_")[3]
+	# 	with open(outputlog, 'a') as logfile:
+	# 		logfile.write(subject+"-"+wave+"_"+sequenceNumber+"-"+sequenceName+os.linesep)
 
 	# If there are duplicates of any sequences of interest (task, anat, fmap)
 	# Then copy the largest of those files to that participant's BIDS directory
