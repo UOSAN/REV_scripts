@@ -6,6 +6,7 @@
 import os
 import fnmatch
 import glob
+import re
 
 # Set study info (change these for your study)
 group="sanlab"
@@ -79,7 +80,7 @@ for dirpath, dirnames, files in os.walk(niidir):
 			for files in fullpath:
 				for file in os.listdir(fullpath):
 					chunks = file.split("_")
-					regex = glob.glob("run-[0-9]{2}")
+					regex = re.compile("run-[0-9]{2}")
 					if (chunks[-2]) == regex:
 						print(chunks[-2])
 					#if chunks[-3] == glob.glob(regex):
