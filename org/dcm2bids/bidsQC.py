@@ -67,21 +67,31 @@ if not os.path.isfile(errorlog):
 
 # For each directoriy in the clean_nii directory
 # For each subdirectory
-for dirpath, dirnames, files in os.walk(niidir):
+#for dirpath, dirnames, files in os.walk(niidir):
 	# for file in files:
 	# 	print(file)
 # For each sequence type in the subdirectory
 
+for dirpath, dirnames, files in os.walk(niidir): 
+    directory_name = os.path.basename(dirpath)
+    if directory in {'fmap', 'anat', 'func'}:
+        # Only process files in specific subdirectories
+        continue
+    for file in fnmatch.filter(files, "run-[0-9][0-9]*"):
+    	print(file)
+
+
+
 # clear variable (last = nothing)
-	for dirname in dirnames:
-		if dirname == "fmap" or dirname == "anat" or dirname == "func":
-			fullpath = dirpath + "/" + dirname
-			# check if run string in correct place
-			#for files in fullpath:
-			for file in os.listdir(fullpath):
-				chunks = file.split("_")
-				if (chunks[-2]) == glob.glob("run-[0-9][0-9]*"):
-					print(chunks[-2])	
+	# for dirname in dirnames:
+	# 	if dirname == "fmap" or dirname == "anat" or dirname == "func":
+	# 		fullpath = dirpath + "/" + dirname
+	# 		# check if run string in correct place
+	# 		#for files in fullpath:
+	# 		for file in os.listdir(fullpath):
+	# 			chunks = file.split("_")
+	# 			if (chunks[-2]) == glob.glob("run-[0-9][0-9]*"):
+	# 				print(chunks[-2])	
 					#if chunks[-3] == glob.glob(regex):
 					#	print(file)
 							#file.split("_")[0:2] != glob.glob("run-[0-9]{2}") and 
