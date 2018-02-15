@@ -69,8 +69,8 @@ for dirpath, dirnames, files in os.walk(niidir):
 	# for file in files:
 	# 	print(file)
 # For each sequence type in the subdirectory
-	# for dirname in dirnames:
-	# 	print(dirname)
+	for dirname in dirnames:
+		print("dirname = " + dirname)
 	subdirs = glob.glob(dirpath + "/sub-REV*")
 	for subdir in subdirs:
 		print(subdir)
