@@ -74,7 +74,7 @@ if not os.path.isfile(errorlog):
 
 for dirpath, dirnames, files in os.walk(niidir): 
     directory_name = os.path.basename(dirpath)
-    if directory in {'fmap', 'anat', 'func'}:
+    if directory not in {'fmap', 'anat', 'func'}:
         # Only process files in specific subdirectories
         continue
     for file in fnmatch.filter(files, "run-[0-9][0-9]*"):
