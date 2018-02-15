@@ -70,9 +70,10 @@ if not os.path.isfile(errorlog):
 for dirpath, dirnames, files in os.walk(niidir):
 # For each sequence type in the subdirectory
 	for dirname in dirnames:
-		print(dirname)
-		subdirs = glob.glob(dirname + "/sub-REV*")
-		# for subdir in subdirs:
+		#print(dirname)
+		subdirs = glob.glob("*/sub-REV*")
+		for subdir in subdirs:
+			print(subdir)
 		# 	fmap = glob.glob(subdir + "/fmap")
 		# 	anat = glob.glob(subdir + "/anat")
 		# 	func = glob.glob(subdir + "/func")
