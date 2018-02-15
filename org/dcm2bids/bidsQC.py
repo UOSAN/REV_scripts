@@ -46,8 +46,6 @@ if not os.path.isfile(errorlog):
 #  Standard Options
 ##################################
 
-# For each directoriy in the temp directory
-# For each subdirectory
 # for dirpath, subdirs, files in os.walk(tempdir):
 # # For each sequence type in the subdirectory
 # 	for subdir in subdirs:
@@ -61,27 +59,27 @@ if not os.path.isfile(errorlog):
 
 	# If there are duplicates of any sequences of interest (task, anat, fmap)
 	# Then copy the largest of those files to that participant's BIDS directory
-	# Rename that file with BIDS format
+	# If the files are the same size, check whether they have run-## in their name & if so keep the last run
 	# Print that file to the output log
 	# Print the smaller files to an error log
 
 # For each directoriy in the clean_nii directory
 # For each subdirectory
 for dirpath, dirnames, files in os.walk(niidir):
-	for file in files:
-		print(file)
+	# for file in files:
+	# 	print(file)
 # For each sequence type in the subdirectory
-	#for dirname in dirnames:
-		#print(dirname)
-	#subdirs = glob.glob(dirpath + "/sub-REV*")
-	#for subdir in subdirs:
-		#print(subdir)
-		# 	fmap = glob.glob(subdir + "/fmap")
-		# 	anat = glob.glob(subdir + "/anat")
-		# 	func = glob.glob(subdir + "/func")
-		# 	print("fmap = " + fmap)
-		# 	print("anat = " + anat)
-		# 	print("func = " + func)
+	# for dirname in dirnames:
+	# 	print(dirname)
+	subdirs = glob.glob(dirpath + "/sub-REV*")
+	for subdir in subdirs:
+		print(subdir)
+			fmap = glob.glob(subdir + "/fmap")
+			anat = glob.glob(subdir + "/anat")
+			func = glob.glob(subdir + "/func")
+			print("fmap = " + fmap)
+			print("anat = " + anat)
+			print("func = " + func)
 
 			#if file in files : # has run then
 		# retain the last run
@@ -92,12 +90,13 @@ for dirpath, dirnames, files in os.walk(niidir):
 #  Idiosyncratic Study Renaming
 ##################################
 
+# Go into tmp_dcm2bids
+# move and rename the fmap and mprage files based on date and sequence order
+
+
+# Within clean_nii
 # Fix incorrect sequence names
-
 # Fix incorrect participant IDs
-
-# Move the files into the subject directories
-
 
 
 ##################################
