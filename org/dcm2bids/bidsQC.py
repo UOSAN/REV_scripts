@@ -72,7 +72,10 @@ for dirpath, dirnames, files in os.walk(niidir):
 	for dirname in dirnames:
 		# print("dirname = " + dirname)
 		if dirname == "fmap" or dirname == "anat" or dirname == "func":
-			print(dirname)
+			fullpath = dirpath + "/" + dirname
+			print(fullpath)
+
+
 
 	#subdirs = glob.glob(dirpath + "/sub-REV*")
 	# for subdir in subdirs:
