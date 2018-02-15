@@ -67,13 +67,18 @@ if not os.path.isfile(errorlog):
 
 # For each directoriy in the clean_nii directory
 # For each subdirectory
-for dirpath, subdirs, files in os.walk(niidir):
+for dirpath, dirnames, files in os.walk(niidir):
 # For each sequence type in the subdirectory
-	print("path " + dirpath)
-	for subdir in subdirs:
-		directory = glob.glob(dirpath + "/sub-REV*")
-		for each in directory:
-			print("subdir " + each)
+	for dirname in dirnames:
+		subdir = glob.glob(dirname + "/sub-REV*")
+		for sequencedir in subdir:
+			fmap = glob.glob(subdir + "/fmap")
+			anat = glob.glob(subdir + "/anat")
+			func = glob.glob(subdir + "/func")
+			print("fmap = " + subdir + fmap)
+			print("anat = " + subdir + anat)
+			print("func = " + subdir + func)
+
 			#if file in files : # has run then
 		# retain the last run
 		# Print that file to the output log
