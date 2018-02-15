@@ -70,15 +70,15 @@ if not os.path.isfile(errorlog):
 for dirpath, dirnames, files in os.walk(niidir):
 # For each sequence type in the subdirectory
 	for dirname in dirnames:
+		print(dirname)
 		subdirs = glob.glob(dirname + "/sub-REV*")
-		for subdir in subdirs:
-			print("subdirs = " + subdirs)
-			fmap = glob.glob(subdir + "/fmap")
-			anat = glob.glob(subdir + "/anat")
-			func = glob.glob(subdir + "/func")
-			print("fmap = " + fmap)
-			print("anat = " + anat)
-			print("func = " + func)
+		# for subdir in subdirs:
+		# 	fmap = glob.glob(subdir + "/fmap")
+		# 	anat = glob.glob(subdir + "/anat")
+		# 	func = glob.glob(subdir + "/func")
+		# 	print("fmap = " + fmap)
+		# 	print("anat = " + anat)
+		# 	print("func = " + func)
 
 			#if file in files : # has run then
 		# retain the last run
