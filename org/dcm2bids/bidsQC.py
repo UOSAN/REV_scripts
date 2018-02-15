@@ -73,13 +73,13 @@ for dirpath, dirnames, files in os.walk(niidir):
 		print("dirname = " + dirname)
 	subdirs = glob.glob(dirpath + "/sub-REV*")
 	for subdir in subdirs:
-		print(subdir)
-		fmap = glob.glob(subdir + "/fmap")
-		anat = glob.glob(subdir + "/anat")
-		func = glob.glob(subdir + "/func")
-		print(fmap)
-		print(anat)
-		print(func)
+		# print(subdir)
+		# fmap = glob.glob(subdir + "/fmap")
+		# anat = glob.glob(subdir + "/anat")
+		# func = glob.glob(subdir + "/func")
+		# print(fmap)
+		# print(anat)
+		# print(func)
 
 			#if file in files : # has run then
 		# retain the last run
