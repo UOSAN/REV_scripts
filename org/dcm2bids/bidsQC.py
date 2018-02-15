@@ -72,16 +72,14 @@ for dirpath, dirnames, files in os.walk(niidir):
 
 # clear variable (last = nothing)
 	for dirname in dirnames:
-		# print("dirname = " + dirname)
 		if dirname == "fmap" or dirname == "anat" or dirname == "func":
 			fullpath = dirpath + "/" + dirname
-			#print(fullpath)
-# check for run string in correct place
+			# check if run string in correct place
 			for files in fullpath:
 				for file in os.listdir(fullpath):
-					if file.split("_")[0:2] != glob.glob("run-[0-9]{2}"): 
-						if file.split("_")[-2] == glob.glob("run-[0-9]{2}"):
-							print(file)
+					if file.split("_")[-2] == glob.glob("run-[0-9]{2}"):
+							print(file.split("_")[-2])
+							#if file.split("_")[0:2] != glob.glob("run-[0-9]{2}"):
 						#print(file.split("_")[-2]) 
 
 	#subdirs = glob.glob(dirpath + "/sub-REV*")
