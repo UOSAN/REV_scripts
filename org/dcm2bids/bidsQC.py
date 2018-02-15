@@ -50,12 +50,12 @@ if not os.path.isfile(errorlog):
 # # For each sequence type in the subdirectory
 # 	for subdir in subdirs:
 # 		wave=subdir.split("_")[1]
-# 	for file in files:
-# 		sequenceNumber=file.split("_")[0]
-# 		subject=file.split("_")[1]
-# 		sequenceName=file.split("_")[3]
-# 		with open(outputlog, 'a') as logfile:
-# 			logfile.write(subject+"-"+wave+"_"+sequenceNumber+"-"+sequenceName+os.linesep)
+	for file in files:
+		sequenceNumber=file.split("_")[0]
+		subject=file.split("_")[1]
+		sequenceName=file.split("_")[3]
+		with open(outputlog, 'a') as logfile:
+			logfile.write(subject+"-"+wave+"_"+sequenceNumber+"-"+sequenceName+os.linesep)
 
 	# If there are duplicates of any sequences of interest (task, anat, fmap)
 	# Then copy the largest of those files to that participant's BIDS directory
@@ -73,8 +73,14 @@ for dirpath, dirnames, files in os.walk(niidir):
 		# print("dirname = " + dirname)
 		if dirname == "fmap" or dirname == "anat" or dirname == "func":
 			fullpath = dirpath + "/" + dirname
-			print(fullpath)
-
+			#print(fullpath)
+# check for run string in correct place
+			for file in os.listdir(fullpath):
+				if file.split("_")[0] != glob.glob("run-[0-9][0-9]")
+				and file.split("_")[1] != glob.glob("run-[0-9][0-9]") 
+				and file.split("_")[2] != glob.glob("run-[0-9][0-9]") 
+				and file.split("_")[3] == glob.glob("run-[0-9][0-9]")
+				print(file) 
 
 
 	#subdirs = glob.glob(dirpath + "/sub-REV*")
