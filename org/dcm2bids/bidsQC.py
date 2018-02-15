@@ -13,13 +13,15 @@ study="REV"
 # Set directories
 logdir=os.getcwd()+"/logs_bidsQC"
 niidir="/projects/" + group + "/shared/" + study + "/archive/clean_nii"
+tempdir=niidir + "/tmp_dcm2bids"
 bidsdir="/projects/" + group + "/shared/" + study + "bids_data"
 outputlog=logdir + "/outputlog_bidsQC.txt"
 errorlog=logdir + "/errorlog_bidsQC.txt"
+
+# Sequence identifiers
+
+### SET THIS ###
 derivatives=bidsdir + "/derivatives"
-
-subjectlist="subject_list.txt" 
-
 
 # Define a function to create files
 def touch(path):
@@ -41,29 +43,21 @@ if not os.path.isfile(errorlog):
 	touch(errorlog)
 
 ##################################
-#  Get File Info
-##################################
-
-
-# For each sequence type in the subdirectory
-os.chdir(niidir)
-for filename in glob.glob('*REV*.nii*'):
-	sequence_number=filename.split("_")[0]
-	subject=filename.split("_")[1]
-	scan_date=filename.split("_")[2]
-	sequence_name=filename.split("_")[3]
-
-# Get info about which files belong to which wave from the subject_list.txt
-with open(subjectlist) as file:
-	lines = file.readlines()
-for line in lines:
-	entry=line.strip()
-	subject_identifier=entry.split(",")[0]
-	wave=entry.split(",")[1]
-
-##################################
 #  Standard Options
 ##################################
+
+# For each directoriy in the temp directory
+# For each subdirectory
+# for dirpath, subdirs, files in os.walk(tempdir):
+# # For each sequence type in the subdirectory
+# 	for subdir in subdirs:
+# 		wave=subdir.split("_")[1]
+# 	for file in files:
+# 		sequenceNumber=file.split("_")[0]
+# 		subject=file.split("_")[1]
+# 		sequenceName=file.split("_")[3]
+# 		with open(outputlog, 'a') as logfile:
+# 			logfile.write(subject+"-"+wave+"_"+sequenceNumber+"-"+sequenceName+os.linesep)
 
 	# If there are duplicates of any sequences of interest (task, anat, fmap)
 	# Then copy the largest of those files to that participant's BIDS directory
@@ -71,8 +65,14 @@ for line in lines:
 	# Print that file to the output log
 	# Print the smaller files to an error log
 
-# For each subject directoriy in the clean_nii directory
-		#for filename in filenames:
+# For each directoriy in the clean_nii directory
+# For each subdirectory
+for dirpath, subdirs, files in os.walk(niidir):
+# For each sequence type in the subdirectory
+	for subdir in subdirs:
+		directory = glob.glob(subdir + "sub-REV*")
+		for entry in directory:
+			print("subdir " + entry)
 			#if file in files : # has run then
 		# retain the last run
 		# Print that file to the output log
