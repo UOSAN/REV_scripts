@@ -70,8 +70,8 @@ for dirpath, dirnames, files in os.walk(niidir):
 	# 	print(file)
 # For each sequence type in the subdirectory
 	for dirname in dirnames:
-		print("dirname = " + dirname)
-		if dirname == "fmap" or "anat" or "func":
+		# print("dirname = " + dirname)
+		if dirname == "fmap" or dirname == "anat" or dirname == "func":
 			print(dirname)
 
 	#subdirs = glob.glob(dirpath + "/sub-REV*")
