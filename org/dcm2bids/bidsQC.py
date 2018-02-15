@@ -72,7 +72,7 @@ if not os.path.isfile(errorlog):
 
 for dirpath, dirnames, files in os.walk(niidir): 
     directory_name = os.path.basename(dirpath)
-    if directory not in {'fmap', 'anat', 'func'}:
+    if directory_name not in {'fmap', 'anat', 'func'}:
         # Only process files in specific subdirectories
         continue
     for filename in files:
