@@ -80,8 +80,7 @@ for dirpath, dirnames, files in os.walk(niidir):
 			for files in fullpath:
 				for file in os.listdir(fullpath):
 					chunks = file.split("_")
-					regex = re.compile("run-[0-9]{2}")
-					if (chunks[-2]) == regex:
+					if (chunks[-2]) == glob.glob("run-[0-9][0-9]"):
 						print(chunks[-2])
 					#if chunks[-3] == glob.glob(regex):
 					#	print(file)
