@@ -36,8 +36,8 @@ codedir= "/projects/" + group + "/shared/" + study + "/" + gitrepo + "/org/dcm2b
 configfile= codedir + study + "_config.json" # path to and name of config file
 image= "/projects/" + group + "/shared/containers/Dcm2Bids-master.simg"
 
-outputlog=logdir + "/outputlog_nii2bids.txt"
-errorlog=logdir + "/errorlog_nii2bids.txt"
+outputlog=logdir + "/outputlog_dcmn2bids.txt"
+errorlog=logdir + "/errorlog_dcm2bids.txt"
 
 # Source the subject list (needs to be in your current working directory)
 subjectlist="subject_list.txt" 
