@@ -25,13 +25,14 @@ import subprocess
 # Set study info (change these for your study)
 group="sanlab"
 study="REV"
+gitrepo="REV_scripts"
 
 # Set directories
 logdir=os.getcwd()+"/logs_dcm2bids"
 dicomdir="/projects/lcni/dcm/" + group + "/Archive/" + study
 archivedir="/projects/" + group + "/shared/" + study + "/archive"
 niidir=archivedir + "/clean_nii"
-codedir= "/projects/" + group + "/shared/" + study + "/" + study + "_scripts/org/dcm2bids/" # Contains subject_list.txt, config file, and dcm2bids_batch.py
+codedir= "/projects/" + group + "/shared/" + study + "/" + gitrepo + "/org/dcm2bids/" # Contains subject_list.txt, config file, and dcm2bids_batch.py
 configfile= codedir + study + "_config.json" # path to and name of config file
 image= "/projects/" + group + "/shared/containers/Dcm2Bids-master.simg"
 
