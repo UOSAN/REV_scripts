@@ -2,14 +2,14 @@
     "descriptions": [
         {
             "dataType": "anat",
-            "modalityLabel": "acq1-anat",
+            "modalityLabel": "acq1-T1w",
             "criteria": {
                 "SeriesDescription": "mprage1*"
             }
         },
         {
             "dataType": "anat",
-            "modalityLabel": "acq2-anat",
+            "modalityLabel": "acq2-T1w",
             "criteria": {
                 "SeriesDescription": "mprage2*"
             }
