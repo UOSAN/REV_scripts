@@ -57,6 +57,7 @@ if not os.path.isdir(dicomdir):
 	with open(errorlog, 'a') as logfile:
 		logfile.write("Incorrect dicom directory specified")
 		if not os.path.isdir(dicomdir + test_subject):
+if not os.path.isdir(dicomdir + "/" + test_subject):
 	with open(errorlog, 'a') as logfile:
 		logfile.write("Test participant's folder does not exist - " + test_subject)
 if not os.path.isdir(archivedir):
@@ -70,13 +71,12 @@ if not os.path.isdir(niidir):
 
 
 if os.path.isdir(dicomdir):
-	print("yes")
-# 	with open(outputlog, 'a') as logfile:
-# 		logfile.write(test_subject+os.linesep)
-# 	# Create a job to submit to the HPC with sbatch 
-# 	cmd = 'module load singularity; singularity run -B {dicomdir} -B {test_subject} {image} dcm2bids_helper -d {dicomdir}/{test_subject} -o /projects/{group}/shared/{study}'.format(dicomdir=dicomdir,test_subject=test_subject,niidir=niidir,group=group,image=image)
-# 	# Submit the job
-# 	subprocess.call([cmd], shell=True)
-# else:
-# 	with open(errorlog, 'a') as logfile:
-		# logfile.write(test_subject+os.linesep) 
+	with open(outputlog, 'a') as logfile:
+		logfile.write(test_subject+os.linesep)
+	# Create a job to submit to the HPC with sbatch 
+	cmd = 'module load singularity; singularity run -B {dicomdir} -B {test_subject} {image} dcm2bids_helper -d {dicomdir}/{test_subject} -o /projects/{group}/shared/{study}'.format(dicomdir=dicomdir,test_subject=test_subject,niidir=niidir,group=group,image=image)
+	# Submit the job
+	subprocess.call([cmd], shell=True)
+else:
+	with open(errorlog, 'a') as logfile:
+		logfile.write(test_subject+os.linesep) 
