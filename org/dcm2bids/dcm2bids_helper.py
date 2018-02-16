@@ -29,7 +29,7 @@ image= "/projects/" + group + "/shared/containers/Dcm2Bids-master.simg"
 archivedir="/projects/" + group + "/shared/" + study + "/archive"
 niidir=archivedir + "/clean_nii"
 codedir= "/projects/" + group + "/shared/" + study + "/" + gitrepo + "/org/dcm2bids/" 
-logdir=os.codedir + "/logs_helper"
+logdir=codedir + "/logs_helper"
 
 outputlog=logdir + "/outputlog_helper.txt"
 errorlog=logdir + "/errorlog_helper.txt"
