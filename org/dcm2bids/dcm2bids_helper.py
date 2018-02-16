@@ -56,7 +56,6 @@ if not os.path.isfile(errorlog):
 if not os.path.isdir(dicomdir):
 	with open(errorlog, 'a') as logfile:
 		logfile.write("Incorrect dicom directory specified")
-		if not os.path.isdir(dicomdir + test_subject):
 if not os.path.isdir(dicomdir + "/" + test_subject):
 	with open(errorlog, 'a') as logfile:
 		logfile.write("Test participant's folder does not exist - " + test_subject)
