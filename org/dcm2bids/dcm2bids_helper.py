@@ -73,7 +73,7 @@ if os.path.isdir(dicomdir):
 	with open(outputlog, 'a') as logfile:
 		logfile.write(test_subject+os.linesep)
 	# Create a job to submit to the HPC with sbatch 
-	cmd = 'module load singularity; sbatch --job-name helper_{test_subject} --partition=short --time 00:60:00 --mem-per-cpu=2G --cpus-per-task=1 -o {logdir}/{test_subject}_helper_output.txt -e {logdir}/{test_subject}_helper_error.txt --wrap="singularity run -B {dicomdir} -B {test_subject} {image} dcm2bids_helper -d {dicomdir}/{test_subject} -o /projects/{group}/shared/{study}"'.format(dicomdir=dicomdir,test_subject=test_subject,niidir=niidir,group=group,image=image,study=study,logdir=logdir)
+	cmd = 'module load singularity; sbatch --job-name helper_{test_subject} --partition=short --time 00:60:00 --mem-per-cpu=2G --cpus-per-task=1 -o {logdir}/{test_subject}_helper_output.txt -e {logdir}/{test_subject}_helper_error.txt --wrap="singularity exec -B {dicomdir} -B {test_subject} {image} dcm2bids_helper -d {dicomdir}/{test_subject} -o /projects/{group}/shared/{study}"'.format(dicomdir=dicomdir,test_subject=test_subject,niidir=niidir,group=group,image=image,study=study,logdir=logdir)
 	# Submit the job
 	subprocess.call([cmd], shell=True)
 else:
