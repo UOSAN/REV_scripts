@@ -22,19 +22,19 @@
 import os
 import subprocess 
 
-# Set study info (change these for your study)
+# Set study info (may need to change for your study)
 group="sanlab"
 study="REV"
 gitrepo="REV_scripts"
+dicomdir="/projects/lcni/dcm/" + group + "/Archive/" + study
 
 # Set directories
-logdir=os.getcwd()+"/logs_dcm2bids"
-dicomdir="/projects/lcni/dcm/" + group + "/Archive/" + study
 archivedir="/projects/" + group + "/shared/" + study + "/archive"
 niidir=archivedir + "/clean_nii"
 codedir= "/projects/" + group + "/shared/" + study + "/" + gitrepo + "/org/dcm2bids/" # Contains subject_list.txt, config file, and dcm2bids_batch.py
 configfile= codedir + study + "_config.json" # path to and name of config file
 image= "/projects/" + group + "/shared/containers/Dcm2Bids-master.simg"
+logdir=codedir + "/logs_dcm2bids"
 
 outputlog=logdir + "/outputlog_dcmn2bids.txt"
 errorlog=logdir + "/errorlog_dcm2bids.txt"
@@ -61,14 +61,13 @@ if not os.path.isfile(errorlog):
 	touch(errorlog)
 
 # Check directory dependencies
+if not os.path.isdir(archivedir):
+	os.mkdir(archivedir)
 if not os.path.isdir(niidir):
 	os.mkdir(niidir)
 if not os.path.isdir(dicomdir):
 	with open(errorlog, 'a') as logfile:
 		logfile.write("Incorrect dicom directory specified")
-if not os.path.isdir(archivedir):
-	with open(errorlog, 'a') as logfile:
-		logfile.write("Incorrect archive directory specified")
 
 ##################################
 # DICOM To BIDS Conversion
@@ -94,4 +93,4 @@ for line in lines:
 		subprocess.call([batch_cmd], shell=True)
 	else:
 		with open(errorlog, 'a') as logfile:
-			logfile.write(subjectdir+os.linesep)
+			logfile.write(subjectdir+os.linesep) 
