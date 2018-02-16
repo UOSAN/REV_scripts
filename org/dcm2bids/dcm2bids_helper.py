@@ -21,8 +21,9 @@ import subprocess
 group="sanlab"
 study="REV"
 gitrepo="REV_scripts"
+test_subject="REV001_20150406" # Name of a directory that contains DICOMS for one participant
+
 dicomdir="/projects/lcni/dcm/" + group + "/Archive/" + study
-test_subject="REV001_20150406 " # Name of a directory that contains DICOMS for one participant
 image= "/projects/" + group + "/shared/containers/Dcm2Bids-master.simg"
 
 # Set directories
@@ -67,7 +68,6 @@ if not os.path.isdir(niidir):
 ##################################
 # Run dcm2bids Helper
 ##################################
-
 
 if os.path.isdir(dicomdir):
 	with open(outputlog, 'a') as logfile:
