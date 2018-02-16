@@ -79,4 +79,4 @@ if os.path.isdir(dicomdir):
 # 	subprocess.call([cmd], shell=True)
 # else:
 # 	with open(errorlog, 'a') as logfile:
-		logfile.write(test_subject+os.linesep) 
+		# logfile.write(test_subject+os.linesep) 
