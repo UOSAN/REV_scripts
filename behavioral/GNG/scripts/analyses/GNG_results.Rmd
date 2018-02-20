@@ -124,40 +124,18 @@ GNG <- spread(data = GNG, key = outcome, value = mean)
 
 # Keep only participants with base and end data
 df_GNGcomplete <- GNG[complete.cases(GNG),]
-df_GNGcomplete$ID <- factor(df_GNGcomplete$ID)
 df_GNGcomplete$time <- relevel(df_GNGcomplete$time, ref="pre")
 #levels(GNGcomplete$time)
 
 # Omit participants who did not have SST data
-included_IDs_GNG <- dimnames(table(df_GNGcomplete$ID))
-load(file = "~/Desktop/REV_scripts/behavioral/REV_SST/scripts/analyses/included_IDs.rda")
-#leaveOut <- union(setdiff(as.data.frame(included_IDs),as.data.frame(included_IDs_GNG)), setdiff(as.data.frame(included_IDs_GNG),as.data.frame(included_IDs)))
-
-# Shitty way of doing this, but I'm out of time - Remove participants who did not have viable SST data to include in the primary SST analysis of SSRT
-df_GNGcomplete[23:24, 4:15] = NA #19
-df_GNGcomplete[35:36, 4:15] = NA #26
-df_GNGcomplete[43:44, 4:15] = NA #32
-df_GNGcomplete[59:60, 4:15] = NA #43  
-df_GNGcomplete[65:66, 4:15] = NA #47
-df_GNGcomplete[69:70, 4:15] = NA #49
-df_GNGcomplete[73:74, 4:15] = NA #51
-df_GNGcomplete[81:82, 4:15] = NA #55
-df_GNGcomplete[89:90, 4:15] = NA #59
-df_GNGcomplete[93:94, 4:15] = NA #62
-df_GNGcomplete[125:126, 4:15] = NA #88
-df_GNGcomplete[159:160, 4:15] = NA #116
-df_GNGcomplete[167:168, 4:15] = NA #120
-df_GNGcomplete[171:172, 4:15] = NA #124
-df_GNGcomplete[183:184, 4:15] = NA #134
-df_GNGcomplete[191:192, 4:15] = NA #138
-
-# Keep only participants with base and end data for both SST and GNG
-df_GNGcomplete <- df_GNGcomplete[complete.cases(df_GNGcomplete),]
-df_GNGcomplete$ID <- factor(df_GNGcomplete$ID)
+# load(file = "~/Desktop/REV_scripts/behavioral/REV_SST/scripts/analyses/included_IDs.rda")
+# SST_ids <- as.data.frame(table(unlist(included_IDs)))
+# df_GNGcomplete <- subset(df_GNGcomplete, df_GNGcomplete$ID %in% SST_ids$Var1)
 
 temp = as.data.frame(table(df_GNGcomplete$ID))
 temp[temp$Freq<2,]
 df_GNGcomplete = df_GNGcomplete[!(df_GNGcomplete$ID%in%temp$Var1[temp$Freq<2]),]
+df_GNGcomplete$ID <- factor(df_GNGcomplete$ID)
 ```
 
 
