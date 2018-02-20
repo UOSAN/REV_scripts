@@ -1,0 +1,468 @@
+---
+title: 'SEM Project: Latent Growth Curve Modeling of REV Training Data'
+author: "Krista DeStasio"
+date: "11/16/2017"
+output:
+  html_document:
+    toc: yes
+    toc_depth: 3
+    toc_float: yes
+  pdf_document:
+    toc: yes
+    toc_depth: '3'
+  word_document:
+    toc: no
+---
+
+```{r setup, include=FALSE}
+rm(list = ls())
+setwd("~/Desktop/REV_scripts/behavioral/REV_SST/scripts/analyses/")
+
+## Install and load required packages
+list.of.packages <- c("lavaan", "tidyverse", "psych")
+new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])] 
+if(length(new.packages)) install.packages(new.packages) 
+lapply(list.of.packages, library, character.only = TRUE)
+
+knitr::opts_chunk$set(echo = FALSE, warning=FALSE, message=FALSE, include = TRUE)
+```
+
+```{r read in data and create the data frame}
+load("~/Desktop/REV_scripts/behavioral/REV_SST/scripts/analyses/df_SSRT.Rda")
+load("~/Desktop/REV_scripts/behavioral/surveys/ACES.Rda")
+
+# Merge the ACES and SSRT data frames
+colnames(ACES) <- c("ID", "ACES")
+ACES$ID <- as.integer(ACES$ID)
+ACES$ID <- as.factor(ACES$ID)
+df_ssrt <- merge(df_SSRTallSubs, ACES, by = "ID")
+
+# Keep only the training group for these analyses
+df_ssrt <- subset(df_ssrt, condition == "train")
+
+
+# remove the separate ACES and SSRT data frames
+rm(df_SSRTallSubs, ACES)
+
+# Combine time and prepost and remove the not averaged SSRTs from run1, & 2, and remove the post session data
+df_ssrt$time <- factor(df_ssrt$time, 
+       levels = c("run1",  "run2",  "run3",  "run4",  "run5",  "run6",  "run7",  "run8",  "run9",  "run10", "run11", "run12", "run13", "run14"), 
+       labels = c("pre_avg",  "remove1",  "t3",  "t4",  "t5",  "t6",  "t7",  "t8",  "t9",  "t10", "t11", "t12", "remove2", "remove3") )
+
+df_ssrt <- subset(df_ssrt, time != "remove1" & 
+                    time !="remove2" & 
+                    time !="remove3" & ID != '143')
+
+# Replace the pre_avg and post_avg SSRT with the avg SSRT
+df_ssrt$SSRT <- ifelse(df_ssrt$time %in% c("pre_avg"), 
+                       df_ssrt$SSRT_avg, 
+                       df_ssrt$SSRT)
+
+# Keep only the columns of interest for our analyses
+df_ssrt <- df_ssrt[,c(1, 4:5, 10)]
+
+# Replace NaN with NA
+df_ssrt[ is.na(df_ssrt) ] <- NA
+
+# Rename columns
+colnames(df_ssrt) <- c("id", "time", "ssrt", "aces")
+
+# Re-level the time and ID factors
+df_ssrt$time <- factor(df_ssrt$time, 
+       levels = c("pre_avg",  "t3",  "t4",  "t5",  "t6",  "t7",  "t8",  "t9",  "t10", "t11", "t12"))
+df_ssrt$id <- factor(df_ssrt$id,
+                     levels = levels(droplevels(df_ssrt$id)))
+```
+
+# Plots
+```{r examine data for normality}
+plot(ssrt ~ time, data=df_ssrt, main="SSRT x Time")
+
+# Examine the residuals 
+fit = lm(ssrt ~ aces, df_ssrt) # Run a regression analysis
+plot(fit)
+```
+
+```{r Plot means}
+# Means
+mean.ssrt <- tapply(df_ssrt$ssrt, df_ssrt$time, FUN = mean, na.rm = T)
+ssrt_data <- data.frame(ssrt = mean.ssrt, time = 0:10)
+plot(mean.ssrt ~ time, ssrt_data, type = "b", xlab = "Time", ylab = "Reaction Time (Mean)")
+```
+
+````{r Slopes}
+p <- ggplot(data=subset(df_ssrt, (df_ssrt$time != "pre_avg")), aes(x=time, ssrt)) 
+
+# Line plot
+p +
+    geom_line(aes(group=id, color = factor(id))) + facet_wrap(~id)
+
+# One plot
+p +
+    geom_smooth(aes(group=id, color = factor(id)),method=loess,se=F)+
+    theme(panel.background=element_rect(fill='white'))
+```
+
+```{r make data wide for lavaan}
+df_ssrt <- df_ssrt %>% 
+  gather(ssrt, score, -aces, -id, -time) %>% 
+  unite(variable, ssrt, time) %>% 
+  spread(variable, score)
+```
+
+```{r Keep only participants with at least one training ssrt}
+df_ssrt <- subset(df_ssrt, !is.na(df_ssrt$ssrt_t3) | !is.na(df_ssrt$ssrt_t4))
+```
+
+# Descriptives
+```{r data normality}
+describe(df_ssrt)
+```
+
+# Models
+## No predictors
+### Basic change model
+
+
+```{r Basic change model}
+# Variances allowed to differ
+model_basic <- '
+# Fixed coeficcients
+    intercept =~ 1*ssrt_t3 + 
+              1*ssrt_t4 + 
+              1*ssrt_t5 + 
+              1*ssrt_t6 + 
+              1*ssrt_t7 + 
+              1*ssrt_t8 + 
+              1*ssrt_t9 + 
+              1*ssrt_t10 + 
+              1*ssrt_t11 + 
+              1*ssrt_t12
+    slope =~  0*ssrt_t3 + 
+              1*ssrt_t4 + 
+              ssrt_t5 + 
+              ssrt_t6 + 
+              ssrt_t7 + 
+              ssrt_t8 + 
+              ssrt_t9 + 
+              ssrt_t10 + 
+              ssrt_t11 + 
+              ssrt_t12
+'
+modelbasic_fit <- growth(model_basic,
+                     missing = "ml",
+                     data = df_ssrt)
+
+summary(modelbasic_fit)
+fitmeasures(modelbasic_fit)
+```
+
+### Linear model
+```{r simple linear model no predictors}
+# Linear time without any predictors
+model_linear <- '
+# Fixed coeficcients
+    intercept =~ 1*ssrt_t3 + 
+              1*ssrt_t4 + 
+              1*ssrt_t5 + 
+              1*ssrt_t6 + 
+              1*ssrt_t7 + 
+              1*ssrt_t8 + 
+              1*ssrt_t9 + 
+              1*ssrt_t10 + 
+              1*ssrt_t11 + 
+              1*ssrt_t12
+    linear_slope =~  0*ssrt_t3 + 
+              1*ssrt_t4 + 
+              2*ssrt_t5 + 
+              3*ssrt_t6 + 
+              4*ssrt_t7 + 
+              5*ssrt_t8 + 
+              6*ssrt_t9 + 
+              7*ssrt_t10 + 
+              8*ssrt_t11 + 
+              9*ssrt_t12
+'
+modellinear_fit <- growth(model_linear,
+                     missing = "ml",
+                     data = df_ssrt)
+
+summary(modellinear_fit)
+fitmeasures(modellinear_fit)
+```
+
+### Model comparison basic v. linear
+```{r model comparison basic and linear}
+(modcompbase <- anova(modelbasic_fit, modellinear_fit))
+```
+
+### Quadratic model 
+
+The model with linear and quadratic slope components fits the data significantly better than a saturated model
+```{r Quadratic model no predictors}
+# ssrt model: Quadratic on time
+model_quad <- '
+# Fixed coeficcients
+      intercept =~ 1*ssrt_t3 + 
+              1*ssrt_t4 + 
+              1*ssrt_t5 + 
+              1*ssrt_t6 + 
+              1*ssrt_t7 + 
+              1*ssrt_t8 + 
+              1*ssrt_t9 + 
+              1*ssrt_t10 + 
+              1*ssrt_t11 + 
+              1*ssrt_t12
+    linear_slope =~  0*ssrt_t3 + 
+              1*ssrt_t4 + 
+              2*ssrt_t5 + 
+              3*ssrt_t6 + 
+              4*ssrt_t7 + 
+              5*ssrt_t8 + 
+              6*ssrt_t9 + 
+              7*ssrt_t10 + 
+              8*ssrt_t11 + 
+              9*ssrt_t12
+    quadratic_slope =~  0*ssrt_t3 + 
+              1*ssrt_t4 + 
+              4*ssrt_t5 + 
+              9*ssrt_t6 + 
+              16*ssrt_t7 + 
+              25*ssrt_t8 + 
+              36*ssrt_t9 + 
+              49*ssrt_t10 + 
+              64*ssrt_t11 + 
+              81*ssrt_t12
+'
+
+modelquad_fit <- growth(model_quad, 
+                     missing = "ml", 
+                     data = df_ssrt) 
+
+summary(modelquad_fit)
+fitmeasures(modelquad_fit)
+```
+
+### Model comparison, basic, linear, and quadratic
+```{r model comparison shape}
+(modcomp1 <- anova(modelbasic_fit, modellinear_fit, modelquad_fit))
+```
+
+## Cubic model
+```{r Cubic model no predictors}
+# ssrt model: Cubic on time
+model_cubic <- '
+# Fixed coeficcients
+      intercept =~ 1*ssrt_t3 + 
+              1*ssrt_t4 + 
+              1*ssrt_t5 + 
+              1*ssrt_t6 + 
+              1*ssrt_t7 + 
+              1*ssrt_t8 + 
+              1*ssrt_t9 + 
+              1*ssrt_t10 + 
+              1*ssrt_t11 + 
+              1*ssrt_t12
+    linear_slope =~  0*ssrt_t3 + 
+              1*ssrt_t4 + 
+              2*ssrt_t5 + 
+              3*ssrt_t6 + 
+              4*ssrt_t7 + 
+              5*ssrt_t8 + 
+              6*ssrt_t9 + 
+              7*ssrt_t10 + 
+              8*ssrt_t11 + 
+              9*ssrt_t12
+    cubic_slope =~  0*ssrt_t3 + 
+              1*ssrt_t4 + 
+              8*ssrt_t5 + 
+              27*ssrt_t6 + 
+              64*ssrt_t7 + 
+              125*ssrt_t8 + 
+              216*ssrt_t9 + 
+              343*ssrt_t10 + 
+              512*ssrt_t11 + 
+              729*ssrt_t12
+'
+
+modelcubic_fit <- growth(model_cubic, 
+                     missing = "ml", 
+                     data = df_ssrt) 
+
+summary(modelcubic_fit)
+fitmeasures(modelcubic_fit)
+```
+
+### Model comparison, basic, linear, quadratic, cubic
+```{r model comparison through cubic}
+anova(modelbasic_fit, modellinear_fit, modelquad_fit, modelcubic_fit)
+```
+
+### Conclusion
+
+The linear model is a worse fit than the all other models based on the chi square difference test and AIC. The quadratic model fits better based on the AIC, though the chi square difference test is agnostic. 
+
+# Model with predictors
+## Quadratic slope with scan SSRT as predictor
+```{r linear with scan}
+# Linear time with scan as predictor
+model_linearscan <- '
+# Fixed coeficcients
+      intercept =~ 1*ssrt_t3 + 
+              1*ssrt_t4 + 
+              1*ssrt_t5 + 
+              1*ssrt_t6 + 
+              1*ssrt_t7 + 
+              1*ssrt_t8 + 
+              1*ssrt_t9 + 
+              1*ssrt_t10 + 
+              1*ssrt_t11 + 
+              1*ssrt_t12
+    linear_slope =~  0*ssrt_t3 + 
+              1*ssrt_t4 + 
+              2*ssrt_t5 + 
+              3*ssrt_t6 + 
+              4*ssrt_t7 + 
+              5*ssrt_t8 + 
+              6*ssrt_t9 + 
+              7*ssrt_t10 + 
+              8*ssrt_t11 + 
+              9*ssrt_t12
+quadratic_slope =~  0*ssrt_t3 + 
+              1*ssrt_t4 + 
+              4*ssrt_t5 + 
+              9*ssrt_t6 + 
+              16*ssrt_t7 + 
+              25*ssrt_t8 + 
+              36*ssrt_t9 + 
+              49*ssrt_t10 + 
+              64*ssrt_t11 + 
+              81*ssrt_t12
+# Regressions
+    intercept + linear_slope + quadratic_slope ~ ssrt_pre_avg
+'
+
+modelscan_fit <- growth(model_linearscan, 
+                     missing = "ml", 
+                     data = df_ssrt) 
+
+summary(modelscan_fit)
+fitmeasures(modelscan_fit)
+```
+
+### Model comparison with and without scan as predictor
+```{r scan as predictor}
+anova(modelquad_fit, modelscan_fit)
+```
+
+## Quadratic slope with early adversity as predictor
+```{r EA as predictor}
+# Linear time with early adversity as predictor
+model_linearaces <- '
+# Fixed coeficcients
+      intercept =~ 1*ssrt_t3 + 
+              1*ssrt_t4 + 
+              1*ssrt_t5 + 
+              1*ssrt_t6 + 
+              1*ssrt_t7 + 
+              1*ssrt_t8 + 
+              1*ssrt_t9 + 
+              1*ssrt_t10 + 
+              1*ssrt_t11 + 
+              1*ssrt_t12
+    linear_slope =~  0*ssrt_t3 + 
+              1*ssrt_t4 + 
+              2*ssrt_t5 + 
+              3*ssrt_t6 + 
+              4*ssrt_t7 + 
+              5*ssrt_t8 + 
+              6*ssrt_t9 + 
+              7*ssrt_t10 + 
+              8*ssrt_t11 + 
+              9*ssrt_t12
+quadratic_slope =~  0*ssrt_t3 + 
+              1*ssrt_t4 + 
+              4*ssrt_t5 + 
+              9*ssrt_t6 + 
+              16*ssrt_t7 + 
+              25*ssrt_t8 + 
+              36*ssrt_t9 + 
+              49*ssrt_t10 + 
+              64*ssrt_t11 + 
+              81*ssrt_t12
+# Regressions
+    intercept + linear_slope + quadratic_slope ~ aces
+'
+
+modelaces_fit <- growth(model_linearaces, 
+                     missing = "ml", 
+                     data = df_ssrt) 
+
+summary(modelaces_fit)
+fitmeasures(modelaces_fit)
+```
+
+### Model comparison with and without EA as predictor
+```{r model comparison aces}
+anova(modelquad_fit, modelaces_fit)
+```
+
+```{r EA and scan as predictors, eval=FALSE}
+## Quadratic slope with scan SSRT and EA as predictors
+# Linear time with early adversity as predictor
+model_linearboth <- '
+# Fixed coeficcients
+      intercept =~ 1*ssrt_t3 + 
+              1*ssrt_t4 + 
+              1*ssrt_t5 + 
+              1*ssrt_t6 + 
+              1*ssrt_t7 + 
+              1*ssrt_t8 + 
+              1*ssrt_t9 + 
+              1*ssrt_t10 + 
+              1*ssrt_t11 + 
+              1*ssrt_t12
+    linear_slope =~  0*ssrt_t3 + 
+              1*ssrt_t4 + 
+              2*ssrt_t5 + 
+              3*ssrt_t6 + 
+              4*ssrt_t7 + 
+              5*ssrt_t8 + 
+              6*ssrt_t9 + 
+              7*ssrt_t10 + 
+              8*ssrt_t11 + 
+              9*ssrt_t12
+quadratic_slope =~  0*ssrt_t3 + 
+              1*ssrt_t4 + 
+              4*ssrt_t5 + 
+              9*ssrt_t6 + 
+              16*ssrt_t7 + 
+              25*ssrt_t8 + 
+              36*ssrt_t9 + 
+              49*ssrt_t10 + 
+              64*ssrt_t11 + 
+              81*ssrt_t12
+# Regressions
+   intercept + linear_slope + quadratic_slope ~ aces + ssrt_pre_avg
+'
+
+modelboth_fit <- growth(model_linearboth, 
+                     missing = "ml", 
+                     data = df_ssrt)
+
+summary(modelboth_fit)
+fitmeasures(modelboth_fit)
+```
+
+
+```{r model comparison predictors, eval=FALSE}
+anova(modelscan_fit, modelaces_fit, modelboth_fit, modelquad_fit)
+```
+
+## Conclusions
+Inclusion of scores on the early adversity questionare as a predictor does not significantly improve model fit. Nor does inclusion of scan sst scores as a predictor improve model fit over the quadratic model. 
+
+# What does the final model look like?
+```{r Draw the model}
+semPlot::semPaths(modelquad_fit)
+```

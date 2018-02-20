@@ -1,0 +1,367 @@
+---
+title: 'REV Behavioral Data Analysis: GNG'
+author: "Krista DeStasio"
+date: "7/5/2017"
+output:
+  html_document:
+    toc: yes
+    toc_depth: 3
+    toc_float: yes
+  pdf_document:
+    toc: yes
+    toc_depth: '3'
+---
+
+```{r setup, include=FALSE}
+rm(list=ls())
+setwd("~/Desktop/REV_scripts/behavioral/GNG/scripts/analyses/")
+
+## Install and load required packages
+list.of.packages <- c("reshape2", "knitr", "lme4", "sjPlot", "sjmisc", "tidyverse", "lme4", "lmerTest", "ez")
+new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])] 
+if(length(new.packages)) install.packages(new.packages) 
+lapply(list.of.packages, library, character.only = TRUE)
+
+knitr::opts_chunk$set(fig.width=12, fig.height=8, fig.path='Figs/', echo=TRUE, warning=FALSE, message=FALSE)
+```
+
+```{r Create the participant ID and condition variables}
+ID <- as.factor(c(1:144)) # Create the subject ID column
+cond <- c(0, 1, 0, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0) # Match the participant to their condition
+condition <- factor(cond, labels=c("Control", "Training"))
+```
+
+```{r Read in the data}
+# Counts
+CorrTotal <- read.table("~/Desktop/REV_scripts/behavioral/GNG/output/GNG_Corr_Count.txt") # All stimuli, all trial types
+CorrGo <- read.table("~/Desktop/REV_scripts/behavioral/GNG/output/GNG_CorrGo_Count.txt") # All stimuli, go trials
+CorrNoGo <- read.table("~/Desktop/REV_scripts/behavioral/GNG/output/GNG_CorrNoGo_Count.txt") # All stimuli, no-go trials
+IncorrGo <- read.table("~/Desktop/REV_scripts/behavioral/GNG/output/GNG_IncorrGo_Count.txt") # All stimuli, go trials
+IncorrNoGo <- read.table("~/Desktop/REV_scripts/behavioral/GNG/output/GNG_IncorrNoGo_Count.txt") # All stimuli, no-go trials
+CorrNoGo_Risk <- read.table("~/Desktop/REV_scripts/behavioral/GNG/output/GNG_CorrNoGo_Count_Risk.txt") # PRC stimuli, no-go trials
+IncorrNoGo_Risk <- read.table("~/Desktop/REV_scripts/behavioral/GNG/output/GNG_IncorrNoGo_Count_Risk.txt") # PRC stimuli, no-go trials
+IncorrNoGo_Neutral <- read.table("~/Desktop/REV_scripts/behavioral/GNG/output/GNG_IncorrNoGo_Count_Neutral.txt") # Neutral stimuli, no-go trials
+
+# Response times
+CorrGoRT_Risk <- read.table("~/Desktop/REV_scripts/behavioral/GNG/output/GNG_CorrGo_RT_Risk.txt")
+CorrGoRT_Neutral <- read.table("~/Desktop/REV_scripts/behavioral/GNG/output/GNG_CorrGo_RT_Neutral.txt")
+CorrGoRT_Total <- read.table("~/Desktop/REV_scripts/behavioral/GNG/output/GNG_CorrGo_RT.txt")
+IncorrNoGoRT <- read.table("~/Desktop/REV_scripts/behavioral/GNG/output/GNG_IncorrNoGo_RT.txt")
+```
+
+```{r Put data frames in long form}
+# Make a vector containing all the dataframes
+dfs <- c("CorrGo", "CorrTotal", "CorrNoGo", "CorrNoGo_Risk", "IncorrGo", "IncorrNoGo", "IncorrNoGo_Risk", "IncorrNoGo_Neutral", "CorrGoRT_Risk", "CorrGoRT_Neutral", "CorrGoRT_Total", "IncorrNoGoRT") 
+
+# Name the columns for each data frame by the run number
+for(df in dfs) {
+  df.tmp <- get(df)
+  names(df.tmp) <- c("run1", "run2", "run3", "run4")
+  assign(df, df.tmp)
+}
+
+# Append the participant IDs and conditions to the front of each data frame
+for(df in dfs) {
+    df.tmp <- get(df)
+    df.tmp <- cbind(ID, condition, df.tmp)
+    assign(df, df.tmp)
+}
+
+# Put the data frames in long form and append "_long" to the data frame name
+for(df in dfs) {
+    df.tmp <- get(df)
+    df.tmp <- melt(data=df.tmp, idvars=ID, measure.vars=c("run1", "run2","run3", "run4"), variable.name = "time", value.name=df)
+    assign(paste(df, "_long", sep=""),df.tmp)
+}
+```
+
+**Regressions to run**
+
+ 1. time x stimulusType  
+    + base-endpoint comparison of nogo errors  
+2. Go RTs  
+    + Expect slower RTs for risk cues at endpoint  
+    
+```{r Create a single data frame, include=FALSE}
+# Get count for each stim type  
+df_GNGraw <- cbind(CorrGo_long, CorrTotal_long[,4], CorrNoGo_long[,4], CorrNoGo_Risk_long[,4], IncorrGo_long[,4], IncorrNoGo_long[,4], IncorrNoGo_Risk_long[,4], IncorrNoGo_Neutral_long[,4], CorrGoRT_Risk_long[,4], CorrGoRT_Neutral_long[,4], CorrGoRT_Total_long[,4], IncorrNoGoRT_long[,4])
+
+colnames(df_GNGraw) <- c("ID", "condition", "time", "CorrGo", "CorrTotal", "CorrNoGo", "CorrNoGo_Risk", "IncorrGo", "IncorrNoGo", "IncorrNoGo_Risk", "IncorrNoGo_Neutral", "CorrGoRT_Risk", "CorrGoRT_Neutral", "CorrGoRT_Total", "IncorrNoGo_RT") 
+
+# Replace NaNs with Na
+df_GNGraw[ is.na(df_GNGraw) ] <- NA
+
+# Make a column to specify whether scores are from the base scan (pre) or end scan (post)
+df_GNGraw$time <- ifelse(df_GNGraw$time %in% c("run1", "run2"), "pre", ifelse(df_GNGraw$time %in% c("run3", "run4"), "post", NA))
+```
+
+```{r Make missing data NA}
+# If the participant doesn't have data, make the stimuli specifc columns NAs as well
+df_GNGraw <- df_GNGraw %>%
+    dplyr::mutate_at(4:15, funs(replace(., is.na(df_GNGraw$CorrTotal), NA)))
+#str(df_GNGraw)
+df_GNGraw$time <- factor(df_GNGraw$time, labels = c("post","pre"))
+```
+
+```{r Create data frame of averages for analysis, include=FALSE}
+# Create a data frame of scores averaged across runs at pre and post, respectively
+library(tidyverse)
+GNG = df_GNGraw %>%
+  gather("outcome", "value", starts_with("Corr"), starts_with("Incorr")) %>%
+    group_by(outcome, ID, time, condition) %>%
+        summarize(mean = mean(value, na.rm=TRUE))
+```
+
+# Models
+## Critical measures of risk-relevant IC:
+### No-go errors of commission on PRC no-go blocks vs. neutral no-go blocks
+
+Multilevel model: 
+
+```{r Data prep}
+# Make each outcome type a column
+GNG <- spread(data = GNG, key = outcome, value = mean)
+
+# Keep only participants with base and end data
+df_GNGcomplete <- GNG[complete.cases(GNG),]
+df_GNGcomplete$ID <- factor(df_GNGcomplete$ID)
+df_GNGcomplete$time <- relevel(df_GNGcomplete$time, ref="pre")
+#levels(GNGcomplete$time)
+
+# Omit participants who did not have SST data
+included_IDs_GNG <- dimnames(table(df_GNGcomplete$ID))
+load(file = "~/Desktop/REV_scripts/behavioral/REV_SST/scripts/analyses/included_IDs.rda")
+#leaveOut <- union(setdiff(as.data.frame(included_IDs),as.data.frame(included_IDs_GNG)), setdiff(as.data.frame(included_IDs_GNG),as.data.frame(included_IDs)))
+
+# Shitty way of doing this, but I'm out of time - Remove participants who did not have viable SST data to include in the primary SST analysis of SSRT
+df_GNGcomplete[23:24, 4:15] = NA #19
+df_GNGcomplete[35:36, 4:15] = NA #26
+df_GNGcomplete[43:44, 4:15] = NA #32
+df_GNGcomplete[59:60, 4:15] = NA #43  
+df_GNGcomplete[65:66, 4:15] = NA #47
+df_GNGcomplete[69:70, 4:15] = NA #49
+df_GNGcomplete[73:74, 4:15] = NA #51
+df_GNGcomplete[81:82, 4:15] = NA #55
+df_GNGcomplete[89:90, 4:15] = NA #59
+df_GNGcomplete[93:94, 4:15] = NA #62
+df_GNGcomplete[125:126, 4:15] = NA #88
+df_GNGcomplete[159:160, 4:15] = NA #116
+df_GNGcomplete[167:168, 4:15] = NA #120
+df_GNGcomplete[171:172, 4:15] = NA #124
+df_GNGcomplete[183:184, 4:15] = NA #134
+df_GNGcomplete[191:192, 4:15] = NA #138
+
+# Keep only participants with base and end data for both SST and GNG
+df_GNGcomplete <- df_GNGcomplete[complete.cases(df_GNGcomplete),]
+df_GNGcomplete$ID <- factor(df_GNGcomplete$ID)
+
+temp = as.data.frame(table(df_GNGcomplete$ID))
+temp[temp$Freq<2,]
+df_GNGcomplete = df_GNGcomplete[!(df_GNGcomplete$ID%in%temp$Var1[temp$Freq<2]),]
+```
+
+
+```{r MLM data prep}
+# Put the data in long form to run the multilevel model
+df_GNGcomplete_bycue <- melt(df_GNGcomplete, idvars=ID, measure.vars=c("IncorrNoGo_Risk", "IncorrNoGo_Neutral"), variable.name = "Cue", value.name = "Errors")
+# Replace NaNs with NA
+df_GNGcomplete_bycue[ is.na(df_GNGcomplete_bycue) ] <- NA
+# Relevel the factors so the reference group is control and the reference cue is neutral
+df_GNGcomplete_bycue$Cue <- relevel(df_GNGcomplete_bycue$Cue, ref="IncorrNoGo_Neutral")
+#levels(df_GNGcomplete_bycue$Cue)
+#levels(df_GNGcomplete_bycue$condition)
+```
+
+```{r Multilevel model of no-go errors by cue type}
+mlm.model1 <- lmer(Errors ~ time*Cue*condition + (1|ID), 
+                   data = df_GNGcomplete_bycue)
+kable(anova(mlm.model1)) #Have slopes of time, condition, and cue - the effect of each. The slopes are all fixed and the intercept is random. This is basically the multilevel modeling equivalent of a repeated measures ANVOA.
+```
+
+Repeated measures ANOVA:
+
+```{r Repeated measures ANOVA test of IncorrNoGos by cue type}
+rm_model1 <- ez::ezANOVA(data=df_GNGcomplete_bycue, 
+                         dv=Errors, 
+                         wid=ID, 
+                         within=.(time,Cue), 
+                         between=condition, 
+                         type=3, 
+                         detailed=TRUE)
+kable(rm_model1$ANOVA)
+```
+
+```{r Quality check the data - IncorrNoGo by cue , include=FALSE}
+ggplot(df_GNGcomplete_bycue, aes(x=time, y=Errors)) +
+    geom_boxplot(outlier.size=4, outlier.colour="green") +
+    geom_text(label=df_GNGcomplete_bycue$ID) 
+```
+
+There is an effect of cue type, such that people made fewer errors on the neutral cues than the risk cues overall. There was also a main effect of condition with the training group having more errors of commission on the no-go trials overall.  
+
+#### Plots
+```{r Barplot No-go errors by cue type}
+# calculate the means to plot
+groups <- group_by(GNG, condition, time)
+plot_data <- dplyr::summarise(groups, 
+                       mean_risk = mean(IncorrNoGo_Risk, na.rm = TRUE),
+                       mean_neut = mean(IncorrNoGo_Neutral, na.rm = TRUE),
+                       mean_total = mean(IncorrNoGo, na.rm = TRUE),
+                       sd_risk = sd(IncorrNoGo_Risk, na.rm = TRUE),
+                       sd_neut = sd(IncorrNoGo_Neutral, na.rm = TRUE),
+                       sd_total = sd(IncorrNoGo, na.rm = TRUE),
+                       n = n())
+plot_data <- mutate(plot_data,
+                    se_risk=sd_risk/sqrt(n),
+                    ci_risk = qt(0.975,df=n-1)*se_risk,
+                    se_neut=sd_neut/sqrt(n),
+                    ci_neut = qt(0.975,df=n-1)*se_neut,
+                    se_total=sd_total/sqrt(n),
+                    ci_total = qt(0.975,df=n-1)*se_total)
+
+# Re-level and rename the condition factor for plotting
+plot_data$condition <- factor(plot_data$condition, levels(plot_data$condition)[c(2,1)])
+plot_data$condition <- plyr::revalue(plot_data$condition, c("train" = "Training", "control" = "Control"))
+
+levels(plot_data$time)
+plot_data$time <- relevel(plot_data$time, ref="pre")
+
+# Bar graph of pre-post change in no-go errors with risk cues by condition with standard error bars.
+
+ggplot(plot_data, aes(x=condition, y=mean_risk, fill=interaction(time,condition))) +
+  geom_bar(stat = "identity", position = position_dodge(), color = "black", size = .3) +
+  geom_errorbar(aes(ymin=mean_risk-ci_risk, ymax=mean_risk+ci_risk), 
+                size=.8,
+                width=.2,
+                position = position_dodge(.9)) +
+    xlab("Condition") +
+    ylab("Incorrect No-Go Trials") +
+  ggtitle("Risk Cues") +
+    scale_fill_manual(values=c("#FF5733","#FFC300", "#28B463", "#82E0AA"),name="Time point", 
+              labels=c("Train-pre", "Train-post", "Control-pre","Control-post"))+
+    coord_cartesian(ylim=c(0,20))  +
+    scale_y_continuous(breaks=seq(0, 20, 2)) +
+    theme(axis.text=element_text(size=35),
+        axis.title=element_text(size=35,face="bold"),
+        legend.title = element_text(face = "bold", size = 24),
+        legend.position = c(.95, .95),
+        legend.justification = c("right", "top"),
+        legend.key.size = unit(.5, "cm"),
+        legend.text = element_text(size = 24),
+        title = element_text(face = "bold", size = 35))
+
+
+# Bar graph of pre-post change in no-go errors with neutral cues by condition with standard error bars.
+
+ggplot(plot_data, aes(x=condition, y=mean_neut, fill=interaction(time,condition))) +
+   geom_bar(stat = "identity", position = position_dodge(), color = "black", size = .3) +
+  geom_errorbar(aes(ymin=mean_neut-ci_neut, ymax=mean_neut+ci_neut), 
+                size=.8,
+                width=.2,
+                position = position_dodge(.9)) +
+    xlab("Condition") +
+    ylab("Incorrect No-Go Trials") +
+    scale_fill_manual(values=c("#FF5733","#FFC300", "#28B463", "#82E0AA"),name="Time point", 
+              labels=c("Train-pre", "Train-post", "Control-pre","Control-post"))+
+  ggtitle("Neutral Cues") +
+    coord_cartesian(ylim=c(0,20))  +
+    scale_y_continuous(breaks=seq(0, 20, 2)) +
+    theme(axis.text=element_text(size=35),
+        axis.title=element_text(size=35,face="bold"),
+        legend.title = element_text(face = "bold", size = 24),
+        legend.position = c(.95, .95),
+        legend.justification = c("right", "top"),
+        legend.key.size = unit(.5, "cm"),
+        legend.text = element_text(size = 24),
+        title = element_text(face = "bold", size = 35))
+```
+
+### Correct response time on risk go blocks vs. neutral go blocks
+
+```{r MLM of response times by cue}
+# Put the data in long form to run the multilevel model
+GNG_RTs_bycue <- melt(GNG, measure.vars=c("CorrGoRT_Risk", "CorrGoRT_Neutral"), variable.name = "Cue", value.name = "Errors")
+# Replace NaNs with NA
+GNG_RTs_bycue[ is.na(GNG_RTs_bycue) ] <- NA
+
+rm.model2 <- lmer(Errors ~ time*Cue*condition + (1|ID), data=GNG_RTs_bycue)
+kable(anova(rm.model2))
+```
+
+```{r Quality check the data - CorrGoRTs by cue, include=FALSE}
+ggplot(GNG_RTs_bycue, aes(x=time, y=Errors)) +
+    geom_boxplot(outlier.size=4, outlier.colour="green") +
+    geom_text(label=GNG_RTs_bycue$ID) 
+```
+
+There are no differences in response time on correct gos irrespective of condition, cue type, and time point.
+
+## Critical measures of general IC:
+### Total no-go errors 
+```{r Total no-go errors}
+rm_model3 <- ez::ezANOVA(data=df_GNGcomplete, 
+                         dv=IncorrNoGo, 
+                         wid=ID, 
+                         within=.(time), 
+                         between=condition, 
+                         type=3, 
+                         detailed=TRUE)
+kable(rm_model3$ANOVA, caption = "Total No-Go Errors of Commission")
+```
+
+```{r Quality check the data - IncorrNoGo, include=FALSE}
+ggplot(df_GNGcomplete, aes(x=time, y=IncorrNoGo)) +
+    geom_boxplot(outlier.size=4, outlier.colour="green") +
+    geom_text(label=df_GNGcomplete$ID) 
+```
+
+#### Plots
+```{r Barplot total no-go errors}
+ggplot(plot_data, aes(x=condition, y=mean_total, fill=interaction(time,condition))) +
+   geom_bar(stat = "identity", position = position_dodge(), color = "black", size = .3) +
+  geom_errorbar(aes(ymin=mean_total-ci_total, ymax=mean_total+ci_total), 
+                size=.8,
+                width=.2,
+                position = position_dodge(.9)) +
+    xlab("Condition") +
+    ylab("Incorrect No-Go Trials") +
+scale_fill_manual(values=c("#FF5733","#FFC300", "#28B463", "#82E0AA"),name="Condition & Time", 
+              labels=c("Train-pre", "Train-post", "Control-pre","Control-post"))+
+  ggtitle("Total No-Go Errors") +
+    coord_cartesian(ylim=c(0,38))  +
+    scale_y_continuous(breaks=seq(0, 38, 5)) +
+    theme(axis.text=element_text(size=28),
+        axis.title=element_text(size=35,face="bold"),
+        legend.title = element_text(face = "bold", size = 24),
+        legend.position = c(.95, .95),
+        legend.justification = c("right", "top"),
+        legend.key.size = unit(.5, "cm"),
+        legend.text = element_text(size = 24),
+        title = element_text(face = "bold", size = 35))
+```
+
+### Mean go response time  
+```{r ANOVA mean go response time}
+rm_model4 <- ez::ezANOVA(data=df_GNGcomplete, 
+                         dv=CorrGoRT_Total, 
+                         wid=ID, 
+                         within=.(time), 
+                         between=condition, 
+                         type=3, 
+                         detailed=TRUE)
+kable(rm_model4$ANOVA, caption = "'Go' Trial Response time")
+```
+
+#### Plots
+```{r Quality check the data - CorrGoRTs, include=FALSE}
+ggplot(GNG, aes(x=time, y=CorrGoRT_Total)) +
+    geom_boxplot(outlier.size=4, outlier.colour="green") +
+    geom_text(label=GNG$ID) 
+```
+
+There are no differences between conditions or time points in mean response time.
+
+## Final analyzed sample
+```{r Analyzed sample}
+(table(df_GNGcomplete$condition))/2
+```
