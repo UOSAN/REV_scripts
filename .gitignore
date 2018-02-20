@@ -11,7 +11,6 @@ GNG_results.pdf
 SSRT_results.html
 SSRT_results.pdf
 credentials.yaml.DEFAULT
-*.Rmd
 *.Rda
 *.rda
 *.html
