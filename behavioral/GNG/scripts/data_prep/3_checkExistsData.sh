@@ -6,14 +6,14 @@
 ###################################################
 
 # Change this, path to data and script repos
-repopath="/Users/kristadestasio/Desktop"
+repopath="/Users/kdestasi/Desktop"
 
 # Set variables
-datadir=$repopath/REV_scripts/behavioral/GNG/data # Location of the data files to be analyzed
-logdir=$repopath/REV_scripts/behavioral/GNG/logs
-errorlog=$logdir/errorlog_filecheck.txt
-outputlog=$logdir/outputlog_filecheck.txt
-sublist=$repopath/REV_scripts/behavioral/GNG/scripts/data_prep 
+datadir="$repopath/REV_scripts/behavioral/GNG/data" # Location of the data files to be analyzed
+logdir="$repopath/REV_scripts/behavioral/GNG/logs"
+errorlog="$logdir/errorlog_filecheck.txt"
+outputlog="$logdir/outputlog_filecheck.txt"
+sublist="$repopath/REV_scripts/behavioral/GNG/scripts/data_prep"
 
 
 cd $repopath/REV_scripts/behavioral/GNG/scripts/data_prep

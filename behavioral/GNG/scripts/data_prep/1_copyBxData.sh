@@ -7,15 +7,15 @@
 #########################################################################
 
 # Change this, path to data and script repos
-repopath="/Users/kristadestasio/Desktop"
+repopath="/Users/kdestasi/Desktop"
 
 # Set paths 
-outputdir=$repopath/REV_scripts/behavioral/GNG/data
-sourcedir=$repopath/REV_BxData
-logdir=$repopath/REV_scripts/behavioral/GNG/logs
-outputlog=$logdir/outputlog_copyData.txt
-errorlog=$logdir/errorlog_copyData.txt
-allsubs=$logdir/subjectlist.txt
+outputdir="$repopath/REV_scripts/behavioral/GNG/data"
+sourcedir="$repopath/REV_BxData"
+logdir="$repopath/REV_scripts/behavioral/GNG/logs"
+outputlog="$logdir/outputlog_copyData.txt"
+errorlog="$logdir/errorlog_copyData.txt"
+allsubs="$logdir/subjectlist.txt"
 
 # Check directory dependencies
 if [ ! -d "${outputdir}" ]; then

@@ -7,12 +7,12 @@
 #########################################################################
 
 # Change this, path to data and script repos
-repopath="/Users/kristadestasio/Desktop"
+repopath="/Users/kdestasi/Desktop"
 
 # Set paths 
-outputdir=$repopath/REV_scripts/behavioral/GNG/data
-logdir=$repopath/REV_scripts/behavioral/GNG/logs
-outputlog=$logdir/outputlog_rename.txt
+outputdir="$repopath/REV_scripts/behavioral/GNG/data"
+logdir="$repopath/REV_scripts/behavioral/GNG/logs"
+outputlog="$logdir/outputlog_rename.txt"
 
 # create output logs
 touch "${outputlog}"
