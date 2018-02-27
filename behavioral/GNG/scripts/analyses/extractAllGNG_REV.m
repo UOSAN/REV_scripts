@@ -4,7 +4,7 @@
 %% extract # and RT of correct and incorrect Go and NoGo trials
 
 % create a vector of the trial numbers for each condition
-cd('~/Desktop/REV_scripts/behavioral/GNG/scripts/analysis');
+cd('~/Desktop/REV_scripts/behavioral/GNG/scripts/analyses');
 
 % Define columns in the task template
 stimTypeCol=1;
