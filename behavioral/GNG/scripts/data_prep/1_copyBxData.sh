@@ -10,16 +10,17 @@
 repopath="/Users/kdestasi/Desktop"
 
 # Set paths 
-outputdir="$repopath/REV_scripts/behavioral/GNG/data"
+datadir="$repopath/REV_scripts/behavioral/GNG/data"
 sourcedir="$repopath/REV_BxData"
 logdir="$repopath/REV_scripts/behavioral/GNG/logs"
 outputlog="$logdir/outputlog_copyData.txt"
 errorlog="$logdir/errorlog_copyData.txt"
 allsubs="$logdir/subjectlist.txt"
+outputdir="$repopath/REV_scripts/behavioral/GNG/output"
 
 # Check directory dependencies
-if [ ! -d "${outputdir}" ]; then
-	mkdir -v "${outputdir}"
+if [ ! -d "${datadir}" ]; then
+	mkdir -v "${datadir}"
 fi
 
 if [ ! -d "${sourcedir}" ]; then
@@ -30,14 +31,18 @@ if [ ! -d "${logdir}" ]; then
 	mkdir -v "${logdir}"
 fi
 
+if [ ! -d "${outputdir}" ]; then
+	mkdir -v "${outputdir}"
+fi
+
 # create output logs
 touch "${outputlog}"
 touch "${errorlog}"
 touch "${allsubs}"
 
 
-echo "Copying GNG data from $sourcedir to $outputdir" > $outputlog
-echo "Errors during copy of GNG data from $sourcedir to $outputdir" > $errorlog
+echo "Copying GNG data from $sourcedir to $datadir" > $outputlog
+echo "Errors during copy of GNG data from $sourcedir to $datadir" > $errorlog
 
 # Create a text file of all participants in the behavioral data folder
 cd $sourcedir/scanning
@@ -53,7 +58,7 @@ for sub in ${sublist[@]}; do
 			cd base/GNG
 			if [ $(ls "${sourcedir}"/scanning/"${sub}"/base/GNG/*.mat | wc -l) -gt 0 ]; then
 				for baserun in $(ls *.mat); do
-					cp $baserun $outputdir/$baserun
+					cp $baserun $datadir/$baserun
 				done
 				echo ${sub} "base runs copied" >> $outputlog
 			else echo ${sub} "base runs do not exist" >> $errorlog	
@@ -64,7 +69,7 @@ for sub in ${sublist[@]}; do
 			cd end/GNG
 			if [ $(ls "${sourcedir}"/scanning/"${sub}"/end/GNG/*.mat | wc -l) -gt 0 ]; then
 				for endrun in $(ls *.mat); do
-					cp $endrun $outputdir/$endrun
+					cp $endrun $datadir/$endrun
 				done
 				echo ${sub} "end runs copied" >> $outputlog
 			else echo ${sub} "end runs do not exist" >> $errorlog	
