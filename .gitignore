@@ -23,13 +23,14 @@ fmaptest/
 subjects/
 subjects_old/
 subjectsAuto/
-GNG/data/
+GNG/data/*
 GNG/output/*
 GNG/logs/*
 behavioral/REV_SST/compiledResults/upTo*
 behavioral/REV_SST/output/*
 behavioral/REV_SST/scanning/*
 behavioral/REV_SST/training/*
+
 Figs/
 initialCheck/
 singleVarTxtx/
