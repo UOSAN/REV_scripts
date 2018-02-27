@@ -24,7 +24,7 @@ subjects/
 subjects_old/
 subjectsAuto/
 GNG/data/
-GNG/output/
+GNG/output/*
 behavioral/REV_SST/compiledResults/upTo*
 behavioral/REV_SST/output/*
 behavioral/REV_SST/scanning/*

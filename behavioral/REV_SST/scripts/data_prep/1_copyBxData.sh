@@ -37,6 +37,14 @@ if [ ! -d "${outputdir}/omitted" ]; then
 	mkdir -v "${outputdir}/omitted"
 fi
 
+if [ ! -d "${outputdir}/analysisReady" ]; then
+	mkdir -v "${outputdir}/analysisReady"
+fi
+
+if [ ! -d "${repopath}/REV_scripts/behavioral/REV_SST/compiledResults" ]; then
+	mkdir -v "${repopath}/REV_scripts/behavioral/REV_SST/compiledResults"	
+fi
+
 if [ ! -d "${sourcedir}" ]; then
 	echo "No directory at $sourcedir"
 fi
