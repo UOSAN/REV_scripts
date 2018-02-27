@@ -7,14 +7,14 @@
 #########################################################################
 
 # Change this, path to data and script repos
-repopath="/Users/kristadestasio/Desktop"
+repopath="/Users/kdestasi/Desktop"
 
 # Set paths
-outputdir=$repopath/REV_scripts/behavioral/REV_SST/output
-sourcedir=$repopath/REV_BxData
-outputlog=$outputdir/outputlog_populate.txt
-errorlog=$outputdir/errorlog_populate.txt
-allsubs=$outputdir/subjectlist.txt
+outputdir="$repopath/REV_scripts/behavioral/REV_SST/output"
+sourcedir="$repopath/REV_BxData"
+outputlog="$outputdir/outputlog_populate.txt"
+errorlog="$outputdir/errorlog_populate.txt"
+allsubs="$outputdir/subjectlist.txt"
 
 # Check directory dependencies
 if [ ! -d "${outputdir}" ]; then
