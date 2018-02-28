@@ -10,6 +10,8 @@ output:
   pdf_document:
     toc: yes
     toc_depth: '3'
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE}
@@ -114,7 +116,7 @@ GNG = df_GNGraw %>%
         summarize(mean = mean(value, na.rm=TRUE))
 ```
 
-Omit participants who don't have data from at least on GNG run at each time point (baseline and endpoint)  
+Omit participants who don't have data from at least on GNG run at each time point (baseline and endpoint).  
 
 ```{r Data prep}
 # Make each outcome type a column
@@ -133,6 +135,24 @@ df_GNGcomplete$Time <- relevel(df_GNGcomplete$Time, ref="Pre")
 temp = as.data.frame(table(df_GNGcomplete$ID))
 temp[temp$Freq<2,]
 df_GNGcomplete = df_GNGcomplete[!(df_GNGcomplete$ID%in%temp$Var1[temp$Freq<2]),]
+```
+Omit participants due to misc. problems:  
+009 - noncompliance
+013 - sleeping
+024 - head injury during trianing phase
+025 - strucutral anomaly (no end data)
+034 - neurological disorder
+047 - heard beep (control)
+058 - structural anomaly 
+061 - sleeping  (no end data)
+066 - became ill (no end data)
+112 - incorrect stimuli (training and end)
+117 - structural anomaly
+120 - noncompliance
+
+```{r omit problem particpants}
+omit <- c(9, 13, 24, 25, 34, 47, 58, 61, 66, 112, 117, 120)
+df_GNGcomplete <- df_GNGcomplete[ ! (df_GNGcomplete$ID %in% omit), ]
 df_GNGcomplete$ID <- factor(df_GNGcomplete$ID)
 ```
 
@@ -155,7 +175,7 @@ df_GNGcomplete_bycue$Cue <- factor(df_GNGcomplete_bycue$Cue,
 ```{r Multilevel model of no-go errors by cue type}
 mlm.model1 <- lmer(Errors ~ Time*Cue*Condition + (1|ID), 
                    data = df_GNGcomplete_bycue)
-kable(anova(mlm.model1)) #Have slopes of time, condition, and cue - the effect of each. The slopes are all fixed and the intercept is random. This is basically the multilevel modeling equivalent of a repeated measures ANVOA.
+kable(anova(mlm.model1), digits = 2) #Have slopes of time, condition, and cue - the effect of each. The slopes are all fixed and the intercept is random. This is basically the multilevel modeling equivalent of a repeated measures ANVOA.
 
 ```
 
@@ -177,7 +197,7 @@ rm_model1 <- ez::ezANOVA(data=df_GNGcomplete_bycue,
 
 #### Summary of No-Go Errors by Cue Type
 ```{r rmANOVA Summary NG by cue}
-kable(rm_model1, caption = "Incorrect No-Gos by Cue Type")
+kable(rm_model1, digits = 2, caption = "Table 1. Errors of Commission by No-go Cue Type")
 t.test(Errors ~ Cue, data = df_GNGcomplete_bycue)
 ```
 
@@ -202,7 +222,7 @@ ggplot(df_GNGcomplete_bycue, aes(x=Time, y=Errors)) +
 There is an effect of cue type, such that people made fewer errors on the neutral cues than the risk cues overall. There was also a three way interaction such...  
 
 
-```{r Barplot No-go errors by cue type, include=FALSE}
+```{r Barplot No-go errors by cue type, include=TRUE}
 # calculate the means to plot
 groups <- group_by(GNG, Condition, Time)
 plot_data <- dplyr::summarise(groups, 
@@ -223,7 +243,7 @@ plot_data <- mutate(plot_data,
 
 # Re-level and rename the condition factor for plotting
 plot_data$Condition <- factor(plot_data$Condition, levels(plot_data$Condition)[c(2,1)])
-plot_data$Condition <- plyr::revalue(plot_data$Condition, c("Train" = "Training", "Control" = "Control"))
+#plot_data$Condition <- plyr::revalue(plot_data$Condition, c("Train" = "Training", "Control" = "Control"))
 
 levels(plot_data$Time)
 plot_data$Time <- relevel(plot_data$Time, ref="Pre")
@@ -287,7 +307,7 @@ GNG_RTs_bycue <- melt(GNG, measure.vars=c("CorrGoRT_Risk", "CorrGoRT_Neutral"), 
 GNG_RTs_bycue[ is.na(GNG_RTs_bycue) ] <- NA
 
 rm.model2 <- lmer(Errors ~ Time*Cue*Condition + (1|ID), data=GNG_RTs_bycue)
-kable(anova(rm.model2))
+kable(anova(rm.model2), digits = 2)
 ```
 
 ```{r Quality check the data - CorrGoRTs by cue, include=FALSE}
@@ -308,7 +328,7 @@ rm_model3 <- ez::ezANOVA(data=df_GNGcomplete,
                          between=Condition, 
                          type=3, 
                          detailed=TRUE)
-kable(rm_model3$ANOVA, caption = "Total No-Go Errors of Commission")
+kable(rm_model3$ANOVA, digits = 2, caption = "Total No-Go Errors of Commission")
 ```
 
 ```{r Quality check the data - IncorrNoGo, include=FALSE}
@@ -351,7 +371,7 @@ rm_model4 <- ez::ezANOVA(data=df_GNGcomplete,
                          between=Condition, 
                          type=3, 
                          detailed=TRUE)
-kable(rm_model4$ANOVA, caption = "'Go' Trial Response time")
+kable(rm_model4$ANOVA, digits = 2, caption = "'Go' Trial Response time")
 ```
 
 #### Plots
