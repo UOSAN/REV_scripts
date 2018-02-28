@@ -122,7 +122,7 @@ Cut-off values are determined by visual inspection of the scatterplots, which ar
     + During Training: upper limit 500
     + During Scanning: upper limit 850, lower limit 100
     
-```{r Remove problem runs}
+```{r Remove problem runs no-response}
 df_SSRT <- df_rawSSRT
 
 ### NO RESPONSE ###
@@ -143,7 +143,26 @@ df_SSRT <- df_SSRT %>%
 df_SSRT <- df_SSRT %>% 
     mutate(numNoResponse= replace(numNoResponse, 
                                   which(numNoResponse>50), NA)) # Scans
+# Look at which participants had runs removed & how many
+outliers <- (!df_rawSSRT$SSRT %in% df_SSRT$SSRT)
+outliers_ssrt <- as.data.frame(table(df_rawSSRT[outliers,]$ID))
+# outliers_table <- outliers_table[which(outliers_table$Freq!=0),]
+colnames(outliers_ssrt) <- c("ID", "Runs_omitted_ssrt")
+# kable(outliers_table, caption = "Runs Omitted For SSRT")
+# summary(outliers_table$Runs_omitted)
+```
 
+```{r Create a table of omitted runs}
+dfs <- c("outliers_noResponse", "outliers_ssrt", "outliers_wrongGo")
+merge(outliers_noResponse, outliers_pct, by="ID")
+
+for(df in dfs) {
+    df_tmp <- get(df)
+    total <- merge(outliers_pct,df_tmp,by="ID")
+}
+```
+
+```{r Remove problem runs wrong no-gos}
 ### WRONG GO ###
 ## Replace the SSRTs with NAs if wrong-gos are > 25 during training (training group only) or > 25 during scans (all participants)
 df_SSRT <- df_SSRT %>% 
