@@ -122,9 +122,36 @@ Cut-off values are determined by visual inspection of the scatterplots, which ar
     + During Training: upper limit 500
     + During Scanning: upper limit 850, lower limit 100
     
-```{r Remove problem runs no-response}
+```{r make new data frame}
 df_SSRT <- df_rawSSRT
+```
 
+```{r runs omitted pct inhibition}
+### PERCENT INHIBITION ###
+## Replace SSRTs with NAs if percent inihibition is  > 75 | < 15 during training (training group only) or > 75 | < 20 during scans (all participants)
+df_SSRT <- df_SSRT %>% 
+    mutate(SSRT= replace(SSRT, 
+                         which(pctInhibition>75 & condition=="train" & time != "run1" & time != "run2" & time != "run13" & time != "run14" | pctInhibition<15 & condition=="train" & time != "run1" & time != "run2" & time != "run13" & time != "run14") , NA)) # Training
+df_SSRT <- df_SSRT %>% 
+    mutate(SSRT= replace(SSRT, 
+                         which(pctInhibition>75 & time != "run3" & time != "run4" & time != "run5" & time != "run6" & time != "run7" & time != "run8" & time != "run9" & time != "run10" & time != "run11" & time != "run12" | pctInhibition<20 & time != "run3" & time != "run4" & time != "run5" & time != "run6" & time != "run7" & time != "run8" & time != "run9" & time != "run10" & time != "run11" & time != "run12"), NA)) # Scans
+
+## Replace the percent inhibition with NAs if they are > 75 | < 15 during training (training group only) or > 75 | < 20 during scans (all participants)
+df_SSRT <- df_SSRT %>% 
+    mutate(pctInhibition= replace(pctInhibition, 
+                                  which(pctInhibition<15  & condition=="train" & time != "run1" & time != "run2" & time != "run13" & time != "run14" | pctInhibition>75 & condition=="train" & time != "run1" & time != "run2" & time != "run13" & time != "run14" ), NA)) # Training
+
+df_SSRT <- df_SSRT %>% 
+    mutate(pctInhibition= replace(pctInhibition, 
+                                  which(pctInhibition<15  & time != "run3" & time != "run4" & time != "run5" & time != "run6" & time != "run7" & time != "run8" & time != "run9" & time != "run10" & time != "run11" & time != "run12" | pctInhibition>75 & time != "run3" & time != "run4" & time != "run5" & time != "run6" & time != "run7" & time != "run8" & time != "run9" & time != "run10" & time != "run11" & time != "run12"), NA)) # Scans
+
+# Look at which participants had runs removed & how many
+outliers <- (!df_rawSSRT$SSRT %in% df_SSRT$SSRT)
+outliers_pctInhib <- as.data.frame(table(df_rawSSRT[outliers,]$ID))
+colnames(outliers_pctInhib) <- c("ID", "outliers_pctInhib")
+```
+
+```{r Remove problem runs no-response}
 ### NO RESPONSE ###
 ## Replace the SSRTs with NAs if no-responses are > 25 during training or > 50 during scans
 df_SSRT <- df_SSRT %>% 
@@ -143,23 +170,11 @@ df_SSRT <- df_SSRT %>%
 df_SSRT <- df_SSRT %>% 
     mutate(numNoResponse= replace(numNoResponse, 
                                   which(numNoResponse>50), NA)) # Scans
+
 # Look at which participants had runs removed & how many
 outliers <- (!df_rawSSRT$SSRT %in% df_SSRT$SSRT)
-outliers_ssrt <- as.data.frame(table(df_rawSSRT[outliers,]$ID))
-# outliers_table <- outliers_table[which(outliers_table$Freq!=0),]
-colnames(outliers_ssrt) <- c("ID", "Runs_omitted_ssrt")
-# kable(outliers_table, caption = "Runs Omitted For SSRT")
-# summary(outliers_table$Runs_omitted)
-```
-
-```{r Create a table of omitted runs}
-dfs <- c("outliers_noResponse", "outliers_ssrt", "outliers_wrongGo")
-merge(outliers_noResponse, outliers_pct, by="ID")
-
-for(df in dfs) {
-    df_tmp <- get(df)
-    total <- merge(outliers_pct,df_tmp,by="ID")
-}
+outliers_noResponse <- as.data.frame(table(df_rawSSRT[outliers,]$ID))
+colnames(outliers_noResponse) <- c("ID", "Runs_omitted_noResponse")
 ```
 
 ```{r Remove problem runs wrong no-gos}
@@ -182,6 +197,13 @@ df_SSRT <- df_SSRT %>%
     mutate(numWrongGo= replace(numWrongGo, 
                         which(numWrongGo>25 & time != "run3" & time != "run4" & time != "run5" & time != "run6" & time != "run7" & time != "run8" & time != "run9" & time != "run10" & time != "run11" & time != "run12"), NA)) # Scan
 
+# Look at which participants had runs removed & how many
+outliers <- (!df_rawSSRT$SSRT %in% df_SSRT$SSRT)
+outliers_wrongGo <- as.data.frame(table(df_rawSSRT[outliers,]$ID))
+colnames(outliers_wrongGo) <- c("ID", "Runs_omitted_wrongGo")
+```
+
+```{r runs omitted SSRT}
 ### SSRT ###
 ## Replace the SSRTs with NAs if they are > 500 during training (training group only) or > 850 | < 100 during scans (all participants)
 df_SSRT <- df_SSRT %>% 
@@ -192,24 +214,20 @@ df_SSRT <- df_SSRT %>%
     mutate(SSRT= replace(SSRT,
                          which(SSRT>850 & time != "run3" & time != "run4" & time != "run5" & time != "run6" & time != "run7" & time != "run8" & time != "run9" & time != "run10" & time != "run11" & time != "run12" | SSRT <100 & time != "run3" & time != "run4" & time != "run5" & time != "run6" & time != "run7" & time != "run8" & time != "run9" & time != "run10" & time != "run11" & time != "run12"), NA)) # Scans
 
+# Look at which participants had runs removed & how many
+outliers <- (!df_rawSSRT$SSRT %in% df_SSRT$SSRT)
+outliers_ssrt <- as.data.frame(table(df_rawSSRT[outliers,]$ID))
+colnames(outliers_ssrt) <- c("ID", "Runs_omitted_ssrt")
+```
 
-### PERCENT INHIBITION ###
-## Replace SSRTs with NAs if percent inihibition is  > 75 | < 15 during training (training group only) or > 75 | < 20 during scans (all participants)
-df_SSRT <- df_SSRT %>% 
-    mutate(SSRT= replace(SSRT, 
-                         which(pctInhibition>75 & condition=="train" & time != "run1" & time != "run2" & time != "run13" & time != "run14" | pctInhibition<15 & condition=="train" & time != "run1" & time != "run2" & time != "run13" & time != "run14") , NA)) # Training
-df_SSRT <- df_SSRT %>% 
-    mutate(SSRT= replace(SSRT, 
-                         which(pctInhibition>75 & time != "run3" & time != "run4" & time != "run5" & time != "run6" & time != "run7" & time != "run8" & time != "run9" & time != "run10" & time != "run11" & time != "run12" | pctInhibition<20 & time != "run3" & time != "run4" & time != "run5" & time != "run6" & time != "run7" & time != "run8" & time != "run9" & time != "run10" & time != "run11" & time != "run12"), NA)) # Scans
-
-## Replace the percent inhibition with NAs if they are > 75 | < 15 during training (training group only) or > 75 | < 20 during scans (all participants)
-df_SSRT <- df_SSRT %>% 
-    mutate(pctInhibition= replace(pctInhibition, 
-                                  which(pctInhibition<15  & condition=="train" & time != "run1" & time != "run2" & time != "run13" & time != "run14" | pctInhibition>75 & condition=="train" & time != "run1" & time != "run2" & time != "run13" & time != "run14" ), NA)) # Training
-
-df_SSRT <- df_SSRT %>% 
-    mutate(pctInhibition= replace(pctInhibition, 
-                                  which(pctInhibition<15  & time != "run3" & time != "run4" & time != "run5" & time != "run6" & time != "run7" & time != "run8" & time != "run9" & time != "run10" & time != "run11" & time != "run12" | pctInhibition>75 & time != "run3" & time != "run4" & time != "run5" & time != "run6" & time != "run7" & time != "run8" & time != "run9" & time != "run10" & time != "run11" & time != "run12"), NA)) # Scans
+## View omitted runs
+```{r Create a table of omitted runs}
+# See omitted
+dfs <- list(outliers_pctInhib, outliers_noResponse, outliers_wrongGo, outliers_ssrt)
+outliers_tableFull <- plyr::join_all(dfs, by="ID")
+outliers_table <- outliers_tableFull[which(outliers_tableFull$Runs_omitted_ssrt!=0),]
+kable(outliers_table, caption = "Runs Omitted (columns are cumulative)")
+summary(outliers_tableFull$Runs_omitted_ssrt)
 ```
 
 ## Notes on problem runs
@@ -506,18 +524,18 @@ ggplot(plot_data, aes(x=condition, y=mean, fill=interaction(time, condition))) +
                 position = position_dodge(.9)) +
     xlab("Condition") +
     ylab("SSRT (ms)") +
-scale_fill_manual(values=c("#FF5733","#FFC300", "#28B463", "#82E0AA"),name="Condition & Time", 
-              labels=c("Train-pre", "Train-post", "Control-pre","Control-post"))+
+scale_fill_manual(values=c("#28B463", "#90EE90", "#4169E1", "#87CEEB"),name="Time", 
+              labels=c("Baseline", "Endpoint", "Baseline","Endpoint"))+
   ggtitle("Mean Stop-Signal Reaction Time at Pre and Post Intervention by Condition") +
     coord_cartesian(ylim=c(200,300))  +
     scale_y_continuous(breaks=seq(200, 300, 10)) +
     theme(axis.text=element_text(size=35),
         axis.title=element_text(size=35,face="bold"),
         legend.title = element_text(face = "bold", size = 24),
-        legend.position = c(.95, .95),
+        legend.position = c(.98, .98),
         legend.justification = c("right", "top"),
         legend.key.size = unit(.5, "cm"),
-        legend.text = element_text(size = 24),
+        legend.text = element_text(size = 18),
         title = element_text(size = 18))
 ```
 
