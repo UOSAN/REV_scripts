@@ -2,7 +2,7 @@
 
 
 # Change this, path to data and script repos
-repopath="/Users/kdestasi/Desktop" 
+repopath="/Users/kristadestasio/Desktop" 
 
 sh ${repopath}/REV_scripts/behavioral/REV_SST/scripts/data_prep/1_copyBxData.sh
 
