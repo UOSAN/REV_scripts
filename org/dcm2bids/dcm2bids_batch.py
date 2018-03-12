@@ -100,3 +100,5 @@ for line in lines:
 ####################################
 
 os.chmod(logdir, 0o770)
+os.chmod(archivedir, 0o770)
+os.chmod(niidir, 0o770)
