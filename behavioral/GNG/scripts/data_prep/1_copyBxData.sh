@@ -7,7 +7,7 @@
 #########################################################################
 
 # Change this, path to data and script repos
-repopath="/Users/kdestasi/Desktop"
+repopath="/Users/kristadestasio/Desktop"
 
 # Set paths 
 datadir="$repopath/REV_scripts/behavioral/GNG/data"

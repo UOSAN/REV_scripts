@@ -6,7 +6,7 @@
 ###################################################
 
 # Change this, path to data and script repos
-repopath="/Users/kdestasi/Desktop"
+repopath="/Users/kristadestasio/Desktop"
 
 # Set variables
 datadir="$repopath/REV_scripts/behavioral/GNG/data" # Location of the data files to be analyzed
