@@ -198,19 +198,39 @@ rm_model1 <- ez::ezANOVA(data=df_GNGcomplete_bycue,
 #### Summary of No-Go Errors by Cue Type
 ```{r rmANOVA Summary NG by cue}
 kable(rm_model1, digits = 2, caption = "Table 1. Errors of Commission by No-go Cue Type")
-t.test(Errors ~ Cue, data = df_GNGcomplete_bycue)
+
+# Number of errors by cue type at baseline in the training group
+t_baseTrain <- t.test(Errors ~ Cue, data = df_GNGcomplete_bycue[which(df_GNGcomplete_bycue$Condition=="Training" & df_GNGcomplete_bycue$Time=="Pre"),])
+
+# Number of errors by cue type at baseline in the control group
+t_baseControl <- t.test(Errors ~ Cue, data = df_GNGcomplete_bycue[which(df_GNGcomplete_bycue$Condition=="Control" & df_GNGcomplete_bycue$Time=="Pre"),])
+
+# Number of errors by cue type at endpoint in the training group
+t_endTrain <- t.test(Errors ~ Cue, data = df_GNGcomplete_bycue[which(df_GNGcomplete_bycue$Condition=="Training" & df_GNGcomplete_bycue$Time=="Post"),])
+
+# Number of errors by cue type at endpoint in the control group
+t_endControl <- t.test(Errors ~ Cue, data = df_GNGcomplete_bycue[which(df_GNGcomplete_bycue$Condition=="Control" & df_GNGcomplete_bycue$Time=="Post"),])
 ```
+
+
+Condition | Time Point | *df* | *t* | *p* | 95% CI | Mean Neutral | Mean PRC
+--------- | ---------- | ---- | --- | --- | ------ | ------------ | -------------- 
+Experimental | Baseline | `r round(t_baseTrain[[2]],2)` | `r abs(round(t_baseTrain[[1]],2))` | <.001 | `r round(t_baseTrain$conf.int[1:2],2)` | `r round(t_baseTrain$estimate[[1]],2)` | `r round(t_baseTrain$estimate[[2]],2)`
+Experimental | Endpoint | `r round(t_endTrain[[2]],2)`| `r abs(round(t_endTrain[[1]],2))` | <.001 | `r round(t_endTrain$conf.int[1:2],2)` | `r round(t_endTrain$estimate[[1]],2)` | `r round(t_endTrain$estimate[[2]],2)`
+Control | Baseline | `r round(t_baseControl[[2]],2)` | `r abs(round(t_baseControl[[1]],2))` | <.001 | `r round(t_baseControl$conf.int[1:2],2)` | `r round(t_baseControl$estimate[[1]],2)` |  `r round(t_baseControl$estimate[[2]],2)`
+Control | Endpoint | `r round(t_endControl[[2]],2)` | `r abs(round(t_endControl[[1]],2))` | <.001 | `r round(t_endControl$conf.int[1:2],2)` | `r round(t_endControl$estimate[[1]],2)` | `r round(t_endControl$estimate[[2]],2)`
+
 
 ### Interaction plots
 ```{r 3-way interaction plot NG erros by cue}
 # Then 3-way interaction plots
 par(mfrow=c(1,2)) # change plotting parameters so it puts two plots side by side
 
-training_only <- filter(df_GNGcomplete_bycue, Condition=="Training")
-with(training_only, interaction.plot(x.factor=Time, trace.factor=Cue, response=Errors, ylim = range(c(10,18), na.rm = T), fun=mean, type="b", legend=T, ylab="Errors of Commission", main="Cue by Time Interaction \n(training condition)", pch=c(1,19), col=c(4,3)))
+risk_only <- filter(df_GNGcomplete_bycue, Cue=="Risk")
+with(risk_only, interaction.plot(x.factor=Time, trace.factor=Condition, response=Errors, ylim = range(c(10,16), na.rm = T), fun=mean, type="b", legend=T, ylab="Errors of Commission", main="Risk Cues", pch=c(1,19), col=c(4,3)))
 
-control_only <- filter(df_GNGcomplete_bycue, Condition=="Control")
-with(control_only, interaction.plot(x.factor=Time, trace.factor=Cue, response=Errors, ylim = range(c(10,18), na.rm = T), fun=mean, type="b", legend=T, ylab="Errors of Commission", main="Cue by Time Interaction \n(control condition)", pch=c(1,19), col=c(4,3)))
+neutral_only <- filter(df_GNGcomplete_bycue, Cue=="Neutral")
+with(neutral_only, interaction.plot(x.factor=Time, trace.factor=Condition, response=Errors, ylim = range(c(10,16), na.rm = T), fun=mean, type="b", legend=T, ylab="Errors of Commission", main="Neutral Cues", pch=c(1,19), col=c(4,3)))
 ```
 
 ```{r Quality check the data - IncorrNoGo by cue , include=FALSE}
