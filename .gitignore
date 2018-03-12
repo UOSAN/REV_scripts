@@ -31,6 +31,7 @@ behavioral/REV_SST/training/
 **/output
 **/data
 behavioral/REV_SST/scripts/analyses/Figs/
+behavioral/GNG/scripts/analyses/Figs/
 **/initialCheck
 **/singleVarTxts
 **/varMats
