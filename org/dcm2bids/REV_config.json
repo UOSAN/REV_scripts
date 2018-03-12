@@ -2,14 +2,14 @@
     "descriptions": [
         {
             "dataType": "anat",
-            "modalityLabel": "acq1-T1w",
+            "modalityLabel": "T1w",
             "criteria": {
                 "SeriesDescription": "mprage1*"
             }
         },
         {
             "dataType": "anat",
-            "modalityLabel": "acq2-T1w",
+            "modalityLabel": "T1w",
             "criteria": {
                 "SeriesDescription": "mprage2*"
             }
@@ -128,8 +128,8 @@
         },
         {
             "dataType": "fmap",
-            "modalityLabel": "1",
-            "customLabels": "acq1-phasediff",
+            "modalityLabel": "phasediff",
+            "customLabels": "",
             "criteria": {
                 "SidecarFilename": "*fieldmap1_*_e2*",
                 "ProtocolName": "fieldmap1",
@@ -138,8 +138,8 @@
         },
         {
             "dataType": "fmap",
-            "modalityLabel": "2",
-            "customLabels": "acq1-magnitude",
+            "modalityLabel": "magnitude",
+            "customLabels": "",
             "criteria": {
                 "SidecarFilename": "*fieldmap1_*_e2*",
                 "ProtocolName": "fieldmap1",
@@ -150,8 +150,8 @@
         },
         {
             "dataType": "fmap",
-            "modalityLabel": "1",
-            "customLabels": "acq1-magnitude",
+            "modalityLabel": "magnitude1",
+            "customLabels": "",
             "criteria": {
                 "ProtocolName": "fieldmap1",
                 "EchoTime": 0.00437,
@@ -160,8 +160,8 @@
         },
         {
             "dataType": "fmap",
-            "modalityLabel": "1",
-            "customLabels": "acq2-phasediff",
+            "modalityLabel": "phasediff",
+            "customLabels": "",
             "criteria": {
                 "ProtocolName": "fieldmap2",
                 "ImageType": "P"
@@ -169,8 +169,8 @@
         },
         {
             "dataType": "fmap",
-            "modalityLabel": "2",
-            "customLabels": "acq2-magnitude",
+            "modalityLabel": "magnitude",
+            "customLabels": "",
             "criteria": {
                 "ProtocolName": "fieldmap2",
                 "EchoNumber": 2,
@@ -180,8 +180,8 @@
         },
         {
             "dataType": "fmap",
-            "modalityLabel": "1",
-            "customLabels": "acq2-magnitude",
+            "modalityLabel": "magnitude",
+            "customLabels": "",
             "criteria": {
                 "ProtocolName": "fieldmap2",
                 "EchoTime": 0.00437,
@@ -190,8 +190,8 @@
         },
                 {
             "dataType": "fmap",
-            "modalityLabel": "1",
-            "customLabels": "acq3-phasediff",
+            "modalityLabel": "phasediff",
+            "customLabels": "",
             "criteria": {
                 "ProtocolName": "fieldmap3",
                 "ImageType": "P"
@@ -199,8 +199,8 @@
         },
         {
             "dataType": "fmap",
-            "modalityLabel": "2",
-            "customLabels": "acq3-magnitude",
+            "modalityLabel": "magnitude",
+            "customLabels": "",
             "criteria": {
                 "ProtocolName": "fieldmap3",
                 "EchoNumber": 2,
@@ -210,8 +210,8 @@
         },
         {
             "dataType": "fmap",
-            "modalityLabel": "1",
-            "customLabels": "acq3-magnitude",
+            "modalityLabel": "magnitude1",
+            "customLabels": "",
             "criteria": {
                 "ProtocolName": "fieldmap3",
                 "EchoTime": 0.00437,
@@ -220,8 +220,8 @@
         },
                 {
             "dataType": "fmap",
-            "modalityLabel": "1",
-            "customLabels": "acq4-phasediff",
+            "modalityLabel": "phasediff",
+            "customLabels": "",
             "criteria": {
                 "ProtocolName": "fieldmap4",
                 "ImageType": "P"
@@ -229,8 +229,8 @@
         },
         {
             "dataType": "fmap",
-            "modalityLabel": "2",
-            "customLabels": "acq4-magnitude",
+            "modalityLabel": "magnitude",
+            "customLabels": "",
             "criteria": {
                 "ProtocolName": "fieldmap4",
                 "EchoNumber": 2,
@@ -240,8 +240,8 @@
         },
         {
             "dataType": "fmap",
-            "modalityLabel": "1",
-            "customLabels": "acq4-magnitude",
+            "modalityLabel": "magnitude1",
+            "customLabels": "",
             "criteria": {
                 "ProtocolName": "fieldmap4",
                 "EchoTime": 0.00437,
