@@ -94,3 +94,9 @@ for line in lines:
 	else:
 		with open(errorlog, 'a') as logfile:
 			logfile.write(subjectdir+os.linesep) 
+
+####################################
+# Permissions
+####################################
+
+subprocess.call(['chmod -R', '0770', logdir])
