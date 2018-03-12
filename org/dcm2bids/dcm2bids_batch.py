@@ -99,4 +99,4 @@ for line in lines:
 # Permissions
 ####################################
 
-subprocess.call(['chmod', '0o770', logdir])
+os.chmod(logdir, 0o770)
