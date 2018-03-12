@@ -40,7 +40,7 @@ outputlog=logdir + "/outputlog_dcmn2bids.txt"
 errorlog=logdir + "/errorlog_dcm2bids.txt"
 
 # Source the subject list (needs to be in your current working directory)
-subjectlist="subject_list.txt" 
+subjectlist="subject_list_test.txt" 
 
 ##################################
 # Directory Check & Log Creation
