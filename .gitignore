@@ -30,7 +30,7 @@ behavioral/REV_SST/scanning/
 behavioral/REV_SST/training/
 **/output
 **/data
-**/Figs
+behavioral/REV_SST/scripts/analyses/Figs/
 **/initialCheck
 **/singleVarTxts
 **/varMats
