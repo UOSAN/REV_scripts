@@ -113,7 +113,7 @@
                 {
             "dataType": "func",
             "modalityLabel": "bold",
-            "customLabels": "task-bart1",
+            "customLabels": "task-bart",
             "criteria": {
                 "SeriesDescription": "BART1*"
             }
@@ -121,7 +121,7 @@
         {
             "dataType": "func",
             "modalityLabel": "bold",
-            "customLabels": "task-bart2",
+            "customLabels": "task-bart",
             "criteria": {
                 "SeriesDescription": "BART2*"
             }
