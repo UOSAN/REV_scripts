@@ -138,7 +138,7 @@
         },
         {
             "dataType": "fmap",
-            "modalityLabel": "magnitude",
+            "modalityLabel": "magnitude2",
             "customLabels": "",
             "criteria": {
                 "SidecarFilename": "*fieldmap1_*_e2*",
@@ -169,7 +169,7 @@
         },
         {
             "dataType": "fmap",
-            "modalityLabel": "magnitude",
+            "modalityLabel": "magnitude2",
             "customLabels": "",
             "criteria": {
                 "ProtocolName": "fieldmap2",
@@ -180,7 +180,7 @@
         },
         {
             "dataType": "fmap",
-            "modalityLabel": "magnitude",
+            "modalityLabel": "magnitude1",
             "customLabels": "",
             "criteria": {
                 "ProtocolName": "fieldmap2",
@@ -199,7 +199,7 @@
         },
         {
             "dataType": "fmap",
-            "modalityLabel": "magnitude",
+            "modalityLabel": "magnitude2",
             "customLabels": "",
             "criteria": {
                 "ProtocolName": "fieldmap3",
@@ -229,7 +229,7 @@
         },
         {
             "dataType": "fmap",
-            "modalityLabel": "magnitude",
+            "modalityLabel": "magnitude2",
             "customLabels": "",
             "criteria": {
                 "ProtocolName": "fieldmap4",
