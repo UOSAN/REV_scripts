@@ -29,7 +29,6 @@ gitrepo="REV_scripts"
 dicomdir="/projects/lcni/dcm/" + group + "/Archive/" + study
 
 # Set directories
-archivedir="/projects/" + group + "/shared/" + study + "/archive"
 niidir="/projects/" + group + "/shared/" + study + "/bids_data"
 codedir= "/projects/" + group + "/shared/" + study + "/" + gitrepo + "/org/dcm2bids/" # Contains subject_list.txt, config file, and dcm2bids_batch.py
 configfile= codedir + study + "_config.json" # path to and name of config file
@@ -61,8 +60,6 @@ if not os.path.isfile(errorlog):
 	touch(errorlog)
 
 # Check directory dependencies
-if not os.path.isdir(archivedir):
-	os.mkdir(archivedir)
 if not os.path.isdir(niidir):
 	os.mkdir(niidir)
 if not os.path.isdir(dicomdir):

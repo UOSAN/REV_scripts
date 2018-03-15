@@ -16,9 +16,8 @@ study="REV"
 
 # Set directories
 logdir=os.getcwd()+"/logs_bidsQC"
-niidir="/projects/" + group + "/shared/" + study + "/archive/clean_nii"
 tempdir=niidir + "/tmp_dcm2bids"
-bidsdir="/projects/" + group + "/shared/" + study + "bids_data"
+niidir="/projects/" + group + "/shared/" + study + "bids_data"
 outputlog=logdir + "/outputlog_bidsQC.txt"
 errorlog=logdir + "/errorlog_bidsQC.txt"
 
