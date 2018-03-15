@@ -30,7 +30,7 @@ dicomdir="/projects/lcni/dcm/" + group + "/Archive/" + study
 
 # Set directories
 archivedir="/projects/" + group + "/shared/" + study + "/archive"
-niidir=archivedir + "/clean_nii"
+niidir="/projects/" + group + "/shared/" + study + "/bids_data"
 codedir= "/projects/" + group + "/shared/" + study + "/" + gitrepo + "/org/dcm2bids/" # Contains subject_list.txt, config file, and dcm2bids_batch.py
 configfile= codedir + study + "_config.json" # path to and name of config file
 image= "/projects/" + group + "/shared/containers/Dcm2Bids-master.simg"
