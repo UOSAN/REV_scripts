@@ -50,6 +50,42 @@ if not os.path.isfile(errorlog):
 #  Standard Options
 ##################################
 
+######
+# 1. Check for sequences that don't belong
+######
+
+# For sub in niftidir
+	# In /seswave1
+		# /anat
+			# Check against list of anat
+			# If doesn't belong, move to tmp_dcm2bids & print to outputlog
+		# /func
+			# Check agaianst list of ses1 task names
+			# If doesn't belong, move to tmp_dcm2bids & print to outputlog
+		# /fmap
+			# Check against list of fmaps
+			# If doesn't belong, move to tmp_dcm2bids & print to outputlog
+	# Repeat for additional seswaves (make this flexible)
+		# ...
+
+######
+# 2. 
+######
+
+# For sub in niftidir
+	# In /seswave1
+		# /anat
+			# If there are duplicates that don't belong, retain the largest (or highest run num?) and move the others to tmp_dcm2bids
+			# Print moved sequences to the output log
+		# /func
+			# If there are duplicates that don't belong, retain the largest (or highest run num?) and move the others to tmp_dcm2bids
+			# Print moved sequences to the output log
+		# /fmap
+			# If there are duplicates that don't belong, retain the largest (or highest run num?) and move the others to tmp_dcm2bids
+			# Print moved sequences to the output log
+	
+	
+
 # for dirpath, subdirs, files in os.walk(tempdir):
 # # For each sequence type in the subdirectory
 # 	for subdir in subdirs:
@@ -61,11 +97,7 @@ if not os.path.isfile(errorlog):
 	# 	with open(outputlog, 'a') as logfile:
 	# 		logfile.write(subject+"-"+wave+"_"+sequenceNumber+"-"+sequenceName+os.linesep)
 
-	# If there are duplicates of any sequences of interest (task, anat, fmap)
-	# Then copy the largest of those files to that participant's BIDS directory
-	# If the files are the same size, check whether they have run-## in their name & if so keep the last run
-	# Print that file to the output log
-	# Print the smaller files to an error log
+	
 
 
 
@@ -124,25 +156,10 @@ for dirpath, dirnames, files in os.walk(niidir):
 # Go into tmp_dcm2bids
 # move and rename the fmap and mprage files based on date and sequence order
 
-
-# Within clean_nii
+# Within nii_dir
 # Fix incorrect sequence names
 # Fix incorrect participant IDs
 
-
-##################################
-#  Populate BIDS Directory
-##################################
-
-# Copy all directories from the clean_nii folder to bids_data
-
-
-
-##################################
-#  Cleanup
-##################################
-
-# Remove tmp_dcm2bids directory and its contents
 
 
 
