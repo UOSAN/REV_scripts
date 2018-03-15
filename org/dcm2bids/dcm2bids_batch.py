@@ -93,9 +93,8 @@ for line in lines:
 			logfile.write(subjectdir+os.linesep) 
 
 ####################################
-# Permissions
+# Permissions (still working on this)
 ####################################
 
 os.chmod(logdir, 0o770)
-os.chmod(archivedir, 0o770)
 os.chmod(niidir, 0o770)

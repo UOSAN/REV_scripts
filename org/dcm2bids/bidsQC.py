@@ -14,17 +14,16 @@ import fnmatch
 group="sanlab"
 study="REV"
 
-# Set directories
+# Set directories (Check these for your study)
 logdir=os.getcwd()+"/logs_bidsQC"
-tempdir=niidir + "/tmp_dcm2bids"
 niidir="/projects/" + group + "/shared/" + study + "bids_data"
+tempdir=niidir + "/tmp_dcm2bids"
 outputlog=logdir + "/outputlog_bidsQC.txt"
 errorlog=logdir + "/errorlog_bidsQC.txt"
+derivatives=bidsdir + "/derivatives"
 
 # Sequence identifiers
 
-### SET THIS ###
-derivatives=bidsdir + "/derivatives"
 
 # Define a function to create files
 def touch(path):
@@ -38,6 +37,8 @@ if not os.path.isdir(derivatives):
 	os.mkdir(derivatives)	
 if not os.path.isdir(logdir):
 	os.mkdir(logdir)
+if not os.path.isdir(tempdir):
+	os.mkdir(tempdir)
 
 # Check/create log files
 if not os.path.isfile(outputlog):
