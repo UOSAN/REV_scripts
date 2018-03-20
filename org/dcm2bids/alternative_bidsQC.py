@@ -44,8 +44,8 @@ for fn in copy(split_filenames):
         continue
 
     # remove stuff that will be knowable in the column name
-    fn[0] = fn[0].strip('sub-')
     fn[1] = fn[1].strip('ses-wave')
+    fn[0] = fn[0].strip('sub-')
     fn[4] = fn[4].strip('run-')
 
     clean_split.append(fn)
