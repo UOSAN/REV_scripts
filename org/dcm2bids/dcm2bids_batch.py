@@ -45,9 +45,9 @@ subjectlist = "subject_list_test.txt"
 # Directory Check & Log Creation
 ##################################
 
-# Create log files
 # Define a function to create files
 def touch(path):
+    """Create a new file"""
     with open(path, 'a'):
         os.utime(path, None)
 

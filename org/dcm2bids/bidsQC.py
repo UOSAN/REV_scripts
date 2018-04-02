@@ -2,6 +2,10 @@
 #  Setup
 ##################################
 
+####### NOTES: DO THIS STUFF
+# os.path.join filepaths
+# Defined objects are usually capital
+
 # Import libraries
 import os
 import fnmatch
@@ -12,16 +16,30 @@ group = "sanlab"
 study = "REV"
 
 # Set directories (Check these for your study)
-logdir = os.getcwd() + "/logs_bidsQC"
-bidsdir = "/projects/" + group + "/shared/" + study + "bids_data"
+# logdir = os.getcwd() + "/logs_bidsQC"
+# bidsdir = "/projects/" + group + "/shared/" + study + "bids_data"
+# tempdir = bidsdir + "/tmp_dcm2bids"
+# outputlog = logdir + "/outputlog_bidsQC.txt"
+# errorlog = logdir + "/errorlog_bidsQC.txt"
+# derivatives = bidsdir + "/derivatives"
+
+# Set directories for local testing
+bidsdir = "/Users/kristadestasio/Desktop/bids_data"
+logdir = bidsdir + "/logs_bidsQC"
 tempdir = bidsdir + "/tmp_dcm2bids"
 outputlog = logdir + "/outputlog_bidsQC.txt"
 errorlog = logdir + "/errorlog_bidsQC.txt"
 derivatives = bidsdir + "/derivatives"
+number_timepoints = 2 # will be able to use length of list of timepoints created in the class thing
 
+
+# Create a dictionary (the thing below) for each timepoint in your study where the pairs are "sequence_directory_name" : "expected_number_runs"
+time1_sequences = {"anat" : 2, "fmap" : 2, "func" :  }
+time2_sequences =
 
 # Define a function to create files
 def touch(path):
+    """Create a new file"""
     with open(path, 'a'):
         os.utime(path, None)
 
@@ -42,109 +60,106 @@ if not os.path.isfile(outputlog):
 if not os.path.isfile(errorlog):
     touch(errorlog)
 
-##################################
-#  Standard Options
-##################################
 
-######
-# 1. Check for sequences that don't belong
-######
+# Functions to write to log files
+def write_to_outputlog(message):
+    with open(outputlog, 'a') as logfile:
+        logfile.write(message + os.linesep)
+    print(message)
 
-# For sub in niftidir
-  # In /seswave1
-    # /anat
-      # Check against list of anat
-      # If doesn't belong, move to tmp_dcm2bids & print to outputlog
-    # /func
-      # Check agaianst list of ses1 task names
-      # If doesn't belong, move to tmp_dcm2bids & print to outputlog
-    # /fmap
-      # Check against list of fmaps
-      # If doesn't belong, move to tmp_dcm2bids & print to outputlog
-  # Repeat for additional seswaves (make this flexible)
-    # ...
 
-######
-# 2.
-######
+def write_to_errorlog(message):
+    with open(errorlog, 'a') as logfile:
+        logfile.write(message + os.linesep)
+    print(message)
 
-# For sub in niftidir
-  # In /seswave1
-    # /anat
-      # If there are duplicates that don't belong, retain the largest (or highest run num?) and move the others to tmp_dcm2bids
-      # Print moved sequences to the output log
-    # /func
-      # If there are duplicates that don't belong, retain the largest (or highest run num?) and move the others to tmp_dcm2bids
-      # Print moved sequences to the output log
-    # /fmap
-      # If there are duplicates that don't belong, retain the largest (or highest run num?) and move the others to tmp_dcm2bids
-      # Print moved sequences to the output log
 
-# for dirpath, subdirs, files in os.walk(tempdir):
-# # For each sequence type in the subdirectory
-#   for subdir in subdirs:
-#     wave=subdir.split("_")[1]
-  # for file in files:
-  #   sequenceNumber=file.split("_")[0]
-  #   subject=file.split("_")[1]
-  #   sequenceName=file.split("_")[3]
-  #   with open(outputlog, 'a') as logfile:
-  #     logfile.write(subject+"-"+wave+"_"+sequenceNumber+"-"+sequenceName+os.linesep)
+############### In progress chunk / configurable part ###############
 
-for dirpath, dirnames, files in os.walk(bidsdir ):
-    directory_name = os.path.basename(dirpath)
-    if directory_name not in {'fmap', 'anat', 'func'}:
-        # Only process files in specific subdirectories
-        continue
-    for filename in files:
-        prefix, remainder = filename.partition('_')
-        if fnmatch.fnmatch(prefix, 'run-[0-9][0-9]'):
-            print(filename)
-# For each directoriy in the clean_nii directory
-# For each subdirectory
-# for dirpath, dirnames, files in os.walk(niidir):
-  # for file in files:
-  #   print(file)
-# For each sequence type in the subdirectory
+class TimePoint:
+    def __init__(self, name, sequences):
+        self.name = name # string
+        self.sequences = sequences # list of sequences
 
-# clear variable (last = nothing)
-  # for dirname in dirnames:
-  #   if dirname == "fmap" or dirname == "anat" or dirname == "func":
-  #     fullpath = dirpath + "/" + dirname
-  #     # check if run string in correct place
-  #     #for files in fullpath:
-  #     for file in os.listdir(fullpath):
-  #       chunks = file.split("_")
-  #       if (chunks[-2]) == glob.glob("run-[0-9][0-9]*"):
-  #         print(chunks[-2])
-          #if chunks[-3] == glob.glob(regex):
-          # print(file)
-              #file.split("_")[0:2] != glob.glob("run-[0-9]{2}") and
-              #if :
-            #print(file.split("_")[-2])
 
-  #subdirs = glob.glob(dirpath + "/sub-REV*")
-  # for subdir in subdirs:
-    # print(subdir)
-    # fmap = glob.glob(subdir + "/fmap")
-    # anat = glob.glob(subdir + "/anat")
-    # func = glob.glob(subdir + "/func")
-    # print(fmap)
-    # print(anat)
-    # print(func)
+class Sequence:
+    def __init__(self, name, tasks):
+        self.name = name # string
+        self.tasks = tasks # dictionary
 
-      #if file in files : # has run then
-    # retain the last run
-    # Print that file to the output log
-    # Remove the earlier runs and print them to an error log
 
-##################################
-#  Idiosyncratic Study Renaming
-##################################
+##################################################################
 
-# Go into tmp_dcm2bids
-# move and rename the fmap and mprage files based on date and sequence order
+# Main function for explosion of awesome
+def main():
+    """
+    Run the things.
+    """
+    subjectdirs = get_subjectdirs()
+    for subject in subjectdirs:
+        timepoints = get_timepoints(subject)
+        check_timepoints(timepoints, number_timepoints, subject)
+        for timepoint in timepoints:
+            check_sequence(subject, timepoint, expected_numruns, sequence_type)
 
-# Within nii_dir
-# Fix incorrect sequence names
-# Fix incorrect participant IDs
+
+# Check for subject directories
+def get_subjectdirs():
+    """
+    Returns subject directories based on the bidsdir (bids_data directory).
+
+    @rtype:  list
+    @return: list of bidsdir directories that start with the prefix sub
+    """
+    bidsdir_contents = os.listdir(bidsdir)
+    has_sub_prefix = [file for file in bidsdir_contents if file.startswith('sub-')]
+    return [file for file in has_sub_prefix if os.path.isdir(bidsdir + '/' + file)] # get subject directories
+
+
+# Get the timepoints
+def get_timepoints(subject):
+    """
+    Returns a list of ses-wave directory names in a participant's directory.
+
+    @type subject:  string
+    @param subject: subject folder name
+
+    @rtype:  list
+    @return: list of ses-wave folders in the subject directory
+    """
+    subject_fullpath = bidsdir + '/' + subject
+    subjectdir_contents = os.listdir(subject_fullpath)
+    return [f for f in subjectdir_contents if not f.startswith('.')]
+
+# Check subjects' sessions
+def check_timepoints(timepoints, expected_number_timepoints, subject):
+    """
+    Compare the expected number of ses-wave directories to the actual number and print the result to the output or errorlog.
+
+    @type timepoints:                       list
+    @param timepoints:                      list of ses-wave folders in the subject directory
+    @type expected_number_timepoints:       integer
+    @param expected_number_timepoints:      Number of timepoint folders each subject should have
+    @type subject:  string
+    @param subject: subject folder name
+    """
+    number_timepoints4realz = len(timepoints)
+    log_message = subject + " has " + str(number_timepoints4realz) + " ses-wave directories."
+    if expected_number_timepoints != number_timepoints4realz:
+        write_to_errorlog(log_message)
+    else:
+        write_to_outputlog(log_message)
+
+
+# Check files
+def check_sequence(subject, timepoint, expected_numruns, sequence_type):
+    sequence_fullpath = os.path.join(bidsdir, subject, timepoint, sequence_type)
+    if not os.path.isdir(sequence_fullpath):
+        write_to_errorlog(sequence_type + " folder missing for subject " + subject)
+    else:
+        write_to_outputlog(sequence_type + " folder exists for subject " + subject)
+
+
+# Call main
+main()
+
