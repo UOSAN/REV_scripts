@@ -195,20 +195,20 @@ def get_sequences(subject: str, timepoint: str) -> list:
 
 
 # Check subjects' sessions
-def check_sequence_folder_count(sequences: list, expected_sequences: list, subject: str, timepoint: str):
+def check_sequence_folder_count(sequence_folder_names: list, expected_sequences: list, subject: str, timepoint: str):
     """
     Compare the expected number of ses-wave directories to the actual number and print the result to the output or errorlog.
 
-    @type sequences:            list
-    @param sequences:           List of ses-wave folders in the subject directory
-    @type expected_sequence:    list
-    @param expected_sequence:   Number of timepoint folders each subject should have
-    @type subject:              string
-    @param subject:             Subject folder name
-    @type timepoint:            string
-    @param timepoint:           Timepoint folder name
+    @type sequence_folder_names:            list
+    @param sequence_folder_names:           List of sequence folders in the subject directory (e.g. anat, fmap, etc.)
+    @type expected_sequences:               list
+    @param expected_sequences:              Number of sequence folders each subject should have within the timepoint
+    @type subject:                          string
+    @param subject:                         Subject folder name
+    @type timepoint:                        string
+    @param timepoint:                       Timepoint folder name
     """
-    number_sequences_exist = len(sequences)
+    number_sequences_exist = len(sequence_folder_names)
     log_message = subject + " " + timepoint + " has " + str(number_sequences_exist) + " total sequence directories."
     if len(expected_sequences) != number_sequences_exist:
         write_to_errorlog("SEQUENCE DIRECTORY ERROR! " + log_message + " Expected " + str(len(expected_sequences)))
