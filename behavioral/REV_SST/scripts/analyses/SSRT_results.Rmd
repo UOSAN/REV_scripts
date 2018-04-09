@@ -10,6 +10,8 @@ output:
   pdf_document:
     toc: yes
     toc_depth: '3'
+editor_options: 
+  chunk_output_type: inline
 ---
 
 ```{r setup, include=FALSE}
@@ -486,15 +488,16 @@ SSRTcomplete$time <- factor(SSRTcomplete$time)
 SSRTcomplete$condition <- factor(SSRTcomplete$condition)
 
 # Multilevel model with intercept allowed to vary & fixed slopes for time & condition
-ppmodel <- lmer( SSRT_avg ~ time*condition + (1 |ID), data = SSRTcomplete )
-kable(round(anova(ppmodel),2)) # have to use anova table rather than summary
+multilevel_model <- lmer( SSRT_avg ~ time*condition + (1 |ID), data = SSRTcomplete )
+kable(round(anova(multilevel_model),2)) # have to use anova table rather than summary
+#model_norand <- lm( SSRT_avg ~ time*condition, data = SSRTcomplete )
 ```
 
 ### Repeated measures ANOVA test of main hypothesis for comparison
 ```{r Model pre-post change with ezANOVA and lmer}
 # Repeated measures ANOVA with SSRT as DV, time as within subs factor, and condition as between subs factor
-ezppmodel <- ez::ezANOVA(data = SSRTcomplete, dv = SSRT_avg, wid = ID, within = time, between = condition, type = 3, detailed = TRUE) 
-kable(ezppmodel$ANOVA)
+ezmultilevel_model <- ez::ezANOVA(data = SSRTcomplete, dv = SSRT_avg, wid = ID, within = time, between = condition, type = 3, detailed = TRUE) 
+kable(ezmultilevel_model$ANOVA)
 ```
 
 ### Plots
@@ -527,28 +530,29 @@ ggplot(plot_data, aes(x = condition, y = mean, fill = interaction(time, conditio
     ylab("SSRT (ms)") +
 scale_fill_manual(values = c("#28B463", "#90EE90", "#4169E1", "#87CEEB"),name = "Time", 
               labels = c("Baseline", "Endpoint", "Baseline","Endpoint")) +
-  ggtitle("Mean Stop-Signal Reaction Time at Pre and Post Intervention by Condition") +
+    theme(plot.title = element_text(hjust = 0.5)) +
+    ggtitle("Mean Stop-Signal Reaction Time at \nPre and Post Intervention by Condition") +
     coord_cartesian(ylim = c(200, 320))  +
     scale_y_continuous(breaks = seq(200, 320, 10)) +
-    theme(axis.text = element_text(size = 35),
-        axis.title = element_text(size = 35,face = "bold"),
-        legend.title = element_text(face = "bold", size = 24),
+    theme(axis.text = element_text(size = 24),
+        axis.title = element_text(size = 24, face = "bold"),
+        legend.title = element_text(size = 14, face = "bold"),
         legend.position = c(.98, .98),
         legend.justification = c("right", "top"),
         legend.key.size = unit(.5, "cm"),
-        legend.text = element_text(size = 18),
-        title = element_text(size = 18))
+        legend.text = element_text(size = 14),
+        title = element_text(size = 24))
 ```
 
 ```{r plot the model data}
-ggplot(df_SSRTprepost, aes(x= time, y= SSRT_avg, fill=condition)) +
-    geom_boxplot(na.rm=TRUE) +
+ggplot(SSRTcomplete, aes(x = time, y = SSRT_avg, fill = condition)) +
+    geom_boxplot(na.rm = TRUE) +
     theme(plot.title = element_text(hjust = 0.5)) +
     ggtitle("Pre and Post Stop Signal \nResponse Time (SSRT) by Group") + 
-    labs(x= "Time Point", y= "Stop Signal Response Time")+
-    scale_fill_discrete(name="Condition",
-                         breaks=c("control", "train"),
-                         labels=c("Control", "Training"))
+    labs(x = "Time Point", y = "Stop Signal Response Time") +
+    scale_fill_discrete(name = "Condition",
+                         breaks = c("control", "train"),
+                         labels = c("Control", "Training"))
 ```
 
 ## Final sample 
@@ -572,46 +576,51 @@ mlmodel <- lmer( SSRT ~ time + (1 + time|ID), data = df_SSRTtrain )
 summary(mlmodel)
 
 df_SSRT10ses$time <- as.numeric(df_SSRT10ses$time)
-full.mlModel<- lmer( SSRT ~ condition*time + (1 + time | ID), data = df_SSRT10ses)
-summary(full.mlModel)
+full_mlModel <- lmer( SSRT ~ condition*time + (1 + time | ID), data = df_SSRT10ses)
+summary(full_mlModel)
 ```
 
 ## Plots
 ```{r Boxplots of SST performance across time}
-ggplot(subset(df_SSRTclean, condition=="train" | condition=="control" & time %in% c("run1", "run2", "run13", "run14"))) + 
-    aes(x=time, y=SSRT, fill=condition) +
+ggplot(subset(df_SSRTclean, condition == "train" | condition == "control" & time %in% c("run1", "run2", "run13", "run14"))) + 
+    aes(x = time, y = SSRT, fill = condition) +
     geom_boxplot(na.rm = TRUE) +
     coord_flip() +
     scale_x_discrete(limits = rev(levels(df_SSRTclean$time))) +
     theme(plot.title = element_text(hjust = 0.5)) +
     ggtitle("Stop Signal Response Times \nby Time and Group") +
-    labs(x= "Time Point", y= "Stop Signal Response Time") +
-    scale_fill_discrete(name="Condition",
-                         breaks=c("control", "train"),
-                         labels=c("Control", "Training"))
+    labs(x = "Time Point", y = "Stop Signal Response Time") +
+    scale_fill_discrete(name = "Condition",
+                         breaks = c("control", "train"),
+                         labels = c("Control", "Training"))
 ```
 
 # Post-hoc
 ## Partial eta-squared
 ```{r Partial eta-squared}
-#SS.interaction <- anova.table$`Sum Sq`[4]
-#S.error <- anova.table$`Sum Sq`[5]
-#partial.etasq <- SS.interaction/(SS.interaction+SS.error)
+anova_table <- anova(multilevel_model)
+SS_interaction <- anova_table$'Sum Sq'[3]
+
+mlm_summary <- summary(multilevel_model)
+SS_error <- sum(mlm_summary$residuals^2)
+partial_etasq <- SS_interaction / (SS_interaction + 3705.7)
+meanSqError <- 3705.7
+
 ```
 
 ## Correlation coefficient for pre & post SSRT
 ```{r Correlation coefficient}
 # Create a date frame with averaged SSRT scores in separate columns for pre and post sessions
-#forCorr <- dcast(data=df_SSRTprepost, formula=ID~time, fun.aggregate = sum, value.var="SSRT_avg")
-#forCorr <- forCorr[,2:3]
+forCorr <- dcast(data = SSRTcomplete, formula = ID ~ time, fun.aggregate = sum, value.var = "SSRT_avg")
+forCorr <- forCorr[,2:3]
 
 # Calculate the correlation coeficient 
-#cor(x=forCorr$pre, y=forCorr$post, use="pairwise.complete.obs", method = "pearson")
+correlation_coeff <- cor(x = forCorr$pre, y = forCorr$post, use = "pairwise.complete.obs", method = "pearson")
 ```
 
 ```{r Final N}
 # Number of complete cases
-# length(!is.na(forCorr[,1] & forCorr[,2]))
+length(!is.na(forCorr[,1] & forCorr[,2]))
 ```
 
 ## Plots of outliers
@@ -640,9 +649,9 @@ p +
 ### Plots of raw SSRTs from base and end scans
 ```{r}
 ggplot(subset(df_rawSSRT, time %in% c("run1", "run2", "run13", "run14"))) +
-    aes(x= time, y= SSRT, label=ID) +
-    geom_point(na.rm=TRUE) +
-    geom_boxplot(range=2.5, outlier.size=4, outlier.colour="green") +
-    geom_text(aes(label=as.character(ID)),hjust=0, vjust=0, na.rm=TRUE) +
+    aes(x = time, y = SSRT, label = ID) +
+    geom_point(na.rm = TRUE) +
+    geom_boxplot(range = 2.5, outlier.size = 4, outlier.colour = "green") +
+    geom_text(aes(label = as.character(ID)),hjust = 0, vjust = 0, na.rm = TRUE) +
     ggtitle("Raw SSRTs During Scans, Outliers in Green are Beyond 1.5 IQR")
 ``` 
