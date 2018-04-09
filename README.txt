@@ -1,1 +1,1 @@
-This repository contains scripts for analysis of data collected for protocol 08042014.005, “Tailored Inhibitory Control Training to Reverse EA-Linked Deficits in Mid-Life.”
+This repository contains scripts for analysis of data collected for protocol 08042014.005, “Tailored Inhibitory Control Training to Reverse EA-Linked Deficits in Mid-Life.” 
