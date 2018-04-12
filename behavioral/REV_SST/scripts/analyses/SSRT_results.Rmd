@@ -11,7 +11,7 @@ output:
     toc: yes
     toc_depth: '3'
 editor_options: 
-  chunk_output_type: inline
+  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE}
@@ -626,23 +626,26 @@ length(!is.na(forCorr[,1] & forCorr[,2]))
 ## Plots of outliers
 ### Plots of cleaned, averaged SSRTs
 ```{r Look at SSRT_avg outliers in cleaned data}
-p <- ggplot(data=df_SSRTprepost, aes(x=time, SSRT_avg)) 
+p <- ggplot(data = df_SSRTprepost, aes(x = time, SSRT_avg)) 
 
 # Boxplot
 p +
-    geom_boxplot(outlier.size=4, outlier.colour="green") +
-    geom_text(label=df_SSRTprepost$ID) 
+    geom_boxplot(outlier.size = 4, outlier.colour = "green") +
+    geom_text(label = df_SSRTprepost$ID) 
+
 
 # Line plot
 p +
-    geom_line(aes(group=ID, color = factor(ID)))
+    geom_line(aes(group = ID, color = factor(condition)))
+p +
+    geom_line(aes(group = ID, color = factor(ID)))
 
 # Both plots overlaid
 
 p +
-    geom_boxplot(outlier.size=4, outlier.colour="green") +
-    geom_text(label=df_SSRTprepost$ID) +
-    geom_line(aes(group=ID, color = factor(ID))) +
+    geom_boxplot(outlier.size=4, outlier.colour = "green") +
+    geom_text(label = df_SSRTprepost$ID) +
+    geom_line(aes(group = ID, color = factor(ID))) +
     ggtitle("Averaged and Cleaned SSRTs During Scans, Outliers in Green are Beyond 1.5 IQR")
 ```
 
