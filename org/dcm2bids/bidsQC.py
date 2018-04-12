@@ -2,6 +2,8 @@
 #  Setup
 ##################################
 
+
+## USE 
 ####### NOTES: DO THIS STUFF
 # os.path.join filepaths
 # Defined objects are usually capital
@@ -11,6 +13,7 @@ import os
 import fnmatch
 import os.path
 from datetime import datetime
+import shutil
 
 # Set study info (change these for your study)
 group = "sanlab"
@@ -55,8 +58,8 @@ sequence1 = Sequence("func", {"bart": 1, "gng1":1, "gng2":1, "react1":1, "react2
 sequence2 = Sequence("func", {"bart": 1, "gng3":1, "gng4":1, "react3":1, "react4":1, "sst3":1, "sst4":1})
 sequence3 = Sequence("anat", {"T1w":1})
 sequence4 = Sequence("fmap", {"magnitude1":2, "magnitude2":2, "phasediff":2 })
-timepoint1 = TimePoint("ses-wave1", [sequence1]) #, sequence3, sequence4])
-timepoint2 = TimePoint("ses-wave2", [sequence2]) #, sequence3, sequence4])
+timepoint1 = TimePoint("ses-wave1", [sequence1, sequence3, sequence4])
+timepoint2 = TimePoint("ses-wave2", [sequence2, sequence3, sequence4])
 expected_timepoints = [timepoint1, timepoint2]  
 
 
@@ -181,13 +184,13 @@ def get_sequences(subject: str, timepoint: str) -> list:
     """
     Returns a list of sequence directory names (e.g. anat, fmap, etc.) in a participant's directory at a given timepoint.
     
-    @type subject:    string
-    @param subject:   Subject folder name    
-    @type timepoint:  string
-    @param timepoint: Timepoint folder name
+    @type subject:              string
+    @param subject:             Subject folder name    
+    @type timepoint:            string
+    @param timepoint:           Timepoint folder name
 
-    @rtype:  list
-    @return: list of sequence folders in the subject directory
+    @rtype:                     list
+    @return:                    list of sequence folders that exist in the subject directory
     """
     timepoint_fullpath = os.path.join(bidsdir, subject, timepoint)
     timepoint_contents = os.listdir(timepoint_fullpath)
@@ -232,29 +235,72 @@ def check_sequence_files(subject: str, timepoint: str, sequence: str, expected_s
     """
     sequence_fullpath = os.path.join(bidsdir, subject, timepoint, sequence)
     if not os.path.isdir(sequence_fullpath):
-        write_to_errorlog("ERROR! " + sequence + " folder missing for " + subject)
+        write_to_errorlog("FOLDER ERROR! " + sequence + " folder missing for " + subject)
     else:
         write_to_outputlog(sequence + " folder exists for subject " + subject)
     sequence_files = os.listdir(sequence_fullpath)
     for key in expected_sequence.files.keys():
-        json_files_found = 0
-        nifti_files_found = 0
-        for sf in sequence_files:
-            if key in sf and sf.endswith('.json'):
-                json_files_found += 1
-            if key in sf and sf.endswith('.nii.gz'):
-                nifti_files_found += 1
-        if json_files_found != expected_sequence.files[key]:
-            write_to_errorlog("JSON ERROR! " + subject + " missing " + key)
-        #else:
-         #   write_to_outputlog(subject + )
-        if nifti_files_found != expected_sequence.files[key]:
-            write_to_errorlog("NIFTI ERROR! " + subject + " missing " + key)
-        #else:
-            #write_to_outputlog(subject + ": nifti file number match.")
+        fix_files(sequence_fullpath, key, expected_sequence.files[key], "json", subject, timepoint)
+        fix_files(sequence_fullpath, key, expected_sequence.files[key], "nii.gz", subject, timepoint)
+        # json_files_found = 0
+        # nifti_files_found = 0
+        # for sf in sequence_files:
+            # if key in sf and sf.endswith('.json'):
+            #     json_files_found += 1
+            # if key in sf and sf.endswith('.nii.gz'):
+            #     nifti_files_found += 1
+        # if json_files_found < expected_sequence.files[key]:
+        #     write_to_errorlog("JSON ERROR! " + subject + " MISSING " + key + " file(s) in" + timepoint)
+        # elif json_files_found > expected_sequence.files[key]:
+        #     write_to_errorlog("JSON ERROR! " + subject + " TOO MANY " + key + " files in " + timepoint)
+        # else:
+        #     write_to_outputlog(subject + " has " + key + " JSON in " + timepoint)
+        # if nifti_files_found < expected_sequence.files[key]:
+        #     write_to_errorlog("NIFTI ERROR! " + subject + " MISSING " + key + " file(s) in " + timepoint)
+        # elif nifti_files_found > expected_sequence.files[key]:
+        #     write_to_errorlog("NIFTI ERROR! " + subject + " TOO MANY " + key + " files in " + timepoint)
+        # else:
+        #     write_to_outputlog(subject + " has " + key + " NIFTI in " + timepoint)
 
 
-# if sequence in TimePoint.sequences
+# Fix files
+def fix_files(sequence_fullpath: str, file_group: str, expected_numfiles: int, extension: str, subject: str, timepoint: str):
+    """
+
+    """
+    sequence_files = os.listdir(sequence_fullpath)
+    found_files = [file for file in sequence_files if file_group in file and file.endswith(extension)]
+    if len(found_files) == expected_numfiles:
+        write_to_outputlog( "%s has correct # of %s %s files in %s." % (subject, file_group, extension, timepoint))
+        return
+    if len(found_files) < expected_numfiles:
+        write_to_errorlog( "FILE ERROR! %s MISSING %s %s files in %s." % (subject, file_group, extension, timepoint))
+        return
+    if len(found_files) > expected_numfiles:
+        difference = len(found_files) - expected_numfiles
+        found_files.sort()
+        for found_file in found_files:
+            run_index = found_file.index("_run-")
+            run_number = found_file[run_index+ 5:run_index + 7]
+            run_int = int(run_number)
+            target_file = os.path.join(sequence_fullpath, found_file)
+            if run_int <= difference:
+                tempdir_fullpath = os.path.join(tempdir, subject + "_" + timepoint)
+                if not os.path.isdir(tempdir_fullpath):
+                    os.mkdir(tempdir_fullpath)
+                    shutil.move(target_file, tempdir_fullpath)
+            elif run_int > difference:
+                new_int = run_int - difference
+                new_filename = found_file.replace("_run-" + run_number, "_run-" + str(new_int)) # will need zero (also, 00 bad)
+                new_filename_path = os.path.join(sequence_fullpath, new_filename)
+                os.rename(target_file, new_filename_path)
+
+
+## TO DO:
+# leading zeros
+# drop run-## for files that should have only one run
+# Do the file rename for niftis (maybe by indexing from back to deal with gzipped or not)
+##
 
 # Call main
 main()
