@@ -1,0 +1,108 @@
+---
+title: "REV Questionnaire Data"
+author: "Melissa Moss"
+output:
+  html_document:
+    toc: yes
+    toc_depth: 3
+    toc_float: yes
+  pdf_document:
+    toc: yes
+    toc_depth: '3'
+---
+
+```{r setup, include=FALSE}
+rm(list=ls())
+#setwd("~/Desktop/REV_scripts/behavioral/surveys")
+setwd('~/Dropbox/AH Grad Stuff/SAP/REV_scripts/behavioral/surveys') #MM wd
+
+## Install and load required packages
+list.of.packages <- c("stringr", "tidyverse", "reshape2", "ggplot2", "psych", "gridExtra", "knitr", "lme4", "memisc", "withr", "haven", "ez")
+new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
+if(length(new.packages)) install.packages(new.packages)
+lapply(list.of.packages, library, character.only = TRUE)
+
+knitr::opts_chunk$set(fig.width=12, fig.height=8, fig.path='Figs/', echo=TRUE, warning=FALSE, message=FALSE)
+
+source("~/Dropbox/AH Grad Stuff/SAP/REV_scripts/behavioral/surveys/REV_surveydata.R")
+```
+
+```{r Missing_Check}
+ggplot(survey_data, aes(x=gender, y=subNAprop, group=subcategories, fill=subcategories)) + 
+  geom_bar(position=position_dodge(), stat="identity")
+
+medACEs<-median(survey_data$earlyAdverse)
+survey_data$medSplitACEs<-ifelse(survey_data$earlyAdverse>medACEs, 1, 0); survey_data$medSplitACEs<- as.factor(survey_data$medSplitACEs)
+
+ggplot(survey_data, aes(x=medSplitACEs, y=subNAprop, group=subcategories, fill=subcategories)) + 
+  geom_bar(position=position_dodge(), stat="identity")
+
+
+ezDesign(survey_data, subNAprop, categories)
+ezDesign(survey_data, subNAprop, earlyAdverse)
+ezDesign(survey_data, subNAprop, medSplitACEs)
+
+ezDesign(survey_data, gender, subNAprop)
+ezDesign(survey_data, subNAprop, gender)
+
+
+ezDesign(survey_data, PROBsubNAprop, categories)
+ezDesign(survey_data, PROBsubNAprop, earlyAdverse)
+ezDesign(survey_data, PROBsubNAprop, medSplitACEs) #hmmm....
+
+ezDesign(survey_data, gender, PROBsubNAprop)
+ezDesign(survey_data, PROBsubNAprop, gender)
+
+```
+
+
+# Participant Demographics 
+(N = 143) enrolled
+
+```{r Screening data descriptives}
+kable(as.matrix(psych::describe(screen_data$earlyAdverse)), caption = "Early Adverse Events of Enrolled Participants")
+#ACES <- screen_data[,c(1,31)]
+ACES <- dplyr::select(survey_data, 1, earlyAdverse) #get participant ID and ACEs score
+save(ACES, file = "ACES.Rda")
+#colnames(screen_data)
+```
+
+```{r Qualtrics demographics}
+# Sample size
+kable(as.matrix(table(survey_data$compltd_study)), caption = "Completed the Study?")
+
+# Get age
+kable(as.matrix(psych::describe(survey_data$age)), caption = "Ages, All Participants")
+kable(as.matrix(psych::describe(subset(survey_data, compltd_study=='1', select = age))), caption = "Ages, Final Sample")
+
+ggplot(data = survey_data) + 
+  geom_bar(mapping = aes(x = age, fill = compltd_study)) +
+    ggtitle("Participant Attrition by Age")
+
+
+# Get gender
+kable(as.matrix(summary(survey_data$gender)), caption = "Gender, All Participants")
+kable(as.matrix(summary(subset(survey_data, compltd_study=='1', select = gender))), caption = "Gender, Final Sample")
+
+# Get cultural/ethnic background
+kable(as.matrix(summary(survey_data$ethnicity)), caption = "Ethnic/Cultural Background, All Participants")
+kable(as.matrix(summary(subset(survey_data, compltd_study=='1', select = ethnicity))), caption = "Ethnic/Cultural Background, Final Sample")
+
+# How many categories were endorsed by the particpants
+kable(as.matrix(psych::describe(survey_data$categories)), caption = "Endorsed Categories, All Participants")
+kable(as.matrix(psych::describe(subset(survey_data, compltd_study=='1', select = categories))), caption = "Endorsed Categories, Final Sample")
+
+ggplot(data = survey_data) + 
+  geom_bar(mapping = aes(x = categories, fill = compltd_study)) +
+    ggtitle("Participant Attrition by Number of Categories")
+
+kable(as.matrix(psych::describe(survey_data$subcategories)), caption = "Endorsed Sub-categories, All Participants")
+kable(as.matrix(psych::describe(subset(survey_data, compltd_study=='1', select = subcategories))), caption = "Endorsed Sub-categories, Final Sample")
+
+ggplot(data = survey_data) + 
+  geom_bar(mapping = aes(x = subcategories, fill = compltd_study)) +
+    ggtitle("Participant Attrition by Number of Sub-categories")
+```
+
+
+
