@@ -8,15 +8,16 @@
 
 # Change this, path to data and script repos
 repopath="/Users/kristadestasio/Desktop"
+task="React"
 
 # Set paths 
-datadir="$repopath/REV_scripts/behavioral/GNG/data"
+datadir="$repopath/REV_scripts/behavioral/$task/data"
 sourcedir="$repopath/REV_BxData"
-logdir="$repopath/REV_scripts/behavioral/GNG/logs"
+logdir="$repopath/REV_scripts/behavioral/$task/logs"
 outputlog="$logdir/outputlog_copyData.txt"
 errorlog="$logdir/errorlog_copyData.txt"
 allsubs="$logdir/subjectlist.txt"
-outputdir="$repopath/REV_scripts/behavioral/GNG/output"
+outputdir="$repopath/REV_scripts/behavioral/$task/output"
 
 # Check directory dependencies
 if [ ! -d "${datadir}" ]; then
@@ -41,8 +42,8 @@ touch "${errorlog}"
 touch "${allsubs}"
 
 
-echo "Copying GNG data from $sourcedir to $datadir" > $outputlog
-echo "Errors during copy of GNG data from $sourcedir to $datadir" > $errorlog
+echo "Copying $task data from $sourcedir to $datadir" > $outputlog
+echo "Errors during copy of $task data from $sourcedir to $datadir" > $errorlog
 
 # Create a text file of all participants in the behavioral data folder
 cd $sourcedir/scanning
@@ -54,9 +55,9 @@ done
 for sub in ${sublist[@]}; do
 	if [ -d $sub ]; then
 		cd $sub
-		if [ -d base/GNG ]; then
-			cd base/GNG
-			if [ $(ls "${sourcedir}"/scanning/"${sub}"/base/GNG/*.mat | wc -l) -gt 0 ]; then
+		if [ -d base/$task ]; then
+			cd base/$task
+			if [ $(ls "${sourcedir}"/scanning/"${sub}"/base/"${task}"/*.mat | wc -l) -gt 0 ]; then
 				for baserun in $(ls *.mat); do
 					cp $baserun $datadir/$baserun
 				done
@@ -65,9 +66,9 @@ for sub in ${sublist[@]}; do
 			fi
 			cd ../..
 		fi
-		if [ -d end/GNG ]; then
-			cd end/GNG
-			if [ $(ls "${sourcedir}"/scanning/"${sub}"/end/GNG/*.mat | wc -l) -gt 0 ]; then
+		if [ -d end/$task ]; then
+			cd end/$task
+			if [ $(ls "${sourcedir}"/scanning/"${sub}"/end/"${task}"/*.mat | wc -l) -gt 0 ]; then
 				for endrun in $(ls *.mat); do
 					cp $endrun $datadir/$endrun
 				done

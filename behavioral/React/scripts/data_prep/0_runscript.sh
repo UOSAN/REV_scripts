@@ -5,10 +5,10 @@
 repopath="/Users/kristadestasio/Desktop" 
 
 echo "Copying GNG behavioral files"
-sh ${repopath}/REV_scripts/behavioral/GNG/scripts/data_prep/1_copyBxData.sh
+sh ${repopath}/REV_scripts/behavioral/React/scripts/data_prep/1_copyBxData.sh
 
 echo "Renaming GNG behavioral files"
-sh ${repopath}/REV_scripts/behavioral/GNG/scripts/data_prep/2_renameBxData.sh
+sh ${repopath}/REV_scripts/behavioral/React/scripts/data_prep/2_renameBxData.sh
 
 echo "Checking GNG behavioral files"
-sh ${repopath}/REV_scripts/behavioral/GNG/scripts/data_prep/3_checkExistsData.sh
+sh ${repopath}/REV_scripts/behavioral/React/scripts/data_prep/3_checkExistsData.sh
