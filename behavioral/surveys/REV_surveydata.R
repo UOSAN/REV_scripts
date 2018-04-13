@@ -1,18 +1,5 @@
----
-title: "REV Questionnaire Data"
-author: "Krista DeStasio"
-date: "10/7/2017"
-output:
-  html_document:
-    toc: yes
-    toc_depth: 3
-    toc_float: yes
-  pdf_document:
-    toc: yes
-    toc_depth: '3'
----
+#clean up REV Questionnaire Data
 
-```{r setup, include=FALSE}
 rm(list=ls())
 #setwd("~/Desktop/REV_scripts/behavioral/surveys")
 setwd('~/Dropbox/AH Grad Stuff/SAP/REV_scripts/behavioral/surveys') #MM wd
@@ -22,22 +9,22 @@ list.of.packages <- c("stringr", "tidyverse", "reshape2", "ggplot2", "psych", "g
 new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
 if(length(new.packages)) install.packages(new.packages)
 lapply(list.of.packages, library, character.only = TRUE)
-
-knitr::opts_chunk$set(fig.width=12, fig.height=8, fig.path='Figs/', echo=TRUE, warning=FALSE, message=FALSE)
-```
+#=====================================================================================================================
 
 #Note: The data frame created does not contain all survey data. Will need to create a complete data frame in the future.
 ### Key:
 
-**Key to variables in the screen_data data frame:**
+#**Key to variables in the screen_data data frame:**
+#- Gender: Male = 1, Female = 2  
+#- Use alcohol: 1 = yes, 2 = no  
+#- Make tobacco a factor 1 = yes, 2 = no  
+#- Self-control trouble with drugs: 1 = no, NA with score in subcategory = yes  
+#- Self-control trouble with food: 1 = no, NA with score in subcategory = yes  
 
-- Gender: Male = 1, Female = 2  
-- Use alcohol: 1 = yes, 2 = no  
-- Make tobacco a factor 1 = yes, 2 = no  
-- Self-control trouble with drugs: 1 = no, NA with score in subcategory = yes  
-- Self-control trouble with food: 1 = no, NA with score in subcategory = yes  
+#=====================================================================================================================
 
-```{r functions}
+#FUNCTIONS:
+
 ### function to get indices of various column names (based on scale prefixes)
 #grepfun<- function(coln,df) grep(coln, colnames(df))
 grepfun<- function(coln,df){
@@ -57,9 +44,11 @@ outL=findIndexInBL<- function(df, useL, outL,...){
   }
   return(outL)
 }
-```
 
-```{r Import qualtrics data}
+#=====================================================================================================================
+
+#IMPORT QUALTRICS DATA:
+
 #categories <- as.data.frame(read.table("~/Desktop/REV_scripts/behavioral/REV_SST/info/participantCategories.txt"))
 categories <- as.data.frame(read.table("~/Dropbox/AH Grad Stuff/SAP/REV_scripts/behavioral/REV_SST/info/participantCategories.txt")) #MM
 colnames(categories) <- c("ID", "compltd.study", "num.categories", "food", "alcohol", "tobacco", "drugs")
@@ -77,9 +66,10 @@ base_survey<-read_sav("~/Dropbox/AH Grad Stuff/SAP/REV_BxData/questionnaire_data
 #screen_data <- as.data.frame(read.csv('~/Dropbox/REV/behavioral_data/questionnaire_data/FromQualtrics/rev_screening.csv', stringsAsFactors = FALSE, skip = 1))
 screen_data <- as.data.frame(read.csv('~/Dropbox/AH Grad Stuff/SAP/REV_BxData/questionnaire_data/FromQualtrics/rev_screening.csv', stringsAsFactors = FALSE, skip = 1)) #MM
 
-```
+#=====================================================================================================================
 
-```{r Screening data column names}
+#SCREENING DATA COLUMN NAMES:
+
 colnames(screen_data) = c('responseID', 'responseSet', 'name', 'extData', 'email', 'ip', 'status', 'start', 'end', 'finish', 'scoreSum', 'scoreWeightAvg', 'scoreWeightSD', 'ID', 'screener', 'date', 'instruct1', 'instruct2', 'instruct3', 'instruct4', 'otherStudies', 'ageRange', 'ineligible1', 'englishNative', 'englishFluent', 'ineligible2', 'handedness', 'ineligible3', 'gender', 'pregnant', 'ineligible4', 'instruct5', 'selfControlProblms', 'foods', 'chocolate', 'cookies', 'donuts', 'fries', 'iceCream', 'pasta', 'pizza', 'alcohol', 'tobacco', 'drugs', 'marijuana', 'heroin', 'meth', 'pills', 'cocaine', 'endorsed', 'ineligible5', 'dietRestrict', 'instruct6', 'ineligible6', 'instruct7', 'ineligible7', 'mentalHealth', 'instruct8', 'earlyAdverse', 'ineligible8', 'ineligible9', 'instruct9', 'SSRI', 'ineligible10', 'ineligible11', 'ineligible12', 'instruct10', 'MRI', 'instruct11', 'food1', 'food2', 'food3', 'food4', 'food5', 'alcohol1', 'alcohol2', 'alcohol3', 'alcohol4', 'alcohol5', 'tobacco1', 'tobacco2', 'tobacco3', 'tobacco4', 'tobacco5', 'drugs1', 'drugs2', 'drugs3', 'drugs4', 'drugs5', 'eligible', 'ineligible13', 'enroll', 'lat', 'long', 'acc', 'empty')
 
 # Correct participant IDs (only for participants who were enrolled and later assigned subject IDs)
@@ -93,9 +83,11 @@ screen_data[574, 14] = '0854'
 
 # Remove duplicate screening rows (only for participants who were enrolled and later assigned subject IDs)
 screen_data <- screen_data[-c(86, 198, 296, 514), ] # 0087, 0246, 0412, 0615
-```
 
-```{r Clean phone screening data, include=FALSE}
+#=====================================================================================================================
+
+#CLEAN PHONE SCREENING DATA:
+
 # Subset the screening data. Drop unneeded columns
 screen_data <- dplyr::select(screen_data, scoreSum:enroll, -(contains('ineligible')), -(contains('instruct')), -(contains('Weight')), -(eligible), -(scoreSum))
 
@@ -120,16 +112,15 @@ idkey$ID <- withr::with_options(c(scipen = 999), str_pad(idkey$ID, 4, pad = "0")
 
 screen_data<-merge(idkey,screen_data, by="ID")
 screen_data<-screen_data[,c(2,32,35:54)] #only keep important screening data variables (including participant ID, *not* screening ID)
-screen_data <- dplyr::select(screen_data, -ID)
 
 names(screen_data)[names(screen_data)=="Participant.ID"]<-"ID" #rename participant ID as 'ID' to merge with survey_data df later
 screen_data$ID<-substring(screen_data$ID, 4) #get rid of 'REV' variable head (make IDs just 3-number codes so they'll match up with the base_survey and gen_survey IDs)
 
-```
+#=====================================================================================================================
 
-```{r Cleaning_Across_DFs}
+#CLEANING ACROSS DFS (two birds with one stone):
 
-###Get rid of instruction variables
+#Get rid of instruction variables
 for(s in c("base_survey","gen_survey")){
   df<-get(s)
   #MM Note: Since I had to use haven to read in the data, my first step is converting the variable names to all lowercase (to match the rest of the code!)
@@ -139,9 +130,10 @@ for(s in c("base_survey","gen_survey")){
   assign(s, df)
 }
 
-```
+#=====================================================================================================================
 
-```{r Clean base survey data}
+#CLEAN BASE SURVEY DATA:
+
 ## Truncate the data set to only columns that contain data
 #base_survey <- dplyr::select(base_survey, -(v1:v2), -(v4:sc0_2), -(bscs_inst), -(bscs_h_ins), -(audit_inst), -(pacs_instr), -(bscs_inst))
 base_survey <- dplyr::select(base_survey, -(v4:sc0_2)) #Column removal unique to this survey (I think?)
@@ -185,9 +177,11 @@ base_survey <- base_survey[,-c(1,2)] # drop the mismatch column & redundant surv
 #View(dups_link)
 
 base_survey <- merge(categories[,1:2], base_survey, by="ID", all=TRUE)
-```
 
-```{r Clean general survey data}
+#=====================================================================================================================
+
+#CLEAN GENERAL SURVEY DATA:
+
 # Truncate the data set to only columns that contain data
 #gen_survey <- dplyr::select(gen_survey, -(v1:v2), -(v4:v10), -(fhh_inst), -(fhh_inst.0), -(fhh_inst.1), -(fhh_inst.2))
 gen_survey <- dplyr::select(gen_survey, -c(v4:v10))
@@ -236,9 +230,11 @@ gen_survey <- gen_survey[,-c(1,2)] # drop the mismatch column & redundant survey
 #View(dups_link)
 
 gen_survey <- merge(categories[,1:2], gen_survey, by="ID", all=TRUE)
-```
 
-```{r Create a single data frame for base and gen surveys}
+#=====================================================================================================================
+
+#CREATE SINGLE DATA FRAME FOR BASE AND GEN SURVEYS:
+
 ## Prep gender columns to be combined
 #gen_survey$gender <- as.character(gen_survey$gender)
 #base_survey$gender <- as.character(base_survey$gender)
@@ -246,10 +242,10 @@ gen_survey$gender<-as.character(as_factor(gen_survey$gender))
 base_survey$gender<-as.character(as_factor(base_survey$gender)) #as_factor is from haven lib
 
 gen_survey <- gen_survey %>% 
-    mutate(gender= replace(gender, 
+  mutate(gender= replace(gender, 
                          which(gender == 'female'), 'Female')) 
 gen_survey <- gen_survey %>% 
-    mutate(gender= replace(gender, 
+  mutate(gender= replace(gender, 
                          which(gender == 'male'), 'Male')) 
 
 ## Change the values in the ethnicity column to the format used in the base survey so they match
@@ -271,34 +267,34 @@ base_survey$ethnicity <- as.character(as_factor(base_survey$ethnicity))
 
 # For ethnicity columns where ethnicity = white and hispanic = no, White, not of Hispanic Origin
 gen_survey <- gen_survey %>% 
-    mutate(ethnicity= replace(ethnicity, 
-                         which(ethnicity == 'white' & hispanic == 'no'), 'White, not of Hispanic Origin')) 
+  mutate(ethnicity= replace(ethnicity, 
+                            which(ethnicity == 'white' & hispanic == 'no'), 'White, not of Hispanic Origin')) 
 
 # For ethnicity columns where ethnicity = white and hispanic = yes, Hispanic
 gen_survey <- gen_survey %>% 
-    mutate(ethnicity= replace(ethnicity, 
-                         which(ethnicity == 'white' & hispanic == 'yes'), 'Hispanic')) 
+  mutate(ethnicity= replace(ethnicity, 
+                            which(ethnicity == 'white' & hispanic == 'yes'), 'Hispanic')) 
 
 # White
 gen_survey <- gen_survey %>% 
-    mutate(ethnicity= replace(ethnicity, 
-                         which(ethnicity == 'white'), 'White, not of Hispanic Origin')) #since the only white people still labelled 'white' are those with is.na(hispanic) 
+  mutate(ethnicity= replace(ethnicity, 
+                            which(ethnicity == 'white'), 'White, not of Hispanic Origin')) #since the only white people still labelled 'white' are those with is.na(hispanic) 
 base_survey <- base_survey %>% 
-    mutate(ethnicity= replace(ethnicity, 
-                         which(ethnicity == 'white'), 'White, not of Hispanic Origin')) 
+  mutate(ethnicity= replace(ethnicity, 
+                            which(ethnicity == 'white'), 'White, not of Hispanic Origin')) 
 
 # For ethnicity columns where ethnicity = black and hispanic = no, Black, not of Hispanic Origin
 gen_survey <- gen_survey %>% 
-    mutate(ethnicity= replace(ethnicity, 
-                     which(ethnicity == 'black'), 'Black, not of Hispanic Origin')) # No participants "Black, Hispanic" based on base survey responses
+  mutate(ethnicity= replace(ethnicity, 
+                            which(ethnicity == 'black'), 'Black, not of Hispanic Origin')) # No participants "Black, Hispanic" based on base survey responses
 
 gen_survey <- gen_survey %>% 
-    mutate(ethnicity= replace(ethnicity, 
-                         which(ethnicity == 'american indian'), 'American Indian or Alaskan Native'))
+  mutate(ethnicity= replace(ethnicity, 
+                            which(ethnicity == 'american indian'), 'American Indian or Alaskan Native'))
 
 gen_survey <- gen_survey %>% 
-    mutate(ethnicity= replace(ethnicity, 
-                         which(ethnicity == 'other'), 'Other'))
+  mutate(ethnicity= replace(ethnicity, 
+                            which(ethnicity == 'other'), 'Other'))
 
 # Replace missing gender and ethnicity values in the base_survey with those from the general survey
 base_survey$ethnicity <- ifelse(test = is.na(base_survey$ethnicity), yes = gen_survey$ethnicity, no = base_survey$ethnicity)
@@ -366,7 +362,7 @@ survey_data <- survey_data[-143,] # ID 143 was not assigned to a participant
 
 # Make the endorsed categories variables into factors
 for(col in cols) {
-    survey_data[col][is.na(survey_data[col])] <- 0
+  survey_data[col][is.na(survey_data[col])] <- 0
 }
 survey_data[cols] <-
   lapply(survey_data[cols], factor,
@@ -384,29 +380,33 @@ survey_data <- dplyr::select(survey_data, -(compltd.study.y), -(gender.y:hispani
 # Use participant ID to add screening data to 'survey_data'
 survey_data<-merge(survey_data, screen_data, by="ID")
 
-```
+#=====================================================================================================================
 
-FROM SCREEN_DATA:
-food1-5
-alcohol1-5
-tobacco1-5
-drugs1-5
+#FROM SCREEN_DATA:
+#  food1-5
+#  alcohol1-5
+#  tobacco1-5
+#  drugs1-5
 
-Scale: 1not at all - 5very much
+#Scale: 1not at all - 5very much
 
-1. I am good at resisting ___. 
-2. I have a hard time breaking the habit of using ___.
-3. I use ___ if it is enjoyable.
-4. ___ sometimes keeps me from getting work done.
-5. Sometimes, I can't stop myself from using ___, even if I know it is wrong.
+#1. I am good at resisting ___. 
+#2. I have a hard time breaking the habit of using ___.
+#3. I use ___ if it is enjoyable.
+#4. ___ sometimes keeps me from getting work done.
+#5. Sometimes, I can't stop myself from using ___, even if I know it is wrong.
 
 
+#=====================================================================================================================
 ## The next two chunks will change NAs to '999' for questionnaires that are not associated with endorsed craving stimuli!
 ## This means that true NAs will now be coded 999 (though we can obviously change that again later)
-```{r prep_variables_for_missing_check}
+#=====================================================================================================================
+
+#PREP VARIABLES FOR MISSING CHECK:
+
 Vices<-colnames(dplyr::select(survey_data, starts_with("probs_")))
 for(i in Vices){
-  assign(i, list())
+assign(i, list())
 }
 ViceLS<-paste0(Vices,"L")
 
@@ -429,39 +429,38 @@ probs_pizzaL<- c("LE", "DEBQ", "FCI_Pi")
 #Then get all indices for the associated survey items
 ct<-1
 for(v in Vices){
-  p<-get(v)
-  l<-tolower(get(ViceLS[ct])) #list of 'starts_with'/grep-able column names associated with v (probs_*)
-  p=findIndexInBL(survey_data,l,p)
-  p<-unlist(p)
-  assign(v, p[p>20])
-  ct<-ct+1
-  survey_data[p]
+p<-get(v)
+l<-tolower(get(ViceLS[ct])) #list of 'starts_with'/grep-able column names associated with v (probs_*)
+p=findIndexInBL(survey_data,l,p)
+p<-unlist(p)
+assign(v, p[p>20])
+ct<-ct+1
+survey_data[p]
 }
 
-#still need to put NA count over number of items that should have been entered
+#=====================================================================================================================
 
-```
+#REPLACE NAs
 
-```{r replace_NAs}
 #This is the chunk where we actually recode true NAs to '999'
 
 #do the thing
 for(v in 1:length(Vices)){
-  e<-Vices[v] #Name of problem endorsed
-  p<-get(Vices[v]) #Indices of all items from scales that are associated with that problem
-  print(paste0(e, ": ", get(ViceLS[v]))) #display the problem and name of associated scales (my own sanity check)
-  for(i in p){
-    survey_data[i][is.na(survey_data[i]) & survey_data[e]=="no"]<-999 #change real NAs to 999
-    print(variable.names(survey_data[i]))
-  }
-} #print to double check that I've put the right variables together!
-
-
-#Get number of items associated with each possible endorsed problem
-for(v in Vices){
-  s<-length(get(v))
-  assign(paste0(v,"_ct"),s)
+e<-Vices[v] #Name of problem endorsed
+p<-get(Vices[v]) #Indices of all items from scales that are associated with that problem
+print(paste0(e, ": ", get(ViceLS[v]))) #display the problem and name of associated scales (my own sanity check)
+for(i in p){
+survey_data[i][is.na(survey_data[i]) & survey_data[e]=="no"]<-999 #change real NAs to 999
+print(variable.names(survey_data[i]))
 }
+} #print to double check that I've put the right variables together!
+  
+  
+  #Get number of items associated with each possible endorsed problem
+  for(v in Vices){
+    s<-length(get(v))
+    assign(paste0(v,"_ct"),s)
+  }
 
 ViceCT<-paste0(Vices,"_ct")
 
@@ -475,10 +474,10 @@ for(v in 1:length(Vices)){
 #The last problem-specific item is column 202, so everyone should have answered 203-515
 survey_data$itemTally<-survey_data$PROBitemTally+length(203:515) #Each participants' total number of items they should have responded to
 
-```
+#=====================================================================================================================
 
-```{r}
-#Get subject-wise total NA counts
+#GET SUBJECT-WISE NA COUNTS
+
 #The last problem-specific item is column 202, so everyone will have 203-515
 survey_data$subNAcount <- apply(survey_data[,21:515], 1, function(x) sum(is.na(x))) #out of all items that should have been answered
 survey_data$PROBsubNAcount <- apply(survey_data[,21:202], 1, function(x) sum(is.na(x))) #this is just for the problem variables
@@ -487,11 +486,10 @@ survey_data$itemTally<-as.numeric(survey_data$itemTally); survey_data$PROBitemTa
 survey_data<- survey_data %>% group_by() %>%
   mutate(subNAprop=subNAcount/itemTally, PROBsubNAprop=PROBsubNAcount/PROBitemTally)
 
-```
+#=====================================================================================================================
 
+#SConS QUESTIONNAIRE SCORING
 
-## Score the SConS questionnaire
-```{r SConS scoring}
 ## Reverse coding items
 # scons_cols <- colnames(survey_data[,450:462])
 # survey_data[scons_cols] <-
@@ -510,10 +508,11 @@ survey_data$scons_total <- rowSums(survey_data[scons_cols]) # Total SConS score
 
 # How many survey responses do we have? 114
 table(!is.na(survey_data[,"scons_total"]))
-```
 
-## Score the BIS questionnaire
-```{r BIS soring}
+#=====================================================================================================================
+
+#BIS QUESTIONNAIRE SCORING
+
 ## Reverse coding items
 # BIS_cols <- colnames(survey_data[,400:429])
 # survey_data[BIS_cols] <-
@@ -539,55 +538,11 @@ survey_data$bis_total <- rowSums(survey_data[,c("bis_attn", "bis_motor", "bis_no
 
 # How many survey responses do we have? 116
 table(!is.na(survey_data[,"bis_total"]))
-```
 
-# Participant Demographics 
-(N = 143) enrolled
+#=====================================================================================================================
+#STILL NEED TO SCORE ALL OTHER QUESTIONNAIRES!
 
-```{r Screening data descriptives}
-kable(as.matrix(psych::describe(screen_data$earlyAdverse)), caption = "Early Adverse Events of Enrolled Participants")
-#ACES <- screen_data[,c(1,31)]
-ACES <- dplyr::select(survey_data, 1, earlyAdverse) #get participant ID and ACEs score
-save(ACES, file = "ACES.Rda")
-#colnames(screen_data)
-```
-
-```{r Qualtrics demographics}
-# Sample size
-kable(as.matrix(table(survey_data$compltd_study)), caption = "Completed the Study?")
-
-# Get age
-kable(as.matrix(psych::describe(survey_data$age)), caption = "Ages, All Participants")
-kable(as.matrix(psych::describe(subset(survey_data, compltd_study=='1', select = age))), caption = "Ages, Final Sample")
-
-ggplot(data = survey_data) + 
-  geom_bar(mapping = aes(x = age, fill = compltd_study)) +
-    ggtitle("Participant Attrition by Age")
-
-
-# Get gender
-kable(as.matrix(summary(survey_data$gender)), caption = "Gender, All Participants")
-kable(as.matrix(summary(subset(survey_data, compltd_study=='1', select = gender))), caption = "Gender, Final Sample")
-
-# Get cultural/ethnic background
-kable(as.matrix(summary(survey_data$ethnicity)), caption = "Ethnic/Cultural Background, All Participants")
-kable(as.matrix(summary(subset(survey_data, compltd_study=='1', select = ethnicity))), caption = "Ethnic/Cultural Background, Final Sample")
-
-# How many categories were endorsed by the particpants
-kable(as.matrix(psych::describe(survey_data$categories)), caption = "Endorsed Categories, All Participants")
-kable(as.matrix(psych::describe(subset(survey_data, compltd_study=='1', select = categories))), caption = "Endorsed Categories, Final Sample")
-
-ggplot(data = survey_data) + 
-  geom_bar(mapping = aes(x = categories, fill = compltd_study)) +
-    ggtitle("Participant Attrition by Number of Categories")
-
-kable(as.matrix(psych::describe(survey_data$subcategories)), caption = "Endorsed Sub-categories, All Participants")
-kable(as.matrix(psych::describe(subset(survey_data, compltd_study=='1', select = subcategories))), caption = "Endorsed Sub-categories, Final Sample")
-
-ggplot(data = survey_data) + 
-  geom_bar(mapping = aes(x = subcategories, fill = compltd_study)) +
-    ggtitle("Participant Attrition by Number of Sub-categories")
-```
+print("Heads up: Not done with scoring!")
 
 
 
