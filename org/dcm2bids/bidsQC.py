@@ -286,7 +286,6 @@ def fix_files(sequence_fullpath: str, file_group: str, expected_numfiles: int, e
     """
     sequence_files = os.listdir(sequence_fullpath)
     found_files = [file for file in sequence_files if file_group in file and file.endswith(extension)]
-    print(found_files)
     if len(found_files) == expected_numfiles:
         write_to_outputlog( "%s has correct # of %s %s files in %s." % (subject, file_group, extension, timepoint))
         return
@@ -305,16 +304,16 @@ def fix_files(sequence_fullpath: str, file_group: str, expected_numfiles: int, e
                 tempdir_fullpath = os.path.join(tempdir, subject + "_" + timepoint)
                 if not os.path.isdir(tempdir_fullpath):
                     os.mkdir(tempdir_fullpath)
-                    shutil.move(target_file, tempdir_fullpath)
+                shutil.move(target_file, tempdir_fullpath)
             elif run_int > difference:
                 new_int = run_int - difference
-                new_filename = found_file.replace("_run-" + run_number, "_run-" + str(new_int)) # will need zero (also, 00 bad)
+                int_str = str(new_int)
+                new_filename = found_file.replace("_run-" + run_number, "_run-" + int_str.zfill(2))
                 new_filename_path = os.path.join(sequence_fullpath, new_filename)
                 os.rename(target_file, new_filename_path)
 
 
 ## TO DO:
-# leading zeros
 # drop run-## for files that should have only one run
 # Do the file rename for niftis (maybe by indexing from back to deal with gzipped or not)
 ##
