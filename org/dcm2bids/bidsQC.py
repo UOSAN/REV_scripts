@@ -8,6 +8,7 @@ import fnmatch
 import os.path
 from datetime import datetime
 import shutil
+import re
 
 # Set study info (change these for your study)
 group = "sanlab"
@@ -230,29 +231,9 @@ def check_sequence_files(subject: str, timepoint: str, sequence: str, expected_s
         write_to_errorlog("FOLDER ERROR! " + sequence + " folder missing for " + subject)
     else:
         write_to_outputlog(sequence + " folder exists for subject " + subject)
-    sequence_files = os.listdir(sequence_fullpath)
     for key in expected_sequence.files.keys():
         fix_files(sequence_fullpath, key, expected_sequence.files[key], "json", subject, timepoint)
         fix_files(sequence_fullpath, key, expected_sequence.files[key], "nii.gz", subject, timepoint)
-        # json_files_found = 0
-        # nifti_files_found = 0
-        # for sf in sequence_files:
-            # if key in sf and sf.endswith('.json'):
-            #     json_files_found += 1
-            # if key in sf and sf.endswith('.nii.gz'):
-            #     nifti_files_found += 1
-        # if json_files_found < expected_sequence.files[key]:
-        #     write_to_errorlog("JSON ERROR! " + subject + " MISSING " + key + " file(s) in" + timepoint)
-        # elif json_files_found > expected_sequence.files[key]:
-        #     write_to_errorlog("JSON ERROR! " + subject + " TOO MANY " + key + " files in " + timepoint)
-        # else:
-        #     write_to_outputlog(subject + " has " + key + " JSON in " + timepoint)
-        # if nifti_files_found < expected_sequence.files[key]:
-        #     write_to_errorlog("NIFTI ERROR! " + subject + " MISSING " + key + " file(s) in " + timepoint)
-        # elif nifti_files_found > expected_sequence.files[key]:
-        #     write_to_errorlog("NIFTI ERROR! " + subject + " TOO MANY " + key + " files in " + timepoint)
-        # else:
-        #     write_to_outputlog(subject + " has " + key + " NIFTI in " + timepoint)
 
 
 # Fix files
@@ -298,11 +279,17 @@ def fix_files(sequence_fullpath: str, file_group: str, expected_numfiles: int, e
                     os.mkdir(tempdir_fullpath)
                 shutil.move(target_file, tempdir_fullpath)
             elif run_int > difference:
-                new_int = run_int - difference
-                int_str = str(new_int)
-                new_filename = found_file.replace("_run-" + run_number, "_run-" + int_str.zfill(2))
-                new_filename_path = os.path.join(sequence_fullpath, new_filename)
-                os.rename(target_file, new_filename_path)
+                if expected_numfiles == 1:
+                    #regex = re.compile("_run-\D\D")
+                    new_filename = found_file.replace("_run-" + run_number, '')
+                    new_filename_path = os.path.join(sequence_fullpath, new_filename)
+                    os.rename(target_file, new_filename_path)
+                elif expected_numfiles > 1:
+                    new_int = run_int - difference
+                    int_str = str(new_int)
+                    new_filename = found_file.replace("_run-" + run_number, "_run-" + int_str.zfill(2))
+                    new_filename_path = os.path.join(sequence_fullpath, new_filename)
+                    os.rename(target_file, new_filename_path)
 
 
 ## TO DO:
