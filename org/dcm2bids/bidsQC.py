@@ -6,7 +6,7 @@
 ## USE 
 ####### NOTES: DO THIS STUFF
 # os.path.join filepaths
-# Defined objects are usually capital
+# Defined objects are usually capitalized
 
 # Import libraries
 import os
@@ -40,14 +40,14 @@ derivatives = bidsdir + "/derivatives"
 
 class TimePoint:
     def __init__(self, name: str, sequences: list):
-        self.name = name # string
-        self.sequences = sequences # list of sequences
+        self.name = name 
+        self.sequences = sequences 
 
 
 class Sequence:
     def __init__(self, name: str, files: dict):
-        self.name = name # string
-        self.files = files # dictionary
+        self.name = name 
+        self.files = files 
 
 
 ##################################################################
@@ -229,7 +229,7 @@ def check_sequence_files(subject: str, timepoint: str, sequence: str, expected_s
     @type timepoint:                        string
     @param timepoint:                       Name of timepoint
     @type sequence:                         str
-    @param sequence:                        Name of sequence folder
+    @param sequence:                        Name of sequence folder (e.g. anat, fmap, etc.)
     @type expected_sequence:                object
     @param expected_sequence:               The expected sequence
     """
@@ -266,10 +266,27 @@ def check_sequence_files(subject: str, timepoint: str, sequence: str, expected_s
 # Fix files
 def fix_files(sequence_fullpath: str, file_group: str, expected_numfiles: int, extension: str, subject: str, timepoint: str):
     """
-
+    Compare the contents of a given sequence folder to the expected contents. \
+    If more than the expected number of runs of a file exist, move the appropriate \
+    number of files with the lowest run numbers to the tmp__dcm2bids folder. \
+    Then, change the run numbers for the remaining files.
+    
+    @type sequence_fillpath:                string
+    @param sequence_fullpath:               The full path to to the sequence folder
+    @type filegroup:                        string
+    @param filegroup:                       Name of files (e.g. T1w, taskname) to check
+    @type expected_numfiles:                integer
+    @param expected_numfiles:               The expected number of runs for the filegroup
+    @type: extension:                       string
+    @param extension:                       File extension
+    @type subject:                          string
+    @param subject:                         Subject folder name   
+    @type timepoint:                        string
+    @param timepoint:                       Name of timepoint
     """
     sequence_files = os.listdir(sequence_fullpath)
     found_files = [file for file in sequence_files if file_group in file and file.endswith(extension)]
+    print(found_files)
     if len(found_files) == expected_numfiles:
         write_to_outputlog( "%s has correct # of %s %s files in %s." % (subject, file_group, extension, timepoint))
         return
@@ -301,6 +318,7 @@ def fix_files(sequence_fullpath: str, file_group: str, expected_numfiles: int, e
 # drop run-## for files that should have only one run
 # Do the file rename for niftis (maybe by indexing from back to deal with gzipped or not)
 ##
+
 
 # Call main
 main()
