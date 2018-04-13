@@ -2,12 +2,6 @@
 #  Setup
 ##################################
 
-
-## USE 
-####### NOTES: DO THIS STUFF
-# os.path.join filepaths
-# Defined objects are usually capitalized
-
 # Import libraries
 import os
 import fnmatch
@@ -48,9 +42,6 @@ class Sequence:
     def __init__(self, name: str, files: dict):
         self.name = name 
         self.files = files 
-
-
-##################################################################
 
 
 # Create a dictionary (the thing below) for each timepoint in your study where the pairs are "sequence_directory_name" : "expected_number_runs"
@@ -178,6 +169,7 @@ def check_timepoint_count(timepoints: list, expected_timepoints: list, subject: 
         write_to_errorlog("TIMEPOINT ERROR! " + log_message + " Expected " + str(len(expected_timepoints)))
     else:
         write_to_outputlog(log_message)
+
 
 # Get sequences
 def get_sequences(subject: str, timepoint: str) -> list:
@@ -315,8 +307,8 @@ def fix_files(sequence_fullpath: str, file_group: str, expected_numfiles: int, e
 
 ## TO DO:
 # drop run-## for files that should have only one run
-# Do the file rename for niftis (maybe by indexing from back to deal with gzipped or not)
-##
+# Do the file rename for niftis by indexing from end of string to deal with gzipped or not)
+# Error logging 
 
 
 # Call main
