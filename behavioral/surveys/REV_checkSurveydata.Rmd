@@ -12,6 +12,9 @@ output:
 ---
 
 ```{r setup, include=FALSE}
+# git add .; git commit -m "did a thing"
+
+
 rm(list=ls())
 #setwd("~/Desktop/REV_scripts/behavioral/surveys")
 setwd('~/Dropbox/AH Grad Stuff/SAP/REV_scripts/behavioral/surveys') #MM wd
