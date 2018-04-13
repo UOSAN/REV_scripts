@@ -6,7 +6,7 @@
 ## USE 
 ####### NOTES: DO THIS STUFF
 # os.path.join filepaths
-# Defined objects are usually capital
+# Defined objects are usually capitalized
 
 # Import libraries
 import os
@@ -40,14 +40,14 @@ derivatives = bidsdir + "/derivatives"
 
 class TimePoint:
     def __init__(self, name: str, sequences: list):
-        self.name = name # string
-        self.sequences = sequences # list of sequences
+        self.name = name 
+        self.sequences = sequences 
 
 
 class Sequence:
     def __init__(self, name: str, files: dict):
-        self.name = name # string
-        self.files = files # dictionary
+        self.name = name 
+        self.files = files 
 
 
 ##################################################################
@@ -286,6 +286,7 @@ def fix_files(sequence_fullpath: str, file_group: str, expected_numfiles: int, e
     """
     sequence_files = os.listdir(sequence_fullpath)
     found_files = [file for file in sequence_files if file_group in file and file.endswith(extension)]
+    print(found_files)
     if len(found_files) == expected_numfiles:
         write_to_outputlog( "%s has correct # of %s %s files in %s." % (subject, file_group, extension, timepoint))
         return
