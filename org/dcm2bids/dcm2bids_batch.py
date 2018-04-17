@@ -9,7 +9,7 @@
 # https://uosanlab.atlassian.net/wiki/spaces/SW/pages/44269646/Convert+DICOM+to+BIDS
 #
 # In your current directory, you will need:
-#       - nii2bids_batch.py
+#       - dcm2bids_batch.py
 #       - subject_list.txt
 #       - the study config file (e.g. REV_config.json)
 
@@ -30,8 +30,8 @@ dicomdir = "/projects/lcni/dcm/" + group + "/Archive/" + study
 
 # Set directories
 niidir = "/projects/" + group + "/shared/" + study + "/bids_data"
-codedir = "/projects/" + group + "/shared/" + study + "/" + gitrepo + "/org/dcm2bids/" # Contains subject_list.txt, config file, and dcm2bids_batch.py
-configfile = codedir + study + "_config.json" # path to and name of config file
+codedir = "/projects/" + group + "/shared/" + study + "/" + gitrepo + "/org/dcm2bids/"  # Contains subject_list.txt, config file, and dcm2bids_batch.py
+configfile = codedir + study + "_config.json"  # path to and name of config file
 image = "/projects/" + group + "/shared/containers/Dcm2Bids-master.simg"
 logdir = codedir + "/logs_dcm2bids"
 
@@ -44,6 +44,7 @@ subjectlist = "subject_list_test.txt"
 ##################################
 # Directory Check & Log Creation
 ##################################
+
 
 # Define a function to create files
 def touch(path):
@@ -73,7 +74,7 @@ if not os.path.isdir(dicomdir):
 
 # Convert the dicoms of each participant in the subject_list.txt file
 with open(subjectlist) as file:
-    lines = file.readlines() # set variable name to file and read the lines from the file
+    lines = file.readlines()  # set variable name to file and read the lines from the file
 
 # Split the subject list into participant ID and session number
 for line in lines:
