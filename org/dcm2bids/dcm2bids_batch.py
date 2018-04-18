@@ -25,7 +25,8 @@ import subprocess
 # Set study info (may need to change for your study)
 group = "sanlab"
 study = "REV"
-gitrepo = "REV_scripts"
+
+gitrepo = "REV_scripts" # Parent folder that contains your org ("organization") and dcm2bids folders. If your directory structure is different, you'll have to adjust.
 dicomdir = "/projects/lcni/dcm/" + group + "/Archive/" + study
 
 # Set directories

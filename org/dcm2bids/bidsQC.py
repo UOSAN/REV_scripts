@@ -15,34 +15,34 @@ group = "sanlab"
 study = "REV"
 
 # Set directories (Check these for your study)
-# logdir = os.getcwd() + "/logs_bidsQC"
-# bidsdir = "/projects/" + group + "/shared/" + study + "bids_data"
-# tempdir = bidsdir + "/tmp_dcm2bids"
-# outputlog = logdir + "/outputlog_bidsQC.txt"
-# errorlog = logdir + "/errorlog_bidsQC.txt"
-# derivatives = bidsdir + "/derivatives"
+logdir = os.getcwd() + "/logs_bidsQC"
+bidsdir = "/projects/" + group + "/shared/" + study + "bids_data"
+tempdir = bidsdir + "/tmp_dcm2bids"
+outputlog = logdir + "/outputlog_bidsQC.txt" + datetime.now().strftime("%Y%m%d-%H%M%S") + ".txt"
+errorlog = logdir + "/errorlog_bidsQC.txt" + datetime.now().strftime("%Y%m%d-%H%M%S") + ".txt"
+derivatives = bidsdir + "/derivatives"
 
 # Set directories for local testing
-bidsdir = "/Users/kristadestasio/Desktop/bids_data"
-logdir = bidsdir + "/logs_bidsQC"
-tempdir = bidsdir + "/tmp_dcm2bids"
-outputlog = logdir + "/outputlog_bidsQC_" + datetime.now().strftime("%Y%m%d-%H%M%S") + ".txt"
-errorlog = logdir + "/errorlog_bidsQC_" + datetime.now().strftime("%Y%m%d-%H%M%S") + ".txt"
-derivatives = bidsdir + "/derivatives"
+#bidsdir = "/Users/kristadestasio/Desktop/bids_data"
+#logdir = bidsdir + "/logs_bidsQC"
+#tempdir = bidsdir + "/tmp_dcm2bids"
+# outputlog = logdir + "/outputlog_bidsQC_" + datetime.now().strftime("%Y%m%d-%H%M%S") + ".txt"
+# errorlog = logdir + "/errorlog_bidsQC_" + datetime.now().strftime("%Y%m%d-%H%M%S") + ".txt"
+# derivatives = bidsdir + "/derivatives"
 
 
 ############### In progress chunk / configurable part ###############
 
 class TimePoint:
     def __init__(self, name: str, sequences: list):
-        self.name = name 
-        self.sequences = sequences 
+        self.name = name
+        self.sequences = sequences
 
 
 class Sequence:
     def __init__(self, name: str, files: dict):
-        self.name = name 
-        self.files = files 
+        self.name = name
+        self.files = files
 
 
 # Create a dictionary (the thing below) for each timepoint in your study where the pairs are "sequence_directory_name" : "expected_number_runs"
@@ -52,7 +52,7 @@ sequence3 = Sequence("anat", {"T1w":1})
 sequence4 = Sequence("fmap", {"magnitude1":2, "magnitude2":2, "phasediff":2 })
 timepoint1 = TimePoint("ses-wave1", [sequence1, sequence3, sequence4])
 timepoint2 = TimePoint("ses-wave2", [sequence2, sequence3, sequence4])
-expected_timepoints = [timepoint1, timepoint2]  
+expected_timepoints = [timepoint1, timepoint2]
 
 
 # Define a function to create files
@@ -96,7 +96,7 @@ def write_to_errorlog(message):
     print(message)
 
 
-# Main function 
+# Main function
 def main():
     """
     Run the things.
@@ -175,9 +175,9 @@ def check_timepoint_count(timepoints: list, expected_timepoints: list, subject: 
 def get_sequences(subject: str, timepoint: str) -> list:
     """
     Returns a list of sequence directory names (e.g. anat, fmap, etc.) in a participant's directory at a given timepoint.
-    
+
     @type subject:              string
-    @param subject:             Subject folder name    
+    @param subject:             Subject folder name
     @type timepoint:            string
     @param timepoint:           Timepoint folder name
 
@@ -215,9 +215,9 @@ def check_sequence_folder_count(sequence_folder_names: list, expected_sequences:
 def check_sequence_files(subject: str, timepoint: str, sequence: str, expected_sequence: object):
     """
     Compare the contents of a given sequence folder to the expected contents.
-    
+
     @type subject:                          string
-    @param subject:                         Subject folder name   
+    @param subject:                         Subject folder name
     @type timepoint:                        string
     @param timepoint:                       Name of timepoint
     @type sequence:                         str
@@ -242,7 +242,7 @@ def fix_files(sequence_fullpath: str, file_group: str, expected_numfiles: int, e
     If more than the expected number of runs of a file exist, move the appropriate \
     number of files with the lowest run numbers to the tmp__dcm2bids folder. \
     Then, change the run numbers for the remaining files.
-    
+
     @type sequence_fillpath:                string
     @param sequence_fullpath:               The full path to to the sequence folder
     @type filegroup:                        string
@@ -252,7 +252,7 @@ def fix_files(sequence_fullpath: str, file_group: str, expected_numfiles: int, e
     @type: extension:                       string
     @param extension:                       File extension
     @type subject:                          string
-    @param subject:                         Subject folder name   
+    @param subject:                         Subject folder name
     @type timepoint:                        string
     @param timepoint:                       Name of timepoint
     """
