@@ -16,10 +16,10 @@ study = "REV"
 
 # Set directories (Check these for your study)
 logdir = os.getcwd() + "/logs_bidsQC"
-bidsdir = "/projects/" + group + "/shared/" + study + "bids_data"
+bidsdir = "/projects/" + group + "/shared/" + study + "/bids_data"
 tempdir = bidsdir + "/tmp_dcm2bids"
-outputlog = logdir + "/outputlog_bidsQC.txt" + datetime.now().strftime("%Y%m%d-%H%M%S") + ".txt"
-errorlog = logdir + "/errorlog_bidsQC.txt" + datetime.now().strftime("%Y%m%d-%H%M%S") + ".txt"
+outputlog = logdir + "/outputlog_bidsQC" + datetime.now().strftime("%Y%m%d-%H%M%S") + ".txt"
+errorlog = logdir + "/errorlog_bidsQC" + datetime.now().strftime("%Y%m%d-%H%M%S") + ".txt"
 derivatives = bidsdir + "/derivatives"
 
 # Set directories for local testing
