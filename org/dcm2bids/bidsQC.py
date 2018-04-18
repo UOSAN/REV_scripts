@@ -15,12 +15,12 @@ group = "sanlab"
 study = "REV"
 
 # Set directories (Check these for your study)
-<<<<<<< HEAD
+
 # logdir = os.getcwd() + "/logs_bidsQC"
 # bidsdir = "/projects/" + group + "/shared/" + study + "bids_data"
 # tempdir = bidsdir + "/tmp_dcm2bids"
-# outputlog = logdir + "/outputlog_bidsQC.txt" + datetime.now().strftime("%Y%m%d-%H%M%S") + ".txt"
-# errorlog = logdir + "/errorlog_bidsQC.txt" + datetime.now().strftime("%Y%m%d-%H%M%S") + ".txt"
+# outputlog = logdir + "/outputlog_bidsQC" + datetime.now().strftime("%Y%m%d-%H%M%S") + ".txt"
+# errorlog = logdir + "/errorlog_bidsQC" + datetime.now().strftime("%Y%m%d-%H%M%S") + ".txt"
 # derivatives = bidsdir + "/derivatives"
 =======
 logdir = os.getcwd() + "/logs_bidsQC"
@@ -29,7 +29,6 @@ tempdir = bidsdir + "/tmp_dcm2bids"
 outputlog = logdir + "/outputlog_bidsQC" + datetime.now().strftime("%Y%m%d-%H%M%S") + ".txt"
 errorlog = logdir + "/errorlog_bidsQC" + datetime.now().strftime("%Y%m%d-%H%M%S") + ".txt"
 derivatives = bidsdir + "/derivatives"
->>>>>>> 2541f5fa2d3995923c7c96643af6d358581b5e75
 
 # Set directories for local testing
 bidsdir = "/Users/kristadestasio/Desktop/bids_data"
