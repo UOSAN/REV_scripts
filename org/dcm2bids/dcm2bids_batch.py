@@ -54,7 +54,7 @@ def touch(path):
         os.utime(path, None)
 
 
-# Check/create log files
+# Check/create log files and directories
 if not os.path.isdir(logdir):
     os.mkdir(logdir)
 if not os.path.isfile(outputlog):
