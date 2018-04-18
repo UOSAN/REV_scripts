@@ -22,7 +22,8 @@ study = "REV"
 # outputlog = logdir + "/outputlog_bidsQC" + datetime.now().strftime("%Y%m%d-%H%M%S") + ".txt"
 # errorlog = logdir + "/errorlog_bidsQC" + datetime.now().strftime("%Y%m%d-%H%M%S") + ".txt"
 # derivatives = bidsdir + "/derivatives"
-=======
+
+
 logdir = os.getcwd() + "/logs_bidsQC"
 bidsdir = "/projects/" + group + "/shared/" + study + "/bids_data"
 tempdir = bidsdir + "/tmp_dcm2bids"
