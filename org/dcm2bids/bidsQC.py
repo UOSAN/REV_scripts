@@ -3,12 +3,12 @@
 ##################################
 
 # Import libraries
-import os
 import fnmatch
+import os
 import os.path
-from datetime import datetime
+#import re
 import shutil
-import re
+from datetime import datetime
 
 # Set study info (change these for your study)
 group = "sanlab"
@@ -16,28 +16,20 @@ study = "REV"
 
 # Set directories (Check these for your study)
 
-# logdir = os.getcwd() + "/logs_bidsQC"
-# bidsdir = "/projects/" + group + "/shared/" + study + "bids_data"
-# tempdir = bidsdir + "/tmp_dcm2bids"
-# outputlog = logdir + "/outputlog_bidsQC" + datetime.now().strftime("%Y%m%d-%H%M%S") + ".txt"
-# errorlog = logdir + "/errorlog_bidsQC" + datetime.now().strftime("%Y%m%d-%H%M%S") + ".txt"
-# derivatives = bidsdir + "/derivatives"
-
-
 logdir = os.getcwd() + "/logs_bidsQC"
-bidsdir = "/projects/" + group + "/shared/" + study + "/bids_data"
+bidsdir = "/projects/" + group + "/shared/" + study + "/bids_data_copy"
 tempdir = bidsdir + "/tmp_dcm2bids"
 outputlog = logdir + "/outputlog_bidsQC" + datetime.now().strftime("%Y%m%d-%H%M%S") + ".txt"
 errorlog = logdir + "/errorlog_bidsQC" + datetime.now().strftime("%Y%m%d-%H%M%S") + ".txt"
 derivatives = bidsdir + "/derivatives"
 
 # Set directories for local testing
-bidsdir = "/Users/kristadestasio/Desktop/bids_data"
-logdir = bidsdir + "/logs_bidsQC"
-tempdir = bidsdir + "/tmp_dcm2bids"
-outputlog = logdir + "/outputlog_bidsQC_" + datetime.now().strftime("%Y%m%d-%H%M%S") + ".txt"
-errorlog = logdir + "/errorlog_bidsQC_" + datetime.now().strftime("%Y%m%d-%H%M%S") + ".txt"
-derivatives = bidsdir + "/derivatives"
+# bidsdir = "/Users/kristadestasio/Desktop/bids_data"
+# logdir = bidsdir + "/logs_bidsQC"
+# tempdir = bidsdir + "/tmp_dcm2bids"
+# outputlog = logdir + "/outputlog_bidsQC_" + datetime.now().strftime("%Y%m%d-%H%M%S") + ".txt"
+# errorlog = logdir + "/errorlog_bidsQC_" + datetime.now().strftime("%Y%m%d-%H%M%S") + ".txt"
+# derivatives = bidsdir + "/derivatives"
 
 
 ############### In progress chunk / configurable part ###############
@@ -140,8 +132,8 @@ def get_subjectdirs() -> list:
     @return: list of bidsdir directories that start with the prefix sub
     """
     bidsdir_contents = os.listdir(bidsdir)
-    has_sub_prefix = [file for file in bidsdir_contents if file.startswith('sub-')]
-    return [file for file in has_sub_prefix if os.path.isdir(bidsdir + '/' + file)] # get subject directories
+    has_sub_prefix = [subdir for subdir in bidsdir_contents if subdir.startswith('sub-')]
+    return [subdir for subdir in has_sub_prefix if os.path.isdir(os.path.join(bidsdir, subdir))] # get subject directories
 
 
 # Get the timepoints
@@ -177,7 +169,7 @@ def check_timepoint_count(timepoints: list, expected_timepoints: list, subject: 
     if len(expected_timepoints) != number_timepoints_exist:
         write_to_errorlog("\n TIMEPOINT ERROR! %s Expected %s \n" % (log_message, str(len(expected_timepoints))))
     else:
-        write_to_outputlog("\n EXIST: %s \n" % (log_message))
+        write_to_outputlog("\n EXISTS: %s \n" % (log_message))
 
 
 # Get sequences
@@ -313,8 +305,3 @@ main()
 ## TO DO:
 # Do the file rename for niftis by indexing from end of string to deal with gzipped or not)
 # List unexpected files that exist in a directory
-# List missing files in a directory
-# Finish log messages
-
-
-
