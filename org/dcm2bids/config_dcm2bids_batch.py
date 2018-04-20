@@ -17,8 +17,8 @@ configfile = os.path.join(codedir, study + "_config.json")  # path to and name o
 image = os.path.join(os.sep, "projects", group, "shared", "containers", "Dcm2Bids-master.simg")
 logdir = os.path.join(codedir, "logs_dcm2bids")
 
-outputlog = os.path.join(logdir, "outputlog_dcmn2bids" + datetime.now().strftime("%Y%m%d-%H%M%S") + ".txt")
-errorlog = os.path.join(logdir, "errorlog_dcm2bids" + datetime.now().strftime("%Y%m%d-%H%M%S") + ".txt")
+outputlog = os.path.join(logdir, "outputlog_dcmn2bids" + datetime.now().strftime("%Y%m%d-%H%M") + ".txt")
+errorlog = os.path.join(logdir, "errorlog_dcm2bids" + datetime.now().strftime("%Y%m%d-%H%M") + ".txt")
 
 # Source the subject list (needs to be in your current working directory)
 subjectlist = "subject_list_test.txt"
