@@ -88,5 +88,3 @@ def change_permissions_recursive(path, mode):
 
 change_permissions_recursive('logdir', 0o777)
 change_permissions_recursive('niidir', 0o777)
-os.chmod(cfg.logdir, 0o770)
-os.chmod(cfg.niidir, 0o770)
