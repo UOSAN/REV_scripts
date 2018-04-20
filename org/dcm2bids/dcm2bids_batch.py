@@ -13,26 +13,16 @@
 #       - subject_list.txt
 #       - the study config file (e.g. REV_config.json)
 
-
-##################################
-# Setup
-##################################
-
 # Import libraries and configuration file
 import os
 import subprocess
 import config_dcm2bids_batch as cfg
-
-##################################
-# Directory Check & Log Creation
-##################################
 
 # Define a function to create files
 def touch(path):
     """Create a new file"""
     with open(path, 'a'):
         os.utime(path, None)
-
 
 # Check/create log files and directories
 if not os.path.isdir(cfg.logdir):
@@ -51,7 +41,7 @@ if not os.path.isdir(cfg.dicomdir):
 
 # Convert the dicoms of each participant in the subject_list.txt file
 with open(cfg.subjectlist) as file:
-    lines = file.readlines()  # set variable name to file and read the lines from the file
+    lines = file.readlines()  
 
 # Split the subject list into participant ID and session number
 for line in lines:
