@@ -70,8 +70,8 @@ def main():
         else:
             with open(cfg.errorlog, 'a') as logfile:
                 logfile.write(subjectdir + os.linesep)
-    change_permissions_recursive('logdir', 0o777)
-    change_permissions_recursive('niidir', 0o777)
+        change_permissions_recursive(cfg.logdir, 0o777)
+        change_permissions_recursive(cfg.niidir, 0o777)
 
 
 # Function to change permissions
