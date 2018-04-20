@@ -6,7 +6,6 @@
 import fnmatch
 import os
 import os.path
-#import re
 import shutil
 from datetime import datetime
 
