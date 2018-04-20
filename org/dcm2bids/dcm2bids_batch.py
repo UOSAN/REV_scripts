@@ -49,36 +49,32 @@ if not os.path.isdir(cfg.dicomdir):
     with open(cfg.errorlog, 'a') as logfile:
         logfile.write("Incorrect dicom directory specified")
 
-##################################
-# DICOM To BIDS Conversion
-##################################
+# Main script
 
-# Convert the dicoms of each participant in the subject_list.txt file
-with open(cfg.subjectlist) as file:
-    lines = file.readlines()  # set variable name to file and read the lines from the file
+def main():
+    with open(cfg.subjectlist) as file: 
+        lines = file.readlines()
+    for line in lines:
+        entry = line.strip()
+        subjectdir = entry.split(",")[0]
+        subject = entry.split(",")[1]
+        wave = entry.split(",")[2]
+        subjectpath = os.path.join(cfg.dicomdir, subjectdir)
+        if os.path.isdir(subjectpath):
+            with open(cfg.outputlog, 'a') as logfile:
+                logfile.write(subjectdir + os.linesep)
+            # Create a job to submit to the HPC with sbatch
+            batch_cmd = 'module load singularity; sbatch --job-name dcm2bids_{subjectdir} --partition=short --time 00:60:00 --mem-per-cpu=2G --cpus-per-task=1 -o {logdir}/{subjectdir}_dcm2bids_output.txt -e {logdir}/{subjectdir}_dcm2bids_error.txt --wrap="singularity run -B {dicomdir} -B {niidir} -B {codedir} {image} -d {subjectpath} -s {wave} -p {subject} -c {configfile} -o {niidir}  --forceDcm2niix --clobber"'.format(logdir=cfg.logdir, subjectdir=subjectdir, dicomdir=cfg.dicomdir, wave=wave, codedir=cfg.codedir, configfile=cfg.configfile, subject=subject, niidir=cfg.niidir, subjectpath=subjectpath, group=cfg.group, image=cfg.image)
+            # Submit the job
+            subprocess.call([batch_cmd], shell=True)
+        else:
+            with open(cfg.errorlog, 'a') as logfile:
+                logfile.write(subjectdir + os.linesep)
+    change_permissions_recursive('logdir', 0o777)
+    change_permissions_recursive('niidir', 0o777)
 
-# Split the subject list into participant ID and session number
-for line in lines:
-    entry = line.strip()
-    subjectdir = entry.split(",")[0]
-    subject = entry.split(",")[1]
-    wave = entry.split(",")[2]
-    subjectpath = os.path.join(cfg.dicomdir, subjectdir)
-    if os.path.isdir(subjectpath):
-        with open(cfg.outputlog, 'a') as logfile:
-            logfile.write(subjectdir + os.linesep)
-        # Create a job to submit to the HPC with sbatch
-        batch_cmd = 'module load singularity; sbatch --job-name dcm2bids_{subjectdir} --partition=short --time 00:60:00 --mem-per-cpu=2G --cpus-per-task=1 -o {logdir}/{subjectdir}_dcm2bids_output.txt -e {logdir}/{subjectdir}_dcm2bids_error.txt --wrap="singularity run -B {dicomdir} -B {niidir} -B {codedir} {image} -d {subjectpath} -s {wave} -p {subject} -c {configfile} -o {niidir}  --forceDcm2niix --clobber"'.format(logdir=cfg.logdir, subjectdir=subjectdir, dicomdir=cfg.dicomdir, wave=wave, codedir=cfg.codedir, configfile=cfg.configfile, subject=subject, niidir=cfg.niidir, subjectpath=subjectpath, group=cfg.group, image=cfg.image)
-        # Submit the job
-        subprocess.call([batch_cmd], shell=True)
-    else:
-        with open(cfg.errorlog, 'a') as logfile:
-            logfile.write(subjectdir + os.linesep)
 
-####################################
-# Permissions (still working on this)
-####################################
-
+# Function to change permissions
 def change_permissions_recursive(path, mode):
     for root, dirs, files in os.walk(path, topdown=False):
         for dir in [os.path.join(root,d) for d in dirs]:
@@ -86,5 +82,5 @@ def change_permissions_recursive(path, mode):
     for file in [os.path.join(root, f) for f in files]:
             os.chmod(file, mode)
 
-change_permissions_recursive('logdir', 0o777)
-change_permissions_recursive('niidir', 0o777)
+# Call main
+main()
