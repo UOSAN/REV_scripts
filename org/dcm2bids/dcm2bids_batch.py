@@ -61,8 +61,8 @@ with open(cfg.subjectlist) as file:
 for line in lines:
     entry = line.strip()
     subjectdir = entry.split(",")[0]
-    subject = subjectdir.split("_")[0]
-    wave = entry.split(",")[1]
+    subject = entry.split(",")[1]
+    wave = entry.split(",")[2]
     subjectpath = os.path.join(cfg.dicomdir, subjectdir)
     if os.path.isdir(subjectpath):
         with open(cfg.outputlog, 'a') as logfile:

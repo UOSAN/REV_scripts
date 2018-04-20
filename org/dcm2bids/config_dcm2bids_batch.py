@@ -20,4 +20,4 @@ outputlog = os.path.join(logdir, "outputlog_dcmn2bids.txt")
 errorlog = os.path.join(logdir, "errorlog_dcm2bids.txt")
 
 # Source the subject list (needs to be in your current working directory)
-subjectlist = "subject_list.txt"
+subjectlist = "subject_list_test.txt"
