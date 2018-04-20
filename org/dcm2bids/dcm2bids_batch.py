@@ -49,10 +49,6 @@ if not os.path.isdir(cfg.dicomdir):
     with open(cfg.errorlog, 'a') as logfile:
         logfile.write("Incorrect dicom directory specified")
 
-##################################
-# DICOM To BIDS Conversion
-##################################
-
 # Convert the dicoms of each participant in the subject_list.txt file
 with open(cfg.subjectlist) as file:
     lines = file.readlines()  # set variable name to file and read the lines from the file
