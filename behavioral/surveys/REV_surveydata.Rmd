@@ -74,21 +74,21 @@ outL = findIndexInBL <- function(df, useL, outL,...) {
 
 ```{r Import qualtrics data}
 #categories <- as.data.frame(read.table("~/Desktop/REV_scripts/behavioral/REV_SST/info/participantCategories.txt"))
-categories <- as.data.frame(read.table(paste0(catDir, "participantCategories.txt"))) #MM
+categories <- as.data.frame(read.table(paste0(catDir, "participantCategories.txt")))
 colnames(categories) <- c("ID", "compltd.study", "num.categories", "food", "alcohol", "tobacco", "drugs")
 categories <- categories[2:145,]
 
 ## General survey
 #gen_survey <- as.data.frame(as.data.set(spss.system.file('~/Dropbox/REV/behavioral_data/questionnaire_data/FromQualtrics/REV_General_Survey.sav')))
-gen_survey <- read_sav(paste0(dataDir, "REV_General_Survey.sav")) #MM
+gen_survey <- read_sav(paste0(dataDir, "REV_General_Survey.sav"))
 
 ## Baseline survey
 #base_survey <- as.data.frame(as.data.set(spss.system.file('~/Dropbox/REV/behavioral_data/questionnaire_data/FromQualtrics/REV_Baseline_Survey.sav')))
-base_survey <- read_sav(paste0(dataDir, "REV_Baseline_Survey.sav")) #MM
+base_survey <- read_sav(paste0(dataDir, "REV_Baseline_Survey.sav"))
 
 ## Screening data
 #screen_data <- as.data.frame(read.csv('~/Dropbox/REV/behavioral_data/questionnaire_data/FromQualtrics/rev_screening.csv', stringsAsFactors = FALSE, skip = 1))
-screen_data <- as.data.frame(read.csv(paste0(dataDir, "rev_screening.csv"), stringsAsFactors = FALSE, skip = 1)) #MM
+screen_data <- as.data.frame(read.csv(paste0(dataDir, "rev_screening.csv"), stringsAsFactors = FALSE, skip = 1))
 
 ```
 
