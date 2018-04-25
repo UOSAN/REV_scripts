@@ -36,7 +36,6 @@ def main():
                 else:
                     write_to_errorlog("SEQUENCE DIRECTORY ERROR! %s missing or user entered duplicate or non-existant sequence folder name." % (sequence_folder_name))
 
-
 # Define a function to create files
 def touch(path:str):
     """
@@ -74,16 +73,26 @@ def create_logfiles(logfile_fullpaths:list):
 
 # Functions to write to log files
 def write_to_outputlog(message):
+    """
+    Write a log message to the output log. Also print it to the terminal.
+
+    @type message:          string
+    @param message:         Message to be printed to the log
+    """
     with open(cfg.outputlog, 'a') as logfile:
         logfile.write(message + os.linesep)
     print(message)
 
-
 def write_to_errorlog(message):
+    """
+    Write a log message to the error log. Also print it to the terminal.
+
+    @type message:          string
+    @param message:         Message to be printed to the log
+    """
     with open(cfg.errorlog, 'a') as logfile:
         logfile.write(message + os.linesep)
     print(message)
-cfg.bidsdir
 
 # Check for subject directories
 def get_subjectdirs() -> list:
@@ -114,7 +123,6 @@ def get_timepoints(subject: str) -> list:
     subjectdir_contents = os.listdir(subject_fullpath)
     return [f for f in subjectdir_contents if not f.startswith('.')]
 
-
 # Check subjects' sessions
 def check_timepoint_count(timepoints: list, expected_timepoints: list, subject: str):
     """
@@ -134,7 +142,6 @@ def check_timepoint_count(timepoints: list, expected_timepoints: list, subject: 
     else:
         write_to_outputlog("\n EXISTS: %s \n" % (log_message))
 
-
 # Get sequences
 def get_sequences(subject: str, timepoint: str) -> list:
     """
@@ -151,7 +158,6 @@ def get_sequences(subject: str, timepoint: str) -> list:
     timepoint_fullpath = os.path.join(cfg.bidsdir, subject, timepoint)
     timepoint_contents = os.listdir(timepoint_fullpath)
     return [f for f in timepoint_contents if not f.startswith('.')]
-
 
 # Check subjects' sessions
 def check_sequence_folder_count(sequence_folder_names: list, expected_sequences: list, subject: str, timepoint: str):
@@ -173,7 +179,6 @@ def check_sequence_folder_count(sequence_folder_names: list, expected_sequences:
         write_to_errorlog("\n SEQUENCE DIRECTORY ERROR! %s Expected %s.\n" % (log_message, str(len(expected_sequences))))
     else:
         write_to_outputlog("\n EXIST: %s. \n" % (log_message))
-
 
 # Check files
 def check_sequence_files(subject: str, timepoint: str, sequence: str, expected_sequence: object):
@@ -209,7 +214,6 @@ def validate_sequencefilecount(expected_sequence: object, sequence_fullpath: str
     if len(found_allfiles) > expected_sequence.get_filecount():
         write_to_errorlog("WARNING! Too many %s files in %s %s %s" % (extension, subject, timepoint, os.path.basename(sequence_fullpath)))
         
-
 # Fix files
 def fix_files(sequence_fullpath: str, file_group: str, expected_numfiles: int, extension: str, subject: str, timepoint: str):
     """
@@ -286,8 +290,6 @@ def rename_file(found_file:str, run_number:int, run_replacement:str, sequence_fu
     os.rename(target_file, new_filename_path)
     target_filename = os.path.basename(target_file)
     write_to_outputlog("RENAMED: %s to %s" % (target_filename, new_filename))
-
-
 
 # Call main
 main()
