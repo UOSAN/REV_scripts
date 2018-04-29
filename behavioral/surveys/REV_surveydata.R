@@ -1,8 +1,18 @@
 #clean up REV Questionnaire Data
 
-rm(list=ls())
-#setwd("~/Desktop/REV_scripts/behavioral/surveys")
-setwd('~/Dropbox/AH Grad Stuff/SAP/REV_scripts/behavioral/surveys') #MM wd
+
+#The code assumes that this Markdown file is in the folder ~/REV_scripts/behavioral/surveys, and the folder structure follows the same hierarchical organization pattern (shown below in the Dir setups)
+
+homeBase = '~/Dropbox/AH Grad Stuff/SAP' #this is the only thing you should need to change
+
+#In order to run this script, first set your working directory to wherever the current file is saved
+setwd(paste0(homeBase,'/REV_scripts/behavioral/surveys'))
+
+scriptDir = paste0(homeBase, '/REV_scripts/behavioral/')
+catDir = paste0(scriptDir, '/REV_SST/info/')
+
+idDir = paste0(homeBase,'/REV_BxData/')
+dataDir = paste0(idDir, '/questionnaire_data/FromQualtrics/')
 
 ## Install and load required packages
 list.of.packages <- c("stringr", "tidyverse", "reshape2", "ggplot2", "psych", "gridExtra", "knitr", "lme4", "memisc", "withr", "haven")
@@ -50,21 +60,21 @@ outL=findIndexInBL<- function(df, useL, outL,...){
 #IMPORT QUALTRICS DATA:
 
 #categories <- as.data.frame(read.table("~/Desktop/REV_scripts/behavioral/REV_SST/info/participantCategories.txt"))
-categories <- as.data.frame(read.table("~/Dropbox/AH Grad Stuff/SAP/REV_scripts/behavioral/REV_SST/info/participantCategories.txt")) #MM
+categories <- as.data.frame(read.table(paste0(catDir, "participantCategories.txt")))
 colnames(categories) <- c("ID", "compltd.study", "num.categories", "food", "alcohol", "tobacco", "drugs")
 categories <- categories[2:145,]
 
 ## General survey
 #gen_survey <- as.data.frame(as.data.set(spss.system.file('~/Dropbox/REV/behavioral_data/questionnaire_data/FromQualtrics/REV_General_Survey.sav')))
-gen_survey<-read_sav("~/Dropbox/AH Grad Stuff/SAP/REV_BxData/questionnaire_data/FromQualtrics/REV_General_Survey.sav") #MM
+gen_survey<-read_sav(paste0(dataDir, "REV_General_Survey.sav"))
 
 ## Baseline survey
 #base_survey <- as.data.frame(as.data.set(spss.system.file('~/Dropbox/REV/behavioral_data/questionnaire_data/FromQualtrics/REV_Baseline_Survey.sav')))
-base_survey<-read_sav("~/Dropbox/AH Grad Stuff/SAP/REV_BxData/questionnaire_data/FromQualtrics/REV_Baseline_Survey.sav") #MM
+base_survey<-read_sav(paste0(dataDir, "REV_Baseline_Survey.sav"))
 
 ## Screening data
 #screen_data <- as.data.frame(read.csv('~/Dropbox/REV/behavioral_data/questionnaire_data/FromQualtrics/rev_screening.csv', stringsAsFactors = FALSE, skip = 1))
-screen_data <- as.data.frame(read.csv('~/Dropbox/AH Grad Stuff/SAP/REV_BxData/questionnaire_data/FromQualtrics/rev_screening.csv', stringsAsFactors = FALSE, skip = 1)) #MM
+screen_data <- as.data.frame(read.csv(paste0(dataDir, "rev_screening.csv"), stringsAsFactors = FALSE, skip = 1))
 
 #=====================================================================================================================
 
@@ -106,7 +116,7 @@ screen_data <- screen_data[screen_data$ID %in% screen_ID, ]
 screen_data$ID <- as.factor(screen_data$ID)
 #table(screen_data$ID)
 
-idkey <- as.data.frame(read.csv('~/Dropbox/AH Grad Stuff/SAP/REV_BxData/IDkey.csv', header=TRUE, stringsAsFactors = FALSE))
+idkey <- as.data.frame(read.csv(paste0(idDir, 'IDkey.csv'), header = TRUE, stringsAsFactors = FALSE))
 names(idkey)[names(idkey)=="Screening.ID"]<-"ID" #rename screening ID as 'ID' to merge with screening_data df
 idkey$ID <- withr::with_options(c(scipen = 999), str_pad(idkey$ID, 4, pad = "0")) #so they'll match up with the screen_data IDs
 
