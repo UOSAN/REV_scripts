@@ -450,6 +450,28 @@ for (v in Vices) {
   survey_data[p]
 }
 
+#TO DO:
+#Figure out how to stratify lists by general problem and craving vs. consumption
+CRAVING <- c("bscs","acq","pacs","ccq","hcq","mcq","mciy","ceq","qsu","fci")
+CONSUMPTION <- c("duh","audit", "ftnd","debq")
+
+#alcohol
+alcohol_scales <- c("bscs_a", "duh_a", "acq_sf_r", "audit", "pacs")
+#drugs: cocaine, heroin, marijuana, meth, and pills
+drug_scales <- c("bscs_c", "duh_c", "ccq_brief", "bscs_h", "duh-h", "hcq_sf", "bscs_ma", "duh_ma", "mcq_sf", "bscs_me", "duh_me", "mciy", "bscs_p", "duh_p", "ceq_s_p")
+#tobacco
+tobacco_scales <- c("ftnd", "qsu")
+#food: chocolate, cookies, donuts, fries, ice cream, pasta, and pizsa
+food_scales <- c("le", "debq", "fci_ch", "fci_co", "fci_d", "fci_f", "fci_i", "fci_pa", "fci_pi")
+
+
+cat_by_scale_type <- c("alcohol_crav","alcohol_use", "drug_crav", "drug_use", "tobacco_crav", "tobacco_use", "food_crav", "food_use")
+for (c in 1:length(cat_by_scale_type)) {
+  assign(cat_by_scale_type[c], list())
+}
+
+#MM TO DO:
+#for each vice survey, add _m to the end of scored/mean thingy (Brendan). e.g., for bscs_a, it'd be bscs_a_z_m
 ```
 
 ```{r replace_NAs}
