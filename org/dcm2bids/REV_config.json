@@ -17,7 +17,7 @@
         {
             "dataType": "func",
             "modalityLabel": "bold",
-            "customLabels": "task-sst1",
+            "customLabels": "task-sst_acq-1",
             "criteria": {
                 "SeriesDescription": "SST1*"
             }
@@ -25,7 +25,7 @@
         {
             "dataType": "func",
             "modalityLabel": "bold",
-            "customLabels": "task-sst2",
+            "customLabels": "task-sst_acq-2",
             "criteria": {
                 "SeriesDescription": "SST2*"
             }
@@ -33,7 +33,7 @@
         {
             "dataType": "func",
             "modalityLabel": "bold",
-            "customLabels": "task-sst3",
+            "customLabels": "task-sst_acq-3",
             "criteria": {
                 "SeriesDescription": "SST3*"
             }
@@ -41,7 +41,7 @@
         {
             "dataType": "func",
             "modalityLabel": "bold",
-            "customLabels": "task-sst4",
+            "customLabels": "task-sst_acq-4",
             "criteria": {
                 "SeriesDescription": "SST4*"
             }
@@ -49,7 +49,7 @@
         {
             "dataType": "func",
             "modalityLabel": "bold",
-            "customLabels": "task-gng1",
+            "customLabels": "task-gng_acq-1",
             "criteria": {
                 "SeriesDescription": "GNG1*"
             }
@@ -57,7 +57,7 @@
         {
             "dataType": "func",
             "modalityLabel": "bold",
-            "customLabels": "task-gng2",
+            "customLabels": "task-gng_acq-2",
             "criteria": {
                 "SeriesDescription": "GNG2*"
             }
@@ -65,7 +65,7 @@
         {
             "dataType": "func",
             "modalityLabel": "bold",
-            "customLabels": "task-gng3",
+            "customLabels": "task-gng_acq-3",
             "criteria": {
                 "SeriesDescription": "GNG3*"
             }
@@ -73,7 +73,7 @@
         {
             "dataType": "func",
             "modalityLabel": "bold",
-            "customLabels": "task-gng4",
+            "customLabels": "task-gng_acq-4",
             "criteria": {
                 "SeriesDescription": "GNG4*"
             }
@@ -81,7 +81,7 @@
                 {
             "dataType": "func",
             "modalityLabel": "bold",
-            "customLabels": "task-react1",
+            "customLabels": "task-react_acq-1",
             "criteria": {
                 "SeriesDescription": "React1*"
             }
@@ -89,7 +89,7 @@
         {
             "dataType": "func",
             "modalityLabel": "bold",
-            "customLabels": "task-react2",
+            "customLabels": "task-react_acq-2",
             "criteria": {
                 "SeriesDescription": "React2*"
             }
@@ -97,7 +97,7 @@
         {
             "dataType": "func",
             "modalityLabel": "bold",
-            "customLabels": "task-react3",
+            "customLabels": "task-react_acq-3",
             "criteria": {
                 "SeriesDescription": "React3*"
             }
@@ -105,7 +105,7 @@
         {
             "dataType": "func",
             "modalityLabel": "bold",
-            "customLabels": "task-react4",
+            "customLabels": "task-react_acq-4",
             "criteria": {
                 "SeriesDescription": "React4*"
             }
@@ -113,7 +113,7 @@
                 {
             "dataType": "func",
             "modalityLabel": "bold",
-            "customLabels": "task-bart",
+            "customLabels": "task-bart_acq-1",
             "criteria": {
                 "SeriesDescription": "BART1*"
             }
@@ -121,7 +121,7 @@
         {
             "dataType": "func",
             "modalityLabel": "bold",
-            "customLabels": "task-bart",
+            "customLabels": "task-bart_acq-2",
             "criteria": {
                 "SeriesDescription": "BART2*"
             }
