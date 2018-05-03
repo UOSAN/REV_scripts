@@ -422,7 +422,7 @@ viable_trn <- qplot(df_viable_train$ViableN, geom = "bar", xlab = "Viable SST Ru
 # Count the viable sessions during "training" for the conrol group
 df_viable_control <- subset(df_SSRT, condition == "control")
 df_viable_control <- df_viable_control[ which(df_viable_control$time != "run1" & df_viable_control$time != "run2" & df_viable_control$time != "run13" & df_viable_control$time != "run14"), ]
-df_viable_control <- df_viable_control %>% group_by(ID) %>% summarize(ViableN=sum(!is.na(SSRT)))
+df_viable_control <- df_viable_control %>% group_by(ID) %>% summarize(ViableN = sum(!is.na(SSRT)))
 
 # Plot the control group
 viable_contr <- qplot(df_viable_control$ViableN, geom = "bar", xlab = "Viable SST Runs", ylab = "Count", main = "Viable Training Sessions, Control Group")
