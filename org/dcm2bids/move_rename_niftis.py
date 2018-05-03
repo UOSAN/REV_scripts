@@ -1,9 +1,9 @@
 import os
 from datetime import datetime
 import glob
+import shutil
 
 bids_dir = os.path.join(os.path.sep,"Users", "kristadestasio", "Desktop", "bids_data")
-tempdir = os.path.join(bids_dir, "tmp_dcm2bids")
 outputlog = os.path.join(bids_dir, "outputlog_bidsQC" + datetime.now().strftime("%Y%m%d-%H%M%S") + ".txt")
 errorlog = os.path.join(bids_dir, "errorlog_bidsQC" + datetime.now().strftime("%Y%m%d-%H%M%S") + ".txt")
 
@@ -16,6 +16,7 @@ def main():
     # logdir = os.path.join(os.getcwd(), "logs_rename")
     # bidsdir = os.path.join(os.sep, "projects", group, "shared", study, "bids_data")
     # tempdir = os.path.join(bidsdir, "tmp_dcm2bids") # contains subject directories
+    tempdir = os.path.join(bids_dir, "tmp_dcm2bids")
     logfile_fullpaths = outputlog, errorlog
     create_logfiles(logfile_fullpaths)
     subjectdirs = get_subjectdirs(tempdir)
@@ -26,8 +27,15 @@ def main():
         timepoint = subjectdir.split("_")[1]
         write_to_outputlog("\n" + "-"*20 + "\n" + subject)
         write_to_outputlog("\n    " + timepoint + "\n")
-        rename_anatfiles(subject_files, subject, timepoint)
-
+        check_mprages(subject_files, subject, timepoint, subjectdir, subject_fullpath)
+        fieldmap_files = get_fieldmap_files(subject_files, subject, timepoint, subjectdir, subject_fullpath)
+        magnitude1_files = get_magnitude1_files(fieldmap_files)
+        magnitude1_jsons = [f for f in magnitude1_files if f.endswith(".json")]
+        magnitude1_numbers = [int(f.split("_")[0]) for f in magnitude1_jsons]
+        phasediff_files = get_phasediff_files(fieldmap_files, magnitude1_numbers)
+        magnitude2_files = get_magnitude2_files(fieldmap_files, magnitude1_numbers)
+        rename_fieldmaps(magnitude1_files, subjectdir, subject_fullpath, "_magnitude1_")
+        
 
 def get_subjectdirs(tempdir: str) -> list:
     """
@@ -51,30 +59,112 @@ def get_subjectfiles(subject_fullpath:str) -> list:
     return [ f for f in subject_files]
 
 
-def rename_anatfiles(subject_files:list, subject:str, timepoint:str):
+def check_mprages(subject_files:list, subject:str, timepoint:str, subjectdir:str, subject_fullpath:str):
     """
-
     """
     mprage_files = [f for f in subject_files if "mprage" in f]
     json_files = [f for f in mprage_files if f.endswith(".json")]
-    nifti_files = [f for f in mprage_files if f.endswith(".nii") or f.endswith(".nii.gz")]
+    nifti_files = [f for f in mprage_files if f.endswith(".nii.gz")]
     if len(json_files) == 1:
         write_to_outputlog("One mprage")
-        rename_mprage(mprage_files)
+        for json_file in json_files:
+            rename_mprages(json_file, subjectdir, ".json", subject_fullpath)
+        for nifti_file in nifti_files:
+            rename_mprages(nifti_file, subjectdir, ".nii.gz", subject_fullpath) 
     elif len(json_files) > 1:
         write_to_outputlog("Multiple mprages")
     else:
         write_to_outputlog("No mprages to fix")
-        
+
+
 # Rename a single mprage
-def rename_mprage(mprage_files:list):
+def rename_mprages(target_file:str, subjectdir:str, extension:str, subject_fullpath:str):
     """
     """
-    for mprage_file in mprage_files:
-        print(mprage_file)
-        
-# Bad: 009_REV001_20150406_mprage_MGH_p2_20150406145550.json
-# Goal: sub-REV001_ses-wave2_T1w.json
+    mprage_filename = subjectdir + "_T1w" + extension
+    mprage_fullpath = os.path.join(subject_fullpath, mprage_filename)
+    print(mprage_fullpath)
+    #shutil.move(target_file, mprage_fullpath)
+
+
+def get_fieldmap_files(subject_files:list, subject:str, timepoint:str, subjectdir:str, subject_fullpath:str):
+    fieldmap_files = [f for f in subject_files if "fieldmap" in f]
+    fieldmap_files.sort()
+    return fieldmap_files
+
+
+def get_magnitude1_files(fieldmap_files: list):
+    magnitude1_files = [f for f in fieldmap_files if not f.endswith("e2.nii.gz") and not f.endswith( "e2.json")]    
+    return magnitude1_files
+    
+
+def get_magnitude2_files(fieldmap_files: list, magnitude1_numbers:list):
+    magnitude1_prefixes = [str(n) for n in magnitude1_numbers]
+    magnitude2_files = [f for f in fieldmap_files if any(f.startswith(p.zfill(3)) for p in magnitude1_prefixes) and not f.endswith("e2.nii.gz") and not f.endswith( "e2.json")]
+    return magnitude2_files
+
+
+def get_phasediff_files(fieldmap_files: list, magnitude1_numbers: list):
+    phasediff_prefixes = [str((n + 1)) for n in magnitude1_numbers] 
+    phasediff_files = [f for f in fieldmap_files if any(f.startswith(p.zfill(3)) for p in phasediff_prefixes)]
+    return phasediff_files
+    
+
+def rename_fieldmaps(fieldmap_files:list, subjectdir:str, subject_fullpath:str, suffix:str):
+    json_files = [f for f in fieldmap_files if f.endswith(".json")]
+    nifti_files = [f for f in fieldmap_files if f.endswith(".nii.gz")]
+    if len(json_files) == 1:
+        write_to_outputlog("One fieldmap json file to rename")
+        for target_file in json_files:
+            do_rename_fieldmap(target_file, subjectdir, suffix, ".json", subject_fullpath)
+    if len(nifti_files) == 1:
+        write_to_outputlog("One fieldmap nifti file to rename")
+        for target_file in nifti_files:
+            do_rename_fieldmap(target_file, subjectdir, suffix, ".nii.gz", subject_fullpath)
+    if len(json_files) > 1:
+        # name with run numbers
+        for target_file in json_files:
+            extension = ".json"
+            target_filename = subjectdir + suffix + extension
+            if not os.path.isfile(os.path.join(subject_fullpath, target_filename)):
+                do_rename_fieldmap(target_file, subjectdir, suffix, extension, subject_fullpath)
+            else:
+                # start index at 0
+                # i + 1 each time a file is found
+                # if i = 0, rename without `run-##` 
+                # if i >= 1, rename with `run-##
+                yield target_file
+                prefix, ext = os.path.splitext(target_file)
+                for i in itertools.count(start=1, step=1):
+                    yield prefix + ' ({0})'.format(i) + ext
+                fieldmap_filename = subjectdir + suffix + "_run" + index + "_" + extension
+                
+
+
+
+def do_rename_fieldmap(target_file:str, subjectdir:str, suffix:str, extension:str, subject_fullpath:str):
+    fmap_filename = subjectdir + suffix + extension
+    fmap_fullpath = os.path.join(subject_fullpath, fmap_filename)
+    print(target_file + " " + fmap_fullpath)
+    #shutil.move(target_file, fmap_fullpath)
+
+# 014_REV001_20150406_fieldmap_20150406145550_e2.json
+# 014_REV001_20150406_fieldmap_20150406145550_e2.nii.gz
+# 014_REV001_20150406_fieldmap_20150406145550.json
+# 014_REV001_20150406_fieldmap_20150406145550.nii.gz
+# 015_REV001_20150406_fieldmap_20150406145550_e2.json
+# 015_REV001_20150406_fieldmap_20150406145550_e2.nii.gz
+
+
+# old: 015_REV001_20150406_fieldmap_20150406145550_e2.nii.gz
+# target: sub-REV001_ses-wave2_run-01_magnitude1.nii.gz
+
+# sub-REV001_ses-wave1/015_REV001_20150406_fieldmap_20150406145550_e2.nii.gz
+# sub-REV001_ses-wave2_run-02_phasediff.nii.gz 
+
+# higher sequence number is phasediff
+# with e2 has "EchoTime": 0.00683 = magnitude2
+# without e2 "EchoTime": 0.00437 = magnitude1
 
 
 # Define a function to create files
@@ -125,12 +215,7 @@ def write_to_errorlog(message):
 main()
 
 
-# sub-REV001_ses-wave1/015_REV001_20150406_fieldmap_20150406145550_e2.nii.gz
-# sub-REV001_ses-wave2_run-02_phasediff.nii.gz 
 
-# higher sequence number is phasediff
-# with e2 has "EchoTime": 0.00683 = magnitude2
-# without e2 "EchoTime": 0.00437 = magnitude1
 # 
 #     
         #                 {
