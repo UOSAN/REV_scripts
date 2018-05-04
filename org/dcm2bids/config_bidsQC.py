@@ -10,7 +10,6 @@ group = "sanlab"
 study = "REV"
 
 # Set directories (Check these for your study)
-
 logdir = os.path.join(os.getcwd(), "logs_bidsQC")
 bidsdir = os.path.join(os.sep, "projects", group, "shared", study, "bids_data")
 tempdir = os.path.join(bidsdir, "tmp_dcm2bids")
@@ -28,8 +27,8 @@ derivatives = os.path.join(bidsdir, "derivatives")
 
 
 # Create a dictionary (the thing below) for each timepoint in your study where the pairs are "sequence_directory_name" : "expected_number_runs"
-sequence1 = Sequence("func", {"bart": 1, "gng1":1, "gng2":1, "react1":1, "react2":1, "sst1":1, "sst2":1})
-sequence2 = Sequence("func", {"bart": 1, "gng3":1, "gng4":1, "react3":1, "react4":1, "sst3":1, "sst4":1})
+sequence1 = Sequence("func", {"bart": 1, "gng_acq-1":1, "gng_acq-2":1, "react_acq-1":1, "react_acq-2":1, "sst_acq-1":1, "sst_acq-2":1})
+sequence2 = Sequence("func", {"bart": 1, "gng_acq-1":1, "gng_acq-4":1, "react_acq-3":1, "react_acq-4":1, "sst_acq-3":1, "sst_acq-4":1})
 sequence3 = Sequence("anat", {"T1w":1})
 sequence4 = Sequence("fmap", {"magnitude1":2, "magnitude2":2, "phasediff":2 })
 timepoint1 = TimePoint("ses-wave1", [sequence1, sequence3, sequence4])
