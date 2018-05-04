@@ -6,29 +6,34 @@ import os
 from datetime import datetime
 import shutil
 
-bids_dir = os.path.join(os.path.sep,"Users", "kristadestasio", "Desktop", "bids_data")
-outputlog = os.path.join(bids_dir, "outputlog_bidsQC" + datetime.now().strftime("%Y%m%d-%H%M%S") + ".txt")
+
+group = "sanlab"
+study = "REV"
+bidsdir = os.path.join(os.sep, "projects", group, "shared", study, "bids_data")
+logdir = os.path.join(os.getcwd(), "logs_rename")
+outputlog = os.path.join(logdir, "outputlog_bidsQC" + datetime.now().strftime("%Y%m%d-%H%M%S") + ".txt")
+errorlog = os.path.join(logdir, "errorlog_bidsQC" + datetime.now().strftime("%Y%m%d-%H%M%S") + ".txt")
 
 
 def main():
     """
     Run the things.
-    """
-    # group = "sanlab"
-    # study = "REV"
-    # logdir = os.path.join(os.getcwd(), "logs_rename")
-    # bidsdir = os.path.join(os.sep, "projects", group, "shared", study, "bids_data")
-    # tempdir = os.path.join(bidsdir, "tmp_dcm2bids") # contains subject directories
-    tempdir = os.path.join(bids_dir, "tmp_dcm2bids")
-    create_logfile(outputlog)
+    """    
+    tempdir = os.path.join(bidsdir, "tmp_dcm2bids") # contains subject directories
+    logfile_fullpaths = errorlog, outputlog
+    create_logfiles(logfile_fullpaths)
     subjectdirs = get_subjectdirs(tempdir)
     for subjectdir in subjectdirs:
         subject_fullpath = os.path.join(tempdir, subjectdir)
         subject_files = get_subjectfiles(subject_fullpath)
         subject = subjectdir.split("_")[0]
         timepoint = subjectdir.split("_")[1]
+        dirs_tocheck = os.path.join(bidsdir, subject), os.path.join(bidsdir, subject, timepoint), os.path.join(bidsdir, subject), os.path.join(bidsdir, subject, timepoint, "anat"), os.path.join(bidsdir, subject, timepoint, "fmap"), os.path.join(bidsdir, subject, timepoint, "func")
+        check_dirs(dirs_tocheck)
         write_to_outputlog("\n" + "-"*20 + "\n" + subject)
         write_to_outputlog("\n    " + timepoint + "\n")
+        write_to_errorlog("\n" + "-"*20 + "\n" + subject)
+        write_to_errorlog("\n    " + timepoint + "\n")
         json_extension = ".json"
         nifti_extension = ".nii.gz"
         fieldmap_files = get_fieldmap_files(subject_files)
@@ -38,14 +43,38 @@ def main():
         phasediff_files = get_phasediff_files(fieldmap_files, magnitude1_numbers)
         magnitude2_files = get_magnitude2_files(fieldmap_files, magnitude1_numbers)
         mprage_files = get_mprage_files(subject_files)
-        rename_mprage_files([f for f in mprage_files if f.endswith(json_extension)], subjectdir, subject_fullpath, json_extension)
-        rename_mprage_files([f for f in mprage_files if f.endswith(nifti_extension)], subjectdir, subject_fullpath, nifti_extension)
-        rename_fieldmap_files([f for f in magnitude1_files if f.endswith(json_extension)], subjectdir, subject_fullpath, "_magnitude1_", json_extension)
-        rename_fieldmap_files([f for f in magnitude1_files if f.endswith(nifti_extension)], subjectdir, subject_fullpath, "_magnitude1_", nifti_extension)
-        rename_fieldmap_files([f for f in magnitude2_files if f.endswith(json_extension)], subjectdir, subject_fullpath, "_magnitude2_", json_extension)
-        rename_fieldmap_files([f for f in magnitude2_files if f.endswith(nifti_extension)], subjectdir, subject_fullpath, "_magnitude2_", nifti_extension)
-        rename_fieldmap_files([f for f in phasediff_files if f.endswith(json_extension)], subjectdir, subject_fullpath, "_phasediff_", json_extension)
-        rename_fieldmap_files([f for f in phasediff_files if f.endswith(nifti_extension)], subjectdir, subject_fullpath, "_phasediff_", nifti_extension)
+        rename_bidsify_files([f for f in magnitude1_files if f.endswith(json_extension)], subjectdir, subject_fullpath, "_magnitude1", json_extension, "fmap", subject, timepoint)
+        rename_bidsify_files([f for f in magnitude1_files if f.endswith(nifti_extension)], subjectdir, subject_fullpath, "_magnitude1", nifti_extension, "fmap", subject, timepoint)
+        rename_bidsify_files([f for f in magnitude2_files if f.endswith(json_extension)], subjectdir, subject_fullpath, "_magnitude2", json_extension, "fmap", subject, timepoint)
+        rename_bidsify_files([f for f in magnitude2_files if f.endswith(nifti_extension)], subjectdir, subject_fullpath, "_magnitude2", nifti_extension, "fmap", subject, timepoint)
+        rename_bidsify_files([f for f in phasediff_files if f.endswith(json_extension)], subjectdir, subject_fullpath, "_phasediff", json_extension, "fmap", subject, timepoint)
+        rename_bidsify_files([f for f in phasediff_files if f.endswith(nifti_extension)], subjectdir, subject_fullpath, "_phasediff", nifti_extension, "fmap", subject, timepoint)
+        rename_bidsify_files([f for f in mprage_files if f.endswith(json_extension)], subjectdir, subject_fullpath, "_T1w", json_extension, "anat", subject, timepoint)
+        rename_bidsify_files([f for f in mprage_files if f.endswith(nifti_extension)], subjectdir, subject_fullpath, "_T1w", nifti_extension, "anat", subject, timepoint)
+
+
+def check_dirs(dir_fullpaths:list):
+    """
+    Check if a directory exists. If not, create it.
+
+    @type dir_fullpaths:        list
+    @param dir_fullpaths:       Paths to directorys to check
+    """
+    for dir_fullpath in dir_fullpaths:
+        if not os.path.isdir(dir_fullpath):
+            os.mkdir(dir_fullpath)
+
+
+def create_logfiles(logfile_fullpaths:list):
+    """
+    Check if a logfile exists. If not, make one.
+
+    @type logfile_fullpaths:         list
+    @param logfile_fullpaths:        Paths to logfiles to check
+    """
+    for logfile_fullpath in logfile_fullpaths:
+        if not os.path.isfile(logfile_fullpath):
+            touch(logfile_fullpath)
 
 
 def get_subjectdirs(tempdir: str) -> list:
@@ -100,68 +129,42 @@ def get_phasediff_files(fieldmap_files: list, magnitude1_numbers: list):
     return phasediff_files
 
 
-def rename_mprage_files(mprage_files:list, subjectdir:str, subject_fullpath:str, extension:str):
-    if len(mprage_files) == 1:
-        write_to_outputlog("One mprage")
-        for target_file in mprage_files:
-            do_mprage_file(target_file, subjectdir, extension, subject_fullpath)
-    elif len(mprage_files) > 1:
-        i = 1
-        for target_file in mprage_files:
-            do_mprage_files(target_file, subjectdir, extension, subject_fullpath, i)
-            i = i + 1
-    else:
-        write_to_outputlog("no mprage %s files to fix" % (extension))
-
-
-def do_mprage_file(target_file:str, subjectdir:str, extension:str, subject_fullpath:str):
-    """
-    """
-    mprage_filename = subjectdir + "_T1w" + extension
-    mprage_fullpath = os.path.join(subject_fullpath, mprage_filename)
-    print(mprage_fullpath)
-    write_to_outputlog("RENAME: %s to %s\n" % (target_file, mprage_filename))
-    #shutil.move(target_file, mprage_fullpath)
-
-
-def do_mprage_files(target_file:str, subjectdir:str, extension:str, subject_fullpath:str, runnum:int):
-    runstr = str(runnum).zfill(2)
-    mprage_filename = subjectdir + "_run-" + runstr + "_T1w"  + extension
-    mprage_fullpath = os.path.join(subject_fullpath, mprage_filename)
-    print(target_file + " " + mprage_fullpath)
-    write_to_outputlog("RENAME: %s to %s" % (target_file, mprage_filename))
-    #shutil.move(target_file, mprage_fullpath)
-
-
-def rename_fieldmap_files(target_files:list, subjectdir:str, subject_fullpath:str, suffix:str, extension:str):
+def rename_bidsify_files(target_files:list, subjectdir:str, subject_fullpath:str, suffix:str, extension:str, sequence_type:str, subject:str, timepoint:str):
     if len(target_files) == 1:
-        write_to_outputlog("One fieldmap %s file to rename" % (extension))
+        write_to_outputlog("One %s %s %s file to rename" % (sequence_type, suffix, extension))
         for target_file in target_files:
-            do_fieldmap_file(target_file, subjectdir, suffix, extension, subject_fullpath)
+            if os.path.isfile(os.path.join(subject_fullpath, target_file)):
+                rename_move_file(target_file, subjectdir, suffix, extension, subject_fullpath, subject, timepoint, sequence_type)
+            else:
+                write_to_errorlog("WARNING: %s %s %s does not exist" % (sequence_type, suffix, extension))
     elif len(target_files) > 1:
         i = 1
         for target_file in target_files:
-            do_fieldmap_files(target_file, subjectdir, suffix, extension, subject_fullpath, i)
-            i = i + 1
+            if os.path.isfile(os.path.join(subject_fullpath, target_file)):
+                rename_move_files(target_file, subjectdir, suffix, extension, subject_fullpath, subject, timepoint, sequence_type, i)
+                i = i + 1
+            else:
+                write_to_errorlog("WARNING: %s %s %s does not exist" % (sequence_type, suffix, extension))
+                i = i + 1
     else:
-        write_to_outputlog("no fieldmap %s to fix" % (extension))
+        write_to_outputlog("no %s %s %s to fix" % (sequence_type, suffix, extension))
          
 
-def do_fieldmap_file(target_file:str, subjectdir:str, suffix:str, extension:str, subject_fullpath:str):
-    fmap_filename = subjectdir + suffix + extension
-    fmap_fullpath = os.path.join(subject_fullpath, fmap_filename)
-    print(target_file + " " + fmap_fullpath)
-    write_to_outputlog("RENAME: %s to %s" % (target_file, fmap_filename))
-    #shutil.move(target_file, fmap_fullpath)
+def rename_move_file(target_file:str, subjectdir:str, suffix:str, extension:str, subject_fullpath:str, subject:str, timepoint:str, sequence_type:str):
+    new_filename = subjectdir + suffix + extension
+    new_fullpath = os.path.join(subject_fullpath, new_filename)
+    write_to_outputlog("RENAME: %s to %s" % (target_file, new_filename))
+    shutil.move(os.path.join(subject_fullpath, target_file), new_fullpath)
+    shutil.move(new_fullpath, os.path.join(bidsdir, subject, timepoint, sequence_type, new_filename))
 
        
-def do_fieldmap_files(target_file:str, subjectdir:str, suffix:str, extension:str, subject_fullpath:str, runnum:int):
+def rename_move_files(target_file:str, subjectdir:str, suffix:str, extension:str, subject_fullpath:str, subject:str, timepoint:str, sequence_type:str, runnum:int):
     runstr = str(runnum).zfill(2)
-    fmap_filename = subjectdir + "_run-" + runstr + suffix + extension
-    fmap_fullpath = os.path.join(subject_fullpath, fmap_filename)
-    print(target_file + " " + fmap_fullpath)
-    write_to_outputlog("RENAME: %s to %s" % (target_file, fmap_filename))
-    #shutil.move(target_file, fmap_fullpath)
+    new_filename = subjectdir + "_run-" + runstr + suffix + extension
+    new_fullpath = os.path.join(subject_fullpath, new_filename)
+    write_to_outputlog("RENAME: %s to %s" % (target_file, new_filename))
+    shutil.move(os.path.join(subject_fullpath, target_file), new_fullpath)
+    shutil.move(new_fullpath, os.path.join(bidsdir, subject, timepoint, sequence_type, new_filename))
 
 
 def touch(path:str):
@@ -194,6 +197,18 @@ def write_to_outputlog(message):
     @param message:         Message to be printed to the log
     """
     with open(outputlog, 'a') as logfile:
+        logfile.write(message + os.linesep)
+    print(message)
+
+
+def write_to_errorlog(message):
+    """
+    Write a log message to the error log. Also print it to the terminal.
+
+    @type message:          string
+    @param message:         Message to be printed to the log
+    """
+    with open(errorlog, 'a') as logfile:
         logfile.write(message + os.linesep)
     print(message)
 
