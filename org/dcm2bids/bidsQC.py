@@ -265,6 +265,7 @@ def fix_files(sequence_fullpath: str, file_group: str, expected_numfiles: int, e
                     os.rename(os.path.join(sequence_fullpath, found_file), found_file.replace(found_file[run_index + 5:run_index + 7], new_runnum))
                     write_to_outputlog("RENAMED: %s" % (found_file))
 
+
 def move_files_tmp(target_file:str, subject:str, timepoint:str):
     tempdir_fullpath = os.path.join(cfg.tempdir, subject + "_" + timepoint)
     if not os.path.isdir(tempdir_fullpath):
