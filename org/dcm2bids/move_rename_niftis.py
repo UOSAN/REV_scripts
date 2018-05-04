@@ -121,7 +121,7 @@ def get_magnitude1_files(fieldmap_files: list):
 
 def get_magnitude2_files(fieldmap_files: list, magnitude1_numbers:list):
     magnitude1_prefixes = [str(n) for n in magnitude1_numbers]
-    magnitude2_files = [f for f in fieldmap_files if any(f.startswith(p.zfill(3)) for p in magnitude1_prefixes) and not f.endswith("e2.nii.gz") and not f.endswith( "e2.json")]
+    magnitude2_files = [f for f in fieldmap_files if any(f.startswith(p.zfill(3)) for p in magnitude1_prefixes)]
     return magnitude2_files
 
 
