@@ -28,7 +28,7 @@ def main():
         subject_files = get_subjectfiles(subject_fullpath)
         subject = subjectdir.split("_")[0]
         timepoint = subjectdir.split("_")[1]
-        dirs_tocheck = os.path.join(bidsdir, subject), os.path.join(bidsdir, subject, timepoint), os.path.join(bidsdir, subject), os.path.join(bidsdir, subject, timepoint, "anat"), os.path.join(bidsdir, subject, timepoint, "fmap"), os.path.join(bidsdir, subject, timepoint, "func")
+        dirs_tocheck = logdir, os.path.join(bidsdir, subject), os.path.join(bidsdir, subject, timepoint), os.path.join(bidsdir, subject), os.path.join(bidsdir, subject, timepoint, "anat"), os.path.join(bidsdir, subject, timepoint, "fmap"), os.path.join(bidsdir, subject, timepoint, "func")
         check_dirs(dirs_tocheck)
         write_to_outputlog("\n" + "-"*20 + "\n" + subject)
         write_to_outputlog("\n    " + timepoint + "\n")
