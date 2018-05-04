@@ -11,8 +11,8 @@ group = "sanlab"
 study = "REV"
 bidsdir = os.path.join(os.sep, "projects", group, "shared", study, "bids_data")
 logdir = os.path.join(os.getcwd(), "logs_rename")
-outputlog = os.path.join(logdir, "outputlog_bidsQC" + datetime.now().strftime("%Y%m%d-%H%M%S") + ".txt")
-errorlog = os.path.join(logdir, "errorlog_bidsQC" + datetime.now().strftime("%Y%m%d-%H%M%S") + ".txt")
+outputlog = os.path.join(logdir, "outputlog_rename" + datetime.now().strftime("%Y%m%d-%H%M%S") + ".txt")
+errorlog = os.path.join(logdir, "errorlog_rename" + datetime.now().strftime("%Y%m%d-%H%M%S") + ".txt")
 
 
 def main():
@@ -20,6 +20,7 @@ def main():
     Run the things.
     """    
     tempdir = os.path.join(bidsdir, "tmp_dcm2bids") # contains subject directories
+    check_dirs(logdir)
     logfile_fullpaths = errorlog, outputlog
     create_logfiles(logfile_fullpaths)
     subjectdirs = get_subjectdirs(tempdir)
@@ -28,7 +29,7 @@ def main():
         subject_files = get_subjectfiles(subject_fullpath)
         subject = subjectdir.split("_")[0]
         timepoint = subjectdir.split("_")[1]
-        dirs_tocheck = logdir, os.path.join(bidsdir, subject), os.path.join(bidsdir, subject, timepoint), os.path.join(bidsdir, subject), os.path.join(bidsdir, subject, timepoint, "anat"), os.path.join(bidsdir, subject, timepoint, "fmap"), os.path.join(bidsdir, subject, timepoint, "func")
+        dirs_tocheck = os.path.join(bidsdir, subject), os.path.join(bidsdir, subject, timepoint), os.path.join(bidsdir, subject), os.path.join(bidsdir, subject, timepoint, "anat"), os.path.join(bidsdir, subject, timepoint, "fmap"), os.path.join(bidsdir, subject, timepoint, "func")
         check_dirs(dirs_tocheck)
         write_to_outputlog("\n" + "-"*20 + "\n" + subject)
         write_to_outputlog("\n    " + timepoint + "\n")
