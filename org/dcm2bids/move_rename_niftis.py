@@ -20,7 +20,8 @@ def main():
     Run the things.
     """    
     tempdir = os.path.join(bidsdir, "tmp_dcm2bids") # contains subject directories
-    check_dirs(logdir)
+    check = logdir, bidsdir
+    check_dirs(check)
     logfile_fullpaths = errorlog, outputlog
     create_logfiles(logfile_fullpaths)
     subjectdirs = get_subjectdirs(tempdir)
