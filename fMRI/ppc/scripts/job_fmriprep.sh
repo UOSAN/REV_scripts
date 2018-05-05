@@ -9,7 +9,7 @@ derivatives="${bids_dir}"/derivatives/
 working_dir="${derivatives}"/working
 image="${group_dir}""${container}"
 
-echo -e "\nMRIQC on ${subid}_${sessid}"
+echo -e "\nfMRIprepon ${subid}_${sessid}"
 echo -e "\nContainer: $image"
 echo -e "\nSubject directory: $bids_dir"
 
@@ -22,7 +22,7 @@ mkdir -p $working_dir
 # Run container using singularity
 cd $bids_dir
 
-singularity run --bind "${study_dir}":"${study_dir}" $image $bids_dir $derivatives participant --participant_label $subid --session-id $sessid -w $working_dir --n_procs 16 --mem_gb 64
+singularity run --bind "${group_dir}":"${group_dir}" $image $bids_dir $derivatives participant --participant_label $subid --session-id $sessid -w $working_dir --n_procs 16 --mem_gb 64
 
 echo -e "\n"
 echo -e "\ndone"
