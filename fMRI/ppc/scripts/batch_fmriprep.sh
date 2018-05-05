@@ -11,7 +11,7 @@ group_dir=/projects/sanlab/shared/ #set path to directory within which study fol
 study="REV" 
 
 # Set subject list
-SUBJLIST=`cat subject_list.txt` 
+SUBJLIST=`cat subject_list_test.txt` 
 
 # Loop through subjects and run job_mriqc
 for SUBJ in $SUBJLIST; do
