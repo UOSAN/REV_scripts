@@ -22,7 +22,11 @@ mkdir -p $working_dir
 # Run container using singularity
 cd $bids_dir
 
-singularity run --bind "${group_dir}":"${group_dir}" $image $bids_dir $derivatives participant --participant_label $subid --session-id $sessid -w $working_dir --n_procs 16 --mem_gb 64
+# Below are the flags that should be used with MRIQC
+#singularity run --bind "${group_dir}":"${group_dir}" $image $bids_dir $derivatives participant --participant_label $subid --session-id $sessid -w $working_dir --n_procs 16 --mem_gb 64
+
+singularity run --bind "${group_dir}":"${group_dir}" $image $bids_dir $derivatives participant --participant_label $subid -t $task -w $working_dir --output-space {template,fsaverage5,fsnative} --nthreads 1 --mem-mb 100000 --fs-license-file /projects/sanlab/shared/REV/REV_scripts/fMRI/license.txt
+
 
 echo -e "\n"
 echo -e "\ndone"
