@@ -5,7 +5,7 @@
 
 # Set bids directories
 bids_dir="${group_dir}""${study}"/bids_data
-derivatives="${bids_dir}"/derivatives/
+derivatives="${bids_dir}"/derivatives
 working_dir="${derivatives}"/working/
 image="${group_dir}""${container}"
 
