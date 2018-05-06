@@ -10,12 +10,11 @@ group = "sanlab"
 study = "REV"
 
 # Set directories (Check these for your study)
-logdir = os.path.join(os.getcwd(), "logs_bidsQC")
-bidsdir = os.path.join(os.sep, "projects", group, "shared", study, "bids_data")
-tempdir = os.path.join(bidsdir, "tmp_dcm2bids")
-outputlog = os.path.join(logdir, "outputlog_bidsQC" + datetime.now().strftime("%Y%m%d-%H%M%S") + ".txt")
-errorlog = os.path.join(logdir, "errorlog_bidsQC" + datetime.now().strftime("%Y%m%d-%H%M%S") + ".txt")
-derivatives = os.path.join(bidsdir, "derivatives")
+# These variables are used in the main script and need to be defined here. 
+# They need to exist prior to running the script.
+logdir = os.path.join(os.getcwd(), 'logs_bidsQC')  # Where log files will go
+bidsdir = os.path.join(os.sep, 'projects', group, 'shared', study, 'bids_data')  # Where your subjects' nifti directories are
+
 
 # Set directories for local testing
 # bidsdir = os.path.join(os.sep, "Users", "kristadestasio", "Desktop", "bids_data")
@@ -35,6 +34,21 @@ timepoint1 = TimePoint("ses-wave1", [sequence1, sequence3, sequence4])
 timepoint2 = TimePoint("ses-wave2", [sequence2, sequence3, sequence4])
 expected_timepoints = [timepoint1, timepoint2]
 
-# Files g-zipped or not? NOTE: All files must be either zipped or unzipped. A mixture won't work properly.
+# Files g-zipped or not? 
+# NOTE: All files must be either zipped or unzipped. 
+# A mixture won't work properly.
 gzipped = True
 
+
+# Do we want runs based on sequence order? Yes = True
+# This is for tasks that use counterbalancing (of e.g. stimulus blocks) anf for which we want to identify the content
+# with the 'acq-' label and order administered with the 'task-' label.
+order_sequences = True
+tasks_to_order = 'gng', 'react', 'sst'
+
+
+# Paths that are required and that should not be changed
+tempdir = os.path.join(bidsdir, 'tmp_dcm2bids')  # holding folder for undesired files
+outputlog = os.path.join(logdir, 'outputlog_bidsQC' + datetime.now().strftime('%Y%m%d-%H%M%S') + '.txt')
+errorlog = os.path.join(logdir, 'errorlog_bidsQC' + datetime.now().strftime('%Y%m%d-%H%M%S') + '.txt')
+derivatives = os.path.join(bidsdir, 'derivatives')  # Where processed data will go
