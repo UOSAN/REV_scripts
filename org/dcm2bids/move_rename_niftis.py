@@ -2,7 +2,6 @@
 # This will only work once because magnitude2 and phasediff files are identified by relation to magnitude1 images.
 # For the same reason, it also will not work if the magnitude1 images are missing.
 
-
 # higher sequence number is phasediff
 # with e2 has "EchoTime": 0.00683 = magnitude2
 # without e2 "EchoTime": 0.00437 = magnitude1
