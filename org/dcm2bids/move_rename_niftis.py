@@ -11,17 +11,17 @@ from datetime import datetime
 import shutil
 
 
-# group = "sanlab"
-# study = "REV"
-# bidsdir = os.path.join(os.sep, "projects", group, "shared", study, "bids_data")
-# logdir = os.path.join(os.sep, "projects", group, "shared", study, "REV_scripts", "org", "dcm2bids", "logs_rename")
-# outputlog = os.path.join(logdir, "outputlog_rename_" + datetime.now().strftime("%Y%m%d-%H%M") + ".txt")
-# errorlog = os.path.join(logdir, "errorlog_rename_" + datetime.now().strftime("%Y%m%d-%H%M") + ".txt")
-
-bidsdir = '/Users/kristadestasio/Desktop/bids_data'
-logdir = '/Users/kristadestasio/Desktop/bids_data/logs'
+group = "sanlab"
+study = "REV"
+bidsdir = os.path.join(os.sep, "projects", group, "shared", study, "bids_data")
+logdir = os.path.join(os.sep, "projects", group, "shared", study, "REV_scripts", "org", "dcm2bids", "logs_rename")
 outputlog = os.path.join(logdir, "outputlog_rename_" + datetime.now().strftime("%Y%m%d-%H%M") + ".txt")
 errorlog = os.path.join(logdir, "errorlog_rename_" + datetime.now().strftime("%Y%m%d-%H%M") + ".txt")
+
+#bidsdir = '/Users/kristadestasio/Desktop/bids_data'
+#logdir = '/Users/kristadestasio/Desktop/bids_data/logs'
+#outputlog = os.path.join(logdir, "outputlog_rename_" + datetime.now().strftime("%Y%m%d-%H%M") + ".txt")
+#errorlog = os.path.join(logdir, "errorlog_rename_" + datetime.now().strftime("%Y%m%d-%H%M") + ".txt")
 
 def main():
     """
@@ -137,7 +137,7 @@ def rename_found_files(target_tasks, funcdir_fullpath):
         acq_str = found_file[acq_index:acq_index + 6]
         target_file_fullpath = os.path.join(funcdir_fullpath, found_file)
         if acq_str == '_acq-1':
-            os.rename(target_file_fullpath, target_file_fullpath.replace(found_file[acq_index:acq_index + 6], 'acq-A'))
+            os.rename(target_file_fullpath, target_file_fullpath.replace(found_file[acq_index:acq_index + 6], '_acq-A'))
         elif acq_str == '_acq-2':
             os.rename(target_file_fullpath, target_file_fullpath.replace(found_file[acq_index:acq_index + 6], '_acq-B'))
         elif acq_str == '_acq-3':
