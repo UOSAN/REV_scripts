@@ -59,16 +59,14 @@ class TargetFilesFlip:
         self.files = files
 
 
-targetfiles1 = TargetFilesFlip('sub-REV003', {'ses-wave1':'gng'})
-targetfiles2 = TargetFilesFlip('sub-REV004', {'ses-wave1':'gng', 'ses-wave1':'react'})
-targetfiles3 = TargetFilesFlip('sub-REV006', {'ses-wave1':'gng', 'ses-wave1':'react'})
-targetfiles4 = TargetFilesFlip('sub-REV009', {'ses-wave1':'gng'})
-targetfiles5 = TargetFilesFlip('sub-REV013', {'ses-wave1':'gng', 'ses-wave1':'react'})
-targetfiles6 = TargetFilesFlip('sub-REV014', {'ses-wave1':'gng'})
-targetfiles7 = TargetFilesFlip('sub-REV017', {'ses-wave1':'gng', 'ses-wave1':'react'})
-targetfiles8 = TargetFilesFlip('sub-REV098', {'ses-wave2':'gng'})
-files_toflip = (targetfiles1, targetfiles2, targetfiles3, targetfiles4, targetfiles5, targetfiles6, targetfiles7, targetfiles8)
-
+files_toflip = (TargetFilesFlip('sub-REV003', {'ses-wave1':'gng'}), 
+TargetFilesFlip('sub-REV004', {'ses-wave1':'gng', 'ses-wave1':'react'}), 
+TargetFilesFlip('sub-REV006', {'ses-wave1':'gng', 'ses-wave1':'react'}), 
+TargetFilesFlip('sub-REV009', {'ses-wave1':'gng'}), 
+TargetFilesFlip('sub-REV013', {'ses-wave1':'gng', 'ses-wave1':'react'}), 
+TargetFilesFlip('sub-REV014', {'ses-wave1':'gng'}), 
+TargetFilesFlip('sub-REV017', {'ses-wave1':'gng', 'ses-wave1':'react'}), 
+TargetFilesFlip('sub-REV098', {'ses-wave2':'gng'}))
 
 
 def rename_misnamed_files():
