@@ -7,7 +7,7 @@
 #########################################################################
 
 # Change this, path to data and script repos
-repopath="/Users/kristadestasio/Desktop"
+repopath="/Users/mmoss/Dropbox/AH_Grad_Stuff/SAP"
 task="React"
 
 # Set paths 
@@ -21,7 +21,8 @@ touch "${outputlog}"
 # Idiosyncratic file renaming to correct naming errors
 echo "-------------------Renaming $task files-------------------" > $outputlog
 cd $outputdir
-# mv REV13_REV_GNG4.txt_04-May-2015_10-25.mat REV013_REV_GNG4.txt_04-May-2015_10-25.mat
+# MM: FIX THE BELOW CRAP: NEED TO CHECK INCORRECT NAMES MANUALLY --- mv current_filename target_filename
+# mv REV13_REV_GNG4.txt_04-May-2015_10-25.mat REV013_REV_GNG4.txt_04-May-2015_10-25.mat  
 # echo "REV13_REV_GNG4.txt_04-May-2015_10-25.mat REV013_REV_GNG4.txt_04-May-2015_10-25.mat" >> $outputlog
 # mv REV13_REV_GNG3.txt_04-May-2015_10-33.mat REV013_REV_GNG3.txt_04-May-2015_10-33.mat
 # echo "REV13_REV_GNG3.txt_04-May-2015_10-33.mat REV013_REV_GNG3.txt_04-May-2015_10-33.mat" >> $outputlog
@@ -43,7 +44,7 @@ done
 
 for file in $(ls *.mat)
 	do
-		new=$(echo "$file" | sed -E 's/.{22}\.mat/.mat/')
+		new=$(echo "$file" | sed -E 's/.{22}\.mat/.mat/') #22 indicates index (check how things are indexed here)
 		mv $file $new
 done
 echo "Done renaming files"

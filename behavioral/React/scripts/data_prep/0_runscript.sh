@@ -2,13 +2,13 @@
 
 
 # Change this, path to data and script repos
-repopath="/Users/kristadestasio/Desktop" 
+repopath="/Users/mmoss/Dropbox/AH_Grad_Stuff/SAP" 
 
-echo "Copying GNG behavioral files"
+echo "Copying React behavioral files"
 sh ${repopath}/REV_scripts/behavioral/React/scripts/data_prep/1_copyBxData.sh
 
-echo "Renaming GNG behavioral files"
+echo "Renaming React behavioral files"
 sh ${repopath}/REV_scripts/behavioral/React/scripts/data_prep/2_renameBxData.sh
 
-echo "Checking GNG behavioral files"
+echo "Checking React behavioral files"
 sh ${repopath}/REV_scripts/behavioral/React/scripts/data_prep/3_checkExistsData.sh
