@@ -49,14 +49,52 @@ def main():
         phasediff_files = get_phasediff_files(fieldmap_files, magnitude1_numbers)
         magnitude2_files = get_magnitude2_files(fieldmap_files, magnitude1_numbers)
         mprage_files = get_mprage_files(subject_files)
-        rename_bidsify_files([f for f in magnitude1_files if f.endswith(json_extension)], subjectdir, subject_fullpath, "_magnitude1", json_extension, "fmap", subject, timepoint)
-        rename_bidsify_files([f for f in magnitude1_files if f.endswith(nifti_extension)], subjectdir, subject_fullpath, "_magnitude1", nifti_extension, "fmap", subject, timepoint)
-        rename_bidsify_files([f for f in magnitude2_files if f.endswith(json_extension)], subjectdir, subject_fullpath, "_magnitude2", json_extension, "fmap", subject, timepoint)
-        rename_bidsify_files([f for f in magnitude2_files if f.endswith(nifti_extension)], subjectdir, subject_fullpath, "_magnitude2", nifti_extension, "fmap", subject, timepoint)
-        rename_bidsify_files([f for f in phasediff_files if f.endswith(json_extension)], subjectdir, subject_fullpath, "_phasediff", json_extension, "fmap", subject, timepoint)
-        rename_bidsify_files([f for f in phasediff_files if f.endswith(nifti_extension)], subjectdir, subject_fullpath, "_phasediff", nifti_extension, "fmap", subject, timepoint)
-        rename_bidsify_files([f for f in mprage_files if f.endswith(json_extension)], subjectdir, subject_fullpath, "_T1w", json_extension, "anat", subject, timepoint)
-        rename_bidsify_files([f for f in mprage_files if f.endswith(nifti_extension)], subjectdir, subject_fullpath, "_T1w", nifti_extension, "anat", subject, timepoint)
+        rename_fmap_files(magnitude1_files, magnitude2_files, phasediff_files, mprage_files, subjectdir, subject_fullpath, nifti_extension, json_extension, subject, timepoint)
+        rename_misnamed_files()
+
+
+class TargetFilesFlip:
+    def __init__(self, name: str, files: list):
+        self.name = name
+        self.files = files
+
+
+targetfiles1 = TargetFilesFlip('sub-REV003', {'ses-wave1':'gng'})
+targetfiles2 = TargetFilesFlip('sub-REV004', {'ses-wave1':'gng', 'ses-wave1':'react'})
+targetfiles3 = TargetFilesFlip('sub-REV006', {'ses-wave1':'gng', 'ses-wave1':'react'})
+targetfiles4 = TargetFilesFlip('sub-REV009', {'ses-wave1':'gng'})
+targetfiles5 = TargetFilesFlip('sub-REV013', {'ses-wave1':'gng', 'ses-wave1':'react'})
+targetfiles6 = TargetFilesFlip('sub-REV014', {'ses-wave1':'gng'})
+targetfiles7 = TargetFilesFlip('sub-REV017', {'ses-wave1':'gng', 'ses-wave1':'react'})
+targetfiles8 = TargetFilesFlip('sub-REV098', {'ses-wave2':'gng'})
+files_toflip = (targetfiles1, targetfiles2, targetfiles3, targetfiles4, targetfiles5, targetfiles6, targetfiles7, targetfiles8)
+
+
+
+def rename_misnamed_files():
+    for subject in files_toflip:
+        subject_fullpath = os.path.join(bidsdir, subject.name)
+        funcdir_fullpaths = [os.path.join(subject_fullpath, timepoint, 'func') for timepoint in subject.files.keys()] 
+        for funcdir_fullpath in funcdir_fullpaths:
+            if os.path.isdir(funcdir_fullpath):
+                target_tasks = [task for task in subject.files.values()]
+                funcdir_contents = os.listdir(funcdir_fullpath)
+                target_files = [func_file for func_file in funcdir_contents for task in target_tasks if str(task) in func_file]
+                print(target_files)
+            else:
+                print('%s does not exist' % (funcdir_fullpath))
+            
+        
+
+def rename_fmap_files(magnitude1_files, magnitude2_files, phasediff_files, mprage_files, subjectdir, subject_fullpath, nifti_extension, json_extension, subject, timepoint):
+    rename_bidsify_files([f for f in magnitude1_files if f.endswith(json_extension)], subjectdir, subject_fullpath, "_magnitude1", json_extension, "fmap", subject, timepoint)
+    rename_bidsify_files([f for f in magnitude1_files if f.endswith(nifti_extension)], subjectdir, subject_fullpath, "_magnitude1", nifti_extension, "fmap", subject, timepoint)
+    rename_bidsify_files([f for f in magnitude2_files if f.endswith(json_extension)], subjectdir, subject_fullpath, "_magnitude2", json_extension, "fmap", subject, timepoint)
+    rename_bidsify_files([f for f in magnitude2_files if f.endswith(nifti_extension)], subjectdir, subject_fullpath, "_magnitude2", nifti_extension, "fmap", subject, timepoint)
+    rename_bidsify_files([f for f in phasediff_files if f.endswith(json_extension)], subjectdir, subject_fullpath, "_phasediff", json_extension, "fmap", subject, timepoint)
+    rename_bidsify_files([f for f in phasediff_files if f.endswith(nifti_extension)], subjectdir, subject_fullpath, "_phasediff", nifti_extension, "fmap", subject, timepoint)
+    rename_bidsify_files([f for f in mprage_files if f.endswith(json_extension)], subjectdir, subject_fullpath, "_T1w", json_extension, "anat", subject, timepoint)
+    rename_bidsify_files([f for f in mprage_files if f.endswith(nifti_extension)], subjectdir, subject_fullpath, "_T1w", nifti_extension, "anat", subject, timepoint)
 
 
 def check_dirs(dir_fullpaths:list):
