@@ -62,7 +62,7 @@ def main():
 def rename_idiosyncratic_files():
     extensions = '.nii.gz', '.json'
     for ext in extensions:
-        os.remove(os.path.join(bidsdir, 'sub-REV002', 'ses-wave1', 'func', ('sub-REV002_ses-wave1_task-react_acq-1_bold.nii' + ext)))
+        os.remove(os.path.join(bidsdir, 'sub-REV002', 'ses-wave1', 'func', ('sub-REV002_ses-wave1_task-react_acq-1_bold' + ext)))
         os.rename(
             os.path.join(bidsdir, 'sub-REV002', 'ses-wave1', 'func', ('sub-REV002_ses-wave1_task-react_acq-2_run-01_bold' + ext)), 
             os.path.join(bidsdir, 'sub-REV002', 'ses-wave1', 'func', ('sub-REV002_ses-wave1_task-react_acq-2_bold' + ext))
