@@ -133,6 +133,7 @@ def rename_found_files(target_tasks, funcdir_fullpath):
     funcdir_contents = os.listdir(funcdir_fullpath)
     found_files = [func_file for func_file in funcdir_contents for task in target_tasks if str(task) in func_file]
     for found_file in found_files:
+        write_to_outputlog('working on ' + found_file)
         acq_index = found_file.index("_acq-")
         acq_str = found_file[acq_index:acq_index + 6]
         target_file_fullpath = os.path.join(funcdir_fullpath, found_file)
