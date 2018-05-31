@@ -10,6 +10,8 @@
 repopath="/Users/mmoss/Dropbox/AH_Grad_Stuff/SAP"
 task="React"
 
+taskdir=(React cueReact)
+
 # Set paths 
 datadir="$repopath/REV_scripts/behavioral/$task/data"
 sourcedir="$repopath/REV_BxData"
@@ -55,28 +57,30 @@ done
 for sub in ${sublist[@]}; do
 	if [ -d $sub ]; then
 		cd $sub
-		if [ -d base/$task ]; then
-			cd base/$task
-			if [ $(ls "${sourcedir}"/scanning/"${sub}"/base/"${task}"/*.mat | wc -l) -gt 0 ]; then
-				for baserun in $(ls *.mat); do
-					cp $baserun $datadir/$baserun
-				done
-				echo ${sub} "base runs copied" >> $outputlog
-			else echo ${sub} "base runs do not exist" >> $errorlog	
-			fi
-			cd ../..
-		fi
-		if [ -d end/$task ]; then
-			cd end/$task
-			if [ $(ls "${sourcedir}"/scanning/"${sub}"/end/"${task}"/*.mat | wc -l) -gt 0 ]; then
-				for endrun in $(ls *.mat); do
-					cp $endrun $datadir/$endrun
-				done
-				echo ${sub} "end runs copied" >> $outputlog
-			else echo ${sub} "end runs do not exist" >> $errorlog	
-			fi
-			cd ../..
-		fi
+        for dir in ${taskdir[@]}; do
+    		if [ -d base/$dir ]; then #if directory in base called 'React' exists...
+    			cd base/$dir
+    			if [ $(ls "${sourcedir}"/scanning/"${sub}"/base/"${dir}"/*.mat | wc -l) -gt 0 ]; then
+    				for baserun in $(ls *.mat); do
+    					cp $baserun $datadir/$baserun
+    				done
+    				echo ${sub} "base runs copied" >> $outputlog
+    			else echo ${sub} "base runs do not exist" >> $errorlog	
+    			fi
+    			cd ../..
+            fi
+    		if [ -d end/$dir ]; then
+    			cd end/$dir
+    			if [ $(ls "${sourcedir}"/scanning/"${sub}"/end/"${dir}"/*.mat | wc -l) -gt 0 ]; then
+    				for endrun in $(ls *.mat); do
+    					cp $endrun $datadir/$endrun
+    				done
+    				echo ${sub} "end runs copied" >> $outputlog
+    			else echo ${sub} "end runs do not exist" >> $errorlog	
+    			fi
+    			cd ../..
+    		fi
+        done
 		cd ..
 	else echo ${sub} "scanning data directory does not exist" >> $errorlog	
 	fi
