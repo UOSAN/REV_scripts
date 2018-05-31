@@ -319,22 +319,25 @@ def fix_files(sequence_fullpath: str, file_group: str, expected_numfiles: int, e
         found_files.sort()
         write_to_outputlog("\n FIXING FILES: %s \n" % (extension))
         for found_file in found_files:
-            run_index = found_file.index("_run-")
-            run_number = found_file[run_index + 5:run_index + 7]
-            run_int = int(run_number) 
-            target_file = os.path.join(sequence_fullpath, found_file)
-            if run_int <= difference: 
-                move_files_tmp(target_file, subject, timepoint)
-            elif run_int > difference:
-                if expected_numfiles == 1:
-                    os.rename(target_file, target_file.replace(found_file[run_index:run_index + 7], ''))
-                    write_to_outputlog("RENAMED: %s, dropped run from filename" % (target_file))
-                elif expected_numfiles > 1:
-                    new_int = run_int - difference
-                    int_str = str(new_int)
-                    new_runnum = int_str.zfill(2)
-                    os.rename(target_file, target_file.replace(found_file[run_index + 5:run_index + 7], new_runnum))
-                    write_to_outputlog("RENAMED: %s with run-%s" % (target_file, new_runnum))
+            try:
+                run_index = found_file.index("_run-")
+                run_number = found_file[run_index + 5:run_index + 7]
+                run_int = int(run_number) 
+                target_file = os.path.join(sequence_fullpath, found_file)
+                if run_int <= difference: 
+                    move_files_tmp(target_file, subject, timepoint)
+                elif run_int > difference:
+                    if expected_numfiles == 1:
+                        os.rename(target_file, target_file.replace(found_file[run_index:run_index + 7], ''))
+                        write_to_outputlog("RENAMED: %s, dropped run from filename" % (target_file))
+                    elif expected_numfiles > 1:
+                        new_int = run_int - difference
+                        int_str = str(new_int)
+                        new_runnum = int_str.zfill(2)
+                        os.rename(target_file, target_file.replace(found_file[run_index + 5:run_index + 7], new_runnum))
+                        write_to_outputlog("RENAMED: %s with run-%s" % (target_file, new_runnum))
+            except ValueError:
+                write_to_errorlog('ERROR in FixFiles:\n    Subject: %s\n     File: %s' %(subject, found_file))
 
 
 def move_files_tmp(target_file:str, subject:str, timepoint:str):
