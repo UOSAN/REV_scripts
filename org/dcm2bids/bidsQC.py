@@ -272,6 +272,7 @@ def check_sequence_files(subject: str, timepoint: str, sequence: str, expected_s
         write_to_outputlog("\n EXISTS: %s folder for subject %s \n" % (sequence, subject))
     validate_sequencefilecount(expected_sequence, sequence_fullpath, extension_json, timepoint, subject)
     validate_sequencefilecount(expected_sequence, sequence_fullpath, extension_nifti, timepoint, subject)
+    write_to_outputlog('-'*20 + ' checking number of files ' + '-'*20)
     for key in expected_sequence.files.keys():
         fix_files(sequence_fullpath, key, expected_sequence.files[key], extension_json, subject, timepoint)
         fix_files(sequence_fullpath, key, expected_sequence.files[key], extension_nifti, subject, timepoint)
@@ -307,7 +308,6 @@ def fix_files(sequence_fullpath: str, file_group: str, expected_numfiles: int, e
     """
     sequence_files = os.listdir(sequence_fullpath)
     found_files = [file for file in sequence_files if file_group in file and file.endswith(extension)]
-    write_to_outputlog('-'*20 + ' checking number of files ' + '-'*20)
     if len(found_files) == expected_numfiles:
         write_to_outputlog("OK: %s has correct number of %s %s files in %s." % (subject, file_group, extension, timepoint))
         return
