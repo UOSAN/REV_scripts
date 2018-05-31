@@ -57,7 +57,7 @@ def natural_keys(text):
 
 
 def rename_tasks_ordered(files_all_target_tasks:list, sequence_fullpath:str, tasks_to_order:list, subject:str):    
-    write_to_outputlog('Subject %s' % (subject))
+    write_to_outputlog('-'*20 + ' assign ordered run numbers ' + '-'*20)
     for task in tasks_to_order:
         files_one_task = [f for f in files_all_target_tasks if str(task) in f]
         extensions = '.nii.gz', '.json'
