@@ -72,8 +72,8 @@ def rename_tasks_ordered(files_all_target_tasks:list, sequence_fullpath:str, tas
                 end_str = target_file[bold_index:]
                 runnum = str(i).zfill(2)
                 new_file_name = start_str + '_run-' + runnum + end_str
+                write_to_outputlog('        File: %s\n          Series number: %s\n          New run number: %s' %(target_file, target_file.split('_')[0], runnum))
                 os.rename(os.path.join(sequence_fullpath, target_file), os.path.join(sequence_fullpath, new_file_name.split('_', 1)[-1]))
-                write_to_outputlog('        File: %s\n        Series number: %s\n        Run number: %s' %(target_file, target_file.split('_')[0], runnum))
                 i = i + 1
 
 
