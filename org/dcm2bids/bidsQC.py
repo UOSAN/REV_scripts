@@ -41,7 +41,7 @@ def main():
                     write_to_errorlog("SEQUENCE DIRECTORY WARNING! %s missing or user entered duplicate or non-existant sequence folder name." % (sequence_folder_name))
             if cfg.order_sequences:
                 files_all_target_tasks = append_series_number(sequence_fullpath, cfg.bidsdir, cfg.tasks_to_order)
-                rename_tasks_ordered(files_all_target_tasks, sequence_fullpath, cfg.tasks_to_order)
+                rename_tasks_ordered(files_all_target_tasks, sequence_fullpath, cfg.tasks_to_order, subject)
 
 
 def atoi(text):
@@ -56,10 +56,12 @@ def natural_keys(text):
     return [ atoi(c) for c in re.split('(\d+)', text) ]
 
 
-def rename_tasks_ordered(files_all_target_tasks, sequence_fullpath, tasks_to_order):    
+def rename_tasks_ordered(files_all_target_tasks:list, sequence_fullpath:str, tasks_to_order:list, subject:str):    
+    write_to_outputlog('Subject %s\n')
     for task in tasks_to_order:
         files_one_task = [f for f in files_all_target_tasks if str(task) in f]
         extensions = '.nii.gz', '.json'
+        write_to_outputlog('    Task: %s' % (task))
         for extension in extensions:
             task_files_oftype = [f for f in files_one_task if f.endswith(extension)]
             task_files_oftype.sort(key=natural_keys)
@@ -71,10 +73,11 @@ def rename_tasks_ordered(files_all_target_tasks, sequence_fullpath, tasks_to_ord
                 runnum = str(i).zfill(2)
                 new_file_name = start_str + '_run-' + runnum + end_str
                 os.rename(os.path.join(sequence_fullpath, target_file), os.path.join(sequence_fullpath, new_file_name.split('_', 1)[-1]))
+                write_to_outputlog('        File: %s\n        Series number: %s\n        Run number: %s' %(target_file, target_file.split('_')[0], runnum))
                 i = i + 1
 
 
-def append_series_number(sequence_fullpath:str, bidsdir:str, tasks_to_order):
+def append_series_number(sequence_fullpath:str, bidsdir:str, tasks_to_order: list):
     """
     Pull SeriesNumber from the JSON file and append it as a prefix to the appropriate json and nifti files.
     """
