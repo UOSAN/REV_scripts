@@ -14,16 +14,14 @@ study = "REV"
 # They need to exist prior to running the script.
 logdir = os.path.join(os.getcwd(), 'logs_bidsQC')  # Where log files will go
 bidsdir = os.path.join(os.sep, 'projects', group, 'shared', study, 'bids_data')  # Where your subjects' nifti directories are
-
+tempdir = os.path.join(bidsdir, "tmp_dcm2bids")
+outputlog = os.path.join(logdir, "outputlog_bidsQC_" + datetime.now().strftime("%Y%m%d-%H%M") + ".txt")
+errorlog = os.path.join(logdir, "errorlog_bidsQC_" + datetime.now().strftime("%Y%m%d-%H%M") + ".txt")
+derivatives = os.path.join(bidsdir, "derivatives")
 
 # Set directories for local testing
 # bidsdir = os.path.join(os.sep, "Users", "kristadestasio", "Desktop", "bids_data")
 # logdir = os.path.join(bidsdir, "logs_bidsQC")
-# tempdir = os.path.join(bidsdir, "tmp_dcm2bids")
-# outputlog = os.path.join(logdir, "outputlog_bidsQC_" + datetime.now().strftime("%Y%m%d-%H%M") + ".txt")
-# errorlog = os.path.join(logdir, "errorlog_bidsQC_" + datetime.now().strftime("%Y%m%d-%H%M") + ".txt")
-# derivatives = os.path.join(bidsdir, "derivatives")
-
 
 # Create a dictionary (the thing below) for each timepoint in your study where the pairs are "sequence_directory_name" : "expected_number_runs"
 sequence1 = Sequence("func", {"bart": 1, "gng_acq-1":1, "gng_acq-2":1, "react_acq-1":1, "react_acq-2":1, "sst_acq-1":1, "sst_acq-2":1})
