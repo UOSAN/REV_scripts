@@ -13,15 +13,15 @@ import shutil
 
 group = "sanlab"
 study = "REV"
-bidsdir = os.path.join(os.sep, "projects", group, "shared", study, "bids_data")
-logdir = os.path.join(os.sep, "projects", group, "shared", study, "REV_scripts", "org", "dcm2bids", "logs_rename")
+# bidsdir = os.path.join(os.sep, "projects", group, "shared", study, "bids_data")
+# logdir = os.path.join(os.sep, "projects", group, "shared", study, "REV_scripts", "org", "dcm2bids", "logs_rename")
+# outputlog = os.path.join(logdir, "outputlog_rename_" + datetime.now().strftime("%Y%m%d-%H%M") + ".txt")
+# errorlog = os.path.join(logdir, "errorlog_rename_" + datetime.now().strftime("%Y%m%d-%H%M") + ".txt")
+
+bidsdir = '/Users/kristadestasio/Desktop/bids_data'
+logdir = '/Users/kristadestasio/Desktop/bids_data/logs'
 outputlog = os.path.join(logdir, "outputlog_rename_" + datetime.now().strftime("%Y%m%d-%H%M") + ".txt")
 errorlog = os.path.join(logdir, "errorlog_rename_" + datetime.now().strftime("%Y%m%d-%H%M") + ".txt")
-
-#bidsdir = '/Users/kristadestasio/Desktop/bids_data'
-#logdir = '/Users/kristadestasio/Desktop/bids_data/logs'
-#outputlog = os.path.join(logdir, "outputlog_rename_" + datetime.now().strftime("%Y%m%d-%H%M") + ".txt")
-#errorlog = os.path.join(logdir, "errorlog_rename_" + datetime.now().strftime("%Y%m%d-%H%M") + ".txt")
 
 def main():
     """
@@ -119,6 +119,11 @@ def rename_idiosyncratic_files():
         target_files_144 = [filename for filename in os.listdir(os.path.join(bidsdir, 'sub-REV144', 'ses-wave1', 'func')) if 'sub-REV144_ses-wave1_task-gng_acq-1_run-02_bold' in filename and filename.endswith(extension)]
         for target_file in target_files_144:
             os.remove(os.path.join(bidsdir, 'sub-REV144', 'ses-wave1', 'func', target_file))
+        os.remove(os.path.join(bidsdir, 'sub-REV010', 'ses-wave2', 'fmap', 'sub-REV010_ses-wave2_magnitude1.json'))
+        target_files_051a = [filename for filename in os.listdir(os.path.join(bidsdir, 'sub-REV051', 'ses-wave1', 'func')) if 'sub-REV051_ses-wave1_task-bart_acq-2' in filename or '_acq-3' in filename or '_acq-4' in filename and filename.endswith(extension)]
+        for target_file in target_files_051a:
+            os.remove(os.path.join(bidsdir, 'sub-REV051', 'ses-wave1', 'func', target_file))
+
 
 
 class TargetFilesFlip:
