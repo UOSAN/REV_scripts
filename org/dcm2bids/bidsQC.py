@@ -110,8 +110,11 @@ def append_series_number(sequence_fullpath:str, bidsdir:str, tasks_to_order: lis
             series_number = data["SeriesNumber"]
         extensions = '.nii.gz', '.json'
         for extension in extensions:
-            new_file_name = str(series_number) + '_' + file_basename + extension
-            os.rename(os.path.join(sequence_fullpath, file_basename + extension), os.path.join(sequence_fullpath, new_file_name))
+            try:
+                new_file_name = str(series_number) + '_' + file_basename + extension
+                os.rename(os.path.join(sequence_fullpath, file_basename + extension), os.path.join(sequence_fullpath, new_file_name))
+            except FileNotFoundError:
+                write_to_errorlog('ERROR: %s not found' % (os.path.join(sequence_fullpath, file_basename + extension)))
     sequence_files = os.listdir(sequence_fullpath)
     files_all_target_tasks = [sequence_file for sequence_file in sequence_files for task in tasks_to_order if str(task) in sequence_file]
     return files_all_target_tasks
