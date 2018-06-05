@@ -62,66 +62,114 @@ def main():
 def rename_idiosyncratic_files():
     extensions = '.nii.gz', '.json'
     for extension in extensions:
+        # 002 remove react_acq-1
         target_files_002a = [filename for filename in os.listdir(os.path.join(bidsdir, 'sub-REV002', 'ses-wave1', 'func')) if 'sub-REV002_ses-wave1_task-react_acq-1_bold' in filename and filename.endswith(extension)]
         for target_file in target_files_002a:
             os.remove(os.path.join(bidsdir, 'sub-REV002', 'ses-wave1', 'func', target_file))
+        # 002 rename acq-2_run-01 to react_acq-2
         target_files_002b = [filename for filename in os.listdir(os.path.join(bidsdir, 'sub-REV002', 'ses-wave1', 'func')) if 'sub-REV002_ses-wave1_task-react_acq-2_run-01_bold' in filename and filename.endswith(extension)]
         for target_file in target_files_002b:
             os.rename(
                 os.path.join(bidsdir, 'sub-REV002', 'ses-wave1', 'func', target_file), 
                 os.path.join(bidsdir, 'sub-REV002', 'ses-wave1', 'func', ('sub-REV002_ses-wave1_task-react_acq-2_bold' + extension))
             )
+        # 002 rename react_acq-2_run-02 to react_acq-1 
         target_files_002c = [filename for filename in os.listdir(os.path.join(bidsdir, 'sub-REV002', 'ses-wave1', 'func')) if 'sub-REV002_ses-wave1_task-react_acq-2_run-02_bold' in filename and filename.endswith(extension)]
         for target_file in target_files_002c:
             os.rename(
                 os.path.join(bidsdir, 'sub-REV002', 'ses-wave1', 'func', target_file),
                 os.path.join(bidsdir, 'sub-REV002', 'ses-wave1', 'func', ('sub-REV002_ses-wave1_task-react_acq-1_bold' + extension))
             )
+        # 003 rename gng_acq-1 to gng_acq-3
         target_files_003a = [filename for filename in os.listdir(os.path.join(bidsdir, 'sub-REV003', 'ses-wave2', 'func')) if 'sub-REV003_ses-wave2_task-gng_acq-1' in filename and filename.endswith(extension)]
         for target_file in target_files_003a:
             os.rename(
                 os.path.join(bidsdir, 'sub-REV003', 'ses-wave2', 'func', target_file), 
                 os.path.join(bidsdir, 'sub-REV003', 'ses-wave2', 'func', ('sub-REV003_ses-wave2_task-gng_acq-3_bold' + extension))
             )
-        target_files_003b = [filename for filename in os.listdir(os.path.join(bidsdir, 'sub-REV003', 'ses-wave2', 'func')) if 'sub-REV003_ses-wave2_task-gng_acq-2_bold' in filename and filename.endswith(extension)]
+        # 003 rename gng_acq-2 to gng_acq-4
+        target_files_003b = [filename for filename in os.listdir(os.path.join(bidsdir, 'sub-REV003', 'ses-wave2', 'func')) if 'sub-REV003_ses-wave2_task-gng_acq-2' in filename and filename.endswith(extension)]
         for target_file in target_files_003b:
             os.rename(
                 os.path.join(bidsdir, 'sub-REV003', 'ses-wave2', 'func', target_file), 
                 os.path.join(bidsdir, 'sub-REV003', 'ses-wave2', 'func', ('sub-REV003_ses-wave2_task-gng_acq-4_bold' + extension))
             )
-        target_files_078a = [filename for filename in os.listdir(os.path.join(bidsdir, 'sub-REV078', 'ses-wave2', 'func')) if 'sub-REV078_ses-wave2_task-gng_acq-4_bold' in filename and filename.endswith(extension)]
+        # 003 rename sst_acq-1 to sst_acq-3
+        target_files_003c = [filename for filename in os.listdir(os.path.join(bidsdir, 'sub-REV003', 'ses-wave2', 'func')) if 'sub-REV003_ses-wave2_task-sst_acq-1' in filename and filename.endswith(extension)]
+        for target_file in target_files_003c:
+            os.rename(
+                os.path.join(bidsdir, 'sub-REV003', 'ses-wave2', 'func', target_file), 
+                os.path.join(bidsdir, 'sub-REV003', 'ses-wave2', 'func', ('sub-REV003_ses-wave2_task-sst_acq-3_bold' + extension))
+            )
+        # 003 rename sst_acq-2 to sst_acq-4
+        target_files_003d = [filename for filename in os.listdir(os.path.join(bidsdir, 'sub-REV003', 'ses-wave2', 'func')) if 'sub-REV003_ses-wave2_task-sst_acq-2' in filename and filename.endswith(extension)]
+        for target_file in target_files_003b:
+            os.rename(
+                os.path.join(bidsdir, 'sub-REV003', 'ses-wave2', 'func', target_file), 
+                os.path.join(bidsdir, 'sub-REV003', 'ses-wave2', 'func', ('sub-REV003_ses-wave2_task-sst_acq-4_bold' + extension))
+            )
+        # 051 remove bart_acq-2
+        target_files_051a = [filename for filename in os.listdir(os.path.join(bidsdir, 'sub-REV051', 'ses-wave1', 'func')) if 'sub-REV051_ses-wave1_task-bart_acq-2' in filename or '_acq-3' in filename or '_acq-4' in filename and filename.endswith(extension)]
+        for target_file in target_files_051a:
+            os.remove(os.path.join(bidsdir, 'sub-REV051', 'ses-wave1', 'func', target_file))
+        # 078 remove gng_acq-4
+        target_files_078a = [filename for filename in os.listdir(os.path.join(bidsdir, 'sub-REV078', 'ses-wave2', 'func')) if 'sub-REV078_ses-wave2_task-gng_acq-4' in filename and filename.endswith(extension)]
         for target_file in target_files_078a:
             os.remove(os.path.join(bidsdir, 'sub-REV078', 'ses-wave2', 'func', target_file))
+        # 078 rename sst_acq-4_run-02 to gng_acq-4
         target_files_078b = [filename for filename in os.listdir(os.path.join(bidsdir, 'sub-REV078', 'ses-wave2', 'func')) if 'sub-REV078_ses-wave2_task-sst_acq-4_run-02_bold' in filename and filename.endswith(extension)]
         for target_file in target_files_078b:
             os.rename(
                 os.path.join(bidsdir, 'sub-REV078', 'ses-wave2', 'func', target_file),
                 os.path.join(bidsdir, 'sub-REV078', 'ses-wave2', 'func', ('sub-REV078_ses-wave2_task-gng_acq-4_bold' + extension))
             )
+        # 078 rename sst_acq-4_run-01 to sst_acq-4
+        target_files_078c = [filename for filename in os.listdir(os.path.join(bidsdir, 'sub-REV078', 'ses-wave2', 'func')) if 'sub-REV078_ses-wave2_task-sst_acq-4_run-01' in filename and filename.endswith(extension)]
+        for target_file in target_files_078c:
+            os.rename(
+                os.path.join(bidsdir, 'sub-REV078', 'ses-wave2', 'func', target_file),
+                os.path.join(bidsdir, 'sub-REV078', 'ses-wave2', 'func', ('sub-REV078_ses-wave2_task-sst_acq-4_bold' + extension))
+            )
+        # 082 remove gng_acq-3_run-01
         target_files_082a = [filename for filename in os.listdir(os.path.join(bidsdir, 'sub-REV082', 'ses-wave2', 'func')) if 'sub-REV082_ses-wave2_task-gng_acq-3_run-01_bold' in filename and filename.endswith(extension)]
         for target_file in target_files_082a:
             os.remove(os.path.join(bidsdir, 'sub-REV082', 'ses-wave2', 'func', target_file))
+        # 082 rename gng_acq-4 to gng_acq-3
         target_files_082b = [filename for filename in os.listdir(os.path.join(bidsdir, 'sub-REV082', 'ses-wave2', 'func')) if 'sub-REV082_ses-wave2_task-gng_acq-4_bold' in filename and filename.endswith(extension)]
         for target_file in target_files_082b:
             os.rename(
                 os.path.join(bidsdir, 'sub-REV082', 'ses-wave2', 'func', target_file),
                 os.path.join(bidsdir, 'sub-REV082', 'ses-wave2', 'func', ('sub-REV082_ses-wave2_task-gng_acq-3_bold' + extension))
             )
+        # 082 rename gng_acq-3_run-02_ to gng_acq-4
         target_files_082c = [filename for filename in os.listdir(os.path.join(bidsdir, 'sub-REV082', 'ses-wave2', 'func')) if 'sub-REV082_ses-wave2_task-gng_acq-3_run-02_bold' in filename and filename.endswith(extension)]
         for target_file in target_files_082c:
             os.rename(
                 os.path.join(bidsdir, 'sub-REV082', 'ses-wave2', 'func', target_file),
                 os.path.join(bidsdir, 'sub-REV082', 'ses-wave2', 'func', ('sub-REV082_ses-wave2_task-gng_acq-4_bold' + extension))
             )
-        target_files_142 = [filename for filename in os.listdir(os.path.join(bidsdir, 'sub-REV142', 'ses-wave1', 'func')) if 'sub-REV142_ses-wave1_task-gng_acq-2_run-02_bold' in filename and filename.endswith(extension)]
-        for target_file in target_files_142:
+        # 142 remove gng_acq-2_run-02
+        target_files_142a = [filename for filename in os.listdir(os.path.join(bidsdir, 'sub-REV142', 'ses-wave1', 'func')) if 'sub-REV142_ses-wave1_task-gng_acq-2_run-02_bold' in filename and filename.endswith(extension)]
+        for target_file in target_files_142a:
             os.remove(os.path.join(bidsdir, 'sub-REV142', 'ses-wave1', 'func', target_file))
-        target_files_144 = [filename for filename in os.listdir(os.path.join(bidsdir, 'sub-REV144', 'ses-wave1', 'func')) if 'sub-REV144_ses-wave1_task-gng_acq-1_run-02_bold' in filename and filename.endswith(extension)]
-        for target_file in target_files_144:
+        # 142 rename gng_acq-2_run-01 to gng_acq-2
+        target_files_142b = [filename for filename in os.listdir(os.path.join(bidsdir, 'sub-REV142', 'ses-wave1', 'func')) if 'sub-REV142_ses-wave1_task-gng_acq-2_run-01_bold' in filename and filename.endswith(extension)]
+        for target_file in target_files_142b:
+            os.rename(
+                os.path.join(bidsdir, 'sub-REV082', 'ses-wave2', 'func', target_file),
+                os.path.join(bidsdir, 'sub-REV082', 'ses-wave2', 'func', ('sub-REV142_ses-wave1_task-gng_acq-2_bold' + extension))
+            )
+        # 144 remove gng_acq-1_run-02
+        target_files_144a = [filename for filename in os.listdir(os.path.join(bidsdir, 'sub-REV144', 'ses-wave1', 'func')) if 'sub-REV144_ses-wave1_task-gng_acq-1_run-02_bold' in filename and filename.endswith(extension)]
+        for target_file in target_files_144a:
             os.remove(os.path.join(bidsdir, 'sub-REV144', 'ses-wave1', 'func', target_file))
-        target_files_051a = [filename for filename in os.listdir(os.path.join(bidsdir, 'sub-REV051', 'ses-wave1', 'func')) if 'sub-REV051_ses-wave1_task-bart_acq-2' in filename or '_acq-3' in filename or '_acq-4' in filename and filename.endswith(extension)]
-        for target_file in target_files_051a:
-            os.remove(os.path.join(bidsdir, 'sub-REV051', 'ses-wave1', 'func', target_file))
+        # 144 rename gng_acq-1_run-01 gng_acq-1
+        target_files_144b = [filename for filename in os.listdir(os.path.join(bidsdir, 'sub-REV144', 'ses-wave1', 'func')) if 'sub-REV144_ses-wave1_task-gng_acq-1_run-01_bold' in filename and filename.endswith(extension)]
+        for target_file in target_files_144b:
+            os.rename(
+                os.path.join(bidsdir, 'sub-REV082', 'ses-wave2', 'func', target_file),
+                os.path.join(bidsdir, 'sub-REV082', 'ses-wave2', 'func', ('sub-REV144_ses-wave1_task-gng_acq-1_bold' + extension))
+            )
 
 
 
