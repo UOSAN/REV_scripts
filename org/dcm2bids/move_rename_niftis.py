@@ -53,10 +53,10 @@ def main():
         phasediff_files = get_phasediff_files(fieldmap_files, magnitude1_numbers)
         magnitude2_files = get_magnitude2_files(fieldmap_files, magnitude1_numbers)
         mprage_files = get_mprage_files(subject_files)
-        rename_fmap_files(magnitude1_files, magnitude2_files, phasediff_files, mprage_files, subjectdir, subject_fullpath, nifti_extension, json_extension, subject, timepoint)
-        rename_flipped_files()
-        rename_flipped_files()
-        rename_idiosyncratic_files()
+    rename_fmap_files(magnitude1_files, magnitude2_files, phasediff_files, mprage_files, subjectdir, subject_fullpath, nifti_extension, json_extension, subject, timepoint)
+    rename_flipped_files()
+    rename_flipped_files()
+    rename_idiosyncratic_files()
 
 
 def rename_idiosyncratic_files():
