@@ -11,17 +11,17 @@ from datetime import datetime
 import shutil
 
 
-# group = "sanlab"
-# study = "REV"
-# bidsdir = os.path.join(os.sep, "projects", group, "shared", study, "bids_data")
-# logdir = os.path.join(os.sep, "projects", group, "shared", study, "REV_scripts", "org", "dcm2bids", "logs_rename")
-# outputlog = os.path.join(logdir, "outputlog_rename_" + datetime.now().strftime("%Y%m%d-%H%M") + ".txt")
-# errorlog = os.path.join(logdir, "errorlog_rename_" + datetime.now().strftime("%Y%m%d-%H%M") + ".txt")
-
-bidsdir = '/Users/kristadestasio/Desktop/bids_data'
-logdir = '/Users/kristadestasio/Desktop/bids_data/logs'
+group = "sanlab"
+study = "REV"
+bidsdir = os.path.join(os.sep, "projects", group, "shared", study, "bids_data")
+logdir = os.path.join(os.sep, "projects", group, "shared", study, "REV_scripts", "org", "dcm2bids", "logs_rename")
 outputlog = os.path.join(logdir, "outputlog_rename_" + datetime.now().strftime("%Y%m%d-%H%M") + ".txt")
 errorlog = os.path.join(logdir, "errorlog_rename_" + datetime.now().strftime("%Y%m%d-%H%M") + ".txt")
+
+# bidsdir = '/Users/kristadestasio/Desktop/bids_data'
+# logdir = '/Users/kristadestasio/Desktop/bids_data/logs'
+# outputlog = os.path.join(logdir, "outputlog_rename_" + datetime.now().strftime("%Y%m%d-%H%M") + ".txt")
+# errorlog = os.path.join(logdir, "errorlog_rename_" + datetime.now().strftime("%Y%m%d-%H%M") + ".txt")
 
 
 def main():
@@ -110,7 +110,7 @@ def rename_idiosyncratic_files():
                 os.path.join(bidsdir, 'sub-REV003', 'ses-wave2', 'func', ('sub-REV003_ses-wave2_task-sst_acq-4_bold' + extension))
             )
         # 010 remove duplicate phasediffs
-        phasediff_duplicates = ('sub-REV010_ses-wave2_run-02_phasediff'
+        phasediff_duplicates = ('sub-REV010_ses-wave2_run-02_phasediff',
             'sub-REV010_ses-wave2_run-03_phasediff',
             'sub-REV010_ses-wave2_run-04_phasediff',
             'sub-REV010_ses-wave2_run-05_phasediff',
