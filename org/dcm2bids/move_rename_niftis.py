@@ -11,17 +11,17 @@ from datetime import datetime
 import shutil
 
 
-group = "sanlab"
-study = "REV"
-bidsdir = os.path.join(os.sep, "projects", group, "shared", study, "bids_data")
-logdir = os.path.join(os.sep, "projects", group, "shared", study, "REV_scripts", "org", "dcm2bids", "logs_rename")
-outputlog = os.path.join(logdir, "outputlog_rename_" + datetime.now().strftime("%Y%m%d-%H%M") + ".txt")
-errorlog = os.path.join(logdir, "errorlog_rename_" + datetime.now().strftime("%Y%m%d-%H%M") + ".txt")
-
-# bidsdir = '/Users/kristadestasio/Desktop/bids_data'
-# logdir = '/Users/kristadestasio/Desktop/bids_data/logs'
+# group = "sanlab"
+# study = "REV"
+# bidsdir = os.path.join(os.sep, "projects", group, "shared", study, "bids_data")
+# logdir = os.path.join(os.sep, "projects", group, "shared", study, "REV_scripts", "org", "dcm2bids", "logs_rename")
 # outputlog = os.path.join(logdir, "outputlog_rename_" + datetime.now().strftime("%Y%m%d-%H%M") + ".txt")
 # errorlog = os.path.join(logdir, "errorlog_rename_" + datetime.now().strftime("%Y%m%d-%H%M") + ".txt")
+
+bidsdir = '/Users/kristadestasio/Desktop/bids_data'
+logdir = '/Users/kristadestasio/Desktop/bids_data/logs'
+outputlog = os.path.join(logdir, "outputlog_rename_" + datetime.now().strftime("%Y%m%d-%H%M") + ".txt")
+errorlog = os.path.join(logdir, "errorlog_rename_" + datetime.now().strftime("%Y%m%d-%H%M") + ".txt")
 
 
 def main():
@@ -110,7 +110,7 @@ def rename_idiosyncratic_files():
                 os.path.join(bidsdir, 'sub-REV003', 'ses-wave2', 'func', ('sub-REV003_ses-wave2_task-sst_acq-4_bold' + extension))
             )
         # 010 remove duplicate phasediffs
-        phasediff_duplicates = ('sub-REV010_ses-wave2_run-02_phasediff',
+        target_files_010a = ('sub-REV010_ses-wave2_run-02_phasediff',
             'sub-REV010_ses-wave2_run-03_phasediff',
             'sub-REV010_ses-wave2_run-04_phasediff',
             'sub-REV010_ses-wave2_run-05_phasediff',
@@ -119,9 +119,20 @@ def rename_idiosyncratic_files():
             'sub-REV010_ses-wave2_run-08_phasediff',
             'sub-REV010_ses-wave2_run-09_phasediff',
             'sub-REV010_ses-wave2_run-10_phasediff',
-            'sub-REV010_ses-wave2_run-11_phasediff')
-        for duplicate_file in phasediff_duplicates:
-            os.remove(os.path.join(bidsdir, 'sub-REV010', 'ses-wave2', 'fmap', duplicate_file + extension))
+            'sub-REV010_ses-wave2_run-11_phasediff',
+            'sub-REV010_ses-wave2_magnitude1',
+            'sub-REV010_ses-wave2_run-03_magnitude1',
+            'sub-REV010_ses-wave2_run-04_magnitude1',
+            'sub-REV010_ses-wave2_run-05_magnitude1',
+            'sub-REV010_ses-wave2_run-06_magnitude1',
+            'sub-REV010_ses-wave2_run-07_magnitude1',
+            'sub-REV010_ses-wave2_run-08_magnitude1',
+            'sub-REV010_ses-wave2_run-09_magnitude1',
+            'sub-REV010_ses-wave2_run-10_magnitude1')
+        for target_file in target_files_010a:
+            targetfile_path = os.path.join(bidsdir, 'sub-REV010', 'ses-wave2', 'fmap', target_file + extension)
+            if os.path.isfile(targetfile_path):
+                os.remove(targetfile_path)
         # 010 rename run-12_phasediff to run-02_phasediff
         os.rename(
             os.path.join(bidsdir, 'sub-REV010', 'ses-wave2', 'fmap', ('sub-REV010_ses-wave2_run-12_phasediff' + extension)), 
