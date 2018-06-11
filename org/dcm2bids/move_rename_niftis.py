@@ -11,8 +11,8 @@ from datetime import datetime
 import shutil
 
 
-# group = "sanlab"
-# study = "REV"
+group = "sanlab"
+study = "REV"
 bidsdir = os.path.join(os.sep, "projects", group, "shared", study, "bids_data")
 logdir = os.path.join(os.sep, "projects", group, "shared", study, "REV_scripts", "org", "dcm2bids", "logs_rename")
 outputlog = os.path.join(logdir, "outputlog_rename_" + datetime.now().strftime("%Y%m%d-%H%M") + ".txt")

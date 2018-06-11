@@ -11,15 +11,20 @@ group_dir=/projects/sanlab/shared/ #set path to directory within which study fol
 study="REV" 
 study_dir="${group_dir}""${study}"
 
+if [ ! -d "${group_dir}"/"${study}"/REV_scripts/fMRI/ppc/output/ ]; then
+    mkdir -v "${group_dir}"/"${study}"/REV_scripts/fMRI/ppc/output/
+fi
+
+
 # Set subject list
-SUBJLIST=`cat subject_list_test.txt` 
+subject_list=`cat subject_list_test.txt` 
 
 # Loop through subjects and run job_mriqc
-for SUBJ in $SUBJLIST; do
+for subject in $subject_list; do
 
-SUBID=`echo $SUBJ|awk '{print $1}' FS=","`
-SESSID=`echo $SUBJ|awk '{print $2}' FS=","`
+subid=`echo $subject|awk '{print $1}' FS=","`
+sessid=`echo $subject|awk '{print $2}' FS=","`
   
-sbatch --export subid=${SUBID},sessid=${SESSID},group_dir=${group_dir},study_dir=${study_dir},study=${study},container=${container} --job-name fmriprep --partition=long -n16 --mem=75G -o "${group_dir}"/"${study}"/REV_scripts/fMRI/ppc/output/"${SUBID}"_"${SESSID}"_fmriprep_output.txt -e "${group_dir}"/"${study}"/REV_scripts/fMRI/ppc/output/"${SUBID}"_"${SESSID}"_fmriprep_error.txt job_fmriprep.sh
+sbatch --export subid=${subid},sessid=${sessid},group_dir=${group_dir},study_dir=${study_dir},study=${study},container=${container} --job-name fmriprep --partition=long -n16 --mem=75G -o "${group_dir}"/"${study}"/REV_scripts/fMRI/ppc/output/"${subid}"_"${sessid}"_fmriprep_output.txt -e "${group_dir}"/"${study}"/REV_scripts/fMRI/ppc/output/"${subid}"_"${sessid}"_fmriprep_error.txt job_fmriprep.sh
 	
 done
