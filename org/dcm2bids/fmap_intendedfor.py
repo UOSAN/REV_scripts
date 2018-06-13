@@ -1,6 +1,7 @@
 import os
 import json
 from pprint import pprint
+from datetime import datetime
 
 bidsdir = os.path.join(os.sep, 'projects', 'sanlab', 'shared', 'REV', 'bids_data')
 logdir = os.path.join(os.sep, "projects", 'sanlab', "shared", 'REV', 'REV_scripts', "org", "dcm2bids", 'logs_fmapintended')
@@ -144,7 +145,7 @@ def write_to_json(func_niftis_partialpath:list, fmap_jsons:list, fmap_dir_path:s
         with open(json_path) as target_json:
             json_file = json.load(target_json)
             json_file['IntendedFor'] = func_niftis_partialpath
-            write_to_outputlog(['Adding IntendedFor field to json'])
+            write_to_outputlog('Adding IntendedFor field to json')
             if include_echo_time:
                 write_to_outputlog('Writing EchoTime fields to json')
                 json_file['EchoTime1'] = echo_time1
