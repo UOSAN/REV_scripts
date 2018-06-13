@@ -3,7 +3,7 @@ import json
 from pprint import pprint
 
 bidsdir = os.path.join(os.sep, 'projects', 'sanlab', 'shared', 'REV', 'bids_data')
-logdir = os.path.join(os.sep, "projects", group, "shared", study, 'REV_scripts', "org", "dcm2bids", 'logs_fmapintended')
+logdir = os.path.join(os.sep, "projects", 'sanlab', "shared", 'REV', 'REV_scripts', "org", "dcm2bids", 'logs_fmapintended')
 outputlog = os.path.join(logdir, "outputlog_dcmn2bids" + datetime.now().strftime("%Y%m%d-%H%M") + ".txt")
 errorlog = os.path.join(logdir, "errorlog_dcm2bids" + datetime.now().strftime("%Y%m%d-%H%M") + ".txt")
 #os.path.join(os.sep, 'Users', 'kristadestasio', 'Desktop', 'bids_data')
