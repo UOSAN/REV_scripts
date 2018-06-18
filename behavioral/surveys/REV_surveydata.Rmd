@@ -18,7 +18,7 @@ rm(list = ls())
 
 #The code assumes that this Markdown file is in the folder ~/REV_scripts/behavioral/surveys, and the folder structure follows the same hierarchical organization pattern (shown below in the Dir setups)
 
-homeBase = '~/Dropbox/AH Grad Stuff/SAP' #this is the only thing you should need to change
+homeBase = '~/Desktop' #this is the only thing you should need to change
 
 #In order to run this script, first set your working directory to wherever the current file is saved
 setwd(paste0(homeBase,'/REV_scripts/behavioral/surveys'))
