@@ -629,4 +629,108 @@ ggplot(data = survey_data) +
 ```
 
 
+```{r Scoring Base Survey HRB variables}
 
+# Brief Substance Craving Scale (BSCS)
+    # Alcohol (BSCS-A) = CRAVING
+    # Cocaine (BSCS-C) = CRAVING
+    # Heroin (BSCS-H) = CRAVING
+    # Marijuana (BSCS-Ma) = CRAVING
+    # Methamphetamine (BSCS-Me) = CRAVING
+    # Prescription pills (BSCS-P) = CRAVING
+
+bscs_cols <- colnames(survey_data[(grepfun("bscs_",survey_data))])
+bscs_data <- lapply(survey_data[bscs_cols], as.numeric)
+
+## Creating the subscales
+bscs_key_list <- list(alcohol = c("bscs_a_1","bscs_a_2","bscs_a_3"), cocaine = c("bscs_c_1","bscs_c_2","bscs_c_3"), heroin = c("bscs_h_1","bscs_h_2","bscs_h_3"), marijuana = c("bscs_ma_1" ,"bscs_ma_2","bscs_ma_3"), meth = c("bscs_me_1","bscs_me_2" ,"bscs_me_3"), pills = c("bscs_p_1","bscs_p_2","bscs_p_3"))
+
+survey_data$bscs_a <- rowMeans(survey_data[,bscs_key_list[[1]]]) # BSCS Alcohol items 1-3
+survey_data$bscs_c <- rowMeans(survey_data[,bscs_key_list[[2]]]) # BSCS Cocaine items 1-3
+survey_data$bscs_h <- rowMeans(survey_data[,bscs_key_list[[3]]]) # BSCS Heroin items 1-3
+survey_data$bscs_ma <- rowMeans(survey_data[,bscs_key_list[[4]]]) # BSCS Marijauana items 1-3
+survey_data$bscs_me <- rowMeans(survey_data[,bscs_key_list[[5]]]) # BSCS Meth items 1-3
+survey_data$bscs_p <- rowMeans(survey_data[,bscs_key_list[[6]]]) # BSCS Prescription Pills items 1-3
+survey_data$bscs_a_numcrave <- as.numeric(survey_data$bscs_a_4_1) # BSCS Alcohol number of cravings in past 24 hrs
+survey_data$bscs_c_numcrave <- as.numeric(survey_data$bscs_c_4_1) # BSCS Cocaine number of cravings in past 24 hrs
+survey_data$bscs_h_numcrave <- as.numeric(survey_data$bscs_h_4_1) # BSCS Heroin number of cravings in past 24 hrs
+survey_data$bscs_ma_numcrave <- as.numeric(survey_data$bscs_ma_4_1) # BSCS Marijuana number of cravings in past 24 hrs
+survey_data$bscs_me_numcrave <- as.numeric(survey_data$bscs_me_4_1) # BSCS Meth number of cravings in past 24 hrs
+survey_data$bscs_p_numcrave <- as.numeric(survey_data$bscs_p_4_1) # BSCS Presciption Pills number of cravings in past 24 hrs
+
+
+# Drug Use History (DUH)
+    # Alcohol (DUH-A) = CONSUMPTION
+    # Cocaine (DUH-C) = CONSUMPTION 
+    # Marijuana (DUH-Ma) = CONSUMPTION
+    # Prescription pills (DUH-P) = CONSUMPTION
+    # DUH-H (Drug Use History-Heroin) = CONSUMPTION
+    # DUH-Me (Drug Use History-Meth) = CONSUMPTION
+
+
+# Alcohol Craving Questionnaire-Short Form (ACQ-SF-R; Tiffany et al., 2000) = CRAVING
+
+acq_sf_r_cols <- colnames(survey_data[(grepfun("acq_sf_r_",survey_data))])
+acq_sf_r_data <- lapply(survey_data[acq_sf_r_cols], as.numeric)
+
+# Specify reverse-scored items
+reverse_cols = c("acq_sf_r_3","acq_sf_r_8","acq_sf_r_11")
+survey_data[,reverse_cols] = 5 - survey_data[,reverse_cols] # Reverse score the BIS items in reverse_cols
+
+## Creating the subscales
+BISkey_list <- list(attention = c("bis_4","bis_7","bis_10","bis_13","bis_16","bis_19","bis_24","bis_27"), motor = c("bis_2","bis_6","bis_9","bis_12","bis_15","bis_18","bis_21","bis_23","bis_26","bis_29"), non_planning = c("bis_1","bis_3","bis_5","bis_8","bis_11","bis_14","bis_17","bis_20","bis_22","bis_25","bis_28","bis_30"))
+
+survey_data$bis_attn <- rowSums(survey_data[,BISkey_list[[1]]]) # BIS attention score
+survey_data$bis_motor <- rowSums(survey_data[,BISkey_list[[2]]]) # BIS motor score
+survey_data$bis_noplan <- rowSums(survey_data[,BISkey_list[[3]]]) # BIS non-planning score
+survey_data$bis_total <- rowSums(survey_data[,c("bis_attn", "bis_motor", "bis_noplan")]) # BIS total score
+
+# How many survey responses do we have? 116
+table(!is.na(survey_data[,"bis_total"]))
+
+
+
+# Alcohol Use Disorders Identification Test (AUDIT; Babor, de la Fuente, Saunders, & Grant, 1989) = CONSUMPTION
+
+
+# Penn Alcohol Craving Scale (PACS; Flannery, Volpicelli, & Pettinati, 1999) = CRAVING
+
+
+# Cocaine Craving Questionnaire-Brief (CCQ-Brief; Tiffany, Singleton, Haertzen, & Henningfield, 1993) = CRAVING
+
+
+# Heroin Craving Questionnaire-Short Form (HCQ-SF-14; Heinz, Schroeder, Epstein, Singleton, Heishman, & Preston, 2006) = CRAVING
+
+
+# Marijuana Craving Questionnaire-Short Form (MCQ-SF; Heishman, Evans, Singleton, Levin, Copersino, & Gorelick, 2009) = CRAVING
+
+
+# Meth Craving Intensity Yesterday (MCIY) = CRAVING (NOTE: Single item)
+
+
+# Craving Experience Questionnaire (CEQ-S; Andrade et al., 2014)
+    # Prescription pills (CEQ-S-P) = CRAVING
+
+
+# Fagerstrom Test for Nicotine Dependence (FTND; Heatherton, Frecker, & Fagerstrom, 1991) = CONSUMPTION
+
+
+# Questionnaire of Smoking Urges-Brief (QSU-brief; Cox, Tiffany, & Christen, 2011) = CRAVING
+
+
+# Last eaten (LE) = NEITHER
+
+
+# Dutch Eating Behavior Questionnaire (DEBQ; Van Strien, Frijters, Bergers, & Defares, 1986) = CONSUMPTION
+
+
+# Food craving inventory (FCI; White et al., 2002)* NOTE: There is a single item for "craving" and a single item for "liking"
+    # Chocolate (FCI-Ch) = CRAVING
+    # Cookies (FCI-Co) = CRAVING
+    # Donuts (FCI-D) = CRAVING
+    # French Fries (FCI-F) = CRAVING
+    # Ice Cream (FCI-I) = CRAVING
+    # Pasta (FCI-Pa) = CRAVING
+    # Pizza (FCI-Pi) = CRAVING
+
+```
