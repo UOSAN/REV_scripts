@@ -683,7 +683,6 @@ survey_data[,reverse_cols] = 8 - survey_data[,reverse_cols] # Reverse score the 
 # Calculate total score
 survey_data$acq_sf_r_total <- rowMeans(survey_data[acq_sf_r_cols]) # acq_sf_r_data total score
 
-
 ###### Alcohol Use Disorders Identification Test (AUDIT; Babor, de la Fuente, Saunders, & Grant, 1989) = CONSUMPTION
 
 # Isolate the AUDIT items
@@ -695,15 +694,47 @@ survey_data$audit_total <- rowMeans(survey_data[audit_cols]) # audit total score
 
 ###### Penn Alcohol Craving Scale (PACS; Flannery, Volpicelli, & Pettinati, 1999) = CRAVING
 
+# Isolate the pacs items
+pacs_cols <- colnames(survey_data[(grepfun("pacs_",survey_data))])
+survey_data[pacs_cols] <- lapply(survey_data[pacs_cols], as.numeric)
+
+# Calculate total score 
+survey_data$pacs_total <- rowMeans(survey_data[pacs_cols]) # pacs total score
 
 ###### Cocaine Craving Questionnaire-Brief (CCQ-Brief; Tiffany, Singleton, Haertzen, & Henningfield, 1993) = CRAVING
 
+# Isolate the ccq_brief items
+ccq_brief_cols <- colnames(survey_data[(grepfun("ccq_brief_",survey_data))])
+survey_data[ccq_brief_cols] <- lapply(survey_data[ccq_brief_cols], as.numeric)
+
+# Specify reverse-scored items
+reverse_cols = c("ccq_brief_4","ccq_brief_7")
+survey_data[,reverse_cols] = 8 - survey_data[,reverse_cols] # Reverse score the ccq_brief items in reverse_cols
+
+# Calculate total score
+survey_data$ccq_brief_total <- rowMeans(survey_data[ccq_brief_cols]) # ccq_brief total score
 
 ###### Heroin Craving Questionnaire-Short Form (HCQ-SF-14; Heinz, Schroeder, Epstein, Singleton, Heishman, & Preston, 2006) = CRAVING
 
+# Isolate the hcq_sf_14 items
+hcq_sf_14_cols <- colnames(survey_data[(grepfun("hcq_sf_14_",survey_data))])
+survey_data[hcq_sf_14_cols] <- lapply(survey_data[hcq_sf_14_cols], as.numeric)
+
+# Specify reverse-scored items
+reverse_cols = c("hcq_sf_14_1","hcq_sf_14_5","hcq_sf_14_8","hcq_sf_14_9","hcq_sf_14_10","hcq_sf_14_14")
+survey_data[,reverse_cols] = 8 - survey_data[,reverse_cols] # Reverse score the hcq_sf_14 items in reverse_cols
+
+# Calculate total score
+survey_data$hcq_sf_14_total <- rowMeans(survey_data[hcq_sf_14_cols]) # hcq_sf_14 total score
 
 ###### Marijuana Craving Questionnaire-Short Form (MCQ-SF; Heishman, Evans, Singleton, Levin, Copersino, & Gorelick, 2009) = CRAVING
 
+# Isolate the mcq_sf items
+mcq_sf_cols <- colnames(survey_data[(grepfun("mcq_sf_",survey_data))])
+survey_data[mcq_sf_cols] <- lapply(survey_data[mcq_sf_cols], as.numeric)
+
+# Calculate total score
+survey_data$mcq_sf_total <- rowMeans(survey_data[mcq_sf_cols]) # mcq_sf total score
 
 ###### Meth Craving Intensity Yesterday (MCIY) = CRAVING (NOTE: Single item)
 
