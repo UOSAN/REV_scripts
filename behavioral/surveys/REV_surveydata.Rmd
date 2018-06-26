@@ -738,12 +738,42 @@ survey_data$mcq_sf_total <- rowMeans(survey_data[mcq_sf_cols]) # mcq_sf total sc
 
 ###### Meth Craving Intensity Yesterday (MCIY) = CRAVING (NOTE: Single item)
 
+# Isolate the mciy items
+mciy_cols <- colnames(survey_data[(grepfun("mciy_",survey_data))])
+
+# Calculate total score
+survey_data$mciy_total <- survey_data$mciy_4 # mcq_sf total score; NOTE: only a single item
 
 ###### Craving Experience Questionnaire (CEQ-S; Andrade et al., 2014)
     # Prescription pills (CEQ-S-P) = CRAVING
 
+# Isolate the mcq_sf items
+ceq_s_cols <- colnames(survey_data[(grepfun("ceq_s_",survey_data))])
+survey_data[ceq_s_cols] <- lapply(survey_data[ceq_s_cols], as.numeric)
+
+# Calculate total score
+survey_data$ceq_s_total <- rowMeans(survey_data[ceq_s_cols]) # ceq_s total score
 
 ###### Fagerstrom Test for Nicotine Dependence (FTND; Heatherton, Frecker, & Fagerstrom, 1991) = CONSUMPTION
+
+# Isolate the ftnd items
+ftnd_cols <- colnames(survey_data[(grepfun("ftnd_",survey_data))])
+survey_data[ftnd_cols] <- lapply(survey_data[ftnd_cols], as.numeric)
+
+# recode the variables based on the scoring criteria
+library(car)
+survey_data$ftnd_1_recode <- recode(survey_data$ftnd_1, "1=0;2=1;3=2;4=3")
+survey_data$ftnd_2_recode <- recode(survey_data$ftnd_2, "1=0;2=1")
+survey_data$ftnd_3_recode <- recode(survey_data$ftnd_3, "2=0")
+survey_data$ftnd_4_recode <- recode(survey_data$ftnd_4, "1=0;2=1;3=2;4=3")
+survey_data$ftnd_5_recode <- recode(survey_data$ftnd_5, "1=0;2=1")
+survey_data$ftnd_6_recode <- recode(survey_data$ftnd_6, "1=0;2=1")
+
+# isolate the recoded items
+ftnd_recode_cols <- colnames(survey_data[(grepfun("_recode",survey_data))])
+
+# Calculate total score
+survey_data$ftnd_total <- rowSums(survey_data[ftnd_recode_cols]) # ftnd total score
 
 
 ###### Questionnaire of Smoking Urges-Brief (QSU-brief; Cox, Tiffany, & Christen, 2011) = CRAVING
