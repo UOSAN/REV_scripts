@@ -6,18 +6,19 @@
 ###################################################
 
 # Change this, path to data and script repos
-repopath="/Users/mmoss/Dropbox/AH_Grad_Stuff/SAP"
+repopath="/Users/kristadestasio/Desktop/REV_scripts"
+#"/Users/mmoss/Dropbox/AH_Grad_Stuff/SAP"
 task="React"
 
 # Set variables
-datadir="$repopath/REV_scripts/behavioral/$task/data" # Location of the data files to be analyzed
-logdir="$repopath/REV_scripts/behavioral/$task/logs"
+datadir="$repopath/behavioral/$task/data" # Location of the data files to be analyzed
+logdir="$repopath/behavioral/$task/logs"
 errorlog="$logdir/errorlog_filecheck.txt"
 outputlog="$logdir/outputlog_filecheck.txt"
-sublist="$repopath/REV_scripts/behavioral/$task/scripts/data_prep"
+sublist="$repopath/behavioral/$task/scripts/data_prep"
 
 
-cd $repopath/REV_scripts/behavioral/$task/scripts/data_prep
+cd $repopath/behavioral/$task/scripts/data_prep
 
 sublist=`cat allsubs.txt`
 

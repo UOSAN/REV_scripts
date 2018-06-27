@@ -1,25 +1,26 @@
 #!/bin/sh
 
 #########################################################################
-# Script to move GNG behavioral files from the directories they are in  #
-# to the directories specified in the GNG analysis script.       		#
+# Script to move React behavioral files from the directories they are in  #
+# to the directories specified in the React analysis script.       		#
 # KD 2017.04.05															#
 #########################################################################
 
 # Change this, path to data and script repos
-repopath="/Users/mmoss/Dropbox/AH_Grad_Stuff/SAP"
+repopath="/Users/kristadestasio/Desktop/REV_scripts"
+#"/Users/mmoss/Dropbox/AH_Grad_Stuff/SAP"
 task="React"
 
 taskdir=(React cueReact)
 
 # Set paths 
-datadir="$repopath/REV_scripts/behavioral/$task/data"
-sourcedir="$repopath/REV_BxData"
-logdir="$repopath/REV_scripts/behavioral/$task/logs"
-outputlog="$logdir/outputlog_copyData.txt"
-errorlog="$logdir/errorlog_copyData.txt"
-allsubs="$logdir/subjectlist.txt"
-outputdir="$repopath/REV_scripts/behavioral/$task/output"
+datadir="${repopath}/behavioral/${task}/data"
+sourcedir="/Users/kristadestasio/Desktop/REV_BxData"
+logdir="${repopath}/behavioral/${task}/logs"
+outputlog="${logdir}/outputlog_copyData.txt"
+errorlog="${logdir}/errorlog_copyData.txt"
+allsubs="${logdir}/subjectlist.txt"
+outputdir="${repopath}/behavioral/${task}/output"
 
 # Check directory dependencies
 if [ ! -d "${datadir}" ]; then
@@ -27,7 +28,7 @@ if [ ! -d "${datadir}" ]; then
 fi
 
 if [ ! -d "${sourcedir}" ]; then
-	mkdir -v "${sourcedir}"
+    echo "Path to behavioral data source folder is incorrect."
 fi
 
 if [ ! -d "${logdir}" ]; then

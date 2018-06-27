@@ -7,12 +7,13 @@
 #########################################################################
 
 # Change this, path to data and script repos
-repopath="/Users/mmoss/Dropbox/AH_Grad_Stuff/SAP"
+repopath="/Users/kristadestasio/Desktop/REV_scripts"
+#"/Users/mmoss/Dropbox/AH_Grad_Stuff/SAP"
 task="React"
 
 # Set paths 
-outputdir="$repopath/REV_scripts/behavioral/$task/data"
-logdir="$repopath/REV_scripts/behavioral/$task/logs"
+outputdir="$repopath/behavioral/$task/data"
+logdir="$repopath/behavioral/$task/logs"
 outputlog="$logdir/outputlog_rename.txt"
 
 # create output logs
