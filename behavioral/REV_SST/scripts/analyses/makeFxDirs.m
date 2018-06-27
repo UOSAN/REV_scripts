@@ -1,7 +1,7 @@
-studyPrefix='INC';
+studyPrefix='REV';
 numSubs = 2;
 fxSuffix = '_basic';
-studyDir = '~/Desktop/SST/';
+studyDir = '~/Desktop/REV_scripts/behavioral/REV_SST/';
 
 for s=1:numSubs
     
