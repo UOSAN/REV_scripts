@@ -81,6 +81,33 @@ def rename_idiosyncratic_files():
                 os.path.join(bidsdir, 'sub-REV002', 'ses-wave1', 'func', target_file),
                 os.path.join(bidsdir, 'sub-REV002', 'ses-wave1', 'func', ('sub-REV002_ses-wave1_task-react_acq-1_bold' + extension))
             )
+
+        # 002 rename sub-REV002_ses-wave1_run-02_magnitude2 to sub-REV002_ses-wave1_run-01_magnitude2
+        target_files_002d = [filename for filename in os.listdir(os.path.join(bidsdir, 'sub-REV002', 'ses-wave1', 'fmap')) if 'sub-REV002_ses-wave1_run-02_magnitude2' in filename and filename.endswith(extension)]
+        for target_file in target_files_002d:
+            os.rename(
+                os.path.join(bidsdir, 'sub-REV002', 'ses-wave1', 'fmap', target_file),
+                os.path.join(bidsdir, 'sub-REV002', 'ses-wave1', 'fmap', ('sub-REV002_ses-wave1_run-01_magnitude2' + extension))
+            )
+        # 002 sub-REV002_ses-wave1_run-04_magnitude2 to sub-REV002_ses-wave1_run-02_magnitude2
+        target_files_002e = [filename for filename in os.listdir(os.path.join(bidsdir, 'sub-REV002', 'ses-wave1', 'fmap')) if 'sub-REV002_ses-wave1_run-04_magnitude2' in filename and filename.endswith(extension)]
+        for target_file in target_files_002e:
+            os.rename(
+                os.path.join(bidsdir, 'sub-REV002', 'ses-wave1', 'fmap', target_file),
+                os.path.join(bidsdir, 'sub-REV002', 'ses-wave1', 'fmap', ('sub-REV002_ses-wave1_run-02_magnitude2' + extension))
+            )
+        # 003 remove runs > 100
+        target_files_003 = (
+        'sub-REV003_ses-wave1_run-100_magnitude1.nii.gz',
+        'sub-REV003_ses-wave1_run-101_magnitude1.nii.gz',
+        'sub-REV003_ses-wave1_run-102_magnitude1.nii.gz',
+        'sub-REV003_ses-wave1_run-103_magnitude1.nii.gz',
+        'sub-REV003_ses-wave1_run-104_magnitude1.nii.gz',
+        'sub-REV003_ses-wave1_run-105_magnitude1.nii.gz')
+        for target_file in target_files_003:
+            targetfile_path = os.path.join(bidsdir, 'sub-REV003', 'ses-wave1', 'fmap', target_file + extension)
+            if os.path.isfile(targetfile_path):
+                os.remove(targetfile_path)
         # 003 rename gng_acq-1 to gng_acq-3
         target_files_003a = [filename for filename in os.listdir(os.path.join(bidsdir, 'sub-REV003', 'ses-wave2', 'func')) if 'sub-REV003_ses-wave2_task-gng_acq-1' in filename and filename.endswith(extension)]
         for target_file in target_files_003a:
@@ -110,7 +137,8 @@ def rename_idiosyncratic_files():
                 os.path.join(bidsdir, 'sub-REV003', 'ses-wave2', 'func', ('sub-REV003_ses-wave2_task-sst_acq-4_bold' + extension))
             )
         # 010 remove duplicate phasediffs
-        target_files_010a = ('sub-REV010_ses-wave2_run-02_phasediff',
+        target_files_010a = (
+            'sub-REV010_ses-wave2_run-02_phasediff',
             'sub-REV010_ses-wave2_run-03_phasediff',
             'sub-REV010_ses-wave2_run-04_phasediff',
             'sub-REV010_ses-wave2_run-05_phasediff',
@@ -119,16 +147,7 @@ def rename_idiosyncratic_files():
             'sub-REV010_ses-wave2_run-08_phasediff',
             'sub-REV010_ses-wave2_run-09_phasediff',
             'sub-REV010_ses-wave2_run-10_phasediff',
-            'sub-REV010_ses-wave2_run-11_phasediff',
-            'sub-REV010_ses-wave2_magnitude1',
-            'sub-REV010_ses-wave2_run-03_magnitude1',
-            'sub-REV010_ses-wave2_run-04_magnitude1',
-            'sub-REV010_ses-wave2_run-05_magnitude1',
-            'sub-REV010_ses-wave2_run-06_magnitude1',
-            'sub-REV010_ses-wave2_run-07_magnitude1',
-            'sub-REV010_ses-wave2_run-08_magnitude1',
-            'sub-REV010_ses-wave2_run-09_magnitude1',
-            'sub-REV010_ses-wave2_run-10_magnitude1')
+            'sub-REV010_ses-wave2_run-11_phasediff')
         for target_file in target_files_010a:
             targetfile_path = os.path.join(bidsdir, 'sub-REV010', 'ses-wave2', 'fmap', target_file + extension)
             if os.path.isfile(targetfile_path):
@@ -138,7 +157,7 @@ def rename_idiosyncratic_files():
             os.path.join(bidsdir, 'sub-REV010', 'ses-wave2', 'fmap', ('sub-REV010_ses-wave2_run-12_phasediff' + extension)), 
             os.path.join(bidsdir, 'sub-REV010', 'ses-wave2', 'fmap', ('sub-REV010_ses-wave2_run-02_phasediff' + extension))
         ) 
-        # 051 remove bart_acq-2
+        # 051 remove bart_acq-2, sst_acq-3, and sst_acq-4
         target_files_051a = [filename for filename in os.listdir(os.path.join(bidsdir, 'sub-REV051', 'ses-wave1', 'func')) if 'sub-REV051_ses-wave1_task-bart_acq-2' in filename or '_acq-3' in filename or '_acq-4' in filename and filename.endswith(extension)]
         for target_file in target_files_051a:
             os.remove(os.path.join(bidsdir, 'sub-REV051', 'ses-wave1', 'func', target_file))
