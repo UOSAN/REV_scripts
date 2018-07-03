@@ -821,12 +821,12 @@ survey_data$debq_total <- rowMeans(survey_data[debq_cols]) # debq total score
 # NOTE: _1 = Crave; _2 = Like
 # NOTE: fci_pi_2 actually corresponds to fci_pa_2 (How much do you like pasta?); fci_pi_2.0 should actually be fci_pi_2 (How much do you like pizza?)
 
-fci_cols <- colnames(survey_data[(grepfun("fci_",survey_data))])
+# isolate fci crave items
+fci_cols <- c("fci_ch_1", "fci_co_1", "fci_d_1", "fci_f_1", "fci_i_1", "fci_pa_1", "fci_pi_1")
+
 survey_data[fci_cols] <- lapply(survey_data[fci_cols], as.numeric)
 
-
-
-# Calculate total score for liking and craving separately 
-
+# Calculate total score for craving
+survey_data$fci_crave_total <- rowMeans(survey_data[fci_cols]) # fci craving total score
 
 ```
