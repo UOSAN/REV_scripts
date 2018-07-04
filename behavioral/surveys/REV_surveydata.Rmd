@@ -396,6 +396,8 @@ survey_data <- dplyr::select(survey_data, -(compltd.study.y), -(gender.y:hispani
 # Use participant ID to add screening data to 'survey_data'
 survey_data <- merge(survey_data, screen_data, by = "ID")
 
+
+survey_data$ID <- droplevels(survey_data$ID)
 ```
 
 FROM SCREEN_DATA:
@@ -463,7 +465,7 @@ alcohol_use <- c("duh_a", "audit")
 
 #drugs: cocaine, heroin, marijuana, meth, and pills
 drug_crav <- c("bscs_c", "ccq_brief", "bscs_h", "hcq_sf", "bscs_ma", "mcq_sf", "bscs_me", "mciy", "bscs_p", "ceq_s_p")
-drug_use <- c("duh_c", "duh-h", "duh_ma", "duh_me", "duh_p")
+drug_use <- c("duh_c", "duh_h", "duh_ma", "duh_me", "duh_p")
 
 #tobacco
 tobacco_crav <- c("qsu")
@@ -490,7 +492,7 @@ for (v in 1:length(Vices)) {
   p <- get(Vices[v]) #Indices of all items from scales that are associated with that problem
   print(paste0(e, ": ", get(ViceLS[v]))) #display the problem and name of associated scales (my own sanity check)
   for (i in p) {
-    survey_data[i][is.na(survey_data[i]) & survey_data[e] == "no"] <- 999 #change real NAs to 999
+    survey_data[i][is.na(survey_data[i]) & survey_data[e] == "no"] <- " " #change real NAs to 999
     print(variable.names(survey_data[i]))
   }
 } #print to double check that I've put the right variables together!
