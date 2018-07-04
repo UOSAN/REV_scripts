@@ -11,13 +11,13 @@ output:
     toc: yes
     toc_depth: '3'
 editor_options: 
-  chunk_output_type: console
+  chunk_output_type: inline
 ---
 
 ```{r setup, include=FALSE}
 ## R version 3.4.3 ##
 rm(list = ls())
-setwd("~/Desktop/REV/REV_scripts/behavioral/REV_SST/scripts/analyses/")
+setwd("~/Desktop/REV_scripts/behavioral/REV_SST/scripts/analyses/")
 
 ## Install and load required packages
 list.of.packages <- c("stringr", "tidyverse", "reshape2", "ggplot2", "psych", "gridExtra", "knitr", "lme4", "memisc", "withr", "ez")
@@ -54,19 +54,19 @@ condition <- factor(condition, labels = c("control", "train"))
 ```{r Import task data}
 ## Import the SSRT results output from the extractAllSSTResults.m script
 SSRTdata <- read.table(
-  "~/Desktop/REV/REV_scripts/behavioral/REV_SST/compiledResults/upToREV144/singleVarTxts/REV_SSRTint16.txt",
+  "~/Desktop/REV_scripts/behavioral/REV_SST/compiledResults/upToREV144/singleVarTxts/REV_SSRTint16.txt",
   sep = "\t", header = FALSE)
 ## No Response Counts
 noResponseCount <- read.table(
-  "~/Desktop/REV/REV_scripts/behavioral/REV_SST/compiledResults/upToREV144/initialCheck/NRCount.txt",
+  "~/Desktop/REV_scripts/behavioral/REV_SST/compiledResults/upToREV144/initialCheck/NRCount.txt",
   sep = "\t", header = FALSE)
 ## Wrong Go Counts
 wrongGoCount <- read.table(
-  "~/Desktop/REV/REV_scripts/behavioral/REV_SST/compiledResults/upToREV144/initialCheck/wrongGoCount.txt",
+  "~/Desktop/REV_scripts/behavioral/REV_SST/compiledResults/upToREV144/initialCheck/wrongGoCount.txt",
   sep = "\t", header = FALSE)
 ## Percent inhibition
 pctInhibition <- read.table(
-  "~/Desktop/REV/REV_scripts/behavioral/REV_SST/compiledResults/upToREV144/singleVarTxts/REV_PctInhib16.txt",
+  "~/Desktop/REV_scripts/behavioral/REV_SST/compiledResults/upToREV144/singleVarTxts/REV_PctInhib16.txt",
   sep = "\t", header = FALSE)
 ```
 
@@ -129,103 +129,80 @@ df_SSRT <- df_rawSSRT
 
 ```{r runs omitted pct inhibition}
 ### PERCENT INHIBITION ###
-## Replace SSRTs with NAs if percent inihibition is  > 75 | < 15 during training (training group only) or > 75 | < 20 during scans (all participants)
-
-# df_SSRT <- df_SSRT %>% 
-#     mutate(SSRT = replace(SSRT, 
-#                          which(pctInhibition > 75 & condition == "train" & time != "run1" & time != "run2" & time != "run13" & time != "run14" | pctInhibition < 15 & condition == "train" & time != "run1" & time != "run2" & time != "run13" & time != "run14") , NA)) 
-# # Training
-
+## Replace SSRTs with NAs if percent inihibition is > 75 | < 20 during scans (all participants)
 
 df_SSRT <- df_SSRT %>% 
     mutate(SSRT = replace(SSRT, 
                          which(pctInhibition > 75 & time != "run3" & time != "run4" & time != "run5" & time != "run6" & time != "run7" & time != "run8" & time != "run9" & time != "run10" & time != "run11" & time != "run12" | pctInhibition < 20 & time != "run3" & time != "run4" & time != "run5" & time != "run6" & time != "run7" & time != "run8" & time != "run9" & time != "run10" & time != "run11" & time != "run12"), NA)) # Scans
 
-## Replace the percent inhibition with NAs if they are > 75 | < 15 during training (training group only) or > 75 | < 20 during scans (all participants)
-
-# df_SSRT <- df_SSRT %>% 
-#     mutate(pctInhibition = replace(pctInhibition, 
-#                                   which(pctInhibition < 15  & condition == "train" & time != "run1" & time != "run2" & time != "run13" & time != "run14" | pctInhibition > 75 & condition == "train" & time != "run1" & time != "run2" & time != "run13" & time != "run14" ), NA)) # Training
-
+## Replace the percent inhibition with NAs if they  > 75 | < 20 during scans (all participants)
 
 df_SSRT <- df_SSRT %>% 
     mutate(pctInhibition = replace(pctInhibition, 
                                   which(pctInhibition < 20  & time != "run3" & time != "run4" & time != "run5" & time != "run6" & time != "run7" & time != "run8" & time != "run9" & time != "run10" & time != "run11" & time != "run12" | pctInhibition > 75 & time != "run3" & time != "run4" & time != "run5" & time != "run6" & time != "run7" & time != "run8" & time != "run9" & time != "run10" & time != "run11" & time != "run12"), NA)) # Scans
 
 # Look at which participants had runs removed & how many
-outliers <- (!df_rawSSRT$SSRT %in% df_SSRT$SSRT)
-outliers_pctInhib <- as.data.frame(table(df_rawSSRT[outliers,]$ID))
+outliers1 <- (!df_rawSSRT$SSRT %in% df_SSRT$SSRT)
+outliers_pctInhib <- as.data.frame(table(df_rawSSRT[outliers1,]$ID))
 colnames(outliers_pctInhib) <- c("ID", "outliers_pctInhib")
 ```
 
 ```{r Remove problem runs no-response}
 ### NO RESPONSE ###
-## Replace the SSRTs with NAs if no-responses are > 25 during training or > 50 during scans
-
-# df_SSRT <- df_SSRT %>% 
-#     mutate(SSRT = replace(SSRT, 
-#                          which(numNoResponse > 25 & time != "run1" & time != "run2" & time != "run13" & time != "run14" ), NA)) # Training
-
+## Replace the SSRTs with NAs if no-responses are > 50 during scans
 df_SSRT <- df_SSRT %>% 
     mutate(SSRT = replace(SSRT, 
                          which(numNoResponse > 50), NA)) # Scans
-
-# ## Replace the no-responses with NAs if they are > 25 during training or > 50 during scans
-# df_SSRT <- df_SSRT %>% 
-#     mutate(numNoResponse = replace(numNoResponse, 
-#                                   which(numNoResponse > 25 & time != "run1" & time != "run2" & time != "run13" & time != "run14" ), NA)) # Training
 
 df_SSRT <- df_SSRT %>% 
     mutate(numNoResponse = replace(numNoResponse, 
                                   which(numNoResponse > 50), NA)) # Scans
 
 # Look at which participants had runs removed & how many
-outliers <- (!df_rawSSRT$SSRT %in% df_SSRT$SSRT)
-outliers_noResponse <- as.data.frame(table(df_rawSSRT[outliers,]$ID))
+outliers2 <- (!df_rawSSRT$SSRT %in% df_SSRT$SSRT)
+outliers_noResponse <- as.data.frame(table(df_rawSSRT[outliers2,]$ID))
 colnames(outliers_noResponse) <- c("ID", "Runs_omitted_noResponse")
 ```
 
 ```{r Remove problem runs wrong no-gos}
 ### WRONG GO ###
-## Replace the SSRTs with NAs if wrong-gos are > 25 during training (training group only) or > 25 during scans (all participants)
-# df_SSRT <- df_SSRT %>% 
-#     mutate(SSRT = replace(SSRT, 
-#                             which(condition == "train" & numWrongGo > 25 & time != "run1" & time != "run2" & time != "run13" & time != "run14"), NA)) # Training
+## Replace the SSRTs with NAs if wrong-gos are > 25 during scans (all participants)
 
 df_SSRT <- df_SSRT %>% 
     mutate(SSRT = replace(SSRT, 
                            which(numWrongGo > 25 & time != "run3" & time != "run4" & time != "run5" & time != "run6" & time != "run7" & time != "run8" & time != "run9" & time != "run10" & time != "run11" & time != "run12"), NA)) # Scans
 
-## Replace the wrong-gos with NAs if they are > 25 during training (training group only) or > 25 during scans (all participants)
-# df_SSRT <- df_SSRT %>% 
-#     mutate(numWrongGo = replace(numWrongGo, 
-#                         which(condition == "train" & numWrongGo > 25 & time != "run1" & time != "run2" & time != "run13" & time != "run14"), NA)) # Training
+## Replace the wrong-gos with NAs if they are > 25 during scans (all participants)
 
 df_SSRT <- df_SSRT %>% 
     mutate(numWrongGo = replace(numWrongGo, 
                         which(numWrongGo > 25 & time != "run3" & time != "run4" & time != "run5" & time != "run6" & time != "run7" & time != "run8" & time != "run9" & time != "run10" & time != "run11" & time != "run12"), NA)) # Scan
 
 # Look at which participants had runs removed & how many
-outliers <- (!df_rawSSRT$SSRT %in% df_SSRT$SSRT)
-outliers_wrongGo <- as.data.frame(table(df_rawSSRT[outliers,]$ID))
+outliers3 <- (!df_rawSSRT$SSRT %in% df_SSRT$SSRT)
+outliers_wrongGo <- as.data.frame(table(df_rawSSRT[outliers3,]$ID))
 colnames(outliers_wrongGo) <- c("ID", "Runs_omitted_wrongGo")
 ```
 
 ```{r runs omitted SSRT}
 ### SSRT ###
-## Replace the SSRTs with NAs if they are > 500 during training (training group only) or > 850 | < 100 during scans (all participants)
-# df_SSRT <- df_SSRT %>% 
-#     mutate(SSRT = replace(SSRT, 
-#                          which(SSRT > 500 & condition == "train" & time != "run1" & time != "run2" & time != "run13" & time != "run14"), NA)) # Training
+## Replace the SSRTs with NAs if they are > 850 | < 100 during scans (all participants)
 
 df_SSRT <- df_SSRT %>% 
     mutate(SSRT = replace(SSRT,
                          which(SSRT > 850 & time != "run3" & time != "run4" & time != "run5" & time != "run6" & time != "run7" & time != "run8" & time != "run9" & time != "run10" & time != "run11" & time != "run12" | SSRT < 100 & time != "run3" & time != "run4" & time != "run5" & time != "run6" & time != "run7" & time != "run8" & time != "run9" & time != "run10" & time != "run11" & time != "run12"), NA)) # Scans
 
 # Look at which participants had runs removed & how many
-outliers <- (!df_rawSSRT$SSRT %in% df_SSRT$SSRT)
-outliers_ssrt <- as.data.frame(table(df_rawSSRT[outliers,]$ID))
+outliers4 <- (!df_rawSSRT$SSRT %in% df_SSRT$SSRT)
+outliers_ssrt <- as.data.frame(table(df_rawSSRT[outliers4,]$ID))
 colnames(outliers_ssrt) <- c("ID", "Runs_omitted_ssrt")
+```
+
+```{r}
+df_omitted_runs <- cbind(df_SSRT, outliers1, outliers2, outliers3, outliers4)
+df_omitted_runs <- filter(df_omitted_runs, (outliers1 == TRUE | outliers2 == TRUE | outliers3 == TRUE | outliers4 == TRUE))
+(df_omitted_runs <- sort(df_omitted_runs[,c(1,3)]))
+length(unique(as.numeric(df_omitted_runs$ID)))
 ```
 
 ## View omitted runs
@@ -236,12 +213,6 @@ outliers_tableFull <- plyr::join_all(dfs, by = "ID")
 outliers_table <- outliers_tableFull[which(outliers_tableFull$Runs_omitted_ssrt != 0),]
 kable(outliers_table, caption = "Runs Omitted (columns are cumulative)")
 summary(outliers_tableFull$Runs_omitted_ssrt)
-
-
-
-  
-  
-}
 ```
 
 ## Notes on problem runs
