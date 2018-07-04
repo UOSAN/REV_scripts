@@ -7,12 +7,13 @@
 #########################################################################
 
 # Change this, path to data and script repos
-repopath="/Users/mmoss/Dropbox/AH_Grad_Stuff/SAP"
+repopath="/Users/kristadestasio/Desktop/REV_scripts"
+#"/Users/mmoss/Dropbox/AH_Grad_Stuff/SAP"
 task="React"
 
 # Set paths 
-outputdir="$repopath/REV_scripts/behavioral/$task/data"
-logdir="$repopath/REV_scripts/behavioral/$task/logs"
+outputdir="$repopath/behavioral/$task/data"
+logdir="$repopath/behavioral/$task/logs"
 outputlog="$logdir/outputlog_rename.txt"
 
 # create output logs
@@ -21,6 +22,10 @@ touch "${outputlog}"
 # Idiosyncratic file renaming to correct naming errors
 echo "-------------------Renaming $task files-------------------" > $outputlog
 cd $outputdir
+ mv REV12_REV_GNG1.txt_30-Apr-2015_18-53.mat REV012_REV_GNG1.txt_30-Apr-2015_18-53.mat
+ echo "REV12_REV_GNG1.txt_30-Apr-2015_18-53.mat REV012_REV_GNG1.txt_30-Apr-2015_18-53.mat" >> $outputlog
+ mv REV12_REV_GNG2.txt_30-Apr-2015_18-45.mat REV012_REV_GNG2.txt_30-Apr-2015_18-45.mat
+ echo "REV12_REV_GNG2.txt_30-Apr-2015_18-45.mat REV012_REV_GNG2.txt_30-Apr-2015_18-45.mat" >> $outputlog
  mv REV057_REV_React2.txt_25-Aug-2015_18-15.mat REV057_REV_React1.txt_25-Aug-2015_18-15.mat   
  echo "REV057_REV_React2.txt_25-Aug-2015_18-15.mat REV057_REV_React1.txt_25-Aug-2015_18-15.mat" >> $outputlog
  mv REV027_REV_React4.txt_12-Jun-2015_11-18.mat REV027_REV_React3.txt_12-Jun-2015_11-18.mat
