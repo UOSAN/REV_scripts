@@ -676,7 +676,7 @@ survey_data$bscs_me_numcrave <- as.numeric(survey_data$bscs_me_4_1) # BSCS Meth 
 survey_data$bscs_p_numcrave <- as.numeric(survey_data$bscs_p_4_1) # BSCS Presciption Pills number of cravings in past 24 hrs
 
 
-###### Drug Use History (DUH)
+###### Drug Use History (DUH) *NOTE: Not going to use this as HRB outcome variable
     # Alcohol (DUH-A) = CONSUMPTION
     # Cocaine (DUH-C) = CONSUMPTION 
     # Marijuana (DUH-Ma) = CONSUMPTION
@@ -788,7 +788,7 @@ survey_data$ftnd_6_recode <- recode(survey_data$ftnd_6, "1=0;2=1")
 ftnd_recode_cols <- colnames(survey_data[(grepfun("_recode",survey_data))])
 
 # Calculate total score
-survey_data$ftnd_total <- rowSums(survey_data[ftnd_recode_cols]) # ftnd total score
+survey_data$ftnd_total <- rowMeans(survey_data[ftnd_recode_cols]) # ftnd total score. NOTE: this is originally supposed to be a sum, but we are using a mean in order to be robust to missing data
 
 ###### Questionnaire of Smoking Urges-Brief (QSU-brief; Cox, Tiffany, & Christen, 2011) = CRAVING
 
