@@ -6,7 +6,8 @@
 ###################################################
 
 # Change this, path to data and script repos
-repopath="/Users/kristadestasio/Desktop"
+# repopath="/Users/kristadestasio/Desktop"
+repopath="/Users/brendancullen/Desktop/REV"
  
 # Set paths
 datadir="$repopath/REV_scripts/behavioral/REV_SST/output"
