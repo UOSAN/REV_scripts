@@ -639,7 +639,7 @@ for (v in 1:length(Vices)) {
   p <- get(Vices[v]) #Indices of all items from scales that are associated with that problem
   print(paste0(e, ": ", get(ViceLS[v]))) #display the problem and name of associated scales (my own sanity check)
   for (i in p) {
-    survey_data[i][is.na(survey_data[i]) & survey_data[e] == "no"] <- NA #change real NAs to "NA"
+    survey_data[i][survey_data[i] == 999 & survey_data[e] == "no"] <- NA #change real NAs to "NA"
     print(variable.names(survey_data[i]))
   }
 } #print to double check that I've put the right variables together!
