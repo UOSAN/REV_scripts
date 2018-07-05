@@ -1,56 +1,56 @@
 function fix_REVtags
 
-%% Set up directories to be referenced later!
+%% Set up directories to be referenced later
 
-baseDir = '/Users/mmoss/Dropbox/REV_repos';
-dataDir = [baseDir '/REV_BxData'];
-subDirs = [dataDir '/scanning/' sublist{1} '/base/GNG'];
-tagDir = [baseDir '/REV_scripts/behavioral/tasks/REV_GNG'];
+studyCode = 'REV';
+firstSub = 1;
+lastSub = 144;
+exclude = [4 5 7 8 12 14 15 25 28 30 33 40 42 45 61 63 64 66 71 72 79 81 83 85 87 92 95 96 99 101 103 105 106 112 113 120 122 123 125 128 132 133 139 143]; % If you want to exclude any numbers, put them in this vector (e.g. exclude = [5 20];)
+task = 'React';
+dataFolder = ['~/Desktop/REV_scripts/behavioral/' task '/data'];
 
-
-cd(dataDir);
-
-subs = readtable('REVsubsList.txt');
-listLength = size(subs);
-nSubs = listLength(1);
-
-
-sublist = cell(nSubs,3);
-
-for x = 1:nSubs
-    sublist{x,1} = subs.SUBJECTS{x}; %column of subject folder names ('REV###')
-    sublist{x,2} = [dataDir '/scanning/' sublist{x,1} '/base/GNG']; %column of base scan directories for each sub
-    sublist{x,3} = [dataDir '/scanning/' sublist{x,1} '/end/GNG']; %column of end scan directories for each sub
-end
-
-
-for s = 1:nSubs
-    if exist(sublist{s,2},'dir')
-    cd(sublist{s,2}) %cd into base gng folder for each subject
-    
-    files = ls('*.mat');
-    matFiles = strsplit(files(1,:),'\n');
-    mfiles = matFiles(1:(length(matFiles)-1)); %list of all matfiles
-    
-    end
+for s = firstSub:lastSub
+    if find(exclude==s) % if they're on the exclusion list
+        sprintf('sub %d excluded',s)
+    else
+        if s<10
+            placeholder = '00';
+        elseif s<100
+            placeholder = '0';
+        else
+            placeholder = '';
+        end
         
-        subFile = load(mfiles{f});
+        subject_code = [studyCode placeholder num2str(s)];
         
-        for t = 1:length(subFile.run_info.tag{t})
-            if isempty(subFile.run_info.tag{t})
-                fprintf('~~~~Oy vey!!~~~~~\n.');
+        if exist(dataFolder)==7
+            cd(dataFolder)
+        else
+            warning('Data folder not found')
+        end
+        
+        for s = subject_code 
+            
+        for r = runs % For runs defined previously (scanning only here)
+            fileName = dir([studyCode subject_code '_' task num2str(r) '*.mat']);
+            
+            if size(fileName,1)>1
+                warning('More than 1 data file found for sub %d run %d',s,r)
+            elseif size(fileName,1)==0
+                warning('No data file found for sub %d run %d',s,r)
+            else
+                load(fileName.name)
+                
+            if r == 1 | 3
+                new_tags = [ 'put tags here' ]
+            elseif r == 2 | 4
+                new_tags = [ 'put tags here' ]
             end
-    end
-
-end
-
-end
-
-
-
-
-
-
+            
+            run_info.tag = new_tags
+            
+            
+                
 
 
 
