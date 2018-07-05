@@ -418,6 +418,11 @@ Scale: 1not at all - 5very much
 ## The next two chunks will change NAs to '999' for questionnaires that are not associated with endorsed craving stimuli!
 ## This means that true NAs will now be coded 999 (though we can obviously change that again later)
 ```{r prep_variables_for_missing_check}
+
+survey_data <- dplyr::rename(survey_data, fci_pa_2 = fci_pi_2,
+        fci_pi_2 = fci_pi_2.0)
+
+
 Vices <- colnames(dplyr::select(survey_data, starts_with("probs_")))
 for (i in Vices) {
   assign(i, list())
@@ -639,7 +644,7 @@ for (v in 1:length(Vices)) {
   p <- get(Vices[v]) #Indices of all items from scales that are associated with that problem
   print(paste0(e, ": ", get(ViceLS[v]))) #display the problem and name of associated scales (my own sanity check)
   for (i in p) {
-    survey_data[i][is.na(survey_data[i]) & survey_data[e] == "no"] <- NA #change real NAs to "NA"
+    survey_data[i][survey_data[i] == 999 & survey_data[e] == "no"] <- NA #change real NAs to "NA"
     print(variable.names(survey_data[i]))
   }
 } #print to double check that I've put the right variables together!
