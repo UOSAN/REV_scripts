@@ -633,6 +633,19 @@ ggplot(data = survey_data) +
 
 ```{r Scoring Base Survey HRB variables}
 
+#reverse the thing
+for (v in 1:length(Vices)) {
+  e <- Vices[v] #Name of problem endorsed
+  p <- get(Vices[v]) #Indices of all items from scales that are associated with that problem
+  print(paste0(e, ": ", get(ViceLS[v]))) #display the problem and name of associated scales (my own sanity check)
+  for (i in p) {
+    survey_data[i][is.na(survey_data[i]) & survey_data[e] == "no"] <- NA #change real NAs to "NA"
+    print(variable.names(survey_data[i]))
+  }
+} #print to double check that I've put the right variables together!
+
+
+
 ###### Brief Substance Craving Scale (BSCS)
     # Alcohol (BSCS-A) = CRAVING
     # Cocaine (BSCS-C) = CRAVING
