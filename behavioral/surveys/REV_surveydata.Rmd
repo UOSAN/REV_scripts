@@ -427,7 +427,7 @@ ViceLS <- paste0(Vices,"L")
 #First, get each survey associated with each vice indices for alcohol variables
 probs_alcoholL <- c("BSCS_A", "DUH_A", "ACQ_SF_R", "AUDIT", "PACS")
 probs_cocaineL <- c("BSCS_C", "DUH_C", "CCQ_Brief")
-probs_heroinL <- c("BSCS_H", "DUH-H", "HCQ_SF")
+probs_heroinL <- c("BSCS_H", "DUH_H", "HCQ_SF")
 probs_marijuanaL <- c("BSCS_Ma", "DUH_Ma", "MCQ_SF")
 probs_methL <- c("BSCS_Me","DUH_Me", "MCIY")
 probs_pillsL <- c("BSCS_P", "DUH_P", "CEQ_S_P")
@@ -492,7 +492,7 @@ for (v in 1:length(Vices)) {
   p <- get(Vices[v]) #Indices of all items from scales that are associated with that problem
   print(paste0(e, ": ", get(ViceLS[v]))) #display the problem and name of associated scales (my own sanity check)
   for (i in p) {
-    survey_data[i][is.na(survey_data[i]) & survey_data[e] == "no"] <- " " #change real NAs to 999
+    survey_data[i][is.na(survey_data[i]) & survey_data[e] == "no"] <- 999 #change real NAs to " "
     print(variable.names(survey_data[i]))
   }
 } #print to double check that I've put the right variables together!
