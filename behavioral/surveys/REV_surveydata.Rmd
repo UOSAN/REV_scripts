@@ -418,6 +418,11 @@ Scale: 1not at all - 5very much
 ## The next two chunks will change NAs to '999' for questionnaires that are not associated with endorsed craving stimuli!
 ## This means that true NAs will now be coded 999 (though we can obviously change that again later)
 ```{r prep_variables_for_missing_check}
+
+survey_data <- dplyr::rename(survey_data, fci_pa_2 = fci_pi_2,
+        fci_pi_2 = fci_pi_2.0)
+
+
 Vices <- colnames(dplyr::select(survey_data, starts_with("probs_")))
 for (i in Vices) {
   assign(i, list())
@@ -676,7 +681,7 @@ survey_data$bscs_me_numcrave <- as.numeric(survey_data$bscs_me_4_1) # BSCS Meth 
 survey_data$bscs_p_numcrave <- as.numeric(survey_data$bscs_p_4_1) # BSCS Presciption Pills number of cravings in past 24 hrs
 
 
-###### Drug Use History (DUH) *NOTE: Not going to use this as HRB outcome variable
+###### Drug Use History (DUH)
     # Alcohol (DUH-A) = CONSUMPTION
     # Cocaine (DUH-C) = CONSUMPTION 
     # Marijuana (DUH-Ma) = CONSUMPTION
@@ -788,7 +793,7 @@ survey_data$ftnd_6_recode <- recode(survey_data$ftnd_6, "1=0;2=1")
 ftnd_recode_cols <- colnames(survey_data[(grepfun("_recode",survey_data))])
 
 # Calculate total score
-survey_data$ftnd_total <- rowMeans(survey_data[ftnd_recode_cols]) # ftnd total score. NOTE: this is originally supposed to be a sum, but we are using a mean in order to be robust to missing data
+survey_data$ftnd_total <- rowSums(survey_data[ftnd_recode_cols]) # ftnd total score
 
 ###### Questionnaire of Smoking Urges-Brief (QSU-brief; Cox, Tiffany, & Christen, 2011) = CRAVING
 
