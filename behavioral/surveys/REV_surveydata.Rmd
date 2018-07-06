@@ -18,7 +18,9 @@ rm(list = ls())
 
 #The code assumes that this Markdown file is in the folder ~/REV_scripts/behavioral/surveys, and the folder structure follows the same hierarchical organization pattern (shown below in the Dir setups)
 
-homeBase = '~/Dropbox/REV_repos' #this is the only thing you should need to change
+#this is the only thing you should need to change
+homeBase = '~/Desktop/REV' # Brendan's path
+# homeBase = '~/Dropbox/REV_repos' # Mel's path
 
 #In order to run this script, first set your working directory to wherever the current file is saved
 setwd(paste0(homeBase,'/REV_scripts/behavioral/surveys'))
@@ -418,7 +420,7 @@ Scale: 1not at all - 5very much
 ## The next two chunks will change NAs to '999' for questionnaires that are not associated with endorsed craving stimuli!
 ## This means that true NAs will now be coded 999 (though we can obviously change that again later)
 ```{r prep_variables_for_missing_check}
-
+# rename incorrectly names FCI pizza and pasta variables
 survey_data <- dplyr::rename(survey_data, fci_pa_2 = fci_pi_2,
         fci_pi_2 = fci_pi_2.0)
 
@@ -649,8 +651,6 @@ for (v in 1:length(Vices)) {
   }
 } #print to double check that I've put the right variables together!
 
-
-
 ###### Brief Substance Craving Scale (BSCS)
     # Alcohol (BSCS-A) = CRAVING
     # Cocaine (BSCS-C) = CRAVING
@@ -801,6 +801,10 @@ survey_data$ftnd_total <- rowSums(survey_data[ftnd_recode_cols]) # ftnd total sc
 qsu_cols <- colnames(survey_data[(grepfun("qsu_",survey_data))])
 survey_data[qsu_cols] <- lapply(survey_data[qsu_cols], as.numeric)
 
+# NOTE: This is a Likert scale that ranges from 1-7. However, the responses were incorrectly coded such that 6=8 and 7=9. Recode these below. 
+
+survey_data[qsu_cols] <- lapply(survey_data[qsu_cols], FUN = function(X) recode(X, "8=6;9=7"))
+
 # Calculate total score
 survey_data$qsu_total <- rowMeans(survey_data[qsu_cols]) # qsu total score
 
@@ -839,14 +843,36 @@ survey_data$debq_total <- rowMeans(survey_data[debq_cols]) # debq total score
 
 # Isolate the fci items
 # NOTE: _1 = Crave; _2 = Like
-# NOTE: fci_pi_2 actually corresponds to fci_pa_2 (How much do you like pasta?); fci_pi_2.0 should actually be fci_pi_2 (How much do you like pizza?)
+# NOTE: fci_pi_2 actually corresponds to fci_pa_2 (How much do you like pasta?); fci_pi_2.0 should actually be fci_pi_2 (How much do you like pizza?). This was fixed above, so these variables should show up correctly. 
+
+# Rename the "fci_1" variables as "fci_crave"
+survey_data$fci_ch_crave <- survey_data$fci_ch_1
+survey_data$fci_co_crave <- survey_data$fci_co_1
+survey_data$fci_d_crave <- survey_data$fci_d_1
+survey_data$fci_f_crave <- survey_data$fci_f_1
+survey_data$fci_i_crave <- survey_data$fci_i_1
+survey_data$fci_pa_crave <- survey_data$fci_pa_1
+survey_data$fci_pi_crave <- survey_data$fci_pi_1
 
 # isolate fci crave items
-fci_cols <- c("fci_ch_1", "fci_co_1", "fci_d_1", "fci_f_1", "fci_i_1", "fci_pa_1", "fci_pi_1")
+fci_cols <- c("fci_ch_crave", "fci_co_crave", "fci_d_crave", "fci_f_crave", "fci_i_crave", "fci_pa_crave", "fci_pi_crave")
 
 survey_data[fci_cols] <- lapply(survey_data[fci_cols], as.numeric)
 
-# Calculate total score for craving
-survey_data$fci_crave_total <- rowMeans(survey_data[fci_cols]) # fci craving total score
+# NOTE: We don't want a total score before z-scoring. We first want to z-score because not everyone who endorsed food as a main category were given the same FCI subscales. 
+
+# # Calculate total score for craving
+# survey_data$fci_crave_total <- rowMeans(survey_data[fci_cols]) # fci craving total score
 
 ```
+
+
+```{r Convert HRB scale means to z-scores}
+
+survey_data$bscs_a_z <- scale(survey_data$bscs_a, center = FALSE, scale = TRUE)
+
+bscs_a_z_1 <- (survey_data$bscs_a[1] - mean(survey_data$bscs_a, na.rm = T))/sd(survey_data$bscs_a, na.rm = T)
+
+survey_data$bscs_a_z[1]
+```
+
