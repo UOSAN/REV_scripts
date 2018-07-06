@@ -793,7 +793,7 @@ survey_data$ftnd_6_recode <- recode(survey_data$ftnd_6, "1=0;2=1")
 ftnd_recode_cols <- colnames(survey_data[(grepfun("_recode",survey_data))])
 
 # Calculate total score
-survey_data$ftnd_total <- rowSums(survey_data[ftnd_recode_cols]) # ftnd total score
+survey_data$ftnd_total <- rowMeans(survey_data[ftnd_recode_cols]) # ftnd total score
 
 ###### Questionnaire of Smoking Urges-Brief (QSU-brief; Cox, Tiffany, & Christen, 2011) = CRAVING
 
@@ -869,10 +869,11 @@ survey_data[fci_cols] <- lapply(survey_data[fci_cols], as.numeric)
 
 ```{r Convert HRB scale means to z-scores}
 
-survey_data$bscs_a_z <- scale(survey_data$bscs_a, center = FALSE, scale = TRUE)
+# compile a list of the HRB variables (raw scale means)
+hrb_vars <- c()
 
-bscs_a_z_1 <- (survey_data$bscs_a[1] - mean(survey_data$bscs_a, na.rm = T))/sd(survey_data$bscs_a, na.rm = T)
+survey_data$bscs_a_z <- scale(survey_data$bscs_a, center = TRUE, scale = TRUE)
 
-survey_data$bscs_a_z[1]
+
 ```
 
