@@ -639,6 +639,17 @@ survey_data$bscs_p_numcrave <- as.numeric(survey_data$bscs_p_4_1) # BSCS Prescip
     # DUH-H (Drug Use History-Heroin) = CONSUMPTION
     # DUH-Me (Drug Use History-Meth) = CONSUMPTION
 
+# Isolate the DUH items
+duh_cols <- colnames(survey_data[(grepfun("duh_",survey_data))])
+survey_data[duh_cols] <- lapply(survey_data[duh_cols], as.numeric)
+
+# Only use item 2: "On average, how many times per day do you use (drug)?"
+survey_data$duh_a_avg_use_per_day <- survey_data$duh_a_2
+survey_data$duh_c_avg_use_per_day <- survey_data$duh_c_2
+survey_data$duh_h_avg_use_per_day <- survey_data$duh_h_2
+survey_data$duh_ma_avg_use_per_day <- survey_data$duh_ma_2
+survey_data$duh_me_avg_use_per_day <- survey_data$duh_me_2
+survey_data$duh_p_avg_use_per_day <- survey_data$duh_p_2
 
 ###### Alcohol Craving Questionnaire-Short Form (ACQ-SF-R; Tiffany et al., 2000) = CRAVING
 
@@ -717,12 +728,12 @@ survey_data$mciy_total <- survey_data$mciy_4 # mcq_sf total score; NOTE: only a 
 ###### Craving Experience Questionnaire (CEQ-S; Andrade et al., 2014)
     # Prescription pills (CEQ-S-P) = CRAVING
 
-# Isolate the ceq_s items
-ceq_s_cols <- colnames(survey_data[(grepfun("ceq_s_",survey_data))])
-survey_data[ceq_s_cols] <- lapply(survey_data[ceq_s_cols], as.numeric)
+# Isolate the ceq_s_p_ items
+ceq_s_p_cols <- colnames(survey_data[(grepfun("ceq_s_p_",survey_data))])
+survey_data[ceq_s_p_cols] <- lapply(survey_data[ceq_s_p_cols], as.numeric)
 
 # Calculate total score
-survey_data$ceq_s_total <- rowMeans(survey_data[ceq_s_cols]) # ceq_s total score
+survey_data$ceq_s_p_total <- rowMeans(survey_data[ceq_s_p_cols]) # ceq_s total score
 
 ###### Fagerstrom Test for Nicotine Dependence (FTND; Heatherton, Frecker, & Fagerstrom, 1991) = CONSUMPTION
 
@@ -816,11 +827,10 @@ survey_data[fci_cols] <- lapply(survey_data[fci_cols], as.numeric)
 ```{r Convert HRB scale means to z-scores}
 
 # compile a list of the HRB variable names (raw scale means)
-hrb_var_names <- c("bscs_a","bscs_c","bscs_h","bscs_ma","bscs_me","bscs_p","bscs_a_numcrave","bscs_c_numcrave","bscs_h_numcrave","bscs_ma_numcrave","bscs_me_numcrave","bscs_p_numcrave","acq_sf_r_total","audit_total","pacs_total","ccq_brief_total","hcq_sf_14_total","mcq_sf_total","mciy_total","ceq_s_total","ftnd_total","qsu_total","debq_total","fci_ch_crave","fci_co_crave","fci_d_crave","fci_f_crave","fci_i_crave","fci_pa_crave","fci_pi_crave")  
+hrb_var_names <- c("bscs_a","bscs_c","bscs_h","bscs_ma","bscs_me","bscs_p","bscs_a_numcrave","bscs_c_numcrave","bscs_h_numcrave","bscs_ma_numcrave","bscs_me_numcrave","bscs_p_numcrave","duh_a_avg_use_per_day","duh_c_avg_use_per_day","duh_h_avg_use_per_day","duh_ma_avg_use_per_day","duh_me_avg_use_per_day","duh_p_avg_use_per_day","acq_sf_r_total","audit_total","pacs_total","ccq_brief_total","hcq_sf_14_total","mcq_sf_total","mciy_total","ceq_s_p_total","ftnd_total","qsu_total","debq_total","fci_ch_crave","fci_co_crave","fci_d_crave","fci_f_crave","fci_i_crave","fci_pa_crave","fci_pi_crave")  
 
 # subset the HRB variables in the data frame
 hrb_vars <- survey_data[,hrb_var_names]
-#hrb_vars <- survey_data[,c("bscs_a", "bscs_c", "bscs_h", "bscs_me")]
 
 # Convert all HRB variables (raw scale means) into z scores and save as a separate data frame
 hrb_vars_z <- as.data.frame(lapply(hrb_vars, FUN = function(X) scale(X, center = TRUE, scale = TRUE)))
@@ -902,13 +912,55 @@ survey_data$weighting_var_alcohol <- survey_data$alcohol_intensity/survey_data$t
 
 survey_data$weighting_var_tobacco <- survey_data$tobacco_intensity/survey_data$total_intensity_points
 
+# Separate out variable names by the 4 main HRB categories
+
+# alcohol
+hrb_alcohol_crave <- survey_data[,c("bscs_a_z", "bscs_a_numcrave_z", "acq_sf_r_total_z", "pacs_total_z")]
+hrb_alcohol_consumption <- survey_data[,c("duh_a_avg_use_per_day_z", "audit_total_z")]
+hrb_alcohol_vars <- cbind(hrb_alcohol_crave,hrb_alcohol_consumption)
+
+# drugs
+hrb_drug_crave <- survey_data[,c("bscs_c_z", "ccq_brief_total_z", "bscs_h_z", "hcq_sf_14_total_z", "bscs_ma_z", "mcq_sf_total_z", "bscs_me_z", "mciy_total_z", "bscs_p_z", "ceq_s_p_total_z")]
+hrb_drug_consumption <- survey_data[,c("duh_c_avg_use_per_day_z", "duh_h_avg_use_per_day_z", "duh_ma_avg_use_per_day_z", "duh_me_avg_use_per_day_z", "duh_p_avg_use_per_day_z")]
+hrb_drugs_vars <- cbind(hrb_food_crave,hrb_drugs_consumption)
+
+# tobacco
+hrb_tobacco_crave <- survey_data[,c("qsu_total_z")]
+hrb_tobacco_consumption <- survey_data[,c("ftnd_total_z")]
+hrb_tobacco_vars <- cbind(hrb_tobacco_crave,hrb_tobacco_consumption)
+
+# food
+hrb_food_crave <- survey_data[,c("fci_ch_crave_z", "fci_co_crave_z", "fci_d_crave_z", "fci_f_crave_z", "fci_i_crave_z", "fci_pa_crave_z", "fci_pi_crave_z")]
+hrb_food_consumption <- survey_data[,c("debq_total_z")]
+hrb_food_vars <- cbind(hrb_food_crave,hrb_food_consumption)
+
 # Multiply all food z-scored variables by food intensity weighting variable 
+
+## Make a function to multiply variables by weighting variable
+weight_food_measures <- function(x){
+  new <- x*survey_data$weighting_var_food
+  return(new)
+}
+
+# apply this function to the food variables
+hrb_food_vars <- as.data.frame(lapply(hrb_food_vars, FUN = function(X) weight_food_measures(X)))
+
+# Make a function to re-name variables with suffix "_w" to indicated that it is a weighted variable
+weight_by_intensity <- function(x){
+  new <- paste0(x,"_w")
+  return(new)
+}
+
+# apply this function to the hrb variables
+colnames(hrb_food_vars) <- lapply(colnames(hrb_food_vars), weight_by_intensity)
 
 # Multiply all drugs z-scored variables by drugs intensity weighting variable 
 
 # Multiply all alcohol z-scored variables by alcohol intensity weighting variable 
 
 # Multiply all tobacco z-scored variables by tobacco intensity weighting variable 
+
+
 
 # Average all weighted z-scored CRAVING measures into a single HRB CRAVING summary variable 
 hrb_crave <- mean(???)
