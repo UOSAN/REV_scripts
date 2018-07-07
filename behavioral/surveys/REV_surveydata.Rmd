@@ -857,7 +857,7 @@ survey_data <- as.data.frame(cbind(survey_data, hrb_vars_z))
 ```
 
 
-```{r Average z-scored HRB variables}
+```{r Creating intensity rating weighting vars}
 # Score the intensity ratings from screening data (adapted 5-item BIS items)
 
 # Food
@@ -912,6 +912,13 @@ survey_data$weighting_var_alcohol <- survey_data$alcohol_intensity/survey_data$t
 
 survey_data$weighting_var_tobacco <- survey_data$tobacco_intensity/survey_data$total_intensity_points
 
+# combine weighting variables into single vector
+hrb_weights <- as.data.frame(lapply(survey_data[c("weighting_var_alcohol", "weighting_var_drugs", "weighting_var_tobacco", "weighting_var_food")], as.numeric)) #NOTE: order is alcohol, drugs, tobacco, food
+```
+
+
+```{r Calculate weighted average of z-scored HRB variables}
+
 # Separate out variable names by the 4 main HRB categories
 
 # alcohol
@@ -919,20 +926,53 @@ hrb_alcohol_crave <- survey_data[,c("bscs_a_z", "bscs_a_numcrave_z", "acq_sf_r_t
 hrb_alcohol_consumption <- survey_data[,c("duh_a_avg_use_per_day_z", "audit_total_z")]
 hrb_alcohol_vars <- cbind(hrb_alcohol_crave,hrb_alcohol_consumption)
 
+## calculate averages for craving and consumption for ALCOHOL
+survey_data$hrb_alcohol_crave_avg <- rowMeans(hrb_alcohol_crave)
+
+survey_data$hrb_alcohol_consumption_avg <- rowMeans(hrb_alcohol_consumption)
+
 # drugs
-hrb_drug_crave <- survey_data[,c("bscs_c_z", "ccq_brief_total_z", "bscs_h_z", "hcq_sf_14_total_z", "bscs_ma_z", "mcq_sf_total_z", "bscs_me_z", "mciy_total_z", "bscs_p_z", "ceq_s_p_total_z")]
-hrb_drug_consumption <- survey_data[,c("duh_c_avg_use_per_day_z", "duh_h_avg_use_per_day_z", "duh_ma_avg_use_per_day_z", "duh_me_avg_use_per_day_z", "duh_p_avg_use_per_day_z")]
-hrb_drugs_vars <- cbind(hrb_food_crave,hrb_drugs_consumption)
+hrb_drugs_crave <- survey_data[,c("bscs_c_z", "ccq_brief_total_z", "bscs_h_z", "hcq_sf_14_total_z", "bscs_ma_z", "mcq_sf_total_z", "bscs_me_z", "mciy_total_z", "bscs_p_z", "ceq_s_p_total_z")]
+hrb_drugs_consumption <- survey_data[,c("duh_c_avg_use_per_day_z", "duh_h_avg_use_per_day_z", "duh_ma_avg_use_per_day_z", "duh_me_avg_use_per_day_z", "duh_p_avg_use_per_day_z")]
+hrb_drugs_vars <- cbind(hrb_drugs_crave,hrb_drugs_consumption)
+
+## calculate averages for craving and consumption for DRUGS
+survey_data$hrb_drugs_crave_avg <- rowMeans(hrb_drugs_crave, na.rm = TRUE)
+
+survey_data$hrb_drugs_consumption_avg <- rowMeans(hrb_drugs_consumption, na.rm = TRUE)
 
 # tobacco
 hrb_tobacco_crave <- survey_data[,c("qsu_total_z")]
 hrb_tobacco_consumption <- survey_data[,c("ftnd_total_z")]
 hrb_tobacco_vars <- cbind(hrb_tobacco_crave,hrb_tobacco_consumption)
 
+## calculate averages for craving and consumption for TOBACCO
+survey_data$hrb_tobacco_crave_avg <- hrb_tobacco_crave #NOTE: only one measure
+
+survey_data$hrb_tobacco_consumption_avg <- hrb_tobacco_consumption #NOTE: only one measure
+
 # food
 hrb_food_crave <- survey_data[,c("fci_ch_crave_z", "fci_co_crave_z", "fci_d_crave_z", "fci_f_crave_z", "fci_i_crave_z", "fci_pa_crave_z", "fci_pi_crave_z")]
 hrb_food_consumption <- survey_data[,c("debq_total_z")]
 hrb_food_vars <- cbind(hrb_food_crave,hrb_food_consumption)
+
+## calculate averages for craving and consumption for FOOD
+survey_data$hrb_food_crave_avg <- rowMeans(hrb_food_crave)
+
+survey_data$hrb_food_consumption_avg <- hrb_food_consumption #NOTE: only one measure
+
+# combine craving vars together and consumption vars together
+hrb_crave_vars <- as.data.frame(lapply(survey_data[,c("hrb_alcohol_crave_avg","hrb_drugs_crave_avg","hrb_tobacco_crave_avg","hrb_food_crave_avg")], as.numeric))
+
+hrb_consumption_vars <- as.data.frame(lapply(survey_data[,c("hrb_alcohol_consumption_avg","hrb_drugs_consumption_avg","hrb_tobacco_consumption_avg","hrb_food_consumption_avg")], as.numeric))
+
+# create weighted averages for craving and consumption
+hrb_crave_avg_weighted <- as.data.frame(weighted.mean(x = as.matrix(hrb_crave_vars), w = as.matrix(hrb_weights), na.rm = TRUE))
+
+
+
+
+
 
 # Multiply all food z-scored variables by food intensity weighting variable 
 
@@ -951,7 +991,7 @@ weight_by_intensity <- function(x){
   return(new)
 }
 
-# apply this function to the hrb variables
+# apply this function
 colnames(hrb_food_vars) <- lapply(colnames(hrb_food_vars), weight_by_intensity)
 
 # Multiply all drugs z-scored variables by drugs intensity weighting variable 
@@ -967,7 +1007,6 @@ hrb_crave <- mean(???)
 
 # Average all weighted z-scored CONSUMPTION measures into a single HRB CONSUMPTION summary variable 
 hrb_consumption <- mean(???)
-
 ```
 
 
