@@ -538,56 +538,6 @@ survey_data <- survey_data %>% group_by() %>%
 ```
 
 
-## Score the SConS questionnaire
-```{r SConS scoring}
-## Reverse coding items
-# scons_cols <- colnames(survey_data[,450:462])
-# survey_data[scons_cols] <-
-#       lapply(survey_data[scons_cols], plyr::mapvalues,
-#       from = c("Not at all 1", "2", "3", "4", "Very Much 5"),
-#       to = c(1,2,3,4,5))
-
-scons_cols <- colnames(survey_data[(grepfun("scons_",survey_data))])
-
-reverse_cols = c("scons_2", "scons_3", "scons_4", "scons_5", "scons_7", "scons_9", "scons_10", "scons_12", "scons_13")
-survey_data[scons_cols] <- 
-  lapply(survey_data[scons_cols], as.numeric)
-survey_data[,reverse_cols] = 6 - survey_data[,reverse_cols] # Reverse score the SConS items in reverse_cols
-
-survey_data$scons_total <- rowSums(survey_data[scons_cols]) # Total SConS score
-
-# How many survey responses do we have? 114
-table(!is.na(survey_data[,"scons_total"]))
-```
-
-## Score the BIS questionnaire
-```{r BIS soring}
-## Reverse coding items
-# BIS_cols <- colnames(survey_data[,400:429])
-# survey_data[BIS_cols] <-
-#       lapply(survey_data[BIS_cols], plyr::mapvalues,
-#       from = c("Rarely/Never", "Occasionally", "Often", "Almost Always/Always"),
-#       to = c(1,2,3,4))
-
-BIS_cols <- colnames(survey_data[(grepfun("bis_",survey_data))])
-BIS_cols <- BIS_cols[-grep('bas_',BIS_cols)] #remove combined 'bisbas_' variable names from list
-
-reverse_cols = c("bis_7", "bis_13","bis_19","bis_6", "bis_1", "bis_5","bis_8","bis_11", "bis_17", "bis_22", "bis_30")
-survey_data[BIS_cols] <- 
-  lapply(survey_data[BIS_cols], as.numeric)
-survey_data[,reverse_cols] = 5 - survey_data[,reverse_cols] # Reverse score the BIS items in reverse_cols
-
-## Creating the subscales
-BISkey_list <- list(attention = c("bis_4","bis_7","bis_10","bis_13","bis_16","bis_19","bis_24","bis_27"), motor = c("bis_2","bis_6","bis_9","bis_12","bis_15","bis_18","bis_21","bis_23","bis_26","bis_29"), non_planning = c("bis_1","bis_3","bis_5","bis_8","bis_11","bis_14","bis_17","bis_20","bis_22","bis_25","bis_28","bis_30"))
-
-survey_data$bis_attn <- rowSums(survey_data[,BISkey_list[[1]]]) # BIS attention score
-survey_data$bis_motor <- rowSums(survey_data[,BISkey_list[[2]]]) # BIS motor score
-survey_data$bis_noplan <- rowSums(survey_data[,BISkey_list[[3]]]) # BIS non-planning score
-survey_data$bis_total <- rowSums(survey_data[,c("bis_attn", "bis_motor", "bis_noplan")]) # BIS total score
-
-# How many survey responses do we have? 116
-table(!is.na(survey_data[,"bis_total"]))
-```
 
 # Participant Demographics 
 (N = 143) enrolled
@@ -789,11 +739,8 @@ survey_data$ftnd_4 <- recode(survey_data$ftnd_4, "1=0;2=1;3=2;4=3")
 survey_data$ftnd_5 <- recode(survey_data$ftnd_5, "1=0;2=1")
 survey_data$ftnd_6 <- recode(survey_data$ftnd_6, "1=0;2=1")
 
-# isolate the recoded items
-ftnd_recode_cols <- colnames(survey_data[(grepfun("_recode",survey_data))])
-
 # Calculate total score
-survey_data$ftnd_total <- rowMeans(survey_data[ftnd_recode_cols]) # ftnd total score
+survey_data$ftnd_total <- rowMeans(survey_data[ftnd_cols]) # ftnd total score
 
 ###### Questionnaire of Smoking Urges-Brief (QSU-brief; Cox, Tiffany, & Christen, 2011) = CRAVING
 
@@ -863,7 +810,6 @@ survey_data[fci_cols] <- lapply(survey_data[fci_cols], as.numeric)
 
 # # Calculate total score for craving
 # survey_data$fci_crave_total <- rowMeans(survey_data[fci_cols]) # fci craving total score
-
 ```
 
 
@@ -879,18 +825,152 @@ hrb_vars <- survey_data[,hrb_var_names]
 # Convert all HRB variables (raw scale means) into z scores and save as a separate data frame
 hrb_vars_z <- as.data.frame(lapply(hrb_vars, FUN = function(X) scale(X, center = TRUE, scale = TRUE)))
 
-# Re-name the variables with suffix "_z"
+# Make a function to re-name variables with suffix "_z"
 name_with_z <- function(x){
   new <- paste0(x,"_z")
   return(new)
 }
 
+# apply this function to the hrb variables
 colnames(hrb_vars_z) <- lapply(colnames(hrb_vars_z), name_with_z)
 
 # Look at the head of the data frame of z scores
 head(hrb_vars_z)
 
-# Merge the z-scored variables with the original survey_data data frame
 
+### CHECK WITH ELLIOT ABOUT THIS!!!
+
+# Since only 1 person filled out the heroin questionnaires, the z-scores show up as NaN's. Manually replace these with 0's, i.e. since the one person's raw score is also the mean, the z-score should be 0. 
+
+# Merge the z-scored variables with the original survey_data data frame
+survey_data <- as.data.frame(cbind(survey_data, hrb_vars_z))
+```
+
+
+```{r Average z-scored HRB variables}
+# Score the intensity ratings from screening data (adapted 5-item BIS items)
+
+# Food
+food_intensity_cols <- c("food1", "food2", "food3", "food4", "food5")
+survey_data[food_intensity_cols] <- lapply(survey_data[food_intensity_cols], as.numeric)
+
+# reverse score the 1st item "I am good at resisting..."
+survey_data$food1 <- 6 - survey_data$food1
+
+# Calculate total score
+survey_data$food_intensity <- rowMeans(survey_data[food_intensity_cols]) 
+
+# Drugs
+drugs_intensity_cols <- c("drugs1", "drugs2", "drugs3", "drugs4", "drugs5")
+survey_data[drugs_intensity_cols] <- lapply(survey_data[drugs_intensity_cols], as.numeric)
+
+# reverse score the 1st item "I am good at resisting..."
+survey_data$drugs1 <- 6 - survey_data$drugs1
+
+# Calculate total score
+survey_data$drugs_intensity <- rowMeans(survey_data[drugs_intensity_cols])
+
+# Alcohol
+alcohol_intensity_cols <- c("alcohol1", "alcohol2", "alcohol3", "alcohol4", "alcohol5")
+survey_data[alcohol_intensity_cols] <- lapply(survey_data[alcohol_intensity_cols], as.numeric)
+
+# reverse score the 1st item "I am good at resisting..."
+survey_data$alcohol1 <- 6 - survey_data$alcohol1
+
+# Calculate total score
+survey_data$alcohol_intensity <- rowMeans(survey_data[alcohol_intensity_cols])
+
+# Tobacco
+tobacco_intensity_cols <- c("tobacco1", "tobacco2", "tobacco3", "tobacco4", "tobacco5")
+survey_data[tobacco_intensity_cols] <- lapply(survey_data[tobacco_intensity_cols], as.numeric)
+
+# reverse score the 1st item "I am good at resisting..."
+survey_data$tobacco1 <- 6 - survey_data$tobacco1
+
+# Calculate total score
+survey_data$tobacco_intensity <- rowMeans(survey_data[tobacco_intensity_cols])
+
+# Calculate total intensity rating points for each individual
+survey_data$total_intensity_points <- rowSums(survey_data[,c("food_intensity","drugs_intensity","alcohol_intensity","tobacco_intensity")], na.rm = TRUE)
+
+# Calculate the weighting variable for all 4 HRB categories
+survey_data$weighting_var_food <- survey_data$food_intensity/survey_data$total_intensity_points
+
+survey_data$weighting_var_drugs <- survey_data$drugs_intensity/survey_data$total_intensity_points
+
+survey_data$weighting_var_alcohol <- survey_data$alcohol_intensity/survey_data$total_intensity_points
+
+survey_data$weighting_var_tobacco <- survey_data$tobacco_intensity/survey_data$total_intensity_points
+
+# Multiply all food z-scored variables by food intensity weighting variable 
+
+# Multiply all drugs z-scored variables by drugs intensity weighting variable 
+
+# Multiply all alcohol z-scored variables by alcohol intensity weighting variable 
+
+# Multiply all tobacco z-scored variables by tobacco intensity weighting variable 
+
+# Average all weighted z-scored CRAVING measures into a single HRB CRAVING summary variable 
+hrb_crave <- mean(???)
+
+# Average all weighted z-scored CONSUMPTION measures into a single HRB CONSUMPTION summary variable 
+hrb_consumption <- mean(???)
+
+```
+
+
+
+
+### Self-report individual differences measures (related to self-regulation)
+
+## Score the SConS questionnaire
+```{r SConS scoring}
+## Reverse coding items
+# scons_cols <- colnames(survey_data[,450:462])
+# survey_data[scons_cols] <-
+#       lapply(survey_data[scons_cols], plyr::mapvalues,
+#       from = c("Not at all 1", "2", "3", "4", "Very Much 5"),
+#       to = c(1,2,3,4,5))
+
+scons_cols <- colnames(survey_data[(grepfun("scons_",survey_data))])
+
+reverse_cols = c("scons_2", "scons_3", "scons_4", "scons_5", "scons_7", "scons_9", "scons_10", "scons_12", "scons_13")
+survey_data[scons_cols] <- 
+  lapply(survey_data[scons_cols], as.numeric)
+survey_data[,reverse_cols] = 6 - survey_data[,reverse_cols] # Reverse score the SConS items in reverse_cols
+
+survey_data$scons_total <- rowSums(survey_data[scons_cols]) # Total SConS score
+
+# How many survey responses do we have? 114
+table(!is.na(survey_data[,"scons_total"]))
+```
+
+## Score the BIS questionnaire
+```{r BIS soring}
+## Reverse coding items
+# BIS_cols <- colnames(survey_data[,400:429])
+# survey_data[BIS_cols] <-
+#       lapply(survey_data[BIS_cols], plyr::mapvalues,
+#       from = c("Rarely/Never", "Occasionally", "Often", "Almost Always/Always"),
+#       to = c(1,2,3,4))
+
+BIS_cols <- colnames(survey_data[(grepfun("bis_",survey_data))])
+BIS_cols <- BIS_cols[-grep('bas_',BIS_cols)] #remove combined 'bisbas_' variable names from list
+
+reverse_cols = c("bis_7", "bis_13","bis_19","bis_6", "bis_1", "bis_5","bis_8","bis_11", "bis_17", "bis_22", "bis_30")
+survey_data[BIS_cols] <- 
+  lapply(survey_data[BIS_cols], as.numeric)
+survey_data[,reverse_cols] = 5 - survey_data[,reverse_cols] # Reverse score the BIS items in reverse_cols
+
+## Creating the subscales
+BISkey_list <- list(attention = c("bis_4","bis_7","bis_10","bis_13","bis_16","bis_19","bis_24","bis_27"), motor = c("bis_2","bis_6","bis_9","bis_12","bis_15","bis_18","bis_21","bis_23","bis_26","bis_29"), non_planning = c("bis_1","bis_3","bis_5","bis_8","bis_11","bis_14","bis_17","bis_20","bis_22","bis_25","bis_28","bis_30"))
+
+survey_data$bis_attn <- rowSums(survey_data[,BISkey_list[[1]]]) # BIS attention score
+survey_data$bis_motor <- rowSums(survey_data[,BISkey_list[[2]]]) # BIS motor score
+survey_data$bis_noplan <- rowSums(survey_data[,BISkey_list[[3]]]) # BIS non-planning score
+survey_data$bis_total <- rowSums(survey_data[,c("bis_attn", "bis_motor", "bis_noplan")]) # BIS total score
+
+# How many survey responses do we have? 116
+table(!is.na(survey_data[,"bis_total"]))
 ```
 
