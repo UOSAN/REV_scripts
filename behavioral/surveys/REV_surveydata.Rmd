@@ -1127,3 +1127,40 @@ survey_data$bis_total <- rowSums(survey_data[,c("bis_attn", "bis_motor", "bis_no
 table(!is.na(survey_data[,"bis_total"]))
 ```
 
+## Score the BIS BAS questionnaire
+
+```{r BIS BAS scoring}
+# isolate the BISBAS items
+bis_bas_cols <- colnames(survey_data[(grepfun("bas_",survey_data))])
+
+# specify reverse-scored items
+# The only items that are reverse-scored are "bis_bas_5" and "bis_bas_7".
+# NOTE: This scale should have been administered on a 1-4 scale (1=very true for me, 4=very false for me), where higher raw scores indicate lower amounts of the construct measured. Instead, it was administered on a 1-5 scale (1=strongly disagree, 5=strongly agree), where higher raw scores indicate higher amounts of the construct measured. Normally, all items except 5 and 7 are reverse-scored, but in our case we must reverse that. 
+
+reverse_cols = bis_bas_cols[c(5,7)]
+
+survey_data[bis_bas_cols] <- 
+  lapply(survey_data[bis_bas_cols], as.numeric)
+
+# reverse score the relevant items
+survey_data[,reverse_cols] = 6 - survey_data[,reverse_cols] # Reverse score the BISBAS items in reverse_cols
+
+# NOTE: These item numberings are unique to the version administered in REV. I had to cross-check them with the published scoring, found here: http://www.psy.miami.edu/faculty/ccarver/sclBISBAS.html
+
+# BAS Drive: 4, 11, 13, 15
+# BAS Fun Seeking: 3, 10, 17, 20
+# BAS Reward Responsiveness: 1, 6, 8, 16, 19
+# BIS: 2, 5, 7, 9, 12, 14, 18
+
+bis_bas_key_list <- list(bas_drive = c("bis_bas_4","bis_bas_11","bis_bas_13","bis_bas_15"), bas_fun = c("bis_bas_3","bis_bas_10","bis_bas_17","bis_bas_20"), bas_reward = c("bis_bas_1","bis_bas_6", "bis_bas_8","bis_bas_16","bis_bas_19"), bis = c("bis_bas_2","bis_bas_5","bis_bas_7","bis_bas_9", "bis_bas_12","bis_bas_14","bis_bas_18"))
+
+survey_data$bis_bas_bas_drive <- rowSums(survey_data[,bis_bas_key_list[[1]]]) # BAS Drive
+survey_data$bis_bas_bas_fun <- rowSums(survey_data[,bis_bas_key_list[[2]]]) # BAS Fun Seeking
+survey_data$bis_bas_bas_reward <- rowSums(survey_data[,bis_bas_key_list[[3]]]) # BAS Reward Responsiveness
+survey_data$bis_bas_bas_total <- rowSums(survey_data[,c("bis_bas_drive", "bis_bas_fun", "bis_bas_reward")]) # BAS total
+survey_data$bis_bas_bis_total <- rowSums(survey_data[,bis_bas_key_list[[4]]]) # BIS
+
+# # How many survey responses do we have?
+# table(!is.na(survey_data[,"bis_bas_bis_total"]))          
+```
+
