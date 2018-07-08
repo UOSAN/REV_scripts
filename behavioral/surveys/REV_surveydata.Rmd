@@ -914,6 +914,9 @@ survey_data$weighting_var_tobacco <- survey_data$tobacco_intensity/survey_data$t
 
 # combine weighting variables into single vector
 hrb_weights <- as.data.frame(lapply(survey_data[c("weighting_var_alcohol", "weighting_var_drugs", "weighting_var_tobacco", "weighting_var_food")], as.numeric)) #NOTE: order is alcohol, drugs, tobacco, food
+
+# Check that weighting vars sum to 1
+sanity_check_weighting <- rowSums(survey_data[,c("weighting_var_alcohol","weighting_var_tobacco","weighting_var_food","weighting_var_drugs")], na.rm = TRUE)
 ```
 
 
@@ -1008,17 +1011,64 @@ colnames(hrb_tobacco_w) <- lapply(colnames(hrb_tobacco_w), FUN = function(X) nam
 # combine into single data frame
 weighted_vars <- cbind(hrb_food_w,hrb_drugs_w,hrb_alcohol_w,hrb_tobacco_w)
 
-# create separate data frame with only CRAVE vars
+# create separate data frame with ALL COMBINED CRAVE vars
 weighted_crave_vars <- weighted_vars[,c("bscs_a_z_w", "bscs_a_numcrave_z_w", "acq_sf_r_total_z_w", "pacs_total_z_w", "bscs_c_z_w", "ccq_brief_total_z_w", "bscs_h_z_w", "hcq_sf_14_total_z_w", "bscs_ma_z_w", "mcq_sf_total_z_w", "bscs_me_z_w", "mciy_total_z_w", "bscs_p_z_w", "ceq_s_p_total_z_w", "qsu_total_z_w", "fci_ch_crave_z_w", "fci_co_crave_z_w", "fci_d_crave_z_w", "fci_f_crave_z_w", "fci_i_crave_z_w", "fci_pa_crave_z_w", "fci_pi_crave_z_w")]
 
-# create separate data frame with only CONSUMPTION vars
-weighted_consumption_vars <- weighted_vars[,c("duh_a_avg_use_per_day_z_w", "audit_total_z_w", "duh_c_avg_use_per_day_z_w", "duh_h_avg_use_per_day_z_w", "duh_ma_avg_use_per_day_z_w", "duh_me_avg_use_per_day_z_w", "duh_p_avg_use_per_day_z_w", "ftnd_total_z_w", "debq_total_z_w")]
+# create separate data frame with ALL COMBINED CONSUMPTION vars
+weighted_consumption_vars_combined <- weighted_vars[,c("duh_a_avg_use_per_day_z_w", "audit_total_z_w", "duh_c_avg_use_per_day_z_w", "duh_h_avg_use_per_day_z_w", "duh_ma_avg_use_per_day_z_w", "duh_me_avg_use_per_day_z_w", "duh_p_avg_use_per_day_z_w", "ftnd_total_z_w", "debq_total_z_w")]
 
-# Average all weighted z-scored CRAVING measures into a single HRB CRAVING summary variable 
-survey_data$hrb_crave <- rowMeans(weighted_crave_vars, na.rm = TRUE)
+# create separate data frame with FOOD CRAVE vars
+weighted_crave_vars_food <- weighted_vars[,c("fci_ch_crave_z_w", "fci_co_crave_z_w", "fci_d_crave_z_w", "fci_f_crave_z_w", "fci_i_crave_z_w", "fci_pa_crave_z_w", "fci_pi_crave_z_w")]
 
-# Average all weighted z-scored CONSUMPTION measures into a single HRB CONSUMPTION summary variable 
-survey_data$hrb_consumption <- rowMeans(weighted_consumption_vars, na.rm = TRUE)
+# create separate data frame with DRUGS CRAVE vars
+weighted_crave_vars_drugs <- weighted_vars[,c("bscs_c_z_w", "ccq_brief_total_z_w", "bscs_h_z_w", "hcq_sf_14_total_z_w", "bscs_ma_z_w", "mcq_sf_total_z_w", "bscs_me_z_w", "mciy_total_z_w", "bscs_p_z_w", "ceq_s_p_total_z_w")]
+
+# create separate data frame with ALCOHOL CRAVE vars
+weighted_crave_vars_alcohol <- weighted_vars[,c("bscs_a_z_w", "bscs_a_numcrave_z_w", "acq_sf_r_total_z_w", "pacs_total_z_w")]
+
+# create separate data frame with TOBACCO CRAVE vars
+weighted_crave_vars_tobacco <- weighted_vars[,"qsu_total_z_w"]
+
+# create separate data frame with FOOD CONSUMPTION vars
+weighted_consumption_vars_food <- weighted_vars[,"debq_total_z_w"]
+
+# create separate data frame with DRUGS CONSUMPTION vars
+weighted_consumption_vars_drugs <- weighted_vars[,c("duh_c_avg_use_per_day_z_w", "duh_h_avg_use_per_day_z_w", "duh_ma_avg_use_per_day_z_w", "duh_me_avg_use_per_day_z_w", "duh_p_avg_use_per_day_z_w")]
+
+# create separate data frame with ALCOHOL CONSUMPTION vars
+weighted_consumption_vars_alcohol <- weighted_vars[,c("duh_a_avg_use_per_day_z_w", "audit_total_z_w")]
+
+# create separate data frame with TOBACCO CONSUMPTION vars
+weighted_consumption_vars_tobacco <- weighted_vars[,"ftnd_total_z_w"]
+
+# average across weighted z scores within category for craving 
+weighted_crave_vars_food_avg <- rowMeans(weighted_crave_vars_food, na.rm= TRUE)
+weighted_crave_vars_drugs_avg <- rowMeans(weighted_crave_vars_drugs, na.rm = TRUE)
+weighted_crave_vars_alcohol_avg <- rowMeans(weighted_crave_vars_alcohol, na.rm = TRUE)
+weighted_crave_vars_tobacco_avg <- weighted_crave_vars_tobacco # Only 1 measure
+
+# then sum these averaged weighted z scores to create a single HRB CRAVING summary variable 
+survey_data$hrb_crave_summary <- rowSums(cbind(weighted_crave_vars_food_avg,weighted_crave_vars_drugs_avg,weighted_crave_vars_alcohol_avg,weighted_crave_vars_tobacco_avg), na.rm = TRUE)
+
+# average across weighted z scores within category for consumption 
+weighted_consumption_vars_food_avg <- weighted_consumption_vars_food # Only 1 measure
+weighted_consumption_vars_drugs_avg <- rowMeans(weighted_consumption_vars_drugs, na.rm = TRUE)
+weighted_consumption_vars_alcohol_avg <- rowMeans(weighted_consumption_vars_alcohol, na.rm = TRUE)
+weighted_consumption_vars_tobacco_avg <- weighted_consumption_vars_tobacco # Only 1 measure
+
+# then sum these averaged weighted z scores to create a single HRB CRAVING summary variable 
+survey_data$hrb_consumption_summary <- rowSums(cbind(weighted_consumption_vars_food_avg,weighted_consumption_vars_drugs_avg,weighted_consumption_vars_alcohol_avg,weighted_consumption_vars_tobacco_avg), na.rm = TRUE)
+
+### NOTE: Using rowSums to calculate the HRB summary variables puts 0's in for cases in which the data was missing (i.e. it was trying to sum a row of all NA's). I will have to either manually replace these 0's with NA's or use na.omit somewhere. However, we want to keep all 143 rows, so na.omit might not be an option, as this would actually remove rows with missing data from the data frame. 
+
+
+# THIS WAS THE ORIGINAL CODE I WROTE TO CALCULATE THE HRB SUMMARY VARS, BUT I DON'T THINK THIS IS CORRECT. CHECK WITH ELLIOT!
+
+# # Average all weighted z-scored CRAVING measures into a single HRB CRAVING summary variable 
+# survey_data$hrb_crave_summary <- rowMeans(weighted_crave_vars, na.rm = TRUE)
+# 
+# # Average all weighted z-scored CONSUMPTION measures into a single HRB CONSUMPTION summary variable 
+# survey_data$hrb_consumption_summary <- rowMeans(weighted_consumption_vars, na.rm = TRUE)
 ```
 
 
