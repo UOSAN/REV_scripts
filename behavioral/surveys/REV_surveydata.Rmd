@@ -785,7 +785,7 @@ survey_data[debq_cols] <- lapply(survey_data[debq_cols], as.numeric)
 
 # Specify reverse-scored items
 reverse_cols = c("debq_1", "debq_3", "debq_7", "debq_9", "debq_11", "debq_13", "debq_15", "debq_17", "debq_19", "debq_16")
-survey_data[,reverse_cols] = 6 - survey_data[,reverse_cols] # Reverse score the hcq_sf_14 items in reverse_cols
+survey_data[,reverse_cols] = 6 - survey_data[,reverse_cols] # Reverse score the debq items in reverse_cols
 
 # Calculate total score
 survey_data$debq_total <- rowMeans(survey_data[debq_cols]) # debq total score
