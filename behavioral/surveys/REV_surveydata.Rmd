@@ -1167,10 +1167,6 @@ survey_data$bis_bas_bis_total <- rowSums(survey_data[,bis_bas_key_list[[4]]]) # 
 ## Score the UPPS questionnaire
 
 ```{r UPPS Scoring}
-# isolate the UPPS items
-upps_cols <- colnames(survey_data[(grepfun("upps_",survey_data))])
-
-# NOTE: Whoever entered the scale skipped "upps_p_47", so we need to rename the variables from "upps_p_48" on. 
 
 # INCORRECT CODE:
 # rename(x = c("upps_p_48","upps_p_49","upps_p_50","upps_p_51","upps_p_52","upps_p_53","upps_p_54","upps_p_55","upps_p_56","upps_p_57","upps_p_58","upps_p_59","upps_p_60"), replace = c("upps_p_47","upps_p_48","upps_p_49","upps_p_50","upps_p_51","upps_p_52","upps_p_53","upps_p_54","upps_p_55","upps_p_56","upps_p_57","upps_p_58","upps_p_59"))
@@ -1183,21 +1179,25 @@ upps_cols <- colnames(survey_data[(grepfun("upps_",survey_data))])
 # 
 # 
 # names(survey_data[upps_cols][47:59]) <- c("upps_p_47","upps_p_48","upps_p_49","upps_p_50","upps_p_51","upps_p_52","upps_p_53","upps_p_54","upps_p_55","upps_p_56","upps_p_57","upps_p_58","upps_p_59")
-# 
 
-# colnames(survey_data)[colnames(survey_data) == "upps_p_48"] <- "upps_47"
-# colnames(survey_data)[colnames(survey_data) == "upps_p_49"] <- "upps_48"
-# colnames(survey_data)[colnames(survey_data) == "upps_p_50"] <- "upps_49"
-# colnames(survey_data)[colnames(survey_data) == "upps_p_51"] <- "upps_50"
-# colnames(survey_data)[colnames(survey_data) == "upps_p_52"] <- "upps_51"
-# colnames(survey_data)[colnames(survey_data) == "upps_p_53"] <- "upps_52"
-# colnames(survey_data)[colnames(survey_data) == "upps_p_54"] <- "upps_53"
-# colnames(survey_data)[colnames(survey_data) == "upps_p_55"] <- "upps_54"
-# colnames(survey_data)[colnames(survey_data) == "upps_p_56"] <- "upps_55"
-# colnames(survey_data)[colnames(survey_data) == "upps_p_57"] <- "upps_56"
-# colnames(survey_data)[colnames(survey_data) == "upps_p_58"] <- "upps_57"
-# colnames(survey_data)[colnames(survey_data) == "upps_p_59"] <- "upps_58"
-# colnames(survey_data)[colnames(survey_data) == "upps_p_60"] <- "upps_59"
+
+# # NOTE: Whoever entered the scale skipped "upps_p_47", so we need to rename the variables from "upps_p_48" on. Rename incorrectly named variables below.
+colnames(survey_data)[colnames(survey_data) == "upps_p_48"] <- "upps_p_47"
+colnames(survey_data)[colnames(survey_data) == "upps_p_49"] <- "upps_p_48"
+colnames(survey_data)[colnames(survey_data) == "upps_p_50"] <- "upps_p_49"
+colnames(survey_data)[colnames(survey_data) == "upps_p_51"] <- "upps_p_50"
+colnames(survey_data)[colnames(survey_data) == "upps_p_52"] <- "upps_p_51"
+colnames(survey_data)[colnames(survey_data) == "upps_p_53"] <- "upps_p_52"
+colnames(survey_data)[colnames(survey_data) == "upps_p_54"] <- "upps_p_53"
+colnames(survey_data)[colnames(survey_data) == "upps_p_55"] <- "upps_p_54"
+colnames(survey_data)[colnames(survey_data) == "upps_p_56"] <- "upps_p_55"
+colnames(survey_data)[colnames(survey_data) == "upps_p_57"] <- "upps_p_56"
+colnames(survey_data)[colnames(survey_data) == "upps_p_58"] <- "upps_p_57"
+colnames(survey_data)[colnames(survey_data) == "upps_p_59"] <- "upps_p_58"
+colnames(survey_data)[colnames(survey_data) == "upps_p_60"] <- "upps_p_59"
+ 
+# Isolate the UPPS items
+upps_cols <- colnames(survey_data[(grepfun("upps_",survey_data))])
 
 # NOTE: The published scale has 1-4 Likert scale where 1=Agree Strongly, 4=Disagree Strongly. However, it was administered with the opposite Likert rating, i.e. 1=Disagree Strongly, 4=Agree Strongly. Thus, we need to follow the opposite of the published reverse scoring.  
 
