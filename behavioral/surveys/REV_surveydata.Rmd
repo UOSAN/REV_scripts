@@ -1168,20 +1168,7 @@ survey_data$bis_bas_bis_total <- rowSums(survey_data[,bis_bas_key_list[[4]]]) # 
 
 ```{r UPPS Scoring}
 
-# INCORRECT CODE:
-# rename(x = c("upps_p_48","upps_p_49","upps_p_50","upps_p_51","upps_p_52","upps_p_53","upps_p_54","upps_p_55","upps_p_56","upps_p_57","upps_p_58","upps_p_59","upps_p_60"), replace = c("upps_p_47","upps_p_48","upps_p_49","upps_p_50","upps_p_51","upps_p_52","upps_p_53","upps_p_54","upps_p_55","upps_p_56","upps_p_57","upps_p_58","upps_p_59"))
-# 
-# rename(x = survey_data[upps_cols][47], replace = c("upps_p_48" = "upps_p_47"))
-# 
-# upps_incorrect_names <- survey_data[upps_cols][47:59]
-# 
-# plyr::rename(upps_incorrect_names, c("upps_p_48" = "upps_p_47"))
-# 
-# 
-# names(survey_data[upps_cols][47:59]) <- c("upps_p_47","upps_p_48","upps_p_49","upps_p_50","upps_p_51","upps_p_52","upps_p_53","upps_p_54","upps_p_55","upps_p_56","upps_p_57","upps_p_58","upps_p_59")
-
-
-# # NOTE: Whoever entered the scale skipped "upps_p_47", so we need to rename the variables from "upps_p_48" on. Rename incorrectly named variables below.
+# NOTE: Whoever entered the scale skipped "upps_p_47", so we need to rename the variables from "upps_p_48" on. Rename incorrectly named variables below.
 colnames(survey_data)[colnames(survey_data) == "upps_p_48"] <- "upps_p_47"
 colnames(survey_data)[colnames(survey_data) == "upps_p_49"] <- "upps_p_48"
 colnames(survey_data)[colnames(survey_data) == "upps_p_50"] <- "upps_p_49"
