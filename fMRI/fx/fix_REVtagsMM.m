@@ -1,4 +1,4 @@
-function fix_REVtags
+function fix_REVtagsMM
 %**********************DECLARING GLOBAL VARIABLES**************************
 global subs
 %**************************************************************************

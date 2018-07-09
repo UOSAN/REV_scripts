@@ -4,7 +4,7 @@ global subs
 %**************************************************************************
 
 %% Set up directories to be referenced!
-baseDir = '/Users/Melissa/Dropbox/REV_repos'; %mmoss for laptop, Melissa for desktop
+baseDir = '/Users/mmoss/Dropbox/REV_repos'; %mmoss for laptop, Melissa for desktop
 dataDir = [baseDir '/REV_BxData'];
 %subDirs = [dataDir '/scanning/' sublist{1} '/base/GNG'];
 tagDir = [baseDir '/REV_scripts/behavioral/tasks/REV_GNG'];
@@ -23,7 +23,7 @@ cd(tagDir)
 %    /Users/Melissa/Dropbox/REV_repos/REV_scripts/behavioral/tasks/REV_GNG/gng_tags.txt
 
 % Initialize variables.
-filename = '/Users/Melissa/Dropbox/REV_repos/REV_scripts/behavioral/tasks/REV_GNG/gng_tags.txt';
+filename = '/Users/mmoss/Dropbox/REV_repos/REV_scripts/behavioral/tasks/REV_GNG/gng_tags.txt';
 delimiter = '\t';
 startRow = 3;
 
