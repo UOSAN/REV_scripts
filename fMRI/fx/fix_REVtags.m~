@@ -112,13 +112,12 @@ end
 
 
 for s = 1:nSubs
-    cd(dataDir);
+    
     if exist(sublist{s,2},'dir')
         cd(sublist{s,2}) %cd into base gng folder for each subject
         
-        %subdirFiles=isEmptyDirectory(pwd);
-        %if subdirFiles>0
-        if any(size(dir([pwd '/*.mat' ]),1))
+        subdirFiles=isEmptyDirectory(pwd);
+        if subdirFiles>0
             
             files = ls('*.mat');
             matFiles = strsplit(files(1,:));
@@ -137,12 +136,12 @@ for s = 1:nSubs
                     %fprintf('\nImputing gng2 tags for %s', sublist{s,1}); %optional line
                     checkTagsCol(mfiles(m),tag_gng2);
                 else
-                    fprintf('\nfor %s no gng1 or 2!',sublist{s,1})
+                    fprintf('for %s no gng1 or 2!',sublist{s,1})
                 end
             end
             
         else
-            fprintf('\nNo .mat files in gng base folder for %s', sublist{s,1})
+            fprintf('Empty gng base folder for %s', sublist{s,1})
         end
         
     end
@@ -150,33 +149,32 @@ for s = 1:nSubs
     if exist(sublist{s,3},'dir')
         cd(sublist{s,3}) %cd into end gng folder for each subject
         
-        %subdirFiles=isEmptyDirectory(pwd);
-        %if subdirFiles>0
-        if any(size(dir([pwd '/*.mat' ]),1))
-         
-            files2 = ls('*.mat');
-            matFiles2 = strsplit(files2(1,:));
-            mfiles2 = matFiles2(1:(length(matFiles2)-1)); %list of all matfiles
+        subdirFiles=isEmptyDirectory(pwd);
+        if subdirFiles>0
             
-            for m = 1:length(mfiles2)
-                gng3 = strfind(mfiles2(m),'GNG3');
-                gng4 = strfind(mfiles2(m),'GNG4');
+            files = ls('*.mat');
+            matFiles = strsplit(files(1,:));
+            mfiles = matFiles(1:(length(matFiles)-1)); %list of all matfiles
+            
+            for m = 1:length(mfiles)
+                gng3 = strfind(mfiles(m),'GNG3');
+                gng4 = strfind(mfiles(m),'GNG4');
                 
                 if ~isempty(gng3{:})
                     %impute values from gng3
                     %fprintf('\nImputing gng3 tags for %s', sublist{s,1}); %optional line
-                    checkTagsCol(mfiles2(m),tag_gng3);
+                    checkTagsCol(mfiles(m),tag_gng3);
                 elseif ~isempty(gng4{:})
                     %impute values from gng4
                     %fprintf('\nImputing gng4 tags for %s', sublist{s,1}); %optional line
-                    checkTagsCol(mfiles2(m),tag_gng4);
+                    checkTagsCol(mfiles(m),tag_gng4);
                 else
-                    fprintf('\nfor %s no gng3 or 4!',sublist{s,1})
+                    fprintf('for %s no gng3 or 4!',sublist{s,1})
                 end
             end
             
         else
-            fprintf('\nNo .mat files in gng end folder for %s', sublist{s,1})
+            fprintf('Empty gng end folder for %s', sublist{s,1})
         end
         
     end
@@ -195,7 +193,7 @@ for t = 2:length(subFile.run_info.tag)
         subFile.run_info.tag{t}=tagObj(t-1);
     end
 end
-%fprintf('\n\nDone!\n\n'); %optional line
+%fprintf('\n\nDone!\n\n'); %option
 end
 
 
