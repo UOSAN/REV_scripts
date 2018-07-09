@@ -1130,7 +1130,7 @@ table(!is.na(survey_data[,"bis_total"]))
 ## Score the BIS BAS questionnaire
 
 ```{r BIS BAS scoring}
-# isolate the BISBAS items
+# isolate the BIS BAS items
 bis_bas_cols <- colnames(survey_data[(grepfun("bas_",survey_data))])
 
 # specify reverse-scored items
@@ -1162,5 +1162,73 @@ survey_data$bis_bas_bis_total <- rowSums(survey_data[,bis_bas_key_list[[4]]]) # 
 
 # # How many survey responses do we have?
 # table(!is.na(survey_data[,"bis_bas_bis_total"]))          
+```
+
+## Score the UPPS questionnaire
+
+```{r UPPS Scoring}
+# isolate the UPPS items
+upps_cols <- colnames(survey_data[(grepfun("upps_",survey_data))])
+
+# NOTE: Whoever entered the scale skipped "upps_p_47", so we need to rename the variables from "upps_p_48" on. 
+
+# INCORRECT CODE:
+# rename(x = c("upps_p_48","upps_p_49","upps_p_50","upps_p_51","upps_p_52","upps_p_53","upps_p_54","upps_p_55","upps_p_56","upps_p_57","upps_p_58","upps_p_59","upps_p_60"), replace = c("upps_p_47","upps_p_48","upps_p_49","upps_p_50","upps_p_51","upps_p_52","upps_p_53","upps_p_54","upps_p_55","upps_p_56","upps_p_57","upps_p_58","upps_p_59"))
+# 
+# rename(x = survey_data[upps_cols][47], replace = c("upps_p_48" = "upps_p_47"))
+# 
+# upps_incorrect_names <- survey_data[upps_cols][47:59]
+# 
+# plyr::rename(upps_incorrect_names, c("upps_p_48" = "upps_p_47"))
+# 
+# 
+# names(survey_data[upps_cols][47:59]) <- c("upps_p_47","upps_p_48","upps_p_49","upps_p_50","upps_p_51","upps_p_52","upps_p_53","upps_p_54","upps_p_55","upps_p_56","upps_p_57","upps_p_58","upps_p_59")
+# 
+
+# colnames(survey_data)[colnames(survey_data) == "upps_p_48"] <- "upps_47"
+# colnames(survey_data)[colnames(survey_data) == "upps_p_49"] <- "upps_48"
+# colnames(survey_data)[colnames(survey_data) == "upps_p_50"] <- "upps_49"
+# colnames(survey_data)[colnames(survey_data) == "upps_p_51"] <- "upps_50"
+# colnames(survey_data)[colnames(survey_data) == "upps_p_52"] <- "upps_51"
+# colnames(survey_data)[colnames(survey_data) == "upps_p_53"] <- "upps_52"
+# colnames(survey_data)[colnames(survey_data) == "upps_p_54"] <- "upps_53"
+# colnames(survey_data)[colnames(survey_data) == "upps_p_55"] <- "upps_54"
+# colnames(survey_data)[colnames(survey_data) == "upps_p_56"] <- "upps_55"
+# colnames(survey_data)[colnames(survey_data) == "upps_p_57"] <- "upps_56"
+# colnames(survey_data)[colnames(survey_data) == "upps_p_58"] <- "upps_57"
+# colnames(survey_data)[colnames(survey_data) == "upps_p_59"] <- "upps_58"
+# colnames(survey_data)[colnames(survey_data) == "upps_p_60"] <- "upps_59"
+
+# NOTE: The published scale has 1-4 Likert scale where 1=Agree Strongly, 4=Disagree Strongly. However, it was administered with the opposite Likert rating, i.e. 1=Disagree Strongly, 4=Agree Strongly. Thus, we need to follow the opposite of the published reverse scoring.  
+
+# specify reverse-scored items
+reverse_cols =c("upps_p_54","upps_p_1","upps_p_6","upps_p_11","upps_p_16","upps_p_21","upps_p_28","upps_p_33","upps_p_38","upps_p_43","upps_p_48","upps_p_49","upps_p_4","upps_p_14","upps_p_19","upps_p_24","upps_p_27","upps_p_32","upps_p_37","upps_p_42")
+
+# # these are the reverse items if we had used the original Likert Scale
+# reverse_cols = c("upps_p_2","upps_p_7","upps_p_12","upps_p_17","upps_p_22","upps_p_29","upps_p_34","upps_p_39","upps_p_44","upps_p_51","upps_p_58","upps_p_9","upps_p_47","upps_p_3","upps_p_8","upps_p_13","upps_p_18","upps_p_23","upps_p_26","upps_p_31","upps_p_36","upps_p_41","upps_p_46","upps_p_52","upps_p_56","upps_p_5","upps_p_10","upps_p_15","upps_p_20","upps_p_25","upps_p_30","upps_p_35","upps_p_40","upps_p_45","upps_p_50","upps_p_53","upps_p_55","upps_p_57","upps_p_59")
+
+survey_data[upps_cols] <- 
+  lapply(survey_data[upps_cols], as.numeric)
+
+# reverse score the relevant items
+survey_data[,reverse_cols] = 5 - survey_data[,reverse_cols] # Reverse score the UPPS items in reverse_cols
+
+# (Negative) Urgency: 2,7,12,17,22,29,34,39,44,51,54,58
+
+# (lack of) Premeditation: 1,6,11,16,21,28,33,38,43,48,49
+
+# (lack  of) Perseverance: 4,9,14,19,24,27,32,37,42,47
+
+# Sensation Seeking:  3,8,13,18,23,26,31,36,41,46,52,56
+
+# Positive  Urgency:  5,10,15,20,25,30,35,40,45,50,53,55,57,59  
+
+upps_key_list <- list(upps_neg_urg = c("upps_p_2","upps_p_7","upps_p_12","upps_p_17","upps_p_22","upps_p_29","upps_p_34","upps_p_39","upps_p_44","upps_p_51","upps_p_54","upps_p_58"), upps_lack_premed = c("upps_p_1","upps_p_6","upps_p_11","upps_p_16","upps_p_21","upps_p_28","upps_p_33","upps_p_38","upps_p_43","upps_p_48","upps_p_49"), upps_lack_persev = c("upps_p_4","upps_p_9","upps_p_14","upps_p_19","upps_p_24","upps_p_27","upps_p_32","upps_p_37","upps_p_42","upps_p_47"), upps_sens_seek = c("upps_p_3","upps_p_8","upps_p_13","upps_p_18","upps_p_23","upps_p_26","upps_p_31","upps_p_36","upps_p_41","upps_p_46","upps_p_52","upps_p_56"), upps_pos_urg = c("upps_p_5","upps_p_10","upps_p_15","upps_p_20","upps_p_25","upps_p_30","upps_p_35","upps_p_40","upps_p_45","upps_p_50","upps_p_53","upps_p_55","upps_p_57","upps_p_59"))
+
+survey_data$upps_neg_urg <- rowMeans(survey_data[,upps_key_list[[1]]]) # UPPS (Negative) Urgency
+survey_data$upps_lack_premed <- rowMeans(survey_data[,upps_key_list[[2]]]) # UPPS (lack of) Premeditation
+survey_data$upps_lack_persev <- rowMeans(survey_data[,upps_key_list[[3]]]) # UPPS (lack of) Perseverance
+survey_data$upps_sens_seek <- rowMeans(survey_data[,upps_key_list[[4]]]) # UPPS Sensation Seeking
+survey_data$upps_pos_urg <- rowMeans(survey_data[,upps_key_list[[5]]]) # UPPS Positive  Urgency
 ```
 
