@@ -1219,3 +1219,4 @@ survey_data$upps_sens_seek <- rowMeans(survey_data[,upps_key_list[[4]]]) # UPPS 
 survey_data$upps_pos_urg <- rowMeans(survey_data[,upps_key_list[[5]]]) # UPPS Positive  Urgency
 ```
 
+
