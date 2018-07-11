@@ -1,7 +1,7 @@
 studyCode = 'REV';
 firstSub = 1;
 lastSub = 144;
-exclude = [4 5 7 8 12 14 15 25 28 30 33 40 42 45 61 63 64 66 71 72 79 81 83 85 87 92 95 96 99 101 103 105 106 112 113 120 122 123 125 128 132 133 139 143]; % If you want to exclude any numbers, put them in this vector (e.g. exclude = [5 20];)
+exclude = []%[4 5 7 8 12 14 15 25 28 30 33 40 42 45 61 63 64 66 71 72 79 81 83 85 87 92 95 96 99 101 103 105 106 112 113 120 122 123 125 128 132 133 139 143]; % If you want to exclude any numbers, put them in this vector (e.g. exclude = [5 20];)
 task = 'React';
 runs = [1 2 3 4];
 dataFolder = ['~/Desktop/REV_scripts/behavioral/' task '/data'];
@@ -37,10 +37,10 @@ for s = firstSub:lastSub
             else
                 load(fileName.name)
                 
-                names = {'risk_view' 'neutral_view' 'rating'};
+                names = {'baseline' 'risk_view' 'neutral_view' 'rating'}; % baseline = instructions, blank screen, & fixation
                 onsets = cell(1,length(names));
                 durations = cell(1,length(names));
-                searchStrings = {'PRC' 'Neutral' 'desire'};
+                searchStrings = {'0' '1' '2' '3'};
                 
                 for c = 1:length(names)
                     currentIndices = find(~cellfun(@isempty,regexp(run_info.tag,searchStrings{c})) == 1);
