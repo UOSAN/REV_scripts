@@ -1093,7 +1093,7 @@ survey_data[scons_cols] <-
 survey_data[,reverse_cols] = 6 - survey_data[,reverse_cols] # Reverse score the SConS items in reverse_cols
 
 # isolate raw items with relevant items reverse scored for later PCA analysis
-survey_data$scons_pca_items <- survey_data[scons_cols]
+scons_pca_items <- survey_data[scons_cols]
 
 survey_data$scons_total <- rowMeans(survey_data[scons_cols], na.rm = TRUE) # Total SConS score
 
@@ -1119,7 +1119,7 @@ survey_data[bis_cols] <-
 survey_data[,reverse_cols] = 5 - survey_data[,reverse_cols] # Reverse score the bis items in reverse_cols
 
 # isolate raw items with relevant items reverse scored for later PCA analysis
-survey_data$bis_pca_items <- survey_data[bis_cols]
+bis_pca_items <- survey_data[bis_cols]
 
 ## Creating the subscales
 biskey_list <- list(attention = c("bis_4","bis_7","bis_10","bis_13","bis_16","bis_19","bis_24","bis_27"), motor = c("bis_2","bis_6","bis_9","bis_12","bis_15","bis_18","bis_21","bis_23","bis_26","bis_29"), non_planning = c("bis_1","bis_3","bis_5","bis_8","bis_11","bis_14","bis_17","bis_20","bis_22","bis_25","bis_28","bis_30"))
@@ -1151,7 +1151,7 @@ survey_data[bis_bas_cols] <-
 survey_data[,reverse_cols] = 6 - survey_data[,reverse_cols] # Reverse score the BISBAS items in reverse_cols
 
 # isolate raw items with relevant items reverse scored for later PCA analysis
-survey_data$bis_bas_pca_items <- survey_data[bis_bas_cols]
+bis_bas_pca_items <- survey_data[bis_bas_cols]
 
 # NOTE: These item numberings are unique to the version administered in REV. I had to cross-check them with the published scoring, found here: http://www.psy.miami.edu/faculty/ccarver/sclBISBAS.html
 
@@ -1208,7 +1208,7 @@ survey_data[upps_cols] <-
 survey_data[,reverse_cols] = 5 - survey_data[,reverse_cols] # Reverse score the UPPS items in reverse_cols
 
 # isolate raw items with relevant items reverse scored for later PCA analysis
-survey_data$upps_pca_items <- survey_data[upps_cols]
+upps_pca_items <- survey_data[upps_cols]
 
 # (Negative) Urgency: 2,7,12,17,22,29,34,39,44,51,54,58
 # (lack of) Premeditation: 1,6,11,16,21,28,33,38,43,48,49
@@ -1228,6 +1228,9 @@ survey_data$upps_pos_urg <- rowMeans(survey_data[,upps_key_list[[5]]]) # UPPS Po
 
 ## Perform data reduction on individual differences vars (SconS, BIS, BISBAS)
 ```{r}
+# create data frame with all vars that will be used for PCA. These are raw scale items and the relevant items have been reverse scored.
+all_pca_vars <- cbind(scons_pca_items,bis_pca_items,bis_bas_pca_items)
 
+pca <- princomp(all_pca_vars, cor=TRUE)
 ```
 
