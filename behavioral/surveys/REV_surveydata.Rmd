@@ -1092,7 +1092,10 @@ survey_data[scons_cols] <-
   lapply(survey_data[scons_cols], as.numeric)
 survey_data[,reverse_cols] = 6 - survey_data[,reverse_cols] # Reverse score the SConS items in reverse_cols
 
-survey_data$scons_total <- rowSums(survey_data[scons_cols]) # Total SConS score
+# isolate raw items with relevant items reverse scored for later PCA analysis
+scons_pca_items <- survey_data[scons_cols]
+
+survey_data$scons_total <- rowMeans(survey_data[scons_cols], na.rm = TRUE) # Total SConS score
 
 # How many survey responses do we have? 114
 table(!is.na(survey_data[,"scons_total"]))
@@ -1101,34 +1104,36 @@ table(!is.na(survey_data[,"scons_total"]))
 ## Score the BIS questionnaire
 ```{r BIS soring}
 ## Reverse coding items
-# BIS_cols <- colnames(survey_data[,400:429])
-# survey_data[BIS_cols] <-
-#       lapply(survey_data[BIS_cols], plyr::mapvalues,
+# bis_cols <- colnames(survey_data[,400:429])
+# survey_data[bis_cols] <-
+#       lapply(survey_data[bis_cols], plyr::mapvalues,
 #       from = c("Rarely/Never", "Occasionally", "Often", "Almost Always/Always"),
 #       to = c(1,2,3,4))
 
-BIS_cols <- colnames(survey_data[(grepfun("bis_",survey_data))])
-BIS_cols <- BIS_cols[-grep('bas_',BIS_cols)] #remove combined 'bisbas_' variable names from list
+bis_cols <- colnames(survey_data[(grepfun("bis_",survey_data))])
+bis_cols <- bis_cols[-grep('bas_',bis_cols)] #remove combined 'bisbas_' variable names from list
 
 reverse_cols = c("bis_7", "bis_13","bis_19","bis_6", "bis_1", "bis_5","bis_8","bis_11", "bis_17", "bis_22", "bis_30")
-survey_data[BIS_cols] <- 
-  lapply(survey_data[BIS_cols], as.numeric)
-survey_data[,reverse_cols] = 5 - survey_data[,reverse_cols] # Reverse score the BIS items in reverse_cols
+survey_data[bis_cols] <- 
+  lapply(survey_data[bis_cols], as.numeric)
+survey_data[,reverse_cols] = 5 - survey_data[,reverse_cols] # Reverse score the bis items in reverse_cols
+
+# isolate raw items with relevant items reverse scored for later PCA analysis
+bis_pca_items <- survey_data[bis_cols]
 
 ## Creating the subscales
-BISkey_list <- list(attention = c("bis_4","bis_7","bis_10","bis_13","bis_16","bis_19","bis_24","bis_27"), motor = c("bis_2","bis_6","bis_9","bis_12","bis_15","bis_18","bis_21","bis_23","bis_26","bis_29"), non_planning = c("bis_1","bis_3","bis_5","bis_8","bis_11","bis_14","bis_17","bis_20","bis_22","bis_25","bis_28","bis_30"))
+biskey_list <- list(attention = c("bis_4","bis_7","bis_10","bis_13","bis_16","bis_19","bis_24","bis_27"), motor = c("bis_2","bis_6","bis_9","bis_12","bis_15","bis_18","bis_21","bis_23","bis_26","bis_29"), non_planning = c("bis_1","bis_3","bis_5","bis_8","bis_11","bis_14","bis_17","bis_20","bis_22","bis_25","bis_28","bis_30"))
 
-survey_data$bis_attn <- rowSums(survey_data[,BISkey_list[[1]]]) # BIS attention score
-survey_data$bis_motor <- rowSums(survey_data[,BISkey_list[[2]]]) # BIS motor score
-survey_data$bis_noplan <- rowSums(survey_data[,BISkey_list[[3]]]) # BIS non-planning score
-survey_data$bis_total <- rowSums(survey_data[,c("bis_attn", "bis_motor", "bis_noplan")]) # BIS total score
+survey_data$bis_attn <- rowMeans(survey_data[,biskey_list[[1]]]) # bis attention score
+survey_data$bis_motor <- rowMeans(survey_data[,biskey_list[[2]]]) # bis motor score
+survey_data$bis_noplan <- rowMeans(survey_data[,biskey_list[[3]]]) # bis non-planning score
+survey_data$bis_total <- rowMeans(survey_data[,c("bis_attn", "bis_motor", "bis_noplan")]) # bis total score
 
 # How many survey responses do we have? 116
 table(!is.na(survey_data[,"bis_total"]))
 ```
 
 ## Score the BIS BAS questionnaire
-
 ```{r BIS BAS scoring}
 # isolate the BIS BAS items
 bis_bas_cols <- colnames(survey_data[(grepfun("bas_",survey_data))])
@@ -1145,6 +1150,9 @@ survey_data[bis_bas_cols] <-
 # reverse score the relevant items
 survey_data[,reverse_cols] = 6 - survey_data[,reverse_cols] # Reverse score the BISBAS items in reverse_cols
 
+# isolate raw items with relevant items reverse scored for later PCA analysis
+bis_bas_pca_items <- survey_data[bis_bas_cols]
+
 # NOTE: These item numberings are unique to the version administered in REV. I had to cross-check them with the published scoring, found here: http://www.psy.miami.edu/faculty/ccarver/sclBISBAS.html
 
 # BAS Drive: 4, 11, 13, 15
@@ -1154,18 +1162,17 @@ survey_data[,reverse_cols] = 6 - survey_data[,reverse_cols] # Reverse score the 
 
 bis_bas_key_list <- list(bas_drive = c("bis_bas_4","bis_bas_11","bis_bas_13","bis_bas_15"), bas_fun = c("bis_bas_3","bis_bas_10","bis_bas_17","bis_bas_20"), bas_reward = c("bis_bas_1","bis_bas_6", "bis_bas_8","bis_bas_16","bis_bas_19"), bis = c("bis_bas_2","bis_bas_5","bis_bas_7","bis_bas_9", "bis_bas_12","bis_bas_14","bis_bas_18"))
 
-survey_data$bis_bas_bas_drive <- rowSums(survey_data[,bis_bas_key_list[[1]]]) # BAS Drive
-survey_data$bis_bas_bas_fun <- rowSums(survey_data[,bis_bas_key_list[[2]]]) # BAS Fun Seeking
-survey_data$bis_bas_bas_reward <- rowSums(survey_data[,bis_bas_key_list[[3]]]) # BAS Reward Responsiveness
-survey_data$bis_bas_bas_total <- rowSums(survey_data[,c("bis_bas_drive", "bis_bas_fun", "bis_bas_reward")]) # BAS total
-survey_data$bis_bas_bis_total <- rowSums(survey_data[,bis_bas_key_list[[4]]]) # BIS
+survey_data$bis_bas_bas_drive <- rowMeans(survey_data[,bis_bas_key_list[[1]]]) # BAS Drive
+survey_data$bis_bas_bas_fun <- rowMeans(survey_data[,bis_bas_key_list[[2]]]) # BAS Fun Seeking
+survey_data$bis_bas_bas_reward <- rowMeans(survey_data[,bis_bas_key_list[[3]]]) # BAS Reward Responsiveness
+survey_data$bis_bas_bas_total <- rowMeans(survey_data[,c("bis_bas_bas_drive", "bis_bas_bas_fun", "bis_bas_bas_reward")]) # BAS total
+survey_data$bis_bas_bis_total <- rowMeans(survey_data[,bis_bas_key_list[[4]]]) # BIS
 
 # # How many survey responses do we have?
 # table(!is.na(survey_data[,"bis_bas_bis_total"]))          
 ```
 
 ## Score the UPPS questionnaire
-
 ```{r UPPS Scoring}
 
 # NOTE: Whoever entered the scale skipped "upps_p_47", so we need to rename the variables from "upps_p_48" on. Rename incorrectly named variables below.
@@ -1200,14 +1207,13 @@ survey_data[upps_cols] <-
 # reverse score the relevant items
 survey_data[,reverse_cols] = 5 - survey_data[,reverse_cols] # Reverse score the UPPS items in reverse_cols
 
+# isolate raw items with relevant items reverse scored for later PCA analysis
+upps_pca_items <- survey_data[upps_cols]
+
 # (Negative) Urgency: 2,7,12,17,22,29,34,39,44,51,54,58
-
 # (lack of) Premeditation: 1,6,11,16,21,28,33,38,43,48,49
-
 # (lack  of) Perseverance: 4,9,14,19,24,27,32,37,42,47
-
 # Sensation Seeking:  3,8,13,18,23,26,31,36,41,46,52,56
-
 # Positive  Urgency:  5,10,15,20,25,30,35,40,45,50,53,55,57,59  
 
 upps_key_list <- list(upps_neg_urg = c("upps_p_2","upps_p_7","upps_p_12","upps_p_17","upps_p_22","upps_p_29","upps_p_34","upps_p_39","upps_p_44","upps_p_51","upps_p_54","upps_p_58"), upps_lack_premed = c("upps_p_1","upps_p_6","upps_p_11","upps_p_16","upps_p_21","upps_p_28","upps_p_33","upps_p_38","upps_p_43","upps_p_48","upps_p_49"), upps_lack_persev = c("upps_p_4","upps_p_9","upps_p_14","upps_p_19","upps_p_24","upps_p_27","upps_p_32","upps_p_37","upps_p_42","upps_p_47"), upps_sens_seek = c("upps_p_3","upps_p_8","upps_p_13","upps_p_18","upps_p_23","upps_p_26","upps_p_31","upps_p_36","upps_p_41","upps_p_46","upps_p_52","upps_p_56"), upps_pos_urg = c("upps_p_5","upps_p_10","upps_p_15","upps_p_20","upps_p_25","upps_p_30","upps_p_35","upps_p_40","upps_p_45","upps_p_50","upps_p_53","upps_p_55","upps_p_57","upps_p_59"))
@@ -1219,4 +1225,42 @@ survey_data$upps_sens_seek <- rowMeans(survey_data[,upps_key_list[[4]]]) # UPPS 
 survey_data$upps_pos_urg <- rowMeans(survey_data[,upps_key_list[[5]]]) # UPPS Positive  Urgency
 ```
 
+
+## Perform data reduction on individual differences vars (SconS, BIS, BISBAS)
+```{r}
+# create data frame with all vars that will be used for PCA. These are raw scale items and the relevant items have been reverse scored. 
+
+# NOTE: Currently doing list-wise deletion on this data frame (na.omit), but this is getting rid of a lot of data. However, princomp() won't work with NA's in the dataset. Need to figure out how to manage PCA with missing data. 
+
+all_pca_vars <- cbind(scons_pca_items,bis_pca_items,bis_bas_pca_items) %>%
+  na.omit(all_pca_vars)
+
+# get correlation matrix of raw scale items
+orig.cor <- cor(all_pca_vars, use="pairwise.complete.obs") %>%
+  round(2)
+
+# create heat map of raw correlations
+melted_cormat <- melt(orig.cor)
+
+ggplot(data = melted_cormat, aes(x=Var1, y=Var2, fill=value)) + 
+  geom_tile()
+
+# Unrotated PCA
+pca <- princomp(all_pca_vars, cor=TRUE)
+
+# View Scree plot of eigenvalues
+plot(pca,type="lines", main="Scree Plot") 
+
+# View eigenvalues
+eigens <- eigen(orig.cor)
+View(eigens$values) # these are the original (unrotated) eigenvalues
+
+# Get a biplot
+biplot(pca)
+
+# PCA with orthogonal rotation
+
+
+# PCA with oblique rotation
+```
 
