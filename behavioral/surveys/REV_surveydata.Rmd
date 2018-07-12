@@ -1229,8 +1229,11 @@ survey_data$upps_pos_urg <- rowMeans(survey_data[,upps_key_list[[5]]]) # UPPS Po
 ## Perform data reduction on individual differences vars (SconS, BIS, BISBAS)
 ```{r}
 # create data frame with all vars that will be used for PCA. These are raw scale items and the relevant items have been reverse scored.
-all_pca_vars <- cbind(scons_pca_items,bis_pca_items,bis_bas_pca_items)
+all_pca_vars <- cbind(scons_pca_items,bis_pca_items,bis_bas_pca_items) #%>%
+  #na.omit(all_pca_vars)
 
-pca <- princomp(all_pca_vars, cor=TRUE)
+pca <- princomp(all_pca_vars, na.action = na.omit, cor=TRUE)
+plot(pca,type="lines", main="Scree Plot") 
+biplot(pca)
 ```
 
