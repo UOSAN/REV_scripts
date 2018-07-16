@@ -1,0 +1,15 @@
+---
+title: "REV Extract Motion Confounds"
+author: "Brendan Cullen"
+date: "7/16/2018"
+output: html_document
+---
+
+```{r}
+confounds <- rio::import("/Users/brendancullen/Desktop/sub-REV001_ses-wave1_task-sst_acq-1_run-01_bold_confounds.tsv")
+
+confounds <- dplyr::select(confounds, c(X, Y, Z, RotX, RotY, RotZ, stdDVARS, FramewiseDisplacement))
+
+write.table(confounds, "/Users/brendancullen/Desktop/sub-REV001_ses-wave1_task-sst_acq-1_run-01_bold_confounds.txt",sep="\t", row.names=FALSE, col.names = FALSE)
+```
+
