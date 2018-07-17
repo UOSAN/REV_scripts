@@ -8,7 +8,7 @@ group = "sanlab"
 study = "REV"
 
 gitrepo = "REV_scripts" # Parent folder that contains your org ("organization") and dcm2bids folders. If your directory structure is different, you'll have to adjust.
-dicomdir = os.path.join(os.sep, "projects", "lcni", "dcm", group, "Archive", study)
+dicomdir = os.path.join(os.sep, 'projects', 'sanlab', 'shared', 'DICOMS', study)
 
 # Set directories
 niidir = os.path.join(os.sep, "projects", group, "shared", study, "bids_data") # Where the niftis will be put

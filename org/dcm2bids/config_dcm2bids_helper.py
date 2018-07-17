@@ -15,7 +15,7 @@ import os
 group = "sanlab"
 study = "REV"
 gitrepo = "REV_scripts"
-test_subject = "REV001_20150406" # Name of a directory that contains DICOMS for one participant
+test_subject = "REV045_20150627" # Name of a directory that contains DICOMS for one participant
 
 dicomdir = os.path.join(os.sep, "projects", "lcni", "dcm", group, "Archive", study)
 singularity_image =  os.path.join(os.sep, "projects", group, "shared", "containers", "Dcm2Bids-master.simg")
