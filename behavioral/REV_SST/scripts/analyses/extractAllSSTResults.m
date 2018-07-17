@@ -1,28 +1,19 @@
 revision_date='4-26-17';
 
 % cd('~/Desktop/REV_scripts/behavioral/REV_SST/output/analysisReady');
-cd('~/Desktop/REV/REV_scripts/behavioral/REV_SST/output/analysisReady');
+cd('~/Desktop/REV_scripts/behavioral/REV_SST/output/analysisReady');
 steps=16;
-exclude = [4 5 7 8 12 14 15 25 28 30 33 40 42 45 61 63 64 66 71 72 79 81 83 85 87 92 95 96 99 101 103 105 106 112 113 116 120 122 123 125 128 132 133 139 143]; % If you want to exclude any numbers, put them in this vector (e.g. exclude = [5 20];)
+exclude = []%[4 5 7 8 12 14 15 25 28 30 33 40 42 45 61 63 64 66 71 72 79 81 83 85 87 92 95 96 99 101 103 105 106 112 113 116 120 122 123 125 128 132 133 139 143]; % If you want to exclude any numbers, put them in this vector (e.g. exclude = [5 20];)
 numSubs = 144;
 numRuns = 14;
 
 % These two codes should reflect what's in the response column of the Seeker variable
 % You'll specify exceptions to this rule below
-% leftButton=91;
-% rightButton=94;
-% studyPrefix='INC'; % You'll use this in your analysisReady data filenames
 leftButtonList=[197,91];
 rightButtonList=[198,94];
 studyPrefix='REV'; % You'll use this in your analysisReady data filenames
 
 %% DEFINE EXCEPTIONS TO BUTTON RULE
-% Make each exception a string for what subject (s) and what run (2) it
-% applies
-% problemSubjects = [2,12];
-% problemRuns= {2,{3,4,5}};
-% switchRule = 'LEFT = rightButton;RIGHT = leftButton;'
-% alternativeRules={switchRule,switchRule};
 
 buttonRuleExceptions = dlmread('../../info/systematicWrongButtons.txt','\t');
 

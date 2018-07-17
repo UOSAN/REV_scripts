@@ -27,7 +27,7 @@
 % INITIAL SETUP
 studyPrefix = 'REV'; % will use this in analysisReady data filenames. Defined in prep4analysis.m (should be consistent throughout scripts)
 %cd '~/Desktop/REV_scripts/behavioral/REV_SST/output/analysisReady/'
-cd '~/Desktop/REV/REV_scripts/behavioral/REV_SST/output/analysisReady/'
+cd '~/Desktop/REV_scripts/behavioral/REV_SST/output/analysisReady/'
 % This should be the folder where your consistently-named SST output live.
 % This script assumed they are named with this format: "REV_sub2_run3.mat"
 % "REV" should be replaced with your study prefix.
@@ -35,7 +35,7 @@ cd '~/Desktop/REV/REV_scripts/behavioral/REV_SST/output/analysisReady/'
 
 % DEFINE SUBS
 numSubs = 144;
-exclude = [4 5 7 8 12 14 15 25 28 30 33 40 42 45 61 63 64 66 71 72 79 81 83 85 87 92 95 96 99 101 103 105 106 112 113 120 122 123 125 128 132 133 139 143];
+exclude = [] %[4 5 7 8 12 14 15 25 28 30 33 40 42 45 61 63 64 66 71 72 79 81 83 85 87 92 95 96 99 101 103 105 106 112 113 120 122 123 125 128 132 133 139 143];
 
 buttonRuleExceptions = dlmread('../../info/systematicWrongButtons.txt','\t');
 
@@ -107,6 +107,7 @@ for s=1:numSubs
     else
         for r=1:numRuns % For runs 1 to numRuns defined previously
             if exist([studyPrefix '_sub' num2str(s) '_run' num2str(r) '.mat'])
+                s, r
                 load([studyPrefix '_sub' num2str(s) '_run' num2str(r) '.mat'])  % Load .mats
                 
                 problemSubIdx = find(buttonRuleExceptions(:,1)==s);
@@ -132,8 +133,6 @@ for s=1:numSubs
                     if ~isempty(probRow)
                         LEFT = buttonRuleExceptions(probRow,3);
                         RIGHT = buttonRuleExceptions(probRow,4);
-                        s
-                        r
                     end
                     
                     if dub==1
