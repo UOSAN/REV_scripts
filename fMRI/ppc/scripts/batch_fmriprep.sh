@@ -17,7 +17,7 @@ fi
 
 
 # Set subject list
-subject_list=`cat subject_list_test.txt` 
+subject_list=`cat subject_list_fmriprep.txt` 
 
 # Loop through subjects and run job_mriqc
 for subject in $subject_list; do

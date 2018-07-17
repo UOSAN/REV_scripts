@@ -16,7 +16,7 @@ echo -e "\nSubject directory: $bids_dir"
 
 # Source task list
 #tasks=`cat tasks.txt` 
-task="sst"
+tasks=(sst gng bart react)
 
 # Load packages
 module load singularity
@@ -27,7 +27,7 @@ mkdir -p $working_dir
 # Run container using singularity
 cd $bids_dir
 
-#for task in $tasks; do
+for task in ${tasks[@]}; do
 
 echo -e "\nStarting on: $task"
 echo -e "\n"
@@ -39,4 +39,4 @@ echo -e "\n"
 echo -e "\ndone"
 echo -e "\n-----------------------"
 
-#done
+done
