@@ -6,7 +6,8 @@
 ###################################################
 
 # Change this, path to data and script repos
-repopath="/Users/kristadestasio/Desktop"
+#repopath="/Users/kristadestasio/Desktop"
+repopath="/Users/mmoss/Dropbox/REV_repos"
 
 # Set variables
 datadir="$repopath/REV_scripts/behavioral/GNG/data" # Location of the data files to be analyzed

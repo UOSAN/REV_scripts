@@ -7,7 +7,8 @@
 #########################################################################
 
 # Change this, path to data and script repos
-repopath="/Users/kristadestasio/Desktop"
+#repopath="/Users/kristadestasio/Desktop"
+repopath="/Users/mmoss/Dropbox/REV_repos"
 
 # Set paths 
 outputdir="$repopath/REV_scripts/behavioral/GNG/data"
@@ -32,6 +33,11 @@ mv 102_REV_GNG2.txt_19-Jan-2016_18-02.mat REV102_REV_GNG2.txt_19-Jan-2016_18-02.
 echo "102_REV_GNG2.txt_19-Jan-2016_18-02.mat REV102_REV_GNG2.txt_19-Jan-2016_18-02.mat" >> $outputlog
 mv 102_REV_GNG1.txt_19-Jan-2016_17-53.mat REV102_REV_GNG1.txt_19-Jan-2016_17-53.mat
 echo "102_REV_GNG1.txt_19-Jan-2016_17-53.mat REV102_REV_GNG1.txt_19-Jan-2016_17-53.mat" >> $outputlog
+
+mv REV12_GNG1.mat REV012_GNG1.mat
+echo "REV12_GNG1.mat REV012_GNG1.mat" >> $outputlog
+mv REV12_GNG2.mat REV012_GNG2.mat
+echo "REV12_GNG2.mat REV012_GNG2.mat" >> $outputlog
 
 # Rename all GNG files to format ID_run
 for file in $(ls *.mat)

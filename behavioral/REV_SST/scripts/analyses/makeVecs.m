@@ -3,7 +3,7 @@ cd([studyFolder '/output/analysisReady/'])
 numSubs = 144;
 % numRuns = 4;
 runs = [1 2 13 14];
-exclude = [4 5 7 8 12 14 15 25 28 30 33 40 42 45 61 63 64 66 71 72 79 81 83 85 87 92 95 96 99 101 103 105 106 112 113 120 122 123 125 128 132 133 139 143]; % If you want to exclude any numbers, put them in this vector (e.g. exclude = [5 20];)
+exclude = [] %[4 5 7 8 12 14 15 25 28 30 33 40 42 45 61 63 64 66 71 72 79 81 83 85 87 92 95 96 99 101 103 105 106 112 113 120 122 123 125 128 132 133 139 143]; % If you want to exclude any numbers, put them in this vector (e.g. exclude = [5 20];)
 
 % These two codes should reflect what's in the response column of the Seeker variable
 % You'll specify exceptions to this rule below
@@ -30,7 +30,7 @@ arrowLength=1;
 numRuns = length(runs);
 
 % Initialize variable
-trashCount = nan(numSubs,numRuns);
+FailedGoCount = nan(numSubs,numRuns);
 
 for s=1:numSubs
     
@@ -75,7 +75,7 @@ for s=1:numSubs
                 end
                 
                 % Initialize names, onsets, durations variables
-                names = {'CorrectGo' 'CorrectStop' 'FailedStop' 'Cue'}; % will append trash as necessary
+                names = {'CorrectGo' 'CorrectStop' 'FailedStop' 'Cue'}; % will append FailedGo as necessary
                 onsets = cell(1,4);
                 durations = cell(1,4);
                 
@@ -116,7 +116,7 @@ for s=1:numSubs
                 isCorrectGo = isGo&isCorrect; % Hits
                 isCorrectStop = isStop&isNoResponse; % Correct Rejections
                 isFailedStop = isStop&isPressed; % False Alarms (even if it's the wrong button)
-                isIncorrectGo = (isGo&isNoResponse)|(isGo&(~isCorrect));% Misses or "wrong" hits - will be trashed
+                isIncorrectGo = (isGo&isNoResponse)|(isGo&(~isCorrect));% Misses or "wrong" direction hits - will be assigned to FailedGo
                 
                 
                 %%%%% The Important Variables %%%%%
@@ -132,12 +132,12 @@ for s=1:numSubs
 %                 durations{4}(:) = .5;
                 durations{4} = cueLength(isCorrectGo|isCorrectStop|isFailedStop|isIncorrectGo);
                 
-                % Trash?
-                if find(isIncorrectGo) % If there's trash, trash it
-                    names{5} = 'Trash';
+                % FailedGos?
+                if find(isIncorrectGo) % If there are failed go trials, assign to FailedGo
+                    names{5} = 'FailedGo';
                     onsets{5} = trialTime(isIncorrectGo)+cueLength(isIncorrectGo);
                     durations{5} = arrowLength;
-                    trashCount(s,r)=sum(isIncorrectGo);
+                    FailedGoCount(s,r)=sum(isIncorrectGo);
                 end
                 
                 fxFolder = [studyFolder '/subjects/' subjectCode '/fx/vecs/'];
@@ -151,6 +151,6 @@ for s=1:numSubs
     end % subject exclusion if
 end % subject loop
 
-dlmwrite([studyFolder '/compiledResults/upTo' studyPrefix placeholder num2str(numSubs) '/initialCheck/trashCount_scanning.txt'],trashCount,'delimiter','\t');
+dlmwrite([studyFolder '/compiledResults/upTo' studyPrefix placeholder num2str(numSubs) '/initialCheck/FailedGoCount_scanning.txt'],FailedGoCount,'delimiter','\t');
 
 clear

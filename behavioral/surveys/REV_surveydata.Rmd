@@ -18,7 +18,9 @@ rm(list = ls())
 
 #The code assumes that this Markdown file is in the folder ~/REV_scripts/behavioral/surveys, and the folder structure follows the same hierarchical organization pattern (shown below in the Dir setups)
 
-homeBase = '~/Dropbox/REV_repos' #this is the only thing you should need to change
+#this is the only thing you should need to change
+homeBase = '~/Desktop/REV' # Brendan's path
+# homeBase = '~/Dropbox/REV_repos' # Mel's path
 
 #In order to run this script, first set your working directory to wherever the current file is saved
 setwd(paste0(homeBase,'/REV_scripts/behavioral/surveys'))
@@ -418,6 +420,11 @@ Scale: 1not at all - 5very much
 ## The next two chunks will change NAs to '999' for questionnaires that are not associated with endorsed craving stimuli!
 ## This means that true NAs will now be coded 999 (though we can obviously change that again later)
 ```{r prep_variables_for_missing_check}
+# rename incorrectly names FCI pizza and pasta variables
+survey_data <- dplyr::rename(survey_data, fci_pa_2 = fci_pi_2,
+        fci_pi_2 = fci_pi_2.0)
+
+
 Vices <- colnames(dplyr::select(survey_data, starts_with("probs_")))
 for (i in Vices) {
   assign(i, list())
@@ -427,7 +434,7 @@ ViceLS <- paste0(Vices,"L")
 #First, get each survey associated with each vice indices for alcohol variables
 probs_alcoholL <- c("BSCS_A", "DUH_A", "ACQ_SF_R", "AUDIT", "PACS")
 probs_cocaineL <- c("BSCS_C", "DUH_C", "CCQ_Brief")
-probs_heroinL <- c("BSCS_H", "DUH-H", "HCQ_SF")
+probs_heroinL <- c("BSCS_H", "DUH_H", "HCQ_SF")
 probs_marijuanaL <- c("BSCS_Ma", "DUH_Ma", "MCQ_SF")
 probs_methL <- c("BSCS_Me","DUH_Me", "MCIY")
 probs_pillsL <- c("BSCS_P", "DUH_P", "CEQ_S_P")
@@ -492,7 +499,7 @@ for (v in 1:length(Vices)) {
   p <- get(Vices[v]) #Indices of all items from scales that are associated with that problem
   print(paste0(e, ": ", get(ViceLS[v]))) #display the problem and name of associated scales (my own sanity check)
   for (i in p) {
-    survey_data[i][is.na(survey_data[i]) & survey_data[e] == "no"] <- " " #change real NAs to 999
+    survey_data[i][is.na(survey_data[i]) & survey_data[e] == "no"] <- 999 #change real NAs to " "
     print(variable.names(survey_data[i]))
   }
 } #print to double check that I've put the right variables together!
@@ -531,56 +538,6 @@ survey_data <- survey_data %>% group_by() %>%
 ```
 
 
-## Score the SConS questionnaire
-```{r SConS scoring}
-## Reverse coding items
-# scons_cols <- colnames(survey_data[,450:462])
-# survey_data[scons_cols] <-
-#       lapply(survey_data[scons_cols], plyr::mapvalues,
-#       from = c("Not at all 1", "2", "3", "4", "Very Much 5"),
-#       to = c(1,2,3,4,5))
-
-scons_cols <- colnames(survey_data[(grepfun("scons_",survey_data))])
-
-reverse_cols = c("scons_2", "scons_3", "scons_4", "scons_5", "scons_7", "scons_9", "scons_10", "scons_12", "scons_13")
-survey_data[scons_cols] <- 
-  lapply(survey_data[scons_cols], as.numeric)
-survey_data[,reverse_cols] = 6 - survey_data[,reverse_cols] # Reverse score the SConS items in reverse_cols
-
-survey_data$scons_total <- rowSums(survey_data[scons_cols]) # Total SConS score
-
-# How many survey responses do we have? 114
-table(!is.na(survey_data[,"scons_total"]))
-```
-
-## Score the BIS questionnaire
-```{r BIS soring}
-## Reverse coding items
-# BIS_cols <- colnames(survey_data[,400:429])
-# survey_data[BIS_cols] <-
-#       lapply(survey_data[BIS_cols], plyr::mapvalues,
-#       from = c("Rarely/Never", "Occasionally", "Often", "Almost Always/Always"),
-#       to = c(1,2,3,4))
-
-BIS_cols <- colnames(survey_data[(grepfun("bis_",survey_data))])
-BIS_cols <- BIS_cols[-grep('bas_',BIS_cols)] #remove combined 'bisbas_' variable names from list
-
-reverse_cols = c("bis_7", "bis_13","bis_19","bis_6", "bis_1", "bis_5","bis_8","bis_11", "bis_17", "bis_22", "bis_30")
-survey_data[BIS_cols] <- 
-  lapply(survey_data[BIS_cols], as.numeric)
-survey_data[,reverse_cols] = 5 - survey_data[,reverse_cols] # Reverse score the BIS items in reverse_cols
-
-## Creating the subscales
-BISkey_list <- list(attention = c("bis_4","bis_7","bis_10","bis_13","bis_16","bis_19","bis_24","bis_27"), motor = c("bis_2","bis_6","bis_9","bis_12","bis_15","bis_18","bis_21","bis_23","bis_26","bis_29"), non_planning = c("bis_1","bis_3","bis_5","bis_8","bis_11","bis_14","bis_17","bis_20","bis_22","bis_25","bis_28","bis_30"))
-
-survey_data$bis_attn <- rowSums(survey_data[,BISkey_list[[1]]]) # BIS attention score
-survey_data$bis_motor <- rowSums(survey_data[,BISkey_list[[2]]]) # BIS motor score
-survey_data$bis_noplan <- rowSums(survey_data[,BISkey_list[[3]]]) # BIS non-planning score
-survey_data$bis_total <- rowSums(survey_data[,c("bis_attn", "bis_motor", "bis_noplan")]) # BIS total score
-
-# How many survey responses do we have? 116
-table(!is.na(survey_data[,"bis_total"]))
-```
 
 # Participant Demographics 
 (N = 143) enrolled
@@ -633,6 +590,17 @@ ggplot(data = survey_data) +
 
 ```{r Scoring Base Survey HRB variables}
 
+#reverse the thing
+for (v in 1:length(Vices)) {
+  e <- Vices[v] #Name of problem endorsed
+  p <- get(Vices[v]) #Indices of all items from scales that are associated with that problem
+  print(paste0(e, ": ", get(ViceLS[v]))) #display the problem and name of associated scales (my own sanity check)
+  for (i in p) {
+    survey_data[i][survey_data[i] == 999 & survey_data[e] == "no"] <- NA #change real NAs to "NA"
+    print(variable.names(survey_data[i]))
+  }
+} #print to double check that I've put the right variables together!
+
 ###### Brief Substance Craving Scale (BSCS)
     # Alcohol (BSCS-A) = CRAVING
     # Cocaine (BSCS-C) = CRAVING
@@ -649,12 +617,12 @@ survey_data[bscs_cols] <- lapply(survey_data[bscs_cols], as.numeric)
 bscs_key_list <- list(alcohol = c("bscs_a_1","bscs_a_2","bscs_a_3"), cocaine = c("bscs_c_1","bscs_c_2","bscs_c_3"), heroin = c("bscs_h_1","bscs_h_2","bscs_h_3"), marijuana = c("bscs_ma_1" ,"bscs_ma_2","bscs_ma_3"), meth = c("bscs_me_1","bscs_me_2" ,"bscs_me_3"), pills = c("bscs_p_1","bscs_p_2","bscs_p_3"))
 
 # Get subscale means
-survey_data$bscs_a <- rowMeans(survey_data[,bscs_key_list[[1]]]) # BSCS Alcohol items 1-3
-survey_data$bscs_c <- rowMeans(survey_data[,bscs_key_list[[2]]]) # BSCS Cocaine items 1-3
-survey_data$bscs_h <- rowMeans(survey_data[,bscs_key_list[[3]]]) # BSCS Heroin items 1-3
-survey_data$bscs_ma <- rowMeans(survey_data[,bscs_key_list[[4]]]) # BSCS Marijauana items 1-3
-survey_data$bscs_me <- rowMeans(survey_data[,bscs_key_list[[5]]]) # BSCS Meth items 1-3
-survey_data$bscs_p <- rowMeans(survey_data[,bscs_key_list[[6]]]) # BSCS Prescription Pills items 1-3
+survey_data$bscs_a <- rowMeans(survey_data[,bscs_key_list[[1]]], na.rm = TRUE) # BSCS Alcohol items 1-3
+survey_data$bscs_c <- rowMeans(survey_data[,bscs_key_list[[2]]], na.rm = TRUE) # BSCS Cocaine items 1-3
+survey_data$bscs_h <- rowMeans(survey_data[,bscs_key_list[[3]]], na.rm = TRUE) # BSCS Heroin items 1-3
+survey_data$bscs_ma <- rowMeans(survey_data[,bscs_key_list[[4]]], na.rm = TRUE) # BSCS Marijauana items 1-3
+survey_data$bscs_me <- rowMeans(survey_data[,bscs_key_list[[5]]], na.rm = TRUE) # BSCS Meth items 1-3
+survey_data$bscs_p <- rowMeans(survey_data[,bscs_key_list[[6]]], na.rm = TRUE) # BSCS Prescription Pills items 1-3
 survey_data$bscs_a_numcrave <- as.numeric(survey_data$bscs_a_4_1) # BSCS Alcohol number of cravings in past 24 hrs
 survey_data$bscs_c_numcrave <- as.numeric(survey_data$bscs_c_4_1) # BSCS Cocaine number of cravings in past 24 hrs
 survey_data$bscs_h_numcrave <- as.numeric(survey_data$bscs_h_4_1) # BSCS Heroin number of cravings in past 24 hrs
@@ -671,6 +639,17 @@ survey_data$bscs_p_numcrave <- as.numeric(survey_data$bscs_p_4_1) # BSCS Prescip
     # DUH-H (Drug Use History-Heroin) = CONSUMPTION
     # DUH-Me (Drug Use History-Meth) = CONSUMPTION
 
+# Isolate the DUH items
+duh_cols <- colnames(survey_data[(grepfun("duh_",survey_data))])
+survey_data[duh_cols] <- lapply(survey_data[duh_cols], as.numeric)
+
+# Only use item 2: "On average, how many times per day do you use (drug)?"
+survey_data$duh_a_avg_use_per_day <- survey_data$duh_a_2
+survey_data$duh_c_avg_use_per_day <- survey_data$duh_c_2
+survey_data$duh_h_avg_use_per_day <- survey_data$duh_h_2
+survey_data$duh_ma_avg_use_per_day <- survey_data$duh_ma_2
+survey_data$duh_me_avg_use_per_day <- survey_data$duh_me_2
+survey_data$duh_p_avg_use_per_day <- survey_data$duh_p_2
 
 ###### Alcohol Craving Questionnaire-Short Form (ACQ-SF-R; Tiffany et al., 2000) = CRAVING
 
@@ -683,7 +662,7 @@ reverse_cols = c("acq_sf_r_3","acq_sf_r_8","acq_sf_r_11")
 survey_data[,reverse_cols] = 8 - survey_data[,reverse_cols] # Reverse score the acq_sf_r items in reverse_cols
 
 # Calculate total score
-survey_data$acq_sf_r_total <- rowMeans(survey_data[acq_sf_r_cols]) # acq_sf_r_data total score
+survey_data$acq_sf_r_total <- rowMeans(survey_data[acq_sf_r_cols], na.rm = TRUE) # acq_sf_r_data total score
 
 ###### Alcohol Use Disorders Identification Test (AUDIT; Babor, de la Fuente, Saunders, & Grant, 1989) = CONSUMPTION
 
@@ -692,7 +671,7 @@ audit_cols <- colnames(survey_data[(grepfun("audit_",survey_data))])
 survey_data[audit_cols] <- lapply(survey_data[audit_cols], as.numeric)
 
 # Calculate total score 
-survey_data$audit_total <- rowMeans(survey_data[audit_cols]) # audit total score
+survey_data$audit_total <- rowMeans(survey_data[audit_cols], na.rm = TRUE) # audit total score
 
 ###### Penn Alcohol Craving Scale (PACS; Flannery, Volpicelli, & Pettinati, 1999) = CRAVING
 
@@ -701,7 +680,7 @@ pacs_cols <- colnames(survey_data[(grepfun("pacs_",survey_data))])
 survey_data[pacs_cols] <- lapply(survey_data[pacs_cols], as.numeric)
 
 # Calculate total score 
-survey_data$pacs_total <- rowMeans(survey_data[pacs_cols]) # pacs total score
+survey_data$pacs_total <- rowMeans(survey_data[pacs_cols], na.rm = TRUE) # pacs total score
 
 ###### Cocaine Craving Questionnaire-Brief (CCQ-Brief; Tiffany, Singleton, Haertzen, & Henningfield, 1993) = CRAVING
 
@@ -714,7 +693,7 @@ reverse_cols = c("ccq_brief_4","ccq_brief_7")
 survey_data[,reverse_cols] = 8 - survey_data[,reverse_cols] # Reverse score the ccq_brief items in reverse_cols
 
 # Calculate total score
-survey_data$ccq_brief_total <- rowMeans(survey_data[ccq_brief_cols]) # ccq_brief total score
+survey_data$ccq_brief_total <- rowMeans(survey_data[ccq_brief_cols], na.rm = TRUE) # ccq_brief total score
 
 ###### Heroin Craving Questionnaire-Short Form (HCQ-SF-14; Heinz, Schroeder, Epstein, Singleton, Heishman, & Preston, 2006) = CRAVING
 
@@ -727,7 +706,7 @@ reverse_cols = c("hcq_sf_14_1","hcq_sf_14_5","hcq_sf_14_8","hcq_sf_14_9","hcq_sf
 survey_data[,reverse_cols] = 8 - survey_data[,reverse_cols] # Reverse score the hcq_sf_14 items in reverse_cols
 
 # Calculate total score
-survey_data$hcq_sf_14_total <- rowMeans(survey_data[hcq_sf_14_cols]) # hcq_sf_14 total score
+survey_data$hcq_sf_14_total <- rowMeans(survey_data[hcq_sf_14_cols], na.rm = TRUE) # hcq_sf_14 total score
 
 ###### Marijuana Craving Questionnaire-Short Form (MCQ-SF; Heishman, Evans, Singleton, Levin, Copersino, & Gorelick, 2009) = CRAVING
 
@@ -736,7 +715,7 @@ mcq_sf_cols <- colnames(survey_data[(grepfun("mcq_sf_",survey_data))])
 survey_data[mcq_sf_cols] <- lapply(survey_data[mcq_sf_cols], as.numeric)
 
 # Calculate total score
-survey_data$mcq_sf_total <- rowMeans(survey_data[mcq_sf_cols]) # mcq_sf total score
+survey_data$mcq_sf_total <- rowMeans(survey_data[mcq_sf_cols], na.rm = TRUE) # mcq_sf total score
 
 ###### Meth Craving Intensity Yesterday (MCIY) = CRAVING (NOTE: Single item)
 
@@ -749,12 +728,12 @@ survey_data$mciy_total <- survey_data$mciy_4 # mcq_sf total score; NOTE: only a 
 ###### Craving Experience Questionnaire (CEQ-S; Andrade et al., 2014)
     # Prescription pills (CEQ-S-P) = CRAVING
 
-# Isolate the ceq_s items
-ceq_s_cols <- colnames(survey_data[(grepfun("ceq_s_",survey_data))])
-survey_data[ceq_s_cols] <- lapply(survey_data[ceq_s_cols], as.numeric)
+# Isolate the ceq_s_p_ items
+ceq_s_p_cols <- colnames(survey_data[(grepfun("ceq_s_p_",survey_data))])
+survey_data[ceq_s_p_cols] <- lapply(survey_data[ceq_s_p_cols], as.numeric)
 
 # Calculate total score
-survey_data$ceq_s_total <- rowMeans(survey_data[ceq_s_cols]) # ceq_s total score
+survey_data$ceq_s_p_total <- rowMeans(survey_data[ceq_s_p_cols], na.rm = TRUE) # ceq_s total score
 
 ###### Fagerstrom Test for Nicotine Dependence (FTND; Heatherton, Frecker, & Fagerstrom, 1991) = CONSUMPTION
 
@@ -764,18 +743,15 @@ survey_data[ftnd_cols] <- lapply(survey_data[ftnd_cols], as.numeric)
 
 # recode the variables based on the scoring criteria
 library(car)
-survey_data$ftnd_1_recode <- recode(survey_data$ftnd_1, "1=0;2=1;3=2;4=3")
-survey_data$ftnd_2_recode <- recode(survey_data$ftnd_2, "1=0;2=1")
-survey_data$ftnd_3_recode <- recode(survey_data$ftnd_3, "2=0")
-survey_data$ftnd_4_recode <- recode(survey_data$ftnd_4, "1=0;2=1;3=2;4=3")
-survey_data$ftnd_5_recode <- recode(survey_data$ftnd_5, "1=0;2=1")
-survey_data$ftnd_6_recode <- recode(survey_data$ftnd_6, "1=0;2=1")
-
-# isolate the recoded items
-ftnd_recode_cols <- colnames(survey_data[(grepfun("_recode",survey_data))])
+survey_data$ftnd_1 <- recode(survey_data$ftnd_1, "1=0;2=1;3=2;4=3")
+survey_data$ftnd_2 <- recode(survey_data$ftnd_2, "1=0;2=1")
+survey_data$ftnd_3 <- recode(survey_data$ftnd_3, "2=0")
+survey_data$ftnd_4 <- recode(survey_data$ftnd_4, "1=0;2=1;3=2;4=3")
+survey_data$ftnd_5 <- recode(survey_data$ftnd_5, "1=0;2=1")
+survey_data$ftnd_6 <- recode(survey_data$ftnd_6, "1=0;2=1")
 
 # Calculate total score
-survey_data$ftnd_total <- rowSums(survey_data[ftnd_recode_cols]) # ftnd total score
+survey_data$ftnd_total <- rowMeans(survey_data[ftnd_cols], na.rm = TRUE) # ftnd total score
 
 ###### Questionnaire of Smoking Urges-Brief (QSU-brief; Cox, Tiffany, & Christen, 2011) = CRAVING
 
@@ -783,8 +759,12 @@ survey_data$ftnd_total <- rowSums(survey_data[ftnd_recode_cols]) # ftnd total sc
 qsu_cols <- colnames(survey_data[(grepfun("qsu_",survey_data))])
 survey_data[qsu_cols] <- lapply(survey_data[qsu_cols], as.numeric)
 
+# NOTE: This is a Likert scale that ranges from 1-7. However, the responses were incorrectly coded such that 6=8 and 7=9. Recode these below. 
+
+survey_data[qsu_cols] <- lapply(survey_data[qsu_cols], FUN = function(X) recode(X, "8=6;9=7"))
+
 # Calculate total score
-survey_data$qsu_total <- rowMeans(survey_data[qsu_cols]) # qsu total score
+survey_data$qsu_total <- rowMeans(survey_data[qsu_cols], na.rm = TRUE) # qsu total score
 
 ###### Dutch Eating Behavior Questionnaire (DEBQ; Van Strien, Frijters, Bergers, & Defares, 1986) = CONSUMPTION
 
@@ -805,10 +785,10 @@ survey_data[debq_cols] <- lapply(survey_data[debq_cols], as.numeric)
 
 # Specify reverse-scored items
 reverse_cols = c("debq_1", "debq_3", "debq_7", "debq_9", "debq_11", "debq_13", "debq_15", "debq_17", "debq_19", "debq_16")
-survey_data[,reverse_cols] = 6 - survey_data[,reverse_cols] # Reverse score the hcq_sf_14 items in reverse_cols
+survey_data[,reverse_cols] = 6 - survey_data[,reverse_cols] # Reverse score the debq items in reverse_cols
 
 # Calculate total score
-survey_data$debq_total <- rowMeans(survey_data[debq_cols]) # debq total score
+survey_data$debq_total <- rowMeans(survey_data[debq_cols], na.rm = TRUE) # debq total score
 
 ###### Food craving inventory (FCI; White et al., 2002)* NOTE: There is a single item for "craving" and a single item for "liking"
     # Chocolate (FCI-Ch) = CRAVING
@@ -821,14 +801,466 @@ survey_data$debq_total <- rowMeans(survey_data[debq_cols]) # debq total score
 
 # Isolate the fci items
 # NOTE: _1 = Crave; _2 = Like
-# NOTE: fci_pi_2 actually corresponds to fci_pa_2 (How much do you like pasta?); fci_pi_2.0 should actually be fci_pi_2 (How much do you like pizza?)
+# NOTE: fci_pi_2 actually corresponds to fci_pa_2 (How much do you like pasta?); fci_pi_2.0 should actually be fci_pi_2 (How much do you like pizza?). This was fixed above, so these variables should show up correctly. 
+
+# Rename the "fci_1" variables as "fci_crave"
+survey_data$fci_ch_crave <- survey_data$fci_ch_1
+survey_data$fci_co_crave <- survey_data$fci_co_1
+survey_data$fci_d_crave <- survey_data$fci_d_1
+survey_data$fci_f_crave <- survey_data$fci_f_1
+survey_data$fci_i_crave <- survey_data$fci_i_1
+survey_data$fci_pa_crave <- survey_data$fci_pa_1
+survey_data$fci_pi_crave <- survey_data$fci_pi_1
 
 # isolate fci crave items
-fci_cols <- c("fci_ch_1", "fci_co_1", "fci_d_1", "fci_f_1", "fci_i_1", "fci_pa_1", "fci_pi_1")
+fci_cols <- c("fci_ch_crave", "fci_co_crave", "fci_d_crave", "fci_f_crave", "fci_i_crave", "fci_pa_crave", "fci_pi_crave")
 
 survey_data[fci_cols] <- lapply(survey_data[fci_cols], as.numeric)
 
-# Calculate total score for craving
-survey_data$fci_crave_total <- rowMeans(survey_data[fci_cols]) # fci craving total score
+# NOTE: We don't want a total score before z-scoring. We first want to z-score because not everyone who endorsed food as a main category were given the same FCI subscales. 
 
+# # Calculate total score for craving
+# survey_data$fci_crave_total <- rowMeans(survey_data[fci_cols], na.rm = TRUE) # fci craving total score
 ```
+
+
+```{r Convert HRB scale means to z-scores}
+
+# compile a list of the HRB variable names (raw scale means)
+hrb_var_names <- c("bscs_a","bscs_c","bscs_h","bscs_ma","bscs_me","bscs_p","bscs_a_numcrave","bscs_c_numcrave","bscs_h_numcrave","bscs_ma_numcrave","bscs_me_numcrave","bscs_p_numcrave","duh_a_avg_use_per_day","duh_c_avg_use_per_day","duh_h_avg_use_per_day","duh_ma_avg_use_per_day","duh_me_avg_use_per_day","duh_p_avg_use_per_day","acq_sf_r_total","audit_total","pacs_total","ccq_brief_total","hcq_sf_14_total","mcq_sf_total","mciy_total","ceq_s_p_total","ftnd_total","qsu_total","debq_total","fci_ch_crave","fci_co_crave","fci_d_crave","fci_f_crave","fci_i_crave","fci_pa_crave","fci_pi_crave")  
+
+# subset the HRB variables in the data frame
+hrb_vars <- survey_data[,hrb_var_names]
+
+# Convert all HRB variables (raw scale means) into z scores and save as a separate data frame
+hrb_vars_z <- as.data.frame(lapply(hrb_vars, FUN = function(X) scale(X, center = TRUE, scale = TRUE)))
+
+# Make a function to re-name variables with suffix "_z"
+name_with_z <- function(x){
+  new <- paste0(x,"_z")
+  return(new)
+}
+
+# apply this function to the hrb variables
+colnames(hrb_vars_z) <- lapply(colnames(hrb_vars_z), name_with_z)
+
+# Look at the head of the data frame of z scores
+head(hrb_vars_z)
+
+
+### CHECK WITH ELLIOT ABOUT THIS!!!
+
+# Since only 1 person filled out the heroin questionnaires, the z-scores show up as NaN's. Manually replace these with 0's, i.e. since the one person's raw score is also the mean, the z-score should be 0. 
+
+# Merge the z-scored variables with the original survey_data data frame
+survey_data <- as.data.frame(cbind(survey_data, hrb_vars_z))
+```
+
+
+```{r Creating intensity rating weighting vars}
+# Score the intensity ratings from screening data (adapted 5-item BIS items)
+
+# Food
+food_intensity_cols <- c("food1", "food2", "food3", "food4", "food5")
+survey_data[food_intensity_cols] <- lapply(survey_data[food_intensity_cols], as.numeric)
+
+# reverse score the 1st item "I am good at resisting..."
+survey_data$food1 <- 6 - survey_data$food1
+
+# Calculate total score
+survey_data$food_intensity <- rowMeans(survey_data[food_intensity_cols], na.rm = TRUE) 
+
+# Drugs
+drugs_intensity_cols <- c("drugs1", "drugs2", "drugs3", "drugs4", "drugs5")
+survey_data[drugs_intensity_cols] <- lapply(survey_data[drugs_intensity_cols], as.numeric)
+
+# reverse score the 1st item "I am good at resisting..."
+survey_data$drugs1 <- 6 - survey_data$drugs1
+
+# Calculate total score
+survey_data$drugs_intensity <- rowMeans(survey_data[drugs_intensity_cols], na.rm = TRUE)
+
+# Alcohol
+alcohol_intensity_cols <- c("alcohol1", "alcohol2", "alcohol3", "alcohol4", "alcohol5")
+survey_data[alcohol_intensity_cols] <- lapply(survey_data[alcohol_intensity_cols], as.numeric)
+
+# reverse score the 1st item "I am good at resisting..."
+survey_data$alcohol1 <- 6 - survey_data$alcohol1
+
+# Calculate total score
+survey_data$alcohol_intensity <- rowMeans(survey_data[alcohol_intensity_cols], na.rm = TRUE)
+
+# Tobacco
+tobacco_intensity_cols <- c("tobacco1", "tobacco2", "tobacco3", "tobacco4", "tobacco5")
+survey_data[tobacco_intensity_cols] <- lapply(survey_data[tobacco_intensity_cols], as.numeric)
+
+# reverse score the 1st item "I am good at resisting..."
+survey_data$tobacco1 <- 6 - survey_data$tobacco1
+
+# Calculate total score
+survey_data$tobacco_intensity <- rowMeans(survey_data[tobacco_intensity_cols], na.rm = TRUE)
+
+# Calculate total intensity rating points for each individual
+survey_data$total_intensity_points <- rowSums(survey_data[,c("food_intensity","drugs_intensity","alcohol_intensity","tobacco_intensity")], na.rm = TRUE)
+
+# Calculate the weighting variable for all 4 HRB categories
+survey_data$weighting_var_food <- survey_data$food_intensity/survey_data$total_intensity_points
+
+survey_data$weighting_var_drugs <- survey_data$drugs_intensity/survey_data$total_intensity_points
+
+survey_data$weighting_var_alcohol <- survey_data$alcohol_intensity/survey_data$total_intensity_points
+
+survey_data$weighting_var_tobacco <- survey_data$tobacco_intensity/survey_data$total_intensity_points
+
+# combine weighting variables into single vector
+hrb_weights <- as.data.frame(lapply(survey_data[c("weighting_var_alcohol", "weighting_var_drugs", "weighting_var_tobacco", "weighting_var_food")], as.numeric)) #NOTE: order is alcohol, drugs, tobacco, food
+
+# Check that weighting vars sum to 1
+sanity_check_weighting <- rowSums(survey_data[,c("weighting_var_alcohol","weighting_var_tobacco","weighting_var_food","weighting_var_drugs")], na.rm = TRUE)
+```
+
+
+```{r Calculate weighted average of z-scored HRB variables}
+
+# Separate out variable names by the 4 main HRB categories
+
+# alcohol
+hrb_alcohol_vars <- survey_data[,c("bscs_a_z", "bscs_a_numcrave_z", "acq_sf_r_total_z", "pacs_total_z", "duh_a_avg_use_per_day_z", "audit_total_z")]
+
+hrb_alcohol_crave <- survey_data[,c("bscs_a_z", "bscs_a_numcrave_z", "acq_sf_r_total_z", "pacs_total_z")]
+
+hrb_alcohol_consumption <- survey_data[,c("duh_a_avg_use_per_day_z", "audit_total_z")]
+
+# drugs
+hrb_drugs_vars <- survey_data[,c("bscs_c_z", "ccq_brief_total_z", "bscs_h_z", "hcq_sf_14_total_z", "bscs_ma_z", "mcq_sf_total_z", "bscs_me_z", "mciy_total_z", "bscs_p_z", "ceq_s_p_total_z", "duh_c_avg_use_per_day_z", "duh_h_avg_use_per_day_z", "duh_ma_avg_use_per_day_z", "duh_me_avg_use_per_day_z", "duh_p_avg_use_per_day_z")]
+
+hrb_drugs_crave <- survey_data[,c("bscs_c_z", "ccq_brief_total_z", "bscs_h_z", "hcq_sf_14_total_z", "bscs_ma_z", "mcq_sf_total_z", "bscs_me_z", "mciy_total_z", "bscs_p_z", "ceq_s_p_total_z")]
+
+hrb_drugs_consumption <- survey_data[,c("duh_c_avg_use_per_day_z", "duh_h_avg_use_per_day_z", "duh_ma_avg_use_per_day_z", "duh_me_avg_use_per_day_z", "duh_p_avg_use_per_day_z")]
+
+# tobacco
+hrb_tobacco_vars <- survey_data[,c("qsu_total_z","ftnd_total_z")]
+
+hrb_tobacco_crave <- survey_data[,c("qsu_total_z")]
+
+hrb_tobacco_consumption <- survey_data[,c("ftnd_total_z")]
+
+# food
+hrb_food_vars <- survey_data[,c("fci_ch_crave_z", "fci_co_crave_z", "fci_d_crave_z", "fci_f_crave_z", "fci_i_crave_z", "fci_pa_crave_z", "fci_pi_crave_z","debq_total_z")]
+
+hrb_food_crave <- survey_data[,c("fci_ch_crave_z", "fci_co_crave_z", "fci_d_crave_z", "fci_f_crave_z", "fci_i_crave_z", "fci_pa_crave_z", "fci_pi_crave_z")]
+
+hrb_food_consumption <- survey_data[,"debq_total_z"]
+
+### Define functions
+
+## Make a function to multiply variables by weighting variable
+weight.food.measures <- function(x){
+  new <- x*survey_data$weighting_var_food
+  return(new)
+}
+
+## Make a function to multiply variables by weighting variable
+weight.drugs.measures <- function(x){
+  new <- x*survey_data$weighting_var_drugs
+  return(new)
+}
+
+## Make a function to multiply variables by weighting variable
+weight.alcohol.measures <- function(x){
+  new <- x*survey_data$weighting_var_alcohol
+  return(new)
+}
+  
+## Make a function to multiply variables by weighting variable
+weight.tobacco.measures <- function(x){
+  new <- x*survey_data$weighting_var_tobacco
+  return(new)
+}
+
+## Make a function to re-name variables with suffix "_w" to indicated that it is a weighted variable
+name.as.weighted <- function(x){
+  new <- paste0(x,"_w")
+  return(new)
+}
+
+# Multiply all food z-scored variables by food intensity weighting variable 
+hrb_food_w <- as.data.frame(lapply(hrb_food_vars, FUN = function(X) weight.food.measures(X)))
+
+## append "_w" to indicated weighted variables
+colnames(hrb_food_w) <- lapply(colnames(hrb_food_w), FUN = function(X) name.as.weighted(X))
+
+# Multiply all drugs z-scored variables by drugs intensity weighting variable 
+hrb_drugs_w <- as.data.frame(lapply(hrb_drugs_vars, FUN = function(X) weight.drugs.measures(X)))
+
+## append "_w" to indicated weighted variables
+colnames(hrb_drugs_w) <- lapply(colnames(hrb_drugs_w), FUN = function(X) name.as.weighted(X))
+
+# Multiply all alcohol z-scored variables by alcohol intensity weighting variable 
+hrb_alcohol_w <- as.data.frame(lapply(hrb_alcohol_vars, FUN = function(X) weight.alcohol.measures(X)))
+
+## append "_w" to indicated weighted variables
+colnames(hrb_alcohol_w) <- lapply(colnames(hrb_alcohol_w), FUN = function(X) name.as.weighted(X))
+
+# Multiply all tobacco z-scored variables by tobacco intensity weighting variable 
+hrb_tobacco_w <- as.data.frame(lapply(hrb_tobacco_vars, FUN = function(X) weight.tobacco.measures(X)))
+
+## append "_w" to indicated weighted variables
+colnames(hrb_tobacco_w) <- lapply(colnames(hrb_tobacco_w), FUN = function(X) name.as.weighted(X))
+
+# combine into single data frame
+weighted_vars <- cbind(hrb_food_w,hrb_drugs_w,hrb_alcohol_w,hrb_tobacco_w)
+
+# create separate data frame with ALL COMBINED CRAVE vars
+weighted_crave_vars <- weighted_vars[,c("bscs_a_z_w", "bscs_a_numcrave_z_w", "acq_sf_r_total_z_w", "pacs_total_z_w", "bscs_c_z_w", "ccq_brief_total_z_w", "bscs_h_z_w", "hcq_sf_14_total_z_w", "bscs_ma_z_w", "mcq_sf_total_z_w", "bscs_me_z_w", "mciy_total_z_w", "bscs_p_z_w", "ceq_s_p_total_z_w", "qsu_total_z_w", "fci_ch_crave_z_w", "fci_co_crave_z_w", "fci_d_crave_z_w", "fci_f_crave_z_w", "fci_i_crave_z_w", "fci_pa_crave_z_w", "fci_pi_crave_z_w")]
+
+# create separate data frame with ALL COMBINED CONSUMPTION vars
+weighted_consumption_vars_combined <- weighted_vars[,c("duh_a_avg_use_per_day_z_w", "audit_total_z_w", "duh_c_avg_use_per_day_z_w", "duh_h_avg_use_per_day_z_w", "duh_ma_avg_use_per_day_z_w", "duh_me_avg_use_per_day_z_w", "duh_p_avg_use_per_day_z_w", "ftnd_total_z_w", "debq_total_z_w")]
+
+# create separate data frame with FOOD CRAVE vars
+weighted_crave_vars_food <- weighted_vars[,c("fci_ch_crave_z_w", "fci_co_crave_z_w", "fci_d_crave_z_w", "fci_f_crave_z_w", "fci_i_crave_z_w", "fci_pa_crave_z_w", "fci_pi_crave_z_w")]
+
+# create separate data frame with DRUGS CRAVE vars
+weighted_crave_vars_drugs <- weighted_vars[,c("bscs_c_z_w", "ccq_brief_total_z_w", "bscs_h_z_w", "hcq_sf_14_total_z_w", "bscs_ma_z_w", "mcq_sf_total_z_w", "bscs_me_z_w", "mciy_total_z_w", "bscs_p_z_w", "ceq_s_p_total_z_w")]
+
+# create separate data frame with ALCOHOL CRAVE vars
+weighted_crave_vars_alcohol <- weighted_vars[,c("bscs_a_z_w", "bscs_a_numcrave_z_w", "acq_sf_r_total_z_w", "pacs_total_z_w")]
+
+# create separate data frame with TOBACCO CRAVE vars
+weighted_crave_vars_tobacco <- weighted_vars[,"qsu_total_z_w"]
+
+# create separate data frame with FOOD CONSUMPTION vars
+weighted_consumption_vars_food <- weighted_vars[,"debq_total_z_w"]
+
+# create separate data frame with DRUGS CONSUMPTION vars
+weighted_consumption_vars_drugs <- weighted_vars[,c("duh_c_avg_use_per_day_z_w", "duh_h_avg_use_per_day_z_w", "duh_ma_avg_use_per_day_z_w", "duh_me_avg_use_per_day_z_w", "duh_p_avg_use_per_day_z_w")]
+
+# create separate data frame with ALCOHOL CONSUMPTION vars
+weighted_consumption_vars_alcohol <- weighted_vars[,c("duh_a_avg_use_per_day_z_w", "audit_total_z_w")]
+
+# create separate data frame with TOBACCO CONSUMPTION vars
+weighted_consumption_vars_tobacco <- weighted_vars[,"ftnd_total_z_w"]
+
+# average across weighted z scores within category for craving 
+weighted_crave_vars_food_avg <- rowMeans(weighted_crave_vars_food, na.rm= TRUE)
+weighted_crave_vars_drugs_avg <- rowMeans(weighted_crave_vars_drugs, na.rm = TRUE)
+weighted_crave_vars_alcohol_avg <- rowMeans(weighted_crave_vars_alcohol, na.rm = TRUE)
+weighted_crave_vars_tobacco_avg <- weighted_crave_vars_tobacco # Only 1 measure
+
+# then sum these averaged weighted z scores to create a single HRB CRAVING summary variable 
+survey_data$hrb_crave_summary <- rowSums(cbind(weighted_crave_vars_food_avg,weighted_crave_vars_drugs_avg,weighted_crave_vars_alcohol_avg,weighted_crave_vars_tobacco_avg), na.rm = TRUE)
+
+# average across weighted z scores within category for consumption 
+weighted_consumption_vars_food_avg <- weighted_consumption_vars_food # Only 1 measure
+weighted_consumption_vars_drugs_avg <- rowMeans(weighted_consumption_vars_drugs, na.rm = TRUE)
+weighted_consumption_vars_alcohol_avg <- rowMeans(weighted_consumption_vars_alcohol, na.rm = TRUE)
+weighted_consumption_vars_tobacco_avg <- weighted_consumption_vars_tobacco # Only 1 measure
+
+# then sum these averaged weighted z scores to create a single HRB CRAVING summary variable 
+survey_data$hrb_consumption_summary <- rowSums(cbind(weighted_consumption_vars_food_avg,weighted_consumption_vars_drugs_avg,weighted_consumption_vars_alcohol_avg,weighted_consumption_vars_tobacco_avg), na.rm = TRUE)
+
+### NOTE: Using rowSums to calculate the HRB summary variables puts 0's in for cases in which the data was missing (i.e. it was trying to sum a row of all NA's). I will have to either manually replace these 0's with NA's or use na.omit somewhere. However, we want to keep all 143 rows, so na.omit might not be an option, as this would actually remove rows with missing data from the data frame. 
+
+
+# THIS WAS THE ORIGINAL CODE I WROTE TO CALCULATE THE HRB SUMMARY VARS, BUT I DON'T THINK THIS IS CORRECT. CHECK WITH ELLIOT!
+
+# # Average all weighted z-scored CRAVING measures into a single HRB CRAVING summary variable 
+# survey_data$hrb_crave_summary <- rowMeans(weighted_crave_vars, na.rm = TRUE)
+# 
+# # Average all weighted z-scored CONSUMPTION measures into a single HRB CONSUMPTION summary variable 
+# survey_data$hrb_consumption_summary <- rowMeans(weighted_consumption_vars, na.rm = TRUE)
+```
+
+
+
+
+### Self-report individual differences measures (related to self-regulation)
+
+## Score the SConS questionnaire
+```{r SConS scoring}
+## Reverse coding items
+# scons_cols <- colnames(survey_data[,450:462])
+# survey_data[scons_cols] <-
+#       lapply(survey_data[scons_cols], plyr::mapvalues,
+#       from = c("Not at all 1", "2", "3", "4", "Very Much 5"),
+#       to = c(1,2,3,4,5))
+
+scons_cols <- colnames(survey_data[(grepfun("scons_",survey_data))])
+
+reverse_cols = c("scons_2", "scons_3", "scons_4", "scons_5", "scons_7", "scons_9", "scons_10", "scons_12", "scons_13")
+survey_data[scons_cols] <- 
+  lapply(survey_data[scons_cols], as.numeric)
+survey_data[,reverse_cols] = 6 - survey_data[,reverse_cols] # Reverse score the SConS items in reverse_cols
+
+# isolate raw items with relevant items reverse scored for later PCA analysis
+scons_pca_items <- survey_data[scons_cols]
+
+survey_data$scons_total <- rowMeans(survey_data[scons_cols], na.rm = TRUE) # Total SConS score
+
+# How many survey responses do we have? 114
+table(!is.na(survey_data[,"scons_total"]))
+```
+
+## Score the BIS questionnaire
+```{r BIS soring}
+## Reverse coding items
+# bis_cols <- colnames(survey_data[,400:429])
+# survey_data[bis_cols] <-
+#       lapply(survey_data[bis_cols], plyr::mapvalues,
+#       from = c("Rarely/Never", "Occasionally", "Often", "Almost Always/Always"),
+#       to = c(1,2,3,4))
+
+bis_cols <- colnames(survey_data[(grepfun("bis_",survey_data))])
+bis_cols <- bis_cols[-grep('bas_',bis_cols)] #remove combined 'bisbas_' variable names from list
+
+reverse_cols = c("bis_7", "bis_13","bis_19","bis_6", "bis_1", "bis_5","bis_8","bis_11", "bis_17", "bis_22", "bis_30")
+survey_data[bis_cols] <- 
+  lapply(survey_data[bis_cols], as.numeric)
+survey_data[,reverse_cols] = 5 - survey_data[,reverse_cols] # Reverse score the bis items in reverse_cols
+
+# isolate raw items with relevant items reverse scored for later PCA analysis
+bis_pca_items <- survey_data[bis_cols]
+
+## Creating the subscales
+biskey_list <- list(attention = c("bis_4","bis_7","bis_10","bis_13","bis_16","bis_19","bis_24","bis_27"), motor = c("bis_2","bis_6","bis_9","bis_12","bis_15","bis_18","bis_21","bis_23","bis_26","bis_29"), non_planning = c("bis_1","bis_3","bis_5","bis_8","bis_11","bis_14","bis_17","bis_20","bis_22","bis_25","bis_28","bis_30"))
+
+survey_data$bis_attn <- rowMeans(survey_data[,biskey_list[[1]]]) # bis attention score
+survey_data$bis_motor <- rowMeans(survey_data[,biskey_list[[2]]]) # bis motor score
+survey_data$bis_noplan <- rowMeans(survey_data[,biskey_list[[3]]]) # bis non-planning score
+survey_data$bis_total <- rowMeans(survey_data[,c("bis_attn", "bis_motor", "bis_noplan")]) # bis total score
+
+# How many survey responses do we have? 116
+table(!is.na(survey_data[,"bis_total"]))
+```
+
+## Score the BIS BAS questionnaire
+```{r BIS BAS scoring}
+# isolate the BIS BAS items
+bis_bas_cols <- colnames(survey_data[(grepfun("bas_",survey_data))])
+
+# specify reverse-scored items
+# The only items that are reverse-scored are "bis_bas_5" and "bis_bas_7".
+# NOTE: This scale should have been administered on a 1-4 scale (1=very true for me, 4=very false for me), where higher raw scores indicate lower amounts of the construct measured. Instead, it was administered on a 1-5 scale (1=strongly disagree, 5=strongly agree), where higher raw scores indicate higher amounts of the construct measured. Normally, all items except 5 and 7 are reverse-scored, but in our case we must reverse that. 
+
+reverse_cols = bis_bas_cols[c(5,7)]
+
+survey_data[bis_bas_cols] <- 
+  lapply(survey_data[bis_bas_cols], as.numeric)
+
+# reverse score the relevant items
+survey_data[,reverse_cols] = 6 - survey_data[,reverse_cols] # Reverse score the BISBAS items in reverse_cols
+
+# isolate raw items with relevant items reverse scored for later PCA analysis
+bis_bas_pca_items <- survey_data[bis_bas_cols]
+
+# NOTE: These item numberings are unique to the version administered in REV. I had to cross-check them with the published scoring, found here: http://www.psy.miami.edu/faculty/ccarver/sclBISBAS.html
+
+# BAS Drive: 4, 11, 13, 15
+# BAS Fun Seeking: 3, 10, 17, 20
+# BAS Reward Responsiveness: 1, 6, 8, 16, 19
+# BIS: 2, 5, 7, 9, 12, 14, 18
+
+bis_bas_key_list <- list(bas_drive = c("bis_bas_4","bis_bas_11","bis_bas_13","bis_bas_15"), bas_fun = c("bis_bas_3","bis_bas_10","bis_bas_17","bis_bas_20"), bas_reward = c("bis_bas_1","bis_bas_6", "bis_bas_8","bis_bas_16","bis_bas_19"), bis = c("bis_bas_2","bis_bas_5","bis_bas_7","bis_bas_9", "bis_bas_12","bis_bas_14","bis_bas_18"))
+
+survey_data$bis_bas_bas_drive <- rowMeans(survey_data[,bis_bas_key_list[[1]]]) # BAS Drive
+survey_data$bis_bas_bas_fun <- rowMeans(survey_data[,bis_bas_key_list[[2]]]) # BAS Fun Seeking
+survey_data$bis_bas_bas_reward <- rowMeans(survey_data[,bis_bas_key_list[[3]]]) # BAS Reward Responsiveness
+survey_data$bis_bas_bas_total <- rowMeans(survey_data[,c("bis_bas_bas_drive", "bis_bas_bas_fun", "bis_bas_bas_reward")]) # BAS total
+survey_data$bis_bas_bis_total <- rowMeans(survey_data[,bis_bas_key_list[[4]]]) # BIS
+
+# # How many survey responses do we have?
+# table(!is.na(survey_data[,"bis_bas_bis_total"]))          
+```
+
+## Score the UPPS questionnaire
+```{r UPPS Scoring}
+
+# NOTE: Whoever entered the scale skipped "upps_p_47", so we need to rename the variables from "upps_p_48" on. Rename incorrectly named variables below.
+colnames(survey_data)[colnames(survey_data) == "upps_p_48"] <- "upps_p_47"
+colnames(survey_data)[colnames(survey_data) == "upps_p_49"] <- "upps_p_48"
+colnames(survey_data)[colnames(survey_data) == "upps_p_50"] <- "upps_p_49"
+colnames(survey_data)[colnames(survey_data) == "upps_p_51"] <- "upps_p_50"
+colnames(survey_data)[colnames(survey_data) == "upps_p_52"] <- "upps_p_51"
+colnames(survey_data)[colnames(survey_data) == "upps_p_53"] <- "upps_p_52"
+colnames(survey_data)[colnames(survey_data) == "upps_p_54"] <- "upps_p_53"
+colnames(survey_data)[colnames(survey_data) == "upps_p_55"] <- "upps_p_54"
+colnames(survey_data)[colnames(survey_data) == "upps_p_56"] <- "upps_p_55"
+colnames(survey_data)[colnames(survey_data) == "upps_p_57"] <- "upps_p_56"
+colnames(survey_data)[colnames(survey_data) == "upps_p_58"] <- "upps_p_57"
+colnames(survey_data)[colnames(survey_data) == "upps_p_59"] <- "upps_p_58"
+colnames(survey_data)[colnames(survey_data) == "upps_p_60"] <- "upps_p_59"
+ 
+# Isolate the UPPS items
+upps_cols <- colnames(survey_data[(grepfun("upps_",survey_data))])
+
+# NOTE: The published scale has 1-4 Likert scale where 1=Agree Strongly, 4=Disagree Strongly. However, it was administered with the opposite Likert rating, i.e. 1=Disagree Strongly, 4=Agree Strongly. Thus, we need to follow the opposite of the published reverse scoring.  
+
+# specify reverse-scored items
+reverse_cols =c("upps_p_54","upps_p_1","upps_p_6","upps_p_11","upps_p_16","upps_p_21","upps_p_28","upps_p_33","upps_p_38","upps_p_43","upps_p_48","upps_p_49","upps_p_4","upps_p_14","upps_p_19","upps_p_24","upps_p_27","upps_p_32","upps_p_37","upps_p_42")
+
+# # these are the reverse items if we had used the original Likert Scale
+# reverse_cols = c("upps_p_2","upps_p_7","upps_p_12","upps_p_17","upps_p_22","upps_p_29","upps_p_34","upps_p_39","upps_p_44","upps_p_51","upps_p_58","upps_p_9","upps_p_47","upps_p_3","upps_p_8","upps_p_13","upps_p_18","upps_p_23","upps_p_26","upps_p_31","upps_p_36","upps_p_41","upps_p_46","upps_p_52","upps_p_56","upps_p_5","upps_p_10","upps_p_15","upps_p_20","upps_p_25","upps_p_30","upps_p_35","upps_p_40","upps_p_45","upps_p_50","upps_p_53","upps_p_55","upps_p_57","upps_p_59")
+
+survey_data[upps_cols] <- 
+  lapply(survey_data[upps_cols], as.numeric)
+
+# reverse score the relevant items
+survey_data[,reverse_cols] = 5 - survey_data[,reverse_cols] # Reverse score the UPPS items in reverse_cols
+
+# isolate raw items with relevant items reverse scored for later PCA analysis
+upps_pca_items <- survey_data[upps_cols]
+
+# (Negative) Urgency: 2,7,12,17,22,29,34,39,44,51,54,58
+# (lack of) Premeditation: 1,6,11,16,21,28,33,38,43,48,49
+# (lack  of) Perseverance: 4,9,14,19,24,27,32,37,42,47
+# Sensation Seeking:  3,8,13,18,23,26,31,36,41,46,52,56
+# Positive  Urgency:  5,10,15,20,25,30,35,40,45,50,53,55,57,59  
+
+upps_key_list <- list(upps_neg_urg = c("upps_p_2","upps_p_7","upps_p_12","upps_p_17","upps_p_22","upps_p_29","upps_p_34","upps_p_39","upps_p_44","upps_p_51","upps_p_54","upps_p_58"), upps_lack_premed = c("upps_p_1","upps_p_6","upps_p_11","upps_p_16","upps_p_21","upps_p_28","upps_p_33","upps_p_38","upps_p_43","upps_p_48","upps_p_49"), upps_lack_persev = c("upps_p_4","upps_p_9","upps_p_14","upps_p_19","upps_p_24","upps_p_27","upps_p_32","upps_p_37","upps_p_42","upps_p_47"), upps_sens_seek = c("upps_p_3","upps_p_8","upps_p_13","upps_p_18","upps_p_23","upps_p_26","upps_p_31","upps_p_36","upps_p_41","upps_p_46","upps_p_52","upps_p_56"), upps_pos_urg = c("upps_p_5","upps_p_10","upps_p_15","upps_p_20","upps_p_25","upps_p_30","upps_p_35","upps_p_40","upps_p_45","upps_p_50","upps_p_53","upps_p_55","upps_p_57","upps_p_59"))
+
+survey_data$upps_neg_urg <- rowMeans(survey_data[,upps_key_list[[1]]]) # UPPS (Negative) Urgency
+survey_data$upps_lack_premed <- rowMeans(survey_data[,upps_key_list[[2]]]) # UPPS (lack of) Premeditation
+survey_data$upps_lack_persev <- rowMeans(survey_data[,upps_key_list[[3]]]) # UPPS (lack of) Perseverance
+survey_data$upps_sens_seek <- rowMeans(survey_data[,upps_key_list[[4]]]) # UPPS Sensation Seeking
+survey_data$upps_pos_urg <- rowMeans(survey_data[,upps_key_list[[5]]]) # UPPS Positive  Urgency
+```
+
+
+## Perform data reduction on individual differences vars (SconS, BIS, BISBAS)
+```{r}
+# create data frame with all vars that will be used for PCA. These are raw scale items and the relevant items have been reverse scored. 
+
+# NOTE: Currently doing list-wise deletion on this data frame (na.omit), but this is getting rid of a lot of data. However, princomp() won't work with NA's in the dataset. Need to figure out how to manage PCA with missing data. 
+
+all_pca_vars <- cbind(scons_pca_items,bis_pca_items,bis_bas_pca_items) %>%
+  na.omit(all_pca_vars)
+
+# get correlation matrix of raw scale items
+orig.cor <- cor(all_pca_vars, use="pairwise.complete.obs") %>%
+  round(2)
+
+# create heat map of raw correlations
+melted_cormat <- melt(orig.cor)
+
+ggplot(data = melted_cormat, aes(x=Var1, y=Var2, fill=value)) + 
+  geom_tile()
+
+# Unrotated PCA
+pca <- princomp(all_pca_vars, cor=TRUE)
+
+# View Scree plot of eigenvalues
+plot(pca,type="lines", main="Scree Plot") 
+
+# View eigenvalues
+eigens <- eigen(orig.cor)
+View(eigens$values) # these are the original (unrotated) eigenvalues
+
+# Get a biplot
+biplot(pca)
+
+# PCA with orthogonal rotation
+
+
+# PCA with oblique rotation
+```
+
