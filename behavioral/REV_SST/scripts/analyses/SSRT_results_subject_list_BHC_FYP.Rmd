@@ -17,7 +17,7 @@ editor_options:
 ```{r setup, include=FALSE}
 ## R version 3.4.3 ##
 rm(list = ls())
-setwd("~/Desktop/REV_scripts/behavioral/REV_SST/scripts/analyses/")
+setwd("~/Desktop/REV/REV_scripts/behavioral/REV_SST/scripts/analyses/")
 
 ## Install and load required packages
 list.of.packages <- c("stringr", "tidyverse", "reshape2", "ggplot2", "psych", "gridExtra", "knitr", "lme4", "memisc", "withr", "ez")
@@ -54,19 +54,19 @@ condition <- factor(condition, labels = c("control", "train"))
 ```{r Import task data}
 ## Import the SSRT results output from the extractAllSSTResults.m script
 SSRTdata <- read.table(
-  "~/Desktop/REV_scripts/behavioral/REV_SST/compiledResults/upToREV144/singleVarTxts/REV_SSRTint16.txt",
+  "~/Desktop/REV/REV_scripts/behavioral/REV_SST/compiledResults/upToREV144/singleVarTxts/REV_SSRTint16.txt",
   sep = "\t", header = FALSE)
 ## No Response Counts
 noResponseCount <- read.table(
-  "~/Desktop/REV_scripts/behavioral/REV_SST/compiledResults/upToREV144/initialCheck/NRCount.txt",
+  "~/Desktop/REV/REV_scripts/behavioral/REV_SST/compiledResults/upToREV144/initialCheck/NRCount.txt",
   sep = "\t", header = FALSE)
 ## Wrong Go Counts
 wrongGoCount <- read.table(
-  "~/Desktop/REV_scripts/behavioral/REV_SST/compiledResults/upToREV144/initialCheck/wrongGoCount.txt",
+  "~/Desktop/REV/REV_scripts/behavioral/REV_SST/compiledResults/upToREV144/initialCheck/wrongGoCount.txt",
   sep = "\t", header = FALSE)
 ## Percent inhibition
 pctInhibition <- read.table(
-  "~/Desktop/REV_scripts/behavioral/REV_SST/compiledResults/upToREV144/singleVarTxts/REV_PctInhib16.txt",
+  "~/Desktop/REV/REV_scripts/behavioral/REV_SST/compiledResults/upToREV144/singleVarTxts/REV_PctInhib16.txt",
   sep = "\t", header = FALSE)
 ```
 
@@ -225,6 +225,26 @@ summary(outliers_tableFull$Runs_omitted_ssrt)
     + Can't be calculated due to high number of non-responses and wrong-gos.  
 - 138 - Why doesn't 138 have the base scan SSRTs?   
     + Can't be calculated due to high number of wrong-gos.  
+    
+    
+    
+```{r Subset only the scan data and convert long to wide}
+# select only scan data (get rid of training data)
+df_SSRT <- subset(df_SSRT,time %in% c("run1", "run2", "run13", "run14"))
+
+# convert data frame from long to wide format
+
+```
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
 ## Comparison Plots: Raw vs. Cleaned Data  
 ```{r Create plots of the data}
