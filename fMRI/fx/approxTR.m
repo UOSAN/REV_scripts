@@ -10,7 +10,8 @@ else %pop up dialog box for task
 end
 
 
-savePath=['~/Dropbox/REV_repos/REV_BxData/names_onsets_durations/'];
+%savePath=['~/Dropbox/REV_repos/REV_BxData/names_onsets_durations/'];
+savePath=['~/Desktop/REV/REV_BxData/names_onsets_durations/'];
 homePath=[savePath,task,filesep];
 cd(savePath);
 

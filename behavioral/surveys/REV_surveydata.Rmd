@@ -1249,18 +1249,20 @@ ggplot(data = melted_cormat, aes(x=Var1, y=Var2, fill=value)) +
 pca <- princomp(all_pca_vars, cor=TRUE)
 
 # View Scree plot of eigenvalues
-plot(pca,type="lines", main="Scree Plot") 
+plot(pca,type="lines", main="Scree Plot") # use first 3 components
 
 # View eigenvalues
 eigens <- eigen(orig.cor)
 View(eigens$values) # these are the original (unrotated) eigenvalues
 
-# Get a biplot
-biplot(pca)
-
-# PCA with orthogonal rotation
-
-
 # PCA with oblique rotation
+pca.oblique <- principal(all_pca_vars, rotate="promax", nfactors = 3, missing=TRUE)
+summary(pca.oblique)
+pca.oblique$loadings 
+
+# # PCA with orthogonal rotation
+# pca.orthogonal <- principal(all_pca_vars, rotate="varimax", nfactors = 3, missing=TRUE)
+# summary(pca.orthogonal)
+# pca.orthogonal$loadings 
 ```
 
