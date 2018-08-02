@@ -10,8 +10,7 @@ else %pop up dialog box for task
 end
 
 
-%savePath=['~/Dropbox/REV_repos/REV_BxData/names_onsets_durations/'];
-savePath=['~/Desktop/REV/REV_BxData/names_onsets_durations/'];
+savePath=['~/Dropbox/REV_repos/REV_BxData/names_onsets_durations/'];
 homePath=[savePath,task,filesep];
 cd(savePath);
 
@@ -80,11 +79,6 @@ else
     
     
     cd(homePath)
-    fid = fopen(filename,'a');
-    fprintf(fid,'%s','subNum');
-    fprintf(fid,'\n');
-    fclose(fid);
-    
     fileNms=strsplit(ls);
     
     for i=1:length(fileNms)
@@ -115,8 +109,7 @@ else
                     fprintf(fid,'%s',num2str(maxO));
                     fprintf(fid,'\t');
                     fprintf(fid,'%s',num2str(maxO*.505));
-                    fprintf(fid,'\t');
-                    fprintf(fid,'%s',fileNms{i});
+                    
                     fprintf(fid,'\n');
                     fclose(fid);
                     
