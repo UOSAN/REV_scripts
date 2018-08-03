@@ -2,11 +2,12 @@
 
 # Get list of full file paths for tmp files and bids files
 
-repopath="/Users/brendancullen/Desktop/REV/REV_scripts/org/dcm2bids"
-bids_paths="$repopath/file_size_bids_paths.txt"
-tmp_paths="$repopath/file_size_tmp_paths.txt"
-bids_files="$repopath/file_size_bids_files.txt"
-tmp_files="$repopath/file_size_tmp_files.txt"
+# repopath="/Users/brendancullen/Desktop/REV/REV_scripts/org/dcm2bids"
+repopath="/projects/sanlab/shared/REV/REV_scripts/org/dcm2bids"
+bids_paths=`cat $repopath/file_size_bids_paths.txt`
+tmp_paths=`cat $repopath/file_size_tmp_paths.txt`
+bids_files=`cat $repopath/file_size_bids_files.txt`
+tmp_files=`cat $repopath/file_size_tmp_files.txt`
 
 
 # Move all the files to a 'purgatory' folder 
