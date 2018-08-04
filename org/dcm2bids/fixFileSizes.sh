@@ -23,3 +23,5 @@ tmp_files=`cat $repopath/file_size_tmp_files.txt`
 # for each re-named purgatory file, move the file to bids_path folder
 
 
+## GENERAL NOTE: MAKE SURE YOU CHECK THE NOTES IN THE FOLLOWING GOOGLE SHEET TO MAKE SURE YOU ACCOUNT FOR THE FEW CASES THAT WERE MISNAMED
+# https://docs.google.com/spreadsheets/d/1AXgCxuoqd-vQo6LJVRDfbUmjEf0OQpV3eZ5AXC9pkNM/edit#gid=0
