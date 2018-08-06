@@ -63,10 +63,4 @@ sub-REV014_ses-wave1_run-01_magnitude1.nii.gz
 sub-REV032_ses-wave1_run-01_magnitude2.nii.gz                      
 sub-REV043_ses-wave1_run-01_magnitude2.nii.gz                      
 sub-REV051_ses-wave1_run-02_magnitude1.nii.gz                      
-sub-REV098_ses-wave1_run-01_magnitude1.nii.gz                      
-
-
-
-
-
-
+sub-REV098_ses-wave1_run-01_magnitude1.nii.gz
