@@ -43,7 +43,7 @@ cd $path
 if [ -f $oldfile ]; then #file exists in folder
 # mv $oldfile ${purgatory_path}/$newfile
 echo $oldfile
-echo 'will move to'
+echo 'will be renamed as'
 echo ${purgatory_path}/$newfile
 fi
 
