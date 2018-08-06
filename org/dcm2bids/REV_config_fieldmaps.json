@@ -1,0 +1,33 @@
+{
+    "descriptions": [
+        {
+            "dataType": "fmap",
+            "modalityLabel": "phasediff",
+            "customLabels": "",
+            "criteria": {
+                "SidecarFilename": "*fieldmap*_e2*",
+                "ImageType": "P"
+            }
+        },
+        {
+            "dataType": "fmap",
+            "modalityLabel": "magnitude2",
+            "customLabels": "",
+            "criteria": {
+                "SidecarFilename": "*fieldmap*_e2*",
+                "EchoNumber": 2,
+                "EchoTime": 0.00683,
+                "ImageType": "M"
+            }
+        },
+        {
+            "dataType": "fmap",
+            "modalityLabel": "magnitude1",
+            "customLabels": "",
+            "criteria": {
+                "EchoTime": 0.00437,
+                "ImageType": "M"
+            }
+        }
+    ]
+}
