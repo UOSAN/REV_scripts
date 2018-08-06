@@ -8,6 +8,13 @@ bids_paths=`cat $repopath/file_size_bids_paths.txt`
 tmp_paths=`cat $repopath/file_size_tmp_paths.txt`
 bids_files=`cat $repopath/file_size_bids_files.txt`
 tmp_files=`cat $repopath/file_size_tmp_files.txt`
+declare -a tmp_paths_array
+readarray -t tmp_paths_array < $repopath/file_size_tmp_paths.txt
+declare -a tmp_files_array
+readarray -t tmp_files_array < $repopath/file_size_tmp_files.txt
+declare -a bids_files_array
+readarray -t bids_files_array < $repopath/file_size_bids_files.txt
+purgatory_path = "/projects/sanlab/shared/REV/purgatory"
 
 #outputlog="$repopath/outputlog_fixFileSizes.txt"
 
@@ -25,17 +32,22 @@ cd $repopath
 
 num=`grep -c $ file_size_bids_paths.txt`
 
-for path in $tmp_paths; do
-if [ -d path ]
+for i in $(seq 1 $num); do
+path=${tmp_paths_array[i]}
+oldfile=${tmp_files_array[i]}
+newfile=${bids_files_array[i]}
+if [ -d $path ]; then
+cd $path
 
-cd path
-for file in $temp_files; do
-if [ -f file ] #file exists in folder
-## move/rename file?
+
+if [ -f $oldfile ]; then #file exists in folder
+# mv $oldfile ${purgatory_path}/$newfile
+echo $oldfile
+echo 'will move to'
+echo ${purgatory_path}/$newfile
 fi
-done
-cd ..
 
+cd ..
 fi
 done
 
