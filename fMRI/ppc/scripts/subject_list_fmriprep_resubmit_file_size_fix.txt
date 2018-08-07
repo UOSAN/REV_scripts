@@ -1,17 +1,17 @@
-sub-REV003	ses-wave1
-sub-REV006	ses-wave1
-sub-REV010	ses-wave2
-sub-REV011	ses-wave2
-sub-REV014	ses-wave1
-sub-REV029	ses-wave1
-sub-REV032	ses-wave1
-sub-REV033	ses-wave1
-sub-REV040	ses-wave1
-sub-REV043	ses-wave1
-sub-REV051	ses-wave1
-sub-REV051	ses-wave2
-sub-REV058	ses-wave1
-sub-REV059	ses-wave2
-sub-REV098	ses-wave1
-sub-REV113	ses-wave1
-sub-REV131	ses-wave2
+REV003,wave1
+REV006,wave1
+REV010,wave2
+REV011,wave2
+REV014,wave1
+REV029,wave1
+REV032,wave1
+REV033,wave1
+REV040,wave1
+REV043,wave1
+REV051,wave1
+REV051,wave2
+REV058,wave1
+REV059,wave2
+REV098,wave1
+REV113,wave1
+REV131,wave2
