@@ -19,8 +19,8 @@ rm(list = ls())
 #The code assumes that this Markdown file is in the folder ~/REV_scripts/behavioral/surveys, and the folder structure follows the same hierarchical organization pattern (shown below in the Dir setups)
 
 #this is the only thing you should need to change
-homeBase = '~/Desktop/REV' # Brendan's path
-# homeBase = '~/Dropbox/REV_repos' # Mel's path
+#homeBase = '~/Desktop/REV' # Brendan's path
+homeBase = '~/Dropbox/REV_repos' # Mel's path
 
 #In order to run this script, first set your working directory to wherever the current file is saved
 setwd(paste0(homeBase,'/REV_scripts/behavioral/surveys'))
@@ -1048,7 +1048,28 @@ weighted_crave_vars_alcohol_avg <- rowMeans(weighted_crave_vars_alcohol, na.rm =
 weighted_crave_vars_tobacco_avg <- weighted_crave_vars_tobacco # Only 1 measure
 
 # then sum these averaged weighted z scores to create a single HRB CRAVING summary variable 
-survey_data$hrb_crave_summary <- rowSums(cbind(weighted_crave_vars_food_avg,weighted_crave_vars_drugs_avg,weighted_crave_vars_alcohol_avg,weighted_crave_vars_tobacco_avg), na.rm = TRUE)
+
+## To do this....
+### 1. cbind weighted crave variables and create a separate vector with the same number of rows, all 0
+weighted_craves_qc <- cbind(weighted_crave_vars_food_avg,weighted_crave_vars_drugs_avg,weighted_crave_vars_alcohol_avg,weighted_crave_vars_tobacco_avg)
+naners<-matrix(0,dim(weighted_craves_qc)[1],1)
+
+### 2. recode naners (0 var) to 99999 if all weighted_crave categories (columns) are NaNs for each subject
+for (r in 1:dim(weighted_craves_qc)[1]) {
+  if (all(is.na(weighted_craves_qc[r,]))) {
+    naners[r,1] <- 99999 }else {
+      naners[r,1] <- 0
+    }
+}
+
+### 3. add naners to weighted_crave dataframe (hrb_crave_summary) as variable
+hrb_crave_summary <- as.data.frame(weighted_craves_qc)
+hrb_crave_summary$allNANs <- naners
+
+### 4. get rowSums for hrb_crave_summary, and then change '99999' coding back to NaN
+survey_data$hrb_crave_summary <- rowSums(hrb_crave_summary,na.rm = TRUE)
+survey_data$hrb_crave_summary[survey_data$hrb_crave_summary == 99999] <- NaN
+
 
 # average across weighted z scores within category for consumption 
 weighted_consumption_vars_food_avg <- weighted_consumption_vars_food # Only 1 measure
@@ -1057,18 +1078,30 @@ weighted_consumption_vars_alcohol_avg <- rowMeans(weighted_consumption_vars_alco
 weighted_consumption_vars_tobacco_avg <- weighted_consumption_vars_tobacco # Only 1 measure
 
 # then sum these averaged weighted z scores to create a single HRB CRAVING summary variable 
-survey_data$hrb_consumption_summary <- rowSums(cbind(weighted_consumption_vars_food_avg,weighted_consumption_vars_drugs_avg,weighted_consumption_vars_alcohol_avg,weighted_consumption_vars_tobacco_avg), na.rm = TRUE)
 
-### NOTE: Using rowSums to calculate the HRB summary variables puts 0's in for cases in which the data was missing (i.e. it was trying to sum a row of all NA's). I will have to either manually replace these 0's with NA's or use na.omit somewhere. However, we want to keep all 143 rows, so na.omit might not be an option, as this would actually remove rows with missing data from the data frame. 
+## To do this....
+### 1. cbind weighted crave variables and create a separate vector with the same number of rows, all 0
+weighted_consumption_qc <- cbind(weighted_consumption_vars_food_avg,weighted_consumption_vars_drugs_avg,weighted_consumption_vars_alcohol_avg,weighted_consumption_vars_tobacco_avg)
+naners2<-matrix(0,dim(weighted_consumption_qc)[1],1)
 
+### 2. recode naners (0 var) to 99999 if all weighted_crave categories (columns) are NaNs for each subject
+for (r in 1:dim(weighted_consumption_qc)[1]) {
+  if (all(is.na(weighted_consumption_qc[r,]))) {
+    naners2[r,1] <- 99999 }else {
+      naners2[r,1] <- 0
+    }
+}
 
-# THIS WAS THE ORIGINAL CODE I WROTE TO CALCULATE THE HRB SUMMARY VARS, BUT I DON'T THINK THIS IS CORRECT. CHECK WITH ELLIOT!
+### 3. add naners to weighted_crave dataframe (hrb_crave_summary) as variable
+hrb_consumption_summary <- as.data.frame(weighted_consumption_qc)
+hrb_consumption_summary$allNANs <- naners2
 
-# # Average all weighted z-scored CRAVING measures into a single HRB CRAVING summary variable 
-# survey_data$hrb_crave_summary <- rowMeans(weighted_crave_vars, na.rm = TRUE)
-# 
-# # Average all weighted z-scored CONSUMPTION measures into a single HRB CONSUMPTION summary variable 
-# survey_data$hrb_consumption_summary <- rowMeans(weighted_consumption_vars, na.rm = TRUE)
+### 4. get rowSums for hrb_crave_summary, and then change '99999' coding back to NaN
+survey_data$hrb_consumption_summary <- rowSums(hrb_consumption_summary,na.rm = TRUE)
+survey_data$hrb_consumption_summary[survey_data$hrb_consumption_summary == 99999] <- NaN
+
+#old code, not functional:
+#survey_data$hrb_consumption_summary <- rowSums(cbind(weighted_consumption_vars_food_avg,weighted_consumption_vars_drugs_avg,weighted_consumption_vars_alcohol_avg,weighted_consumption_vars_tobacco_avg), na.rm = TRUE)
 ```
 
 

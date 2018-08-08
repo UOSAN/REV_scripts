@@ -37,6 +37,9 @@ for s = firstSub:lastSub
             else
                 load(fileName.name)
                 
+                %don't need baseline
+                %split out risk into categories
+                
                 names = {'baseline' 'risk_view' 'neutral_view' 'rating'}; % baseline = instructions, blank screen, & fixation
                 onsets = cell(1,length(names));
                 durations = cell(1,length(names));
