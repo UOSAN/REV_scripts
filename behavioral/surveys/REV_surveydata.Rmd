@@ -20,7 +20,8 @@ rm(list = ls())
 
 #this is the only thing you should need to change
 #homeBase = '~/Desktop/REV' # Brendan's path
-homeBase = '~/Dropbox/REV_repos' # Mel's path
+#homeBase = '~/Dropbox/REV_repos' # Mel's path
+homeBase = readline(prompt = "Enter wd path for REV_scripts folder, e.g., ~/Desktop/REV : ")
 
 #In order to run this script, first set your working directory to wherever the current file is saved
 setwd(paste0(homeBase,'/REV_scripts/behavioral/surveys'))
@@ -1265,8 +1266,7 @@ survey_data$upps_pos_urg <- rowMeans(survey_data[,upps_key_list[[5]]]) # UPPS Po
 
 # NOTE: Currently doing list-wise deletion on this data frame (na.omit), but this is getting rid of a lot of data. However, princomp() won't work with NA's in the dataset. Need to figure out how to manage PCA with missing data. 
 
-all_pca_vars <- cbind(scons_pca_items,bis_pca_items,bis_bas_pca_items) %>%
-  na.omit(all_pca_vars)
+all_pca_vars <- cbind(scons_pca_items,bis_pca_items,bis_bas_pca_items) #%>% na.omit(all_pca_vars)
 
 # get correlation matrix of raw scale items
 orig.cor <- cor(all_pca_vars, use="pairwise.complete.obs") %>%
@@ -1279,7 +1279,7 @@ ggplot(data = melted_cormat, aes(x=Var1, y=Var2, fill=value)) +
   geom_tile()
 
 # Unrotated PCA
-pca <- princomp(all_pca_vars, cor=TRUE)
+pca <- princomp(na.omit(all_pca_vars), cor=TRUE)
 
 # View Scree plot of eigenvalues
 plot(pca,type="lines", main="Scree Plot") # use first 3 components
