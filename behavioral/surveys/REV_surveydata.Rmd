@@ -1146,7 +1146,7 @@ table(!is.na(survey_data[,"scons_total"]))
 bis_cols <- colnames(survey_data[(grepfun("bis_",survey_data))])
 bis_cols <- bis_cols[-grep('bas_',bis_cols)] #remove combined 'bisbas_' variable names from list
 
-reverse_cols = c("bis_7", "bis_13","bis_19","bis_6", "bis_1", "bis_5","bis_8","bis_11", "bis_17", "bis_22", "bis_30")
+reverse_cols = c("bis_7", "bis_10", "bis_13","bis_19","bis_6", "bis_1", "bis_5","bis_8","bis_11", "bis_17", "bis_22", "bis_30")
 survey_data[bis_cols] <- 
   lapply(survey_data[bis_cols], as.numeric)
 survey_data[,reverse_cols] = 5 - survey_data[,reverse_cols] # Reverse score the bis items in reverse_cols
@@ -1286,7 +1286,7 @@ plot(pca,type="lines", main="Scree Plot") # use first 3 components
 
 # View eigenvalues
 eigens <- eigen(orig.cor)
-View(eigens$values) # these are the original (unrotated) eigenvalues
+#View(eigens$values) # these are the original (unrotated) eigenvalues
 
 # PCA with oblique rotation
 pca.oblique <- principal(all_pca_vars, rotate="promax", nfactors = 3, missing=TRUE)
@@ -1300,9 +1300,9 @@ pca.orthogonal$loadings
 
 # save 3 components as variables
 # DOUBLE CHECK THESE
-survey$RC_drive <- pca.orthogonal$scores[,1]
-survey$RC_pos_affect <- pca.orthogonal$scores[,2]
-survey$RC_neg_affect <- pca.orthogonal$scores[,3]
+survey_data$RC_drive <- pca.orthogonal$scores[,1]
+survey_data$RC_pos_affect <- pca.orthogonal$scores[,2]
+survey_data$RC_neg_affect <- pca.orthogonal$scores[,3]
 
 # correlate these 3 components and make sure they correspond to the original corr matrix 
 ```
