@@ -1260,9 +1260,17 @@ pca.oblique <- principal(all_pca_vars, rotate="promax", nfactors = 3, missing=TR
 summary(pca.oblique)
 pca.oblique$loadings 
 
-# # PCA with orthogonal rotation
-# pca.orthogonal <- principal(all_pca_vars, rotate="varimax", nfactors = 3, missing=TRUE)
-# summary(pca.orthogonal)
-# pca.orthogonal$loadings 
+# PCA with orthogonal rotation
+pca.orthogonal <- principal(all_pca_vars, rotate="varimax", nfactors = 3, missing=TRUE)
+summary(pca.orthogonal)
+pca.orthogonal$loadings 
+
+# save 3 components as variables
+# DOUBLE CHECK THESE
+survey$RC_drive <- pca.orthogonal$scores[,1]
+survey$RC_pos_affect <- pca.orthogonal$scores[,2]
+survey$RC_neg_affect <- pca.orthogonal$scores[,3]
+
+# correlate these 3 components and make sure they correspond to the original corr matrix 
 ```
 
