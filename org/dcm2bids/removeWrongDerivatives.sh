@@ -40,7 +40,7 @@ cd $repopath
 
 num=`grep -c $ file_size_bids_paths.txt`
 
-for i in $(seq 0 $num); do
+for i in $(seq 1 $num); do
 path=${tmp_paths_array[i]}
 oldfile=${tmp_files_array[i]}
 newfile=${bids_files_array[i]}
@@ -64,7 +64,7 @@ done
 
 cd $repopath
 
-for i in $(seq 0 $num); do
+for i in $(seq 1 $num); do
 path=${bids_paths_array[i]}
 wrongfile=${bids_files_array[i]}
 newpath=${ninth_circle_path} # We did not move the wrong bids files to the tmp folder because some of them would 
@@ -88,7 +88,7 @@ done
 
 cd $repopath
 
-for i in $(seq 0 $num); do
+for i in $(seq 1 $num); do
 path=$purgatory_path
 renamedfile=${bids_files_array[i]}
 newpath=${bids_paths_array[i]} 
@@ -109,8 +109,7 @@ done
 
 
 
-## NOTE: 8-8-18: We figured out that the for loop should have indexed starting at 0 instead of 1, which is why it didn't
-## run for the first line. 
+
 
 ## The script did not work for sub-REV003 GNG acq 1
 ## Below we are manually doing this process for this janky file
