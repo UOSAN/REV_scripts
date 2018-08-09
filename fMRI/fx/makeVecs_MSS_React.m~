@@ -6,8 +6,8 @@ task = 'React';
 runs = [1 2 3 4];
 dataFolder = ['~/Dropbox/REV_repos/REV_scripts/behavioral/' task '/data'];
 
-%for s = firstSub
-for s = firstSub:lastSub
+for s = firstSub
+%for s = firstSub:lastSub
     if find(exclude==s) % if they're on the exclusion list
         sprintf('sub %d excluded',s)
     else
@@ -41,22 +41,18 @@ for s = firstSub:lastSub
                 %don't need baseline
                 %split out risk into categories
                 
-                %names = {'risk_view' 'neutral_view'};
-                names = {'baseline' 'risk_view' 'neutral_view' 'rating'}; % baseline = instructions, blank screen, & fixation
+                names = {'risk_view' 'neutral_view'};
+                %names = {'baseline' 'risk_view' 'neutral_view' 'rating'}; % baseline = instructions, blank screen, & fixation
                 onsets = cell(1,length(names));
                 durations = cell(1,length(names));
-                %searchStrings = {'1' '2'};
-                searchStrings = {'0' '1' '2' '3'};
+                searchStrings = {'1' '2'};
+                %searchStrings = {'0' '1' '2' '3'};
                 
                 for c = 1:length(names)
                     currentIndices = find(~cellfun(@isempty,regexp(run_info.tag,searchStrings{c})) == 1);
                     onsets{c} = run_info.onsets(currentIndices);
                     durations{c} = run_info.durations(currentIndices);
                 end
-                
-                names([1 4])=[];
-                onsets([1 4])=[];
-                durations([1 4])=[];
                 
                 fxFolder = [dataFolder '/vecs/'];
                 if exist(fxFolder)==7 %do nothing
