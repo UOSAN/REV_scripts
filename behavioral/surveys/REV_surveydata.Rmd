@@ -18,10 +18,21 @@ rm(list = ls())
 
 #The code assumes that this Markdown file is in the folder ~/REV_scripts/behavioral/surveys, and the folder structure follows the same hierarchical organization pattern (shown below in the Dir setups)
 
+## Install and load required packages
+list.of.packages <- c("stringr", "tidyverse", "reshape2", "ggplot2", "psych", "gridExtra", "knitr", "lme4", "memisc", "withr", "haven","rstudioapi")
+new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
+if (length(new.packages)) install.packages(new.packages)
+lapply(list.of.packages, library, character.only = TRUE)
+
+knitr::opts_chunk$set(fig.width = 12, fig.height = 8, fig.path = 'Figs/', echo = TRUE, warning = FALSE, message = FALSE)
+
+
 #this is the only thing you should need to change
 #homeBase = '~/Desktop/REV' # Brendan's path
 #homeBase = '~/Dropbox/REV_repos' # Mel's path
-homeBase = readline(prompt = "Enter wd path for REV_scripts folder, e.g., ~/Desktop/REV : ")
+
+homeBase <- selectDirectory(caption = "Select directory that contains REV_scripts folder", label = "Select", path = '~')
+
 
 #In order to run this script, first set your working directory to wherever the current file is saved
 setwd(paste0(homeBase,'/REV_scripts/behavioral/surveys'))
@@ -32,14 +43,6 @@ catDir = paste0(scriptDir, '/REV_SST/info/')
 idDir = paste0(homeBase,'/REV_BxData/')
 dataDir = paste0(idDir, '/questionnaire_data/FromQualtrics/')
 
-
-## Install and load required packages
-list.of.packages <- c("stringr", "tidyverse", "reshape2", "ggplot2", "psych", "gridExtra", "knitr", "lme4", "memisc", "withr", "haven")
-new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
-if (length(new.packages)) install.packages(new.packages)
-lapply(list.of.packages, library, character.only = TRUE)
-
-knitr::opts_chunk$set(fig.width = 12, fig.height = 8, fig.path = 'Figs/', echo = TRUE, warning = FALSE, message = FALSE)
 ```
 
 #Note: The data frame created does not contain all survey data. Will need to create a complete data frame in the future.
