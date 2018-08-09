@@ -1,5 +1,6 @@
 # Set working directory
-working_dir = "/projects/sanlab/shared/REV/bids_data/derivatives/fmriprep"
+#working_dir = "/projects/sanlab/shared/REV/bids_data/derivatives/fmriprep"
+working_dir = "/Users/melmo/Downloads"
 setwd(working_dir)
 
 # Get a list of all the confounds.tsv files
