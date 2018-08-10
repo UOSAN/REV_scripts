@@ -4,7 +4,8 @@ lastSub = 144;
 exclude = []%[4 5 7 8 12 14 15 25 28 30 33 40 42 45 61 63 64 66 71 72 79 81 83 85 87 92 95 96 99 101 103 105 106 112 113 120 122 123 125 128 132 133 139 143]; % If you want to exclude any numbers, put them in this vector (e.g. exclude = [5 20];)
 task = 'React';
 runs = [1 2 3 4];
-dataFolder = ['~/Dropbox/REV_repos/REV_scripts/behavioral/' task '/data'];
+%dataFolder = ['~/Dropbox/REV_repos/REV_scripts/behavioral/' task '/data'];
+dataFolder = ['~/Desktop/REV/REV_scripts/behavioral/' task '/data'];
 
 %for s = firstSub
 for s = firstSub:lastSub

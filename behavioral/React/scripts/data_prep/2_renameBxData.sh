@@ -7,8 +7,9 @@
 #########################################################################
 
 # Change this, path to data and script repos
-repopath="/Users/kristadestasio/Desktop/REV_scripts"
+#repopath="/Users/kristadestasio/Desktop/REV_scripts"
 #"/Users/mmoss/Dropbox/AH_Grad_Stuff/SAP"
+repopath="/Users/brendancullen/Desktop/REV/REV_scripts" 
 task="React"
 
 # Set paths 
