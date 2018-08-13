@@ -7,15 +7,17 @@
 #########################################################################
 
 # Change this, path to data and script repos
-repopath="/Users/kristadestasio/Desktop/REV_scripts"
+#repopath="/Users/kristadestasio/Desktop/REV_scripts"
 #"/Users/mmoss/Dropbox/AH_Grad_Stuff/SAP"
+repopath="/Users/brendancullen/Desktop/REV/REV_scripts" 
 task="React"
 
 taskdir=(React cueReact)
 
 # Set paths 
 datadir="${repopath}/behavioral/${task}/data"
-sourcedir="/Users/kristadestasio/Desktop/REV_BxData"
+#sourcedir="/Users/kristadestasio/Desktop/REV_BxData"
+sourcedir="/Users/brendancullen/Desktop/REV/REV_BxData"
 logdir="${repopath}/behavioral/${task}/logs"
 outputlog="${logdir}/outputlog_copyData.txt"
 errorlog="${logdir}/errorlog_copyData.txt"
