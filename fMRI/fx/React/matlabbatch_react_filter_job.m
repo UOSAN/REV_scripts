@@ -1,5 +1,5 @@
 %-----------------------------------------------------------------------
-% Job saved on 15-Aug-2018 12:24:51 by cfg_util (rev $Rev: 6942 $)
+% Job saved on 15-Aug-2018 14:05:36 by cfg_util (rev $Rev: 6942 $)
 % spm SPM - SPM12 (7219)
 % cfg_basicio BasicIO - Unknown
 %-----------------------------------------------------------------------
@@ -43,7 +43,7 @@ matlabbatch{12}.cfg_basicio.file_dir.file_ops.file_fplist.rec = 'FPList';
 matlabbatch{13}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {'/Users/brendancullen/Desktop/sub-REV001_React_data'};
 matlabbatch{13}.cfg_basicio.file_dir.file_ops.file_fplist.filter = 'sub-REV001_ses-wave1_task-react_acq-.*_run-02_bold_confounds.txt';
 matlabbatch{13}.cfg_basicio.file_dir.file_ops.file_fplist.rec = 'FPList';
-matlabbatch{14}.spm.stats.fmri_spec.dir = {'/Users/brendancullen/Desktop/REV/REV_scripts/fMRI/fx/React/output'};
+matlabbatch{14}.spm.stats.fmri_spec.dir = {'/Users/brendancullen/Desktop/REV/REV_scripts/fMRI/fx/React/sub-REV001_fx_output'};
 matlabbatch{14}.spm.stats.fmri_spec.timing.units = 'secs';
 matlabbatch{14}.spm.stats.fmri_spec.timing.RT = 2;
 matlabbatch{14}.spm.stats.fmri_spec.timing.fmri_t = 72;
