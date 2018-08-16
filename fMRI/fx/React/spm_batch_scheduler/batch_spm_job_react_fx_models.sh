@@ -15,17 +15,17 @@
 
 
 # Set your study
-STUDY=/projects/sanlab/shared/Duke
+STUDY=/projects/sanlab/shared/REV
 
 # Set subject list
 SUBJLIST=`cat subject_list.txt`
 
 # Which SID should be replaced?
-REPLACESID='ID001'
+REPLACESID='sub-REV001'
 
 # Set MATLAB script path
 #COMPNAME=ralph #use this for help specifying paths to run locally
-SCRIPT=${STUDY}/Duke_scripts/fMRI/fx/scripts/fx_02_models_expand_job.m
+SCRIPT=${STUDY}/REV_scripts/fMRI/fx/React/scripts/matlabbatch_job.m
 
 #SPM Path
 SPM_PATH=/projects/sanlab/shared/spm12
@@ -34,7 +34,7 @@ SPM_PATH=/projects/sanlab/shared/spm12
 RESULTS_INFIX=fx_models
 
 # Set output dir
-OUTPUTDIR=${STUDY}/Duke_scripts/fMRI/fx/scripts/output/fx02_models
+OUTPUTDIR=${STUDY}/REV_scripts/fMRI/fx/React/scripts/output_logs
 
 # Set processor
 # use "slurm" for Talapas
@@ -60,15 +60,15 @@ if [ "${PROCESS}" == "slurm" ]; then
 		 -o "${OUTPUTDIR}"/"${SUB}"_${RESULTS_INFIX}.log \
 		 --cpus-per-task=${cpuspertask} \
 		 --mem-per-cpu=${mempercpu} \
-		 spm_job_gz_func.sh
+		 spm_job_react.sh
 	 sleep .25
 	done
 elif [ "${PROCESS}" == "serlocal" ]; then 
 	for SUB in $SUBJLIST
 	do
 	 echo "submitting locally"
-	 bash spm_job_gz_func.sh ${REPLACESID} ${SCRIPT} ${SUB} > "${OUTPUTDIR}"/"${SUBJ}"_${RESULTS_INFIX}_output.txt 2> /"${OUTPUTDIR}"/"${SUBJ}"_${RESULTS_INFIX}_error.txt
+	 bash spm_job_react.sh ${REPLACESID} ${SCRIPT} ${SUB} > "${OUTPUTDIR}"/"${SUBJ}"_${RESULTS_INFIX}_output.txt 2> /"${OUTPUTDIR}"/"${SUBJ}"_${RESULTS_INFIX}_error.txt
 	done
 elif [ "${PROCESS}" == "parlocal" ]; then 
-	parallel --verbose --results "${OUTPUTDIR}"/{}_${RESULTS_INFIX}_output -j${MAXJOBS} bash spm_job_gz_func.sh ${REPLACESID} ${SCRIPT} :::: subject_list.txt
+	parallel --verbose --results "${OUTPUTDIR}"/{}_${RESULTS_INFIX}_output -j${MAXJOBS} bash spm_job_react.sh ${REPLACESID} ${SCRIPT} :::: subject_list.txt
 fi
