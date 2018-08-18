@@ -1,8 +1,12 @@
 # Set working directory
-#working_dir = "/projects/sanlab/shared/REV/bids_data/derivatives/fmriprep"
-working_dir = "/Users/brendancullen/Desktop/sub-REV001_React_data"
+working_dir = "/projects/sanlab/shared/REV/bids_data/derivatives/fmriprep"
+#working_dir = "/Users/brendancullen/Desktop/sub-REV001_React_data"
 #working_dir = "/Users/melmo/Downloads"
 setwd(working_dir)
+
+# Set output directory
+#output_dir = "/Users/brendancullen/Desktop/motion/"
+output_dir = "/projects/sanlab/shared/REV/REV_scripts/fMRI/ppc/motion/"
 
 # Get a list of all the confounds.tsv files
 confound_pattern = "*confounds*.tsv"
@@ -17,13 +21,15 @@ for (path in confounds_paths) {
     confounds_file <- rio::import(path)
     # Select only the motion paramters of interest
     new_confounds_file <- dplyr::select(confounds_file, c(X, Y, Z, RotX, RotY, RotZ, stdDVARS, FramewiseDisplacement)) %>%
+    # new_confounds_file <- dplyr::select(confounds_file, c(stdDVARS, FramewiseDisplacement)) %>% # only select 2 summary vars r
       #convert NA's in FramewiseDisplacement and stdVARS to 0's
       mutate(FramewiseDisplacement = (as.numeric(ifelse(FramewiseDisplacement %in% "n/a", NA, FramewiseDisplacement)))) %>%
       mutate(FramewiseDisplacement = ifelse(is.na(FramewiseDisplacement), 0, FramewiseDisplacement)) %>%
       mutate(stdDVARS = (as.numeric(ifelse(stdDVARS %in% "n/a", NA, stdDVARS)))) %>%
       mutate(stdDVARS = ifelse(is.na(stdDVARS), 0, stdDVARS))
     # export to .txt
-    new_file_name <- paste0(substr(path, 1, nchar(path) - 3), "txt") 
-    write.table(new_confounds_file, new_file_name, sep = "\t", row.names = FALSE, col.names = FALSE)
+    new_file_name <- paste0(substr(path, 1, nchar(path) - 3), "txt")
+    new_file_path <- paste0(output_dir, strsplit(new_file_name, "func/")[[1]][2])
+   write.table(new_confounds_file, new_file_path, sep = "\t", row.names = FALSE, col.names = FALSE)
 }
 
