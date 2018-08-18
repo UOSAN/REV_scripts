@@ -4,7 +4,8 @@
 % cfg_basicio BasicIO - Unknown
 %-----------------------------------------------------------------------
 
-% NEED TO ADD IN TRY/CATCH LOOP FOR SUBJECTS WHO DON'T HAVE BOTH RUNS???
+% NEED TO ADD IN TRY/CATCH LOOP FOR SUBJECTS WHO DON'T HAVE BOTH RUN 1 AND
+% RUN
 
 matlabbatch{1}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {'/projects/sanlab/shared/REV/bids_data/derivatives/fmriprep/sub-REV001/ses-wave1/func'};
 matlabbatch{1}.cfg_basicio.file_dir.file_ops.file_fplist.filter = 'sub-REV001_ses-wave1_task-react_acq-.*_run-01_bold_space-MNI152NLin2009cAsym_preproc.nii.gz';
