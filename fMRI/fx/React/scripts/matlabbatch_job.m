@@ -3,6 +3,9 @@
 % spm SPM - SPM12 (7219)
 % cfg_basicio BasicIO - Unknown
 %-----------------------------------------------------------------------
+
+% NEED TO ADD IN TRY/CATCH LOOP FOR SUBJECTS WHO DON'T HAVE BOTH RUNS???
+
 matlabbatch{1}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {'/projects/sanlab/shared/REV/bids_data/derivatives/fmriprep/sub-REV001/ses-wave1/func'};
 matlabbatch{1}.cfg_basicio.file_dir.file_ops.file_fplist.filter = 'sub-REV001_ses-wave1_task-react_acq-.*_run-01_bold_space-MNI152NLin2009cAsym_preproc.nii.gz';
 matlabbatch{1}.cfg_basicio.file_dir.file_ops.file_fplist.rec = 'FPList';
@@ -37,10 +40,10 @@ matlabbatch{10}.cfg_basicio.file_dir.file_ops.cfg_gunzip_files.outdir = {''};
 matlabbatch{10}.cfg_basicio.file_dir.file_ops.cfg_gunzip_files.keep = true;
 matlabbatch{11}.spm.util.exp_frames.files(1) = cfg_dep('Gunzip Files: Gunzipped Files', substruct('.','val', '{}',{10}, '.','val', '{}',{1}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('()',{':'}));
 matlabbatch{11}.spm.util.exp_frames.frames = Inf;
-matlabbatch{12}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {'/Users/brendancullen/Desktop/sub-REV001_React_data'};
+matlabbatch{12}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {'/projects/sanlab/shared/REV/REV_scripts/fMRI/ppc/motion'}; %NOTE: this motion directory is created in subset_confounds.R
 matlabbatch{12}.cfg_basicio.file_dir.file_ops.file_fplist.filter = 'sub-REV001_ses-wave1_task-react_acq-.*_run-01_bold_confounds.txt';
 matlabbatch{12}.cfg_basicio.file_dir.file_ops.file_fplist.rec = 'FPList';
-matlabbatch{13}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {'/Users/brendancullen/Desktop/sub-REV001_React_data'};
+matlabbatch{13}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {'/projects/sanlab/shared/REV/REV_scripts/fMRI/ppc/motion'};
 matlabbatch{13}.cfg_basicio.file_dir.file_ops.file_fplist.filter = 'sub-REV001_ses-wave1_task-react_acq-.*_run-02_bold_confounds.txt';
 matlabbatch{13}.cfg_basicio.file_dir.file_ops.file_fplist.rec = 'FPList';
 matlabbatch{14}.spm.stats.fmri_spec.dir = {'/projects/sanlab/shared/REV/nonbids_data/fmri/fx/models/react/sub-REV001'};

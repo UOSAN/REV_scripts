@@ -28,8 +28,8 @@ for (path in confounds_paths) {
       mutate(stdDVARS = (as.numeric(ifelse(stdDVARS %in% "n/a", NA, stdDVARS)))) %>%
       mutate(stdDVARS = ifelse(is.na(stdDVARS), 0, stdDVARS))
     # export to .txt
-    new_file_name <- paste0(substr(path, 1, nchar(path) - 3), "txt")
-    new_file_path <- paste0(output_dir, strsplit(new_file_name, "func/")[[1]][2])
+    new_file_name <- paste0(substr(path, 1, nchar(path) - 3), "txt") # change .tsv extension to .txt
+    new_file_path <- paste0(output_dir, strsplit(new_file_name, "func/")[[1]][2]) # extract just the file name from the path name and join it with a new path name pointing to a "motion" directory
    write.table(new_confounds_file, new_file_path, sep = "\t", row.names = FALSE, col.names = FALSE)
 }
 
