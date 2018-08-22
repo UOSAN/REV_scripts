@@ -1,13 +1,4 @@
-function fix_REVtags
-
-% %% Set up directories to be referenced!
-% baseDir = '/Users/mmoss/Dropbox/REV_repos'; %mmoss for laptop, Melissa for desktop
-% %dataDir = [baseDir '/REV_BxData'];
-% dataDir = [baseDir '/REV_scripts/behavioral/GNG'];
-% tagDir = [baseDir '/REV_scripts/behavioral/tasks/REV_GNG'];
-
 %% Set up directories to be referenced later
-
 studyCode = 'REV';
 firstSub = 1;
 lastSub = 144;
