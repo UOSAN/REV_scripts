@@ -10,18 +10,18 @@ fprintf( fid, 'YAYAYAYAYAYAY')
 fclose(fid);
 
 matlabbatch{1}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {'/projects/sanlab/shared/REV/bids_data/derivatives/fmriprep/sub-REV001/ses-wave1/func'};
-matlabbatch{1}.cfg_basicio.file_dir.file_ops.file_fplist.filter = 'sub-REV001_ses-wave1_task-react_acq-01_run-.*_bold_space-MNI152NLin2009cAsym_preproc.nii.gz';
+matlabbatch{1}.cfg_basicio.file_dir.file_ops.file_fplist.filter = 'sub-REV001_ses-wave1_task-react_acq-1_run-.*_bold_space-MNI152NLin2009cAsym_preproc.nii.gz';
 matlabbatch{1}.cfg_basicio.file_dir.file_ops.file_fplist.rec = 'FPList';
-matlabbatch{2}.cfg_basicio.file_dir.file_ops.cfg_gunzip_files.files(1) = cfg_dep('File Selector (Batch Mode): Selected Files (sub-REV001_ses-wave1_task-react_acq-01_run-.*_bold_space-MNI152NLin2009cAsym_preproc.nii.gz)', substruct('.','val', '{}',{1}, '.','val', '{}',{1}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','files'));
+matlabbatch{2}.cfg_basicio.file_dir.file_ops.cfg_gunzip_files.files(1) = cfg_dep('File Selector (Batch Mode): Selected Files (sub-REV001_ses-wave1_task-react_acq-1_run-.*_bold_space-MNI152NLin2009cAsym_preproc.nii.gz)', substruct('.','val', '{}',{1}, '.','val', '{}',{1}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','files'));
 matlabbatch{2}.cfg_basicio.file_dir.file_ops.cfg_gunzip_files.outdir = {''};
 matlabbatch{2}.cfg_basicio.file_dir.file_ops.cfg_gunzip_files.keep = true;
 matlabbatch{3}.spm.util.exp_frames.files(1) = cfg_dep('Gunzip Files: Gunzipped Files', substruct('.','val', '{}',{2}, '.','val', '{}',{1}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('()',{':'}));
 matlabbatch{3}.spm.util.exp_frames.frames = Inf;
 
 matlabbatch{4}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {'/projects/sanlab/shared/REV/bids_data/derivatives/fmriprep/sub-REV001/ses-wave1/func'};
-matlabbatch{4}.cfg_basicio.file_dir.file_ops.file_fplist.filter = 'sub-REV001_ses-wave1_task-react_acq-02_run-.*_bold_space-MNI152NLin2009cAsym_preproc.nii.gz';
+matlabbatch{4}.cfg_basicio.file_dir.file_ops.file_fplist.filter = 'sub-REV001_ses-wave1_task-react_acq-2_run-.*_bold_space-MNI152NLin2009cAsym_preproc.nii.gz';
 matlabbatch{4}.cfg_basicio.file_dir.file_ops.file_fplist.rec = 'FPList';
-matlabbatch{5}.cfg_basicio.file_dir.file_ops.cfg_gunzip_files.files(1) = cfg_dep('File Selector (Batch Mode): Selected Files (sub-REV001_ses-wave1_task-react_acq-02_run-.*_bold_space-MNI152NLin2009cAsym_preproc.nii.gz)', substruct('.','val', '{}',{4}, '.','val', '{}',{1}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','files'));
+matlabbatch{5}.cfg_basicio.file_dir.file_ops.cfg_gunzip_files.files(1) = cfg_dep('File Selector (Batch Mode): Selected Files (sub-REV001_ses-wave1_task-react_acq-2_run-.*_bold_space-MNI152NLin2009cAsym_preproc.nii.gz)', substruct('.','val', '{}',{4}, '.','val', '{}',{1}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','files'));
 matlabbatch{5}.cfg_basicio.file_dir.file_ops.cfg_gunzip_files.outdir = {''};
 matlabbatch{5}.cfg_basicio.file_dir.file_ops.cfg_gunzip_files.keep = true;
 matlabbatch{6}.spm.util.exp_frames.files(1) = cfg_dep('Gunzip Files: Gunzipped Files', substruct('.','val', '{}',{5}, '.','val', '{}',{1}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('()',{':'}));
@@ -38,18 +38,18 @@ matlabbatch{8}.spm.spatial.smooth.dtype = 0;
 matlabbatch{8}.spm.spatial.smooth.im = 0;
 matlabbatch{8}.spm.spatial.smooth.prefix = 's';
 matlabbatch{9}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {'/projects/sanlab/shared/REV/bids_data/derivatives/fmriprep/sub-REV001/ses-wave1/func'};
-matlabbatch{9}.cfg_basicio.file_dir.file_ops.file_fplist.filter = 'sub-REV001_ses-wave1_task-react_acq-01_run-.*_bold_space-MNI152NLin2009cAsym_brainmask.nii.gz'; % Only specifying brainmask from acq-01 since they should be the same for every acq (i.e. it is a standard brain mask)
+matlabbatch{9}.cfg_basicio.file_dir.file_ops.file_fplist.filter = 'sub-REV001_ses-wave1_task-react_acq-1_run-.*_bold_space-MNI152NLin2009cAsym_brainmask.nii.gz'; % Only specifying brainmask from acq-1 since they should be the same for every acq (i.e. it is a standard brain mask)
 matlabbatch{9}.cfg_basicio.file_dir.file_ops.file_fplist.rec = 'FPList';
-matlabbatch{10}.cfg_basicio.file_dir.file_ops.cfg_gunzip_files.files(1) = cfg_dep('File Selector (Batch Mode): Selected Files (sub-REV001_ses-wave1_task-react_acq-01_run-.*_bold_space-MNI152NLin2009cAsym_brainmask.nii.gz)', substruct('.','val', '{}',{9}, '.','val', '{}',{1}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','files'));
+matlabbatch{10}.cfg_basicio.file_dir.file_ops.cfg_gunzip_files.files(1) = cfg_dep('File Selector (Batch Mode): Selected Files (sub-REV001_ses-wave1_task-react_acq-1_run-.*_bold_space-MNI152NLin2009cAsym_brainmask.nii.gz)', substruct('.','val', '{}',{9}, '.','val', '{}',{1}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','files'));
 matlabbatch{10}.cfg_basicio.file_dir.file_ops.cfg_gunzip_files.outdir = {''};
 matlabbatch{10}.cfg_basicio.file_dir.file_ops.cfg_gunzip_files.keep = true;
 matlabbatch{11}.spm.util.exp_frames.files(1) = cfg_dep('Gunzip Files: Gunzipped Files', substruct('.','val', '{}',{10}, '.','val', '{}',{1}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('()',{':'}));
 matlabbatch{11}.spm.util.exp_frames.frames = Inf;
 matlabbatch{12}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {'/projects/sanlab/shared/REV/REV_scripts/fMRI/ppc/motion'}; %NOTE: this motion directory is created in subset_confounds.R
-matlabbatch{12}.cfg_basicio.file_dir.file_ops.file_fplist.filter = 'sub-REV001_ses-wave1_task-react_acq-01_run-.*_bold_confounds.txt';
+matlabbatch{12}.cfg_basicio.file_dir.file_ops.file_fplist.filter = 'sub-REV001_ses-wave1_task-react_acq-1_run-.*_bold_confounds.txt';
 matlabbatch{12}.cfg_basicio.file_dir.file_ops.file_fplist.rec = 'FPList';
 matlabbatch{13}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {'/projects/sanlab/shared/REV/REV_scripts/fMRI/ppc/motion'};
-matlabbatch{13}.cfg_basicio.file_dir.file_ops.file_fplist.filter = 'sub-REV001_ses-wave1_task-react_acq-02_run-.*_bold_confounds.txt';
+matlabbatch{13}.cfg_basicio.file_dir.file_ops.file_fplist.filter = 'sub-REV001_ses-wave1_task-react_acq-2_run-.*_bold_confounds.txt';
 matlabbatch{13}.cfg_basicio.file_dir.file_ops.file_fplist.rec = 'FPList';
 
 %specify the model
@@ -62,13 +62,13 @@ matlabbatch{14}.spm.stats.fmri_spec.sess(1).scans(1) = cfg_dep('Smooth: Smoothed
 matlabbatch{14}.spm.stats.fmri_spec.sess(1).cond = struct('name', {}, 'onset', {}, 'duration', {}, 'tmod', {}, 'pmod', {}, 'orth', {});
 matlabbatch{14}.spm.stats.fmri_spec.sess(1).multi = {'/projects/sanlab/shared/REV/REV_scripts/behavioral/React/data/vecs/REV001_acq1_onsets.mat'};
 matlabbatch{14}.spm.stats.fmri_spec.sess(1).regress = struct('name', {}, 'val', {});
-matlabbatch{14}.spm.stats.fmri_spec.sess(1).multi_reg(1) = cfg_dep('File Selector (Batch Mode): Selected Files (sub-REV001_ses-wave1_task-react_acq-01_run-.*_bold_confounds.txt)', substruct('.','val', '{}',{12}, '.','val', '{}',{1}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','files'));
+matlabbatch{14}.spm.stats.fmri_spec.sess(1).multi_reg(1) = cfg_dep('File Selector (Batch Mode): Selected Files (sub-REV001_ses-wave1_task-react_acq-1_run-.*_bold_confounds.txt)', substruct('.','val', '{}',{12}, '.','val', '{}',{1}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','files'));
 matlabbatch{14}.spm.stats.fmri_spec.sess(1).hpf = 128;
 matlabbatch{14}.spm.stats.fmri_spec.sess(2).scans(1) = cfg_dep('Smooth: Smoothed Images', substruct('.','val', '{}',{8}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','files'));
 matlabbatch{14}.spm.stats.fmri_spec.sess(2).cond = struct('name', {}, 'onset', {}, 'duration', {}, 'tmod', {}, 'pmod', {}, 'orth', {});
 matlabbatch{14}.spm.stats.fmri_spec.sess(2).multi = {'/projects/sanlab/shared/REV/REV_scripts/behavioral/React/data/vecs/REV001_acq2_onsets.mat'};
 matlabbatch{14}.spm.stats.fmri_spec.sess(2).regress = struct('name', {}, 'val', {});
-matlabbatch{14}.spm.stats.fmri_spec.sess(2).multi_reg(1) = cfg_dep('File Selector (Batch Mode): Selected Files (sub-REV001_ses-wave1_task-react_acq-02_run-.*_bold_confounds.txt)', substruct('.','val', '{}',{13}, '.','val', '{}',{1}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','files'));
+matlabbatch{14}.spm.stats.fmri_spec.sess(2).multi_reg(1) = cfg_dep('File Selector (Batch Mode): Selected Files (sub-REV001_ses-wave1_task-react_acq-2_run-.*_bold_confounds.txt)', substruct('.','val', '{}',{13}, '.','val', '{}',{1}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','files'));
 matlabbatch{14}.spm.stats.fmri_spec.sess(2).hpf = 128;
 matlabbatch{14}.spm.stats.fmri_spec.fact = struct('name', {}, 'levels', {});
 matlabbatch{14}.spm.stats.fmri_spec.bases.hrf.derivs = [1 0];
