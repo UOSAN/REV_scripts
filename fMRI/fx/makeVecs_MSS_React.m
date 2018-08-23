@@ -55,6 +55,7 @@ for s = firstSub:lastSub
                     durations{c} = run_info.durations(currentIndices);
                 end
                 
+                % only select risk_view and neutral_view
                 names([1 4])=[];
                 onsets([1 4])=[];
                 durations([1 4])=[];
@@ -63,7 +64,7 @@ for s = firstSub:lastSub
                 if exist(fxFolder)==7 %do nothing
                 else mkdir(fxFolder)
                 end    
-                save([fxFolder subject_code '_run' num2str(r) '_onsets.mat'], 'names', 'onsets', 'durations')
+                save([fxFolder subject_code '_acq' num2str(r) '_onsets.mat'], 'names', 'onsets', 'durations') %Note that NODs files should be distinguished by acq number, NOT run number
             end
         end
     end
