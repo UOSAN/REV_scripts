@@ -1,26 +1,23 @@
 #!/bin/bash
 
-###################################################
-# Script to make sure all participants' REACT data  #
-#	are in the behavioral analysis datadirs		  #
-###################################################
-
-# Change this, path to data and script repos
-#repopath="/Users/kristadestasio/Desktop/REV_scripts"
-#"/Users/mmoss/Dropbox/AH_Grad_Stuff/SAP"
-repopath="/Users/brendancullen/Desktop/REV/REV_scripts"
-task="React"
+###############################################
+# Script to make sure all participants' data  #
+#	are in the behavioral analysis datadirs	  #
+######################################## 	#######
 
 # Set variables
-datadir="$repopath/behavioral/$task/data" # Location of the data files to be analyzed
-logdir="$repopath/behavioral/$task/logs"
-errorlog="$logdir/errorlog_filecheck.txt"
-outputlog="$logdir/outputlog_filecheck.txt"
-sublist="$repopath/behavioral/$task/scripts/data_prep"
+user=$(awk -F'"' '/^user=/ {print $2}' 0_runscript.sh ) #https://unix.stackexchange.com/questions/136151/how-do-i-get-a-variables-value-from-one-script-and-import-it-in-another-script
+task=$(awk -F'"' '/^task=/ {print $2}' 0_runscript.sh )
 
+# Set paths
+data_repo="/Users/${user}/Desktop/REV_BxData"
+datadir="${data_repo}/data/${task}"
+logdir="${data_repo}/logs"
+errorlog="$logdir/${task}_errorlog_filecheck.txt"
+outputlog="$logdir/${task}_outputlog_filecheck.txt"
+path_to_sublist="/Users/${user}/Desktop/REV_scripts/behavioral/${task}/scripts/data_prep"
 
-cd $repopath/behavioral/$task/scripts/data_prep
-
+cd $path_to_sublist
 sublist=`cat allsubs.txt`
 
 # create output logs

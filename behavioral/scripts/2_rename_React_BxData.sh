@@ -1,32 +1,27 @@
 #!/bin/sh
 
 #########################################################################
-# Script to move GNG behavioral files from the directories they are in  #
-# to the directories specified in the GNG analysis script.       		#
+# Script to move React behavioral files from the directories they are in  #
+# to the directories specified in the React analysis script.       		#
 # KD 2017.04.05															#
 #########################################################################
 
-# Change this, path to data and script repos
-#repopath="/Users/kristadestasio/Desktop/REV_scripts"
-#"/Users/mmoss/Dropbox/AH_Grad_Stuff/SAP"
-repopath="/Users/brendancullen/Desktop/REV/REV_scripts" 
+# Set variables
+user=$(awk -F'"' '/^user=/ {print $2}' 0_runscript.sh ) #https://unix.stackexchange.com/questions/136151/how-do-i-get-a-variables-value-from-one-script-and-import-it-in-another-script
 task="React"
 
 # Set paths 
-outputdir="$repopath/behavioral/$task/data"
-logdir="$repopath/behavioral/$task/logs"
-outputlog="$logdir/outputlog_rename.txt"
+data_repo="/Users/${user}/Desktop/REV_BxData"
+datadir="${data_repo}/data/${task}"
+logdir="${data_repo}/logs"
+outputlog="$logdir/${task}_outputlog_rename.txt"
 
 # create output logs
 touch "${outputlog}"
 
 # Idiosyncratic file renaming to correct naming errors
 echo "-------------------Renaming $task files-------------------" > $outputlog
-cd $outputdir
- mv REV12_REV_GNG1.txt_30-Apr-2015_18-53.mat REV012_REV_GNG1.txt_30-Apr-2015_18-53.mat
- echo "REV12_REV_GNG1.txt_30-Apr-2015_18-53.mat REV012_REV_GNG1.txt_30-Apr-2015_18-53.mat" >> $outputlog
- mv REV12_REV_GNG2.txt_30-Apr-2015_18-45.mat REV012_REV_GNG2.txt_30-Apr-2015_18-45.mat
- echo "REV12_REV_GNG2.txt_30-Apr-2015_18-45.mat REV012_REV_GNG2.txt_30-Apr-2015_18-45.mat" >> $outputlog
+cd $datadir
  mv REV057_REV_React2.txt_25-Aug-2015_18-15.mat REV057_REV_React1.txt_25-Aug-2015_18-15.mat   
  echo "REV057_REV_React2.txt_25-Aug-2015_18-15.mat REV057_REV_React1.txt_25-Aug-2015_18-15.mat" >> $outputlog
  mv REV027_REV_React4.txt_12-Jun-2015_11-18.mat REV027_REV_React3.txt_12-Jun-2015_11-18.mat

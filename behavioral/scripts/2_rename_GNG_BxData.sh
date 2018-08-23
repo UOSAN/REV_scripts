@@ -6,21 +6,27 @@
 # KD 2017.04.05															#
 #########################################################################
 
-# Change this, path to data and script repos
-#repopath="/Users/kristadestasio/Desktop"
-repopath="/Users/mmoss/Dropbox/REV_repos"
+# Set variables
+user=$(awk -F'"' '/^user=/ {print $2}' 0_runscript.sh ) #https://unix.stackexchange.com/questions/136151/how-do-i-get-a-variables-value-from-one-script-and-import-it-in-another-script
+task="GNG"
 
 # Set paths 
-outputdir="$repopath/REV_scripts/behavioral/GNG/data"
-logdir="$repopath/REV_scripts/behavioral/GNG/logs"
-outputlog="$logdir/outputlog_rename.txt"
+data_repo="/Users/${user}/Desktop/REV_BxData"
+datadir="${data_repo}/data/${task}"
+logdir="${data_repo}/logs"
+outputlog="$logdir/${task}_outputlog_rename.txt"
+
 
 # create output logs
 touch "${outputlog}"
 
 # Idiosyncratic file renaming to correct naming errors
 echo "-------------------Renaming GNG files-------------------" > $outputlog
-cd $outputdir
+cd $datadir
+mv REV12_REV_GNG1.txt_30-Apr-2015_18-53.mat REV012_REV_GNG1.txt_30-Apr-2015_18-53.mat
+echo "REV12_REV_GNG1.txt_30-Apr-2015_18-53.mat REV012_REV_GNG1.txt_30-Apr-2015_18-53.mat" >> $outputlog
+mv REV12_REV_GNG2.txt_30-Apr-2015_18-45.mat REV012_REV_GNG2.txt_30-Apr-2015_18-45.mat
+echo "REV12_REV_GNG2.txt_30-Apr-2015_18-45.mat REV012_REV_GNG2.txt_30-Apr-2015_18-45.mat" >> $outputlog
 mv REV13_REV_GNG4.txt_04-May-2015_10-25.mat REV013_REV_GNG4.txt_04-May-2015_10-25.mat
 echo "REV13_REV_GNG4.txt_04-May-2015_10-25.mat REV013_REV_GNG4.txt_04-May-2015_10-25.mat" >> $outputlog
 mv REV13_REV_GNG3.txt_04-May-2015_10-33.mat REV013_REV_GNG3.txt_04-May-2015_10-33.mat
@@ -39,7 +45,7 @@ echo "REV12_GNG1.mat REV012_GNG1.mat" >> $outputlog
 mv REV12_GNG2.mat REV012_GNG2.mat
 echo "REV12_GNG2.mat REV012_GNG2.mat" >> $outputlog
 
-# Rename all GNG files to format ID_run
+# Rename all files to format ID_run
 for file in $(ls *.mat)
 	do
 		new=$(echo "$file" | sed -E 's/_REV//')

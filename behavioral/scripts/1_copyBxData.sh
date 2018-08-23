@@ -6,39 +6,35 @@
 # KD 2017.04.05															#
 #########################################################################
 
-# Change this, path to data and script repos
-#repopath="/Users/kristadestasio/Desktop/REV_scripts"
-#"/Users/mmoss/Dropbox/AH_Grad_Stuff/SAP"
-repopath="/Users/brendancullen/Desktop/REV/REV_scripts" 
-task="React"
-
-taskdir=(React cueReact)
+# Set variables
+user=$(awk -F'"' '/^user=/ {print $2}' 0_runscript.sh ) #https://unix.stackexchange.com/questions/136151/how-do-i-get-a-variables-value-from-one-script-and-import-it-in-another-script
+task=$(awk -F'"' '/^task=/ {print $2}' 0_runscript.sh )
 
 # Set paths 
-datadir="${repopath}/behavioral/${task}/data"
-#sourcedir="/Users/kristadestasio/Desktop/REV_BxData"
-sourcedir="/Users/brendancullen/Desktop/REV/REV_BxData"
-logdir="${repopath}/behavioral/${task}/logs"
-outputlog="${logdir}/outputlog_copyData.txt"
-errorlog="${logdir}/errorlog_copyData.txt"
-allsubs="${logdir}/subjectlist.txt"
-outputdir="${repopath}/behavioral/${task}/output"
+data_repo="/Users/${user}/Desktop/REV_BxData"
+datadir="${data_repo}/data/${task}"
+data_source_dir="/Users/${user}/Desktop/REV_BxData"
+logdir="${data_repo}/logs"
+outputlog="${logdir}/${task}_outputlog_copyData.txt"
+errorlog="${logdir}/${task}_errorlog_copyData.txt"
+allsubs="${data_repo}/subjectlist.txt"
 
 # Check directory dependencies
+
+if [ ! -d "${data_repo}/data" ]; then
+    mkdir -v "${data_repo}/data"
+fi
+
 if [ ! -d "${datadir}" ]; then
 	mkdir -v "${datadir}"
 fi
 
-if [ ! -d "${sourcedir}" ]; then
+if [ ! -d "${data_source_dir}" ]; then
     echo "Path to behavioral data source folder is incorrect."
 fi
 
 if [ ! -d "${logdir}" ]; then
 	mkdir -v "${logdir}"
-fi
-
-if [ ! -d "${outputdir}" ]; then
-	mkdir -v "${outputdir}"
 fi
 
 # create output logs
@@ -47,23 +43,24 @@ touch "${errorlog}"
 touch "${allsubs}"
 
 
-echo "Copying $task data from $sourcedir to $datadir" > $outputlog
-echo "Errors during copy of $task data from $sourcedir to $datadir" > $errorlog
+echo "Copying $task data from $data_repo to $datadir" > $outputlog
+echo "Errors during copy of $task data from $data_repo to $datadir" > $errorlog
 
 # Create a text file of all participants in the behavioral data folder
-cd $sourcedir/scanning
+cd $data_repo/scanning
 sublist=$(ls -d REV*)
 for subject in ${sublist[@]}; do
 	echo ${subject} >> $allsubs
 done
 
+# Loop through subject directories to find data
 for sub in ${sublist[@]}; do
 	if [ -d $sub ]; then
 		cd $sub
-        for dir in ${taskdir[@]}; do
-    		if [ -d base/$dir ]; then #if directory in base called 'React' exists...
-    			cd base/$dir
-    			if [ $(ls "${sourcedir}"/scanning/"${sub}"/base/"${dir}"/*.mat | wc -l) -gt 0 ]; then
+        for dir in ${task[@]}; do
+    		if [ -d base/*"${dir}" ]; then #if directory in base called 'React' exists...
+    			cd base/*"${dir}"
+    			if [ $(ls "${data_repo}"/scanning/"${sub}"/base/*"${dir}"/*.mat | wc -l) -gt 0 ]; then
     				for baserun in $(ls *.mat); do
     					cp $baserun $datadir/$baserun
     				done
@@ -72,9 +69,9 @@ for sub in ${sublist[@]}; do
     			fi
     			cd ../..
             fi
-    		if [ -d end/$dir ]; then
-    			cd end/$dir
-    			if [ $(ls "${sourcedir}"/scanning/"${sub}"/end/"${dir}"/*.mat | wc -l) -gt 0 ]; then
+    		if [ -d end/*"${dir}" ]; then
+    			cd end/*"${dir}"
+    			if [ $(ls "${data_repo}"/scanning/"${sub}"/end/*"${dir}"/*.mat | wc -l) -gt 0 ]; then
     				for endrun in $(ls *.mat); do
     					cp $endrun $datadir/$endrun
     				done
