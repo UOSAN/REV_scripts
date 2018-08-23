@@ -6,8 +6,8 @@ exclude = []%[4 5 7 8 12 14 15 25 28 30 33 40 42 45 61 63 64 66 71 72 79 81 83 8
 task = 'React'; %'GNG';
 runs = [1 2 3 4];
 %dataFolder = ['/Users/kristadestasio/Desktop/REV_scripts/behavioral/' task '/data'];
-dataFolder = ['/Users/brendancullen/Desktop/REV/REV_scripts/behavioral/' task '/data'];
-
+%dataFolder = ['/Users/brendancullen/Desktop/REV/REV_scripts/behavioral/' task '/data'];
+dataFolder = ['/projects/sanlab/shared/REV/REV_scripts/behavioral/' task '/data']; %Talapas path
 
 
 cd(dataFolder)

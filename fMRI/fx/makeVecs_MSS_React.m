@@ -5,7 +5,8 @@ exclude = []%[4 5 7 8 12 14 15 25 28 30 33 40 42 45 61 63 64 66 71 72 79 81 83 8
 task = 'React';
 runs = [1 2 3 4];
 %dataFolder = ['~/Dropbox/REV_repos/REV_scripts/behavioral/' task '/data'];
-dataFolder = ['~/Desktop/REV/REV_scripts/behavioral/' task '/data'];
+%dataFolder = ['~/Desktop/REV/REV_scripts/behavioral/' task '/data'];
+dataFolder = ['/projects/sanlab/shared/REV/REV_scripts/behavioral/' task '/data']; %Talapas path
 
 %for s = firstSub
 for s = firstSub:lastSub
