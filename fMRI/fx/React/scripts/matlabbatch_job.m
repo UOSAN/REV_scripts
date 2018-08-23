@@ -4,7 +4,10 @@
 % cfg_basicio BasicIO - Unknown
 %-----------------------------------------------------------------------
 
-% NEED TO ADD IN TRY/CATCH LOOP FOR SUBJECTS WHO DON'T HAVE BOTH RUNS???
+%testing if we can mess around with the script
+fid = fopen( 'test.txt', 'wt' );
+fprintf( fid, 'YAYAYAYAYAYAY')
+fclose(fid);
 
 matlabbatch{1}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {'/projects/sanlab/shared/REV/bids_data/derivatives/fmriprep/sub-REV001/ses-wave1/func'};
 matlabbatch{1}.cfg_basicio.file_dir.file_ops.file_fplist.filter = 'sub-REV001_ses-wave1_task-react_acq-01_run-.*_bold_space-MNI152NLin2009cAsym_preproc.nii.gz';
@@ -14,6 +17,7 @@ matlabbatch{2}.cfg_basicio.file_dir.file_ops.cfg_gunzip_files.outdir = {''};
 matlabbatch{2}.cfg_basicio.file_dir.file_ops.cfg_gunzip_files.keep = true;
 matlabbatch{3}.spm.util.exp_frames.files(1) = cfg_dep('Gunzip Files: Gunzipped Files', substruct('.','val', '{}',{2}, '.','val', '{}',{1}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('()',{':'}));
 matlabbatch{3}.spm.util.exp_frames.frames = Inf;
+
 matlabbatch{4}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {'/projects/sanlab/shared/REV/bids_data/derivatives/fmriprep/sub-REV001/ses-wave1/func'};
 matlabbatch{4}.cfg_basicio.file_dir.file_ops.file_fplist.filter = 'sub-REV001_ses-wave1_task-react_acq-02_run-.*_bold_space-MNI152NLin2009cAsym_preproc.nii.gz';
 matlabbatch{4}.cfg_basicio.file_dir.file_ops.file_fplist.rec = 'FPList';
@@ -22,6 +26,7 @@ matlabbatch{5}.cfg_basicio.file_dir.file_ops.cfg_gunzip_files.outdir = {''};
 matlabbatch{5}.cfg_basicio.file_dir.file_ops.cfg_gunzip_files.keep = true;
 matlabbatch{6}.spm.util.exp_frames.files(1) = cfg_dep('Gunzip Files: Gunzipped Files', substruct('.','val', '{}',{5}, '.','val', '{}',{1}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('()',{':'}));
 matlabbatch{6}.spm.util.exp_frames.frames = Inf;
+
 matlabbatch{7}.spm.spatial.smooth.data(1) = cfg_dep('Expand image frames: Expanded filename list.', substruct('.','val', '{}',{3}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','files'));
 matlabbatch{7}.spm.spatial.smooth.fwhm = [6 6 6];
 matlabbatch{7}.spm.spatial.smooth.dtype = 0;
@@ -46,6 +51,8 @@ matlabbatch{12}.cfg_basicio.file_dir.file_ops.file_fplist.rec = 'FPList';
 matlabbatch{13}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {'/projects/sanlab/shared/REV/REV_scripts/fMRI/ppc/motion'};
 matlabbatch{13}.cfg_basicio.file_dir.file_ops.file_fplist.filter = 'sub-REV001_ses-wave1_task-react_acq-02_run-.*_bold_confounds.txt';
 matlabbatch{13}.cfg_basicio.file_dir.file_ops.file_fplist.rec = 'FPList';
+
+%specify the model
 matlabbatch{14}.spm.stats.fmri_spec.dir = {'/projects/sanlab/shared/REV/nonbids_data/fmri/fx/models/react/sub-REV001'};
 matlabbatch{14}.spm.stats.fmri_spec.timing.units = 'secs';
 matlabbatch{14}.spm.stats.fmri_spec.timing.RT = 2;
