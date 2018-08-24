@@ -24,7 +24,8 @@ if exist('/projects/sanlab/shared/REV/bids_data/derivatives/fmriprep/sub-REV001/
        fid = fopen('errorFile','a+');
        fprintf(fid, '%s', err.getReport('extended', 'hyperlinks','off'))
        fclose(fid)
-    end
+    end   
+end
 
 matlabbatch{4}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {'/projects/sanlab/shared/REV/bids_data/derivatives/fmriprep/sub-REV001/ses-wave1/func'};
 matlabbatch{4}.cfg_basicio.file_dir.file_ops.file_fplist.filter = 'sub-REV001_ses-wave1_task-react_acq-2_run-.*_bold_space-MNI152NLin2009cAsym_preproc.nii.gz';
