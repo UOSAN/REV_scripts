@@ -21,7 +21,7 @@ STUDY=/projects/sanlab/shared/REV
 SUBJLIST=`cat fx_subject_list.txt`
 
 # Which SID should be replaced?
-REPLACESID='sub-REV001'
+REPLACESID='REV001'
 
 # Set MATLAB script path
 #COMPNAME=ralph #use this for help specifying paths to run locally
