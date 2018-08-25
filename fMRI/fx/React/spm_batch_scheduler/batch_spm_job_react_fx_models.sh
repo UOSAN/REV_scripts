@@ -18,7 +18,7 @@
 STUDY=/projects/sanlab/shared/REV
 
 # Set subject list
-SUBJLIST=`cat subject_list.txt`
+SUBJLIST=`cat fx_subject_list.txt`
 
 # Which SID should be replaced?
 REPLACESID='sub-REV001'
