@@ -4,7 +4,8 @@ lastSub = 144;
 exclude = []%[4 5 7 8 12 14 15 25 28 30 33 40 42 45 61 63 64 66 71 72 79 81 83 85 87 92 95 96 99 101 103 105 106 112 113 120 122 123 125 128 132 133 139 143]; % If you want to exclude any numbers, put them in this vector (e.g. exclude = [5 20];)
 task = 'React';
 runs = [1 2 3 4];
-dataFolder = ['~/Desktop/REV_BxData/data/' task];
+repodir = ['~/Desktop/REV/REV_BxData/'];
+dataFolder = [repodir 'data/' task];
 %dataFolder = ['/projects/sanlab/shared/REV/REV_scripts/behavioral/' task '/data']; %Talapas path
 
 %for s = firstSub
@@ -55,12 +56,12 @@ for s = firstSub:lastSub
                     durations{c} = run_info.durations(currentIndices);
                 end
                 
-                % only select risk_view and neutral_view
-                names([1 4])=[];
-                onsets([1 4])=[];
-                durations([1 4])=[];
+                %empty (i.e. deselect) "baseline" vector
+                names([1])=[];
+                onsets([1])=[];
+                durations([1])=[];
                 
-                fxFolder = ['~/Desktop/REV_BxData/names_onsets_durations/' task '/'];
+                fxFolder = [repodir 'names_onsets_durations/' task '/'];
                 if exist(fxFolder)==7 %do nothing
                 else mkdir(fxFolder)
                 end    
