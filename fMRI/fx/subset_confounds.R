@@ -6,7 +6,7 @@ setwd(working_dir)
 
 # Set output directory
 #output_dir = "/Users/brendancullen/Desktop/motion/"
-output_dir = "/projects/sanlab/shared/REV/bids_data/derivatives/motion"
+output_dir = "/projects/sanlab/shared/REV/bids_data/derivatives/motion/"
 
 # Get a list of all the confounds.tsv files
 confound_pattern = "*confounds*.tsv"
