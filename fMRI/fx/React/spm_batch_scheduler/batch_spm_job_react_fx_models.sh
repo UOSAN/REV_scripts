@@ -53,6 +53,15 @@ mempercpu=3G
 # Create and execute batch job
 if [ "${PROCESS}" == "slurm" ]; then 
 	for SUB in $SUBJLIST
+		if [ ! -d "${STUDY}/bids_data/derivatives/baseline_analyses/sub-${SUB}" ]; then
+    		mkdir -v "${STUDY}/bids_data/derivatives/baseline_analyses/sub-${SUB}"
+		fi
+		if [ ! -d "${STUDY}/bids_data/derivatives/baseline_analyses/sub-${SUB}/fx" ]; then
+    		mkdir -v "${STUDY}/bids_data/derivatives/baseline_analyses/sub-${SUB}/fx"
+		fi
+		if [ ! -d "${STUDY}/bids_data/derivatives/baseline_analyses/sub-${SUB}/fx/react" ]; then
+    		mkdir -v "${STUDY}/bids_data/derivatives/baseline_analyses/sub-${SUB}/fx/react"
+		fi
 	do
 	 echo "submitting via slurm"
 	 sbatch --export=REPLACESID=$REPLACESID,SCRIPT=$SCRIPT,SUB=$SUB,SPM_PATH=$SPM_PATH,PROCESS=$PROCESS  \
