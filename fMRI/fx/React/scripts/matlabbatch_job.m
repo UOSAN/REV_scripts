@@ -63,10 +63,10 @@ matlabbatch{11}.spm.util.exp_frames.files(1) = cfg_dep('Gunzip Files: Gunzipped 
 matlabbatch{11}.spm.util.exp_frames.frames = Inf;
 
 %% select motion confounds file for acq-1. NOTE: these confounds files are created by subset_confounds.R
-matlabbatch{12}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {'/projects/sanlab/shared/REV/REV_scripts/fMRI/ppc/motion'};
+matlabbatch{12}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {'/projects/sanlab/shared/REV/bids_data/derivatives/motion'};
 matlabbatch{12}.cfg_basicio.file_dir.file_ops.file_fplist.filter = 'sub-REV001_ses-wave1_task-react_acq-1_run-.*_bold_confounds.txt';
 matlabbatch{12}.cfg_basicio.file_dir.file_ops.file_fplist.rec = 'FPList';
-matlabbatch{13}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {'/projects/sanlab/shared/REV/REV_scripts/fMRI/ppc/motion'};
+matlabbatch{13}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {'/projects/sanlab/shared/REV/bids_data/derivatives/motion'};
 matlabbatch{13}.cfg_basicio.file_dir.file_ops.file_fplist.filter = 'sub-REV001_ses-wave1_task-react_acq-2_run-.*_bold_confounds.txt';
 matlabbatch{13}.cfg_basicio.file_dir.file_ops.file_fplist.rec = 'FPList';
 
