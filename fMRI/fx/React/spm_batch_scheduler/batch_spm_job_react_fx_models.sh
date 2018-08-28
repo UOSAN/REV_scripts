@@ -63,8 +63,6 @@ if [ "${PROCESS}" == "slurm" ]; then
 		if [ ! -d "${STUDY}/bids_data/derivatives/baseline_analyses/sub-${SUB}/fx/react" ]; then
     		mkdir -v "${STUDY}/bids_data/derivatives/baseline_analyses/sub-${SUB}/fx/react"
 		fi
-	done
-	do
 	 echo "submitting via slurm"
 	 sbatch --export=REPLACESID=$REPLACESID,SCRIPT=$SCRIPT,SUB=$SUB,SPM_PATH=$SPM_PATH,PROCESS=$PROCESS  \
 		 --job-name=${RESULTS_INFIX} \
