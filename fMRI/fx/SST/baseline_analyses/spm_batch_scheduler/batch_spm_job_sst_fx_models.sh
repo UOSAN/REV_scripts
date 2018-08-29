@@ -25,7 +25,7 @@ REPLACESID='REV001'
 
 # Set MATLAB script path
 #COMPNAME=ralph #use this for help specifying paths to run locally
-SCRIPT=${STUDY}/REV_scripts/fMRI/fx/SST/scripts/matlabbatch_job_sst.m
+SCRIPT=${STUDY}/REV_scripts/fMRI/fx/SST/baseline_analyses/scripts/matlabbatch_job_sst.m
 
 #SPM Path
 SPM_PATH=/projects/sanlab/shared/spm12
@@ -34,7 +34,7 @@ SPM_PATH=/projects/sanlab/shared/spm12
 RESULTS_INFIX=fx_models
 
 # Set output dir
-OUTPUTDIR=${STUDY}/REV_scripts/fMRI/fx/SST/scripts/output_logs
+OUTPUTDIR=${STUDY}/REV_scripts/fMRI/fx/SST/baseline_analyses/scripts/output_logs
 
 # Set processor
 # use "slurm" for Talapas
