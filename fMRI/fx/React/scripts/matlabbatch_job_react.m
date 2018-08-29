@@ -115,6 +115,9 @@ matlabbatch{16}.spm.stats.con.consess{3}.tcon.sessrep = 'replsc';
 matlabbatch{16}.spm.stats.con.consess{4}.tcon.name = '4_Rating>ImpBaseline';
 matlabbatch{16}.spm.stats.con.consess{4}.tcon.weights = [0 0 0 0 1 0 0 0 0 0 0 1 0 0];
 matlabbatch{16}.spm.stats.con.consess{4}.tcon.sessrep = 'replsc';
+matlabbatch{16}.spm.stats.con.consess{5}.tcon.name = '5_Rating>View';
+matlabbatch{16}.spm.stats.con.consess{5}.tcon.weights = [-.5 0 -.5 0 1 0 0 -.5 0 -.5 0 1 0 0];
+matlabbatch{16}.spm.stats.con.consess{5}.tcon.sessrep = 'replsc';
 matlabbatch{16}.spm.stats.con.delete = 0;
 
 %THIS IS THE ORIGINAL SET OF CONTRATS BEFORE ADDING "RATING"
