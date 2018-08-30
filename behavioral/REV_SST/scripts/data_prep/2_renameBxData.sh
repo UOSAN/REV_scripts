@@ -6,11 +6,10 @@
 ###################################################
 
 # Change this, path to data and script repos
-# repopath="/Users/kristadestasio/Desktop"
-repopath="/Users/brendancullen/Desktop/REV"
+repopath="/Users/kristadestasio/Desktop/REV_scripts"
  
 # Set paths
-datadir="$repopath/REV_scripts/behavioral/REV_SST/output"
+datadir="$repopath/behavioral/REV_SST/output"
 outputlog="$datadir/outputlog_renamed.txt"
 
 # Create output log
