@@ -35,6 +35,8 @@ mv 32_REV_GNG3.txt_10-Jul-2015_13-40.mat REV032_REV_GNG3.txt_10-Jul-2015_13-40.m
 echo "32_REV_GNG3.txt_10-Jul-2015_13-40.mat REV032_REV_GNG3.txt_10-Jul-2015_13-40.mat" >> $outputlog
 mv 32_REV_GNG4.txt_10-Jul-2015_13-47.mat REV032_REV_GNG4.txt_10-Jul-2015_13-47.mat
 echo "32_REV_GNG4.txt_10-Jul-2015_13-47.mat REV032_REV_GNG4.txt_10-Jul-2015_13-47.mat" >> $outputlog
+mv REV047_REV_GNG2.txt_28-Aug-2015_10-50.mat REV047_REV_GNG4.txt_28-Aug-2015_10-50.mat
+echo "REV047_REV_GNG2.txt_28-Aug-2015_10-50.mat REV047_REV_GNG4.txt_28-Aug-2015_10-50.mat" >> $outputlog
 mv 102_REV_GNG2.txt_19-Jan-2016_18-02.mat REV102_REV_GNG2.txt_19-Jan-2016_18-02.mat
 echo "102_REV_GNG2.txt_19-Jan-2016_18-02.mat REV102_REV_GNG2.txt_19-Jan-2016_18-02.mat" >> $outputlog
 mv 102_REV_GNG1.txt_19-Jan-2016_17-53.mat REV102_REV_GNG1.txt_19-Jan-2016_17-53.mat
