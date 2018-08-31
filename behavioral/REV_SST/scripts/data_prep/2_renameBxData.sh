@@ -62,6 +62,8 @@ cd ../post
 echo "----------------RENAMING POST FILES----------------" >> $outputlog
 mv sub55_run12_scan1_05-Sep-2015_10-10.mat sub55_run13_scan3_05-Sep-2015_10-10.mat
 echo "sub55_run12_scan1_05-Sep-2015_10-10.mat renamed to sub55_run13_scan3_05-Sep-2015_10-10.mat" >> $outputlog
+mv sub116_run11_scan1_25-Mar-2016_11-34.mat ssub116_run13_scan1_25-Mar-2016_11-34.mat
+echo "sub116_run11_scan1_25-Mar-2016_11-34.mat renamed to sub116_run13_scan1_25-Mar-2016_11-34.mat" >> $outputlog
 
 echo "----------------MOVING POST FILES TO OMITTED FOLDER----------------" >> $outputlog
 mv sub17_run13_scan3_23-Apr-2015_10-32.mat ../omitted/sub17_run13_scan3_23-Apr-2015_10-32.mat
