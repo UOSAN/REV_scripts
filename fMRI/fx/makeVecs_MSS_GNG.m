@@ -74,7 +74,8 @@ for s = firstSub:lastSub
                     onsets{c} = run_info.onsets(currentIndices);
                     durations{c} = run_info.durations(currentIndices);
                 end
-
+                save(fileName.name, 'key_presses', 'run_info')
+                
                 fxFolder = [repodir 'names_onsets_durations/' task '/'];
                 if exist(fxFolder)==7 %do nothing
                 else mkdir(fxFolder)
