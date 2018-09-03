@@ -2,9 +2,9 @@ studyCode = 'REV';
 firstSub = 1;
 lastSub = 144;
 exclude = []%[4 5 7 8 12 14 15 25 28 30 33 40 42 45 61 63 64 66 71 72 79 81 83 85 87 92 95 96 99 101 103 105 106 112 113 120 122 123 125 128 132 133 139 143]; % If you want to exclude any numbers, put them in this vector (e.g. exclude = [5 20];)
-task = 'React';
+task = 'react';
 runs = [1 2 3 4];
-repodir = ['~/Desktop/REV/REV_BxData/']; %edit this path for your local computer
+repodir = ['~/Desktop/REV_BxData/']; %edit this path for your local computer
 dataFolder = [repodir 'data/' task];
 
 %for s = firstSub
@@ -66,7 +66,7 @@ for s = firstSub:lastSub
                 if exist(fxFolder)==7 %do nothing
                 else mkdir(fxFolder)
                 end    
-                save([fxFolder subject_code '_acq' num2str(r) '_onsets.mat'], 'names', 'onsets', 'durations') %Note that NODs files should be distinguished by acq number, NOT run number
+                save([fxFolder 'sub-' subject_code '_task-' task '_acq-' num2str(r) '_onsets.mat'], 'names', 'onsets', 'durations') %Note that NODs files should be distinguished by acq number, NOT run number
             end
         end
     end
