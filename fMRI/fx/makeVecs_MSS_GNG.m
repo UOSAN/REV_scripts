@@ -2,7 +2,7 @@ studyCode = 'REV';
 firstSub = 1;
 lastSub = 144;
 exclude = []%[4 5 7 8 12 14 15 25 28 30 33 40 42 45 61 63 64 66 71 72 79 81 83 85 87 92 95 96 99 101 103 105 106 112 113 120 122 123 125 128 132 133 139 143]; % If you want to exclude any numbers, put them in this vector (e.g. exclude = [5 20];)
-task = 'GNG';
+task = 'gng';
 runs = [1 2 3 4];
 repodir = ['~/Desktop/REV/REV_BxData/']; %edit this path for your local computer
 dataFolder = ['~/Desktop/REV_BxData/data/' task];
@@ -39,10 +39,10 @@ for s = firstSub:lastSub
             else
                 load(fileName.name)
                 
-                names = {'risk_cue' 'neutral_cue' 'baseline'}; % baseline is crosshair and instructions
+                names = {'baseline' 'risk_go' 'risk_nogo' 'neutral_go' 'neutral_nogo'}; % baseline is crosshair and instructions
                 onsets = cell(1,length(names));
                 durations = cell(1,length(names));
-                searchStrings = {'1' '2' '3'}; %% Need to fill this in
+                searchStrings = {'0' '1' '2' '3' '4'}; %% Need to fill this in
                 
                 for c = 1:length(names)
                     currentIndices = find(~cellfun(@isempty,regexp(run_info.tag,searchStrings{c})) == 1);
