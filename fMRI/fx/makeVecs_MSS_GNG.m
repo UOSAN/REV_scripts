@@ -64,7 +64,7 @@ for s = firstSub:lastSub
                 end
                 
                 % Initialize names, onsets, durations variables
-                names = {'baseline' 'correct_risk_go' 'correct_risk_nogo' 'correct_neutral_go' 'correct_neutral_nogo' 'correct_incorrect_risk_go' 'incorrect_risk_nogo' 'incorrect_neutral_go' 'incorrect_neutral_nogo'}; % baseline is crosshair and instructions
+                names = {'baseline' 'correct_risk_go' 'correct_risk_nogo' 'correct_neutral_go' 'correct_neutral_nogo' 'incorrect_risk_go' 'incorrect_risk_nogo' 'incorrect_neutral_go' 'incorrect_neutral_nogo'}; % baseline is crosshair and instructions
                 onsets = cell(1,length(names));
                 durations = cell(1,length(names));
                 searchStrings = {'0' '1' '2' '3' '4' '5' '6' '7' '8'}; %% Need to fill this in
