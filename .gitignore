@@ -39,3 +39,5 @@ behavioral/GNG/scripts/analyses/Figs/
 **/singleVarTxts
 **/varMats
 **/logs*
+**/scripts/output_logs/
+**/scripts/sid_batches/**
