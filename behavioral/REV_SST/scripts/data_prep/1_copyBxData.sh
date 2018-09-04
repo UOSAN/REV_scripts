@@ -8,11 +8,12 @@
 
 # Change this, path to data and script repos
 # repopath="/Users/kristadestasio/Desktop"
-repopath="/Users/kristadestasio/Desktop/REV_scripts"
+repopath="/Users/brendancullen/Desktop/REV_scripts"
 
 # Set paths
 outputdir="$repopath/behavioral/REV_SST/output"
-sourcedir="/Users/kristadestasio/Desktop/REV_BxData"
+#sourcedir="/Users/kristadestasio/Desktop/REV_BxData"
+sourcedir="/Users/brendancullen/Desktop/REV_BxData"
 outputlog="$outputdir/outputlog_populate.txt"
 errorlog="$outputdir/errorlog_populate.txt"
 allsubs="$outputdir/subjectlist.txt"

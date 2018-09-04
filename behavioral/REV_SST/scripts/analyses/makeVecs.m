@@ -141,11 +141,11 @@ for s=1:numSubs
                     FailedGoCount(s,r)=sum(isIncorrectGo);
                 end
                 
-                fxFolder = [repodir 'names_onsets_durations/SST/'];
+                fxFolder = [repodir 'names_onsets_durations/sst/'];
                 if exist(fxFolder)==7 %do nothing
                 else mkdir(fxFolder)
                 end
-                save([fxFolder subjectCode '_task-sst_acq-' num2str(r) '_onsets.mat'],'names','onsets','durations');
+                save([fxFolder 'sub-' subjectCode '_task-sst_acq-' num2str(r) '_onsets.mat'],'names','onsets','durations');
                 
             end % file exists if 
         end % run loop

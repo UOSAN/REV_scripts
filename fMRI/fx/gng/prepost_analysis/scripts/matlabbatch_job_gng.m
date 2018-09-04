@@ -6,11 +6,11 @@
 
 %% select acq-1 files
 matlabbatch{1}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {'/projects/sanlab/shared/REV/bids_data/derivatives/fmriprep/sub-REV001/ses-wave1/func'};
-matlabbatch{1}.cfg_basicio.file_dir.file_ops.file_fplist.filter = 'sub-REV001_ses-wave1_task-sst_acq-1_run-.*_bold_space-MNI152NLin2009cAsym_preproc.nii.gz';
+matlabbatch{1}.cfg_basicio.file_dir.file_ops.file_fplist.filter = 'sub-REV001_ses-wave1_task-gng_acq-1_run-.*_bold_space-MNI152NLin2009cAsym_preproc.nii.gz';
 matlabbatch{1}.cfg_basicio.file_dir.file_ops.file_fplist.rec = 'FPList';
 
 %% unzip the files
-matlabbatch{2}.cfg_basicio.file_dir.file_ops.cfg_gunzip_files.files(1) = cfg_dep('File Selector (Batch Mode): Selected Files (sub-REV001_ses-wave1_task-sst_acq-1_run-.*_bold_space-MNI152NLin2009cAsym_preproc.nii.gz)', substruct('.','val', '{}',{1}, '.','val', '{}',{1}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','files'));
+matlabbatch{2}.cfg_basicio.file_dir.file_ops.cfg_gunzip_files.files(1) = cfg_dep('File Selector (Batch Mode): Selected Files (sub-REV001_ses-wave1_task-gng_acq-1_run-.*_bold_space-MNI152NLin2009cAsym_preproc.nii.gz)', substruct('.','val', '{}',{1}, '.','val', '{}',{1}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','files'));
 matlabbatch{2}.cfg_basicio.file_dir.file_ops.cfg_gunzip_files.outdir = {''};
 matlabbatch{2}.cfg_basicio.file_dir.file_ops.cfg_gunzip_files.keep = true;
 
@@ -20,11 +20,11 @@ matlabbatch{3}.spm.util.exp_frames.frames = Inf;
 
 %% select acq-2 files
 matlabbatch{4}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {'/projects/sanlab/shared/REV/bids_data/derivatives/fmriprep/sub-REV001/ses-wave1/func'};
-matlabbatch{4}.cfg_basicio.file_dir.file_ops.file_fplist.filter = 'sub-REV001_ses-wave1_task-sst_acq-2_run-.*_bold_space-MNI152NLin2009cAsym_preproc.nii.gz';
+matlabbatch{4}.cfg_basicio.file_dir.file_ops.file_fplist.filter = 'sub-REV001_ses-wave1_task-gng_acq-2_run-.*_bold_space-MNI152NLin2009cAsym_preproc.nii.gz';
 matlabbatch{4}.cfg_basicio.file_dir.file_ops.file_fplist.rec = 'FPList';
 
 %% unzip the files
-matlabbatch{5}.cfg_basicio.file_dir.file_ops.cfg_gunzip_files.files(1) = cfg_dep('File Selector (Batch Mode): Selected Files (sub-REV001_ses-wave1_task-sst_acq-2_run-.*_bold_space-MNI152NLin2009cAsym_preproc.nii.gz)', substruct('.','val', '{}',{4}, '.','val', '{}',{1}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','files'));
+matlabbatch{5}.cfg_basicio.file_dir.file_ops.cfg_gunzip_files.files(1) = cfg_dep('File Selector (Batch Mode): Selected Files (sub-REV001_ses-wave1_task-gng_acq-2_run-.*_bold_space-MNI152NLin2009cAsym_preproc.nii.gz)', substruct('.','val', '{}',{4}, '.','val', '{}',{1}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','files'));
 matlabbatch{5}.cfg_basicio.file_dir.file_ops.cfg_gunzip_files.outdir = {''};
 matlabbatch{5}.cfg_basicio.file_dir.file_ops.cfg_gunzip_files.keep = true;
 
@@ -50,11 +50,11 @@ matlabbatch{8}.spm.spatial.smooth.prefix = 's';
 %NOTE: Only specifying brainmask from run-01 since they should be the same for every run (i.e. it is a standard brain mask). 
 %Using run-01 instead acq-1 to make more robust.
 matlabbatch{9}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {'/projects/sanlab/shared/REV/bids_data/derivatives/fmriprep/sub-REV001/ses-wave1/func'};
-matlabbatch{9}.cfg_basicio.file_dir.file_ops.file_fplist.filter = 'sub-REV001_ses-wave1_task-sst_acq-.*_run-01_bold_space-MNI152NLin2009cAsym_brainmask.nii.gz'; 
+matlabbatch{9}.cfg_basicio.file_dir.file_ops.file_fplist.filter = 'sub-REV001_ses-wave1_task-gng_acq-.*_run-01_bold_space-MNI152NLin2009cAsym_brainmask.nii.gz'; 
 matlabbatch{9}.cfg_basicio.file_dir.file_ops.file_fplist.rec = 'FPList';
 
 %% unzip the files
-matlabbatch{10}.cfg_basicio.file_dir.file_ops.cfg_gunzip_files.files(1) = cfg_dep('File Selector (Batch Mode): Selected Files (sub-REV001_ses-wave1_task-sst_acq-1_run-.*_bold_space-MNI152NLin2009cAsym_brainmask.nii.gz)', substruct('.','val', '{}',{9}, '.','val', '{}',{1}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','files'));
+matlabbatch{10}.cfg_basicio.file_dir.file_ops.cfg_gunzip_files.files(1) = cfg_dep('File Selector (Batch Mode): Selected Files (sub-REV001_ses-wave1_task-gng_acq-1_run-.*_bold_space-MNI152NLin2009cAsym_brainmask.nii.gz)', substruct('.','val', '{}',{9}, '.','val', '{}',{1}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','files'));
 matlabbatch{10}.cfg_basicio.file_dir.file_ops.cfg_gunzip_files.outdir = {''};
 matlabbatch{10}.cfg_basicio.file_dir.file_ops.cfg_gunzip_files.keep = true;
 
@@ -64,29 +64,29 @@ matlabbatch{11}.spm.util.exp_frames.frames = Inf;
 
 %% select motion confounds file for acq-1. NOTE: these confounds files are created by subset_confounds.R
 matlabbatch{12}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {'/projects/sanlab/shared/REV/bids_data/derivatives/motion'};
-matlabbatch{12}.cfg_basicio.file_dir.file_ops.file_fplist.filter = 'sub-REV001_ses-wave1_task-sst_acq-1_run-.*_bold_confounds.txt';
+matlabbatch{12}.cfg_basicio.file_dir.file_ops.file_fplist.filter = 'sub-REV001_ses-wave1_task-gng_acq-1_run-.*_bold_confounds.txt';
 matlabbatch{12}.cfg_basicio.file_dir.file_ops.file_fplist.rec = 'FPList';
 matlabbatch{13}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {'/projects/sanlab/shared/REV/bids_data/derivatives/motion'};
-matlabbatch{13}.cfg_basicio.file_dir.file_ops.file_fplist.filter = 'sub-REV001_ses-wave1_task-sst_acq-2_run-.*_bold_confounds.txt';
+matlabbatch{13}.cfg_basicio.file_dir.file_ops.file_fplist.filter = 'sub-REV001_ses-wave1_task-gng_acq-2_run-.*_bold_confounds.txt';
 matlabbatch{13}.cfg_basicio.file_dir.file_ops.file_fplist.rec = 'FPList';
 
 %% specify the model
-matlabbatch{14}.spm.stats.fmri_spec.dir = {'/projects/sanlab/shared/REV/bids_data/derivatives/baseline_analyses/sub-REV001/fx/sst'};
+matlabbatch{14}.spm.stats.fmri_spec.dir = {'/projects/sanlab/shared/REV/bids_data/derivatives/baseline_analyses/sub-REV001/fx/gng'};
 matlabbatch{14}.spm.stats.fmri_spec.timing.units = 'secs';
 matlabbatch{14}.spm.stats.fmri_spec.timing.RT = 2;
 matlabbatch{14}.spm.stats.fmri_spec.timing.fmri_t = 72;
 matlabbatch{14}.spm.stats.fmri_spec.timing.fmri_t0 = 36;
 matlabbatch{14}.spm.stats.fmri_spec.sess(1).scans(1) = cfg_dep('Smooth: Smoothed Images', substruct('.','val', '{}',{7}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','files'));
 matlabbatch{14}.spm.stats.fmri_spec.sess(1).cond = struct('name', {}, 'onset', {}, 'duration', {}, 'tmod', {}, 'pmod', {}, 'orth', {});
-matlabbatch{14}.spm.stats.fmri_spec.sess(1).multi = {'/projects/sanlab/shared/REV/REV_BxData/names_onsets_durations/sst/REV001_task-sst_acq-1_onsets.mat'};
+matlabbatch{14}.spm.stats.fmri_spec.sess(1).multi = {'/projects/sanlab/shared/REV/REV_BxData/names_onsets_durations/gng/REV001_task-gng_acq-1_onsets.mat'};
 matlabbatch{14}.spm.stats.fmri_spec.sess(1).regress = struct('name', {}, 'val', {});
-matlabbatch{14}.spm.stats.fmri_spec.sess(1).multi_reg(1) = cfg_dep('File Selector (Batch Mode): Selected Files (sub-REV001_ses-wave1_task-sst_acq-1_run-.*_bold_confounds.txt)', substruct('.','val', '{}',{12}, '.','val', '{}',{1}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','files'));
+matlabbatch{14}.spm.stats.fmri_spec.sess(1).multi_reg(1) = cfg_dep('File Selector (Batch Mode): Selected Files (sub-REV001_ses-wave1_task-gng_acq-1_run-.*_bold_confounds.txt)', substruct('.','val', '{}',{12}, '.','val', '{}',{1}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','files'));
 matlabbatch{14}.spm.stats.fmri_spec.sess(1).hpf = 128;
 matlabbatch{14}.spm.stats.fmri_spec.sess(2).scans(1) = cfg_dep('Smooth: Smoothed Images', substruct('.','val', '{}',{8}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','files'));
 matlabbatch{14}.spm.stats.fmri_spec.sess(2).cond = struct('name', {}, 'onset', {}, 'duration', {}, 'tmod', {}, 'pmod', {}, 'orth', {});
-matlabbatch{14}.spm.stats.fmri_spec.sess(2).multi = {'/projects/sanlab/shared/REV/REV_BxData/names_onsets_durations/sst/REV001_task-sst_acq-2_onsets.mat'};
+matlabbatch{14}.spm.stats.fmri_spec.sess(2).multi = {'/projects/sanlab/shared/REV/REV_BxData/names_onsets_durations/gng/REV001_task-gng_acq-2_onsets.mat'};
 matlabbatch{14}.spm.stats.fmri_spec.sess(2).regress = struct('name', {}, 'val', {});
-matlabbatch{14}.spm.stats.fmri_spec.sess(2).multi_reg(1) = cfg_dep('File Selector (Batch Mode): Selected Files (sub-REV001_ses-wave1_task-sst_acq-2_run-.*_bold_confounds.txt)', substruct('.','val', '{}',{13}, '.','val', '{}',{1}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','files'));
+matlabbatch{14}.spm.stats.fmri_spec.sess(2).multi_reg(1) = cfg_dep('File Selector (Batch Mode): Selected Files (sub-REV001_ses-wave1_task-gng_acq-2_run-.*_bold_confounds.txt)', substruct('.','val', '{}',{13}, '.','val', '{}',{1}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','files'));
 matlabbatch{14}.spm.stats.fmri_spec.sess(2).hpf = 128;
 matlabbatch{14}.spm.stats.fmri_spec.fact = struct('name', {}, 'levels', {});
 matlabbatch{14}.spm.stats.fmri_spec.bases.hrf.derivs = [1 0];
@@ -103,19 +103,25 @@ matlabbatch{15}.spm.stats.fmri_est.method.Classical = 1;
 
 %% specify the contrasts of interest
 matlabbatch{16}.spm.stats.con.spmmat(1) = cfg_dep('Model estimation: SPM.mat File', substruct('.','val', '{}',{15}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','spmmat'));
-matlabbatch{16}.spm.stats.con.consess{1}.tcon.name = '1_CorrectStop>CorrectGo';
-matlabbatch{16}.spm.stats.con.consess{1}.tcon.weights = [-1 0 1 0 0 0 0 0 0 0];
+matlabbatch{16}.spm.stats.con.consess{1}.tcon.name = '1_NoGo>Go';
+matlabbatch{16}.spm.stats.con.consess{1}.tcon.weights = [0 0 -0.25 0 0.25 0 -0.25 0 0.25 0 -0.25 0 0.25 0 -0.25 0 0.25 0];
 matlabbatch{16}.spm.stats.con.consess{1}.tcon.sessrep = 'replsc';
-matlabbatch{16}.spm.stats.con.consess{2}.tcon.name = '2_CorrectStop>IncorrectStop';
-matlabbatch{16}.spm.stats.con.consess{2}.tcon.weights = [0 0 1 0 -1 0 0 0 0 0];
+matlabbatch{16}.spm.stats.con.consess{2}.tcon.name = '2_CorrectNoGo>CorrectGo';
+matlabbatch{16}.spm.stats.con.consess{2}.tcon.weights = [0 0 -0.5 0 0.5 0 -0.5 0 0.5 0 0 0 0 0 0 0 0 0];
 matlabbatch{16}.spm.stats.con.consess{2}.tcon.sessrep = 'replsc';
-matlabbatch{16}.spm.stats.con.consess{3}.tcon.name = '3_AnyStop>Baseline';
-matlabbatch{16}.spm.stats.con.consess{3}.tcon.weights = [0 0 0.5 0 0.5 0 0 0 0 0];
+matlabbatch{16}.spm.stats.con.consess{3}.tcon.name = '3_IncorrectNoGo>CorrectGo';
+matlabbatch{16}.spm.stats.con.consess{3}.tcon.weights = [0 0 -0.5 0 0 0 -0.5 0 0 0 0 0 0.5 0 0 0 0.5 0];
 matlabbatch{16}.spm.stats.con.consess{3}.tcon.sessrep = 'replsc';
-matlabbatch{16}.spm.stats.con.consess{4}.tcon.name = '4_AnyGo>Baseline';
-matlabbatch{16}.spm.stats.con.consess{4}.tcon.weights = [0.5 0 0 0 0 0 0 0 0.5 0];
+matlabbatch{16}.spm.stats.con.consess{4}.tcon.name = '4_Risk>Neutral';
+matlabbatch{16}.spm.stats.con.consess{4}.tcon.weights = [0 0 0.25 0 0.25 0 -0.25 0 -0.25 0 0.25 0 0.25 0 -0.25 0 -0.25 0];
 matlabbatch{16}.spm.stats.con.consess{4}.tcon.sessrep = 'replsc';
-matlabbatch{16}.spm.stats.con.consess{5}.tcon.name = '5_AnyStop>AnyGo';
-matlabbatch{16}.spm.stats.con.consess{5}.tcon.weights = [-0.5 0 0.5 0 0.5 0 0 0 -0.5 0];
+matlabbatch{16}.spm.stats.con.consess{5}.tcon.name = '5_CorrectNoGo>IncorrectNogo';
+matlabbatch{16}.spm.stats.con.consess{5}.tcon.weights = [0 0 0 0 0.5 0 0.5 0 0 0 0 0 -0.5 0 0 0 -0.5 0];
 matlabbatch{16}.spm.stats.con.consess{5}.tcon.sessrep = 'replsc';
+matlabbatch{16}.spm.stats.con.consess{6}.tcon.name = '6_NoButtonPress>Baseline';
+matlabbatch{16}.spm.stats.con.consess{6}.tcon.weights = [0 0 0 0 0.25 0 0 0 0.25 0 0.25 0 0 0 0.25 0 0 0];
+matlabbatch{16}.spm.stats.con.consess{6}.tcon.sessrep = 'replsc';
+matlabbatch{16}.spm.stats.con.consess{7}.tcon.name = '7_ButtonPress>Baseline';
+matlabbatch{16}.spm.stats.con.consess{7}.tcon.weights = [0 0 0.25 0 0 0 0.25 0 0 0 0 0 0.25 0 0 0 0.25 0];
+matlabbatch{16}.spm.stats.con.consess{7}.tcon.sessrep = 'replsc';
 matlabbatch{16}.spm.stats.con.delete = 0;
