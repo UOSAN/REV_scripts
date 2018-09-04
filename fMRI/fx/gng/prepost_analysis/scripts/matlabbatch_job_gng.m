@@ -102,4 +102,26 @@ matlabbatch{15}.spm.stats.fmri_est.write_residuals = 0;
 matlabbatch{15}.spm.stats.fmri_est.method.Classical = 1;
 
 %% specify the contrasts of interest
-
+matlabbatch{16}.spm.stats.con.spmmat(1) = cfg_dep('Model estimation: SPM.mat File', substruct('.','val', '{}',{15}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','spmmat'));
+matlabbatch{16}.spm.stats.con.consess{1}.tcon.name = '1_NoGo>Go';
+matlabbatch{16}.spm.stats.con.consess{1}.tcon.weights = [0 0 -0.25 0 0.25 0 -0.25 0 0.25 0 -0.25 0 0.25 0 -0.25 0 0.25 0];
+matlabbatch{16}.spm.stats.con.consess{1}.tcon.sessrep = 'replsc';
+matlabbatch{16}.spm.stats.con.consess{2}.tcon.name = '2_CorrectNoGo>CorrectGo';
+matlabbatch{16}.spm.stats.con.consess{2}.tcon.weights = [0 0 -0.5 0 0.5 0 -0.5 0 0.5 0 0 0 0 0 0 0 0 0];
+matlabbatch{16}.spm.stats.con.consess{2}.tcon.sessrep = 'replsc';
+matlabbatch{16}.spm.stats.con.consess{3}.tcon.name = '3_IncorrectNoGo>CorrectGo';
+matlabbatch{16}.spm.stats.con.consess{3}.tcon.weights = [0 0 -0.5 0 0 0 -0.5 0 0 0 0 0 0.5 0 0 0 0.5 0];
+matlabbatch{16}.spm.stats.con.consess{3}.tcon.sessrep = 'replsc';
+matlabbatch{16}.spm.stats.con.consess{4}.tcon.name = '4_Risk>Neutral';
+matlabbatch{16}.spm.stats.con.consess{4}.tcon.weights = [0 0 0.25 0 0.25 0 -0.25 0 -0.25 0 0.25 0 0.25 0 -0.25 0 -0.25 0];
+matlabbatch{16}.spm.stats.con.consess{4}.tcon.sessrep = 'replsc';
+matlabbatch{16}.spm.stats.con.consess{5}.tcon.name = '5_CorrectNoGo>IncorrectNogo';
+matlabbatch{16}.spm.stats.con.consess{5}.tcon.weights = [0 0 0 0 0.5 0 0.5 0 0 0 0 0 -0.5 0 0 0 -0.5 0];
+matlabbatch{16}.spm.stats.con.consess{5}.tcon.sessrep = 'replsc';
+matlabbatch{16}.spm.stats.con.consess{6}.tcon.name = '6_NoButtonPress>Baseline';
+matlabbatch{16}.spm.stats.con.consess{6}.tcon.weights = [0 0 0 0 0.25 0 0 0 0.25 0 0.25 0 0 0 0.25 0 0 0];
+matlabbatch{16}.spm.stats.con.consess{6}.tcon.sessrep = 'replsc';
+matlabbatch{16}.spm.stats.con.consess{7}.tcon.name = '7_ButtonPress>Baseline';
+matlabbatch{16}.spm.stats.con.consess{7}.tcon.weights = [0 0 0.25 0 0 0 0.25 0 0 0 0 0 0.25 0 0 0 0.25 0];
+matlabbatch{16}.spm.stats.con.consess{7}.tcon.sessrep = 'replsc';
+matlabbatch{16}.spm.stats.con.delete = 0;
