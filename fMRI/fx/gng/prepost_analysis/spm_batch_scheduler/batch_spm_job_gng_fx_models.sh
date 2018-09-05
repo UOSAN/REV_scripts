@@ -54,6 +54,9 @@ mempercpu=3G
 if [ "${PROCESS}" == "slurm" ]; then 
 	for SUB in $SUBJLIST
 	do
+		if [ ! -d "${STUDY}/bids_data/derivatives/prepost_analysis" ]; then
+    		mkdir -v "${STUDY}/bids_data/derivatives/prepost_analysis"
+		fi
 		if [ ! -d "${STUDY}/bids_data/derivatives/prepost_analysis/sub-${SUB}" ]; then
     		mkdir -v "${STUDY}/bids_data/derivatives/prepost_analysis/sub-${SUB}"
 		fi
