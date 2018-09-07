@@ -5,7 +5,7 @@
 %-----------------------------------------------------------------------
 
 %% select acq-1 files
-matlabbatch{1}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {'/projects/sanlab/shared/REV/bids_data/derivatives/fmriprep/sub-REV001/ses-wave1/func'};
+matlabbatch{1}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {'/projects/sanlab/shared/REV/bids_data/derivatives/fx_test/fmriprep/sub-REV001/ses-wave1/func'};
 matlabbatch{1}.cfg_basicio.file_dir.file_ops.file_fplist.filter = 'sub-REV001_ses-wave1_task-sst_acq-1_run-.*_bold_space-MNI152NLin2009cAsym_preproc.nii.gz';
 matlabbatch{1}.cfg_basicio.file_dir.file_ops.file_fplist.rec = 'FPList';
 
@@ -19,7 +19,7 @@ matlabbatch{3}.spm.util.exp_frames.files(1) = cfg_dep('Gunzip Files: Gunzipped F
 matlabbatch{3}.spm.util.exp_frames.frames = Inf;
 
 %% select acq-2 files
-matlabbatch{4}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {'/projects/sanlab/shared/REV/bids_data/derivatives/fmriprep/sub-REV001/ses-wave1/func'};
+matlabbatch{4}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {'/projects/sanlab/shared/REV/bids_data/derivatives/fx_test/fmriprep/sub-REV001/ses-wave1/func'};
 matlabbatch{4}.cfg_basicio.file_dir.file_ops.file_fplist.filter = 'sub-REV001_ses-wave1_task-sst_acq-2_run-.*_bold_space-MNI152NLin2009cAsym_preproc.nii.gz';
 matlabbatch{4}.cfg_basicio.file_dir.file_ops.file_fplist.rec = 'FPList';
 
@@ -49,7 +49,7 @@ matlabbatch{8}.spm.spatial.smooth.prefix = 's';
 %% select brain mask file for acq-1. 
 %NOTE: Only specifying brainmask from run-01 since they should be the same for every run (i.e. it is a standard brain mask). 
 %Using run-01 instead acq-1 to make more robust.
-matlabbatch{9}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {'/projects/sanlab/shared/REV/bids_data/derivatives/fmriprep/sub-REV001/ses-wave1/func'};
+matlabbatch{9}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {'/projects/sanlab/shared/REV/bids_data/derivatives/fx_test/fmriprep/sub-REV001/ses-wave1/func'};
 matlabbatch{9}.cfg_basicio.file_dir.file_ops.file_fplist.filter = 'sub-REV001_ses-wave1_task-sst_acq-.*_run-01_bold_space-MNI152NLin2009cAsym_brainmask.nii.gz'; 
 matlabbatch{9}.cfg_basicio.file_dir.file_ops.file_fplist.rec = 'FPList';
 
