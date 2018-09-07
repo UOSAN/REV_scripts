@@ -54,14 +54,17 @@ mempercpu=3G
 if [ "${PROCESS}" == "slurm" ]; then 
 	for SUB in $SUBJLIST
 	do
-		if [ ! -d "${STUDY}/bids_data/derivatives/baseline_analyses/sub-${SUB}" ]; then
-    		mkdir -v "${STUDY}/bids_data/derivatives/baseline_analyses/sub-${SUB}"
+		if [ ! -d "${STUDY}/bids_data/derivatives/prepost_analysis" ]; then
+    		mkdir -v "${STUDY}/bids_data/derivatives/prepost_analysis"
 		fi
-		if [ ! -d "${STUDY}/bids_data/derivatives/baseline_analyses/sub-${SUB}/fx" ]; then
-    		mkdir -v "${STUDY}/bids_data/derivatives/baseline_analyses/sub-${SUB}/fx"
+		if [ ! -d "${STUDY}/bids_data/derivatives/prepost_analysis/sub-${SUB}" ]; then
+    		mkdir -v "${STUDY}/bids_data/derivatives/prepost_analysis/sub-${SUB}"
 		fi
-		if [ ! -d "${STUDY}/bids_data/derivatives/baseline_analyses/sub-${SUB}/fx/gng" ]; then
-    		mkdir -v "${STUDY}/bids_data/derivatives/baseline_analyses/sub-${SUB}/fx/gng"
+		if [ ! -d "${STUDY}/bids_data/derivatives/prepost_analysis/sub-${SUB}/fx" ]; then
+    		mkdir -v "${STUDY}/bids_data/derivatives/prepost_analysis/sub-${SUB}/fx"
+		fi
+		if [ ! -d "${STUDY}/bids_data/derivatives/prepost_analysis/sub-${SUB}/fx/gng" ]; then
+    		mkdir -v "${STUDY}/bids_data/derivatives/prepost_analysis/sub-${SUB}/fx/gng"
 		fi
 	 echo "submitting via slurm"
 	 sbatch --export=REPLACESID=$REPLACESID,SCRIPT=$SCRIPT,SUB=$SUB,SPM_PATH=$SPM_PATH,PROCESS=$PROCESS  \
