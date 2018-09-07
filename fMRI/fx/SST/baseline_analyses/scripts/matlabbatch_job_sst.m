@@ -5,7 +5,7 @@
 %-----------------------------------------------------------------------
 
 %% select acq-1 files
-matlabbatch{1}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {'/projects/sanlab/shared/REV/bids_data/derivatives/fmriprep/sub-REV001/ses-wave1/func'};
+matlabbatch{1}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {'/projects/sanlab/shared/REV/bids_data/derivatives/fx_test/fmriprep/sub-REV001/ses-wave1/func'};
 matlabbatch{1}.cfg_basicio.file_dir.file_ops.file_fplist.filter = 'sub-REV001_ses-wave1_task-sst_acq-1_run-.*_bold_space-MNI152NLin2009cAsym_preproc.nii.gz';
 matlabbatch{1}.cfg_basicio.file_dir.file_ops.file_fplist.rec = 'FPList';
 
@@ -19,7 +19,7 @@ matlabbatch{3}.spm.util.exp_frames.files(1) = cfg_dep('Gunzip Files: Gunzipped F
 matlabbatch{3}.spm.util.exp_frames.frames = Inf;
 
 %% select acq-2 files
-matlabbatch{4}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {'/projects/sanlab/shared/REV/bids_data/derivatives/fmriprep/sub-REV001/ses-wave1/func'};
+matlabbatch{4}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {'/projects/sanlab/shared/REV/bids_data/derivatives/fx_test/fmriprep/sub-REV001/ses-wave1/func'};
 matlabbatch{4}.cfg_basicio.file_dir.file_ops.file_fplist.filter = 'sub-REV001_ses-wave1_task-sst_acq-2_run-.*_bold_space-MNI152NLin2009cAsym_preproc.nii.gz';
 matlabbatch{4}.cfg_basicio.file_dir.file_ops.file_fplist.rec = 'FPList';
 
@@ -49,7 +49,7 @@ matlabbatch{8}.spm.spatial.smooth.prefix = 's';
 %% select brain mask file for acq-1. 
 %NOTE: Only specifying brainmask from run-01 since they should be the same for every run (i.e. it is a standard brain mask). 
 %Using run-01 instead acq-1 to make more robust.
-matlabbatch{9}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {'/projects/sanlab/shared/REV/bids_data/derivatives/fmriprep/sub-REV001/ses-wave1/func'};
+matlabbatch{9}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {'/projects/sanlab/shared/REV/bids_data/derivatives/fx_test/fmriprep/sub-REV001/ses-wave1/func'};
 matlabbatch{9}.cfg_basicio.file_dir.file_ops.file_fplist.filter = 'sub-REV001_ses-wave1_task-sst_acq-.*_run-01_bold_space-MNI152NLin2009cAsym_brainmask.nii.gz'; 
 matlabbatch{9}.cfg_basicio.file_dir.file_ops.file_fplist.rec = 'FPList';
 
@@ -104,18 +104,18 @@ matlabbatch{15}.spm.stats.fmri_est.method.Classical = 1;
 %% specify the contrasts of interest
 matlabbatch{16}.spm.stats.con.spmmat(1) = cfg_dep('Model estimation: SPM.mat File', substruct('.','val', '{}',{15}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','spmmat'));
 matlabbatch{16}.spm.stats.con.consess{1}.tcon.name = '1_CorrectStop>CorrectGo';
-matlabbatch{16}.spm.stats.con.consess{1}.tcon.weights = [-1 0 1 0 0 0 0 0 0 0];
+matlabbatch{16}.spm.stats.con.consess{1}.tcon.weights = [-1 0 1 0 0 0 0 0];
 matlabbatch{16}.spm.stats.con.consess{1}.tcon.sessrep = 'replsc';
 matlabbatch{16}.spm.stats.con.consess{2}.tcon.name = '2_CorrectStop>IncorrectStop';
-matlabbatch{16}.spm.stats.con.consess{2}.tcon.weights = [0 0 1 0 -1 0 0 0 0 0];
+matlabbatch{16}.spm.stats.con.consess{2}.tcon.weights = [0 0 1 0 -1 0 0 0];
 matlabbatch{16}.spm.stats.con.consess{2}.tcon.sessrep = 'replsc';
 matlabbatch{16}.spm.stats.con.consess{3}.tcon.name = '3_AnyStop>Baseline';
-matlabbatch{16}.spm.stats.con.consess{3}.tcon.weights = [0 0 0.5 0 0.5 0 0 0 0 0];
+matlabbatch{16}.spm.stats.con.consess{3}.tcon.weights = [0 0 0.5 0 0.5 0 0 0];
 matlabbatch{16}.spm.stats.con.consess{3}.tcon.sessrep = 'replsc';
-matlabbatch{16}.spm.stats.con.consess{4}.tcon.name = '4_AnyGo>Baseline';
-matlabbatch{16}.spm.stats.con.consess{4}.tcon.weights = [0.5 0 0 0 0 0 0 0 0.5 0];
+matlabbatch{16}.spm.stats.con.consess{4}.tcon.name = '4_CorrectGo>Baseline';
+matlabbatch{16}.spm.stats.con.consess{4}.tcon.weights = [1 0 0 0 0 0 0 0];
 matlabbatch{16}.spm.stats.con.consess{4}.tcon.sessrep = 'replsc';
-matlabbatch{16}.spm.stats.con.consess{5}.tcon.name = '5_AnyStop>AnyGo';
-matlabbatch{16}.spm.stats.con.consess{5}.tcon.weights = [-0.5 0 0.5 0 0.5 0 0 0 -0.5 0];
+matlabbatch{16}.spm.stats.con.consess{5}.tcon.name = '5_AnyStop>CorrectGo';
+matlabbatch{16}.spm.stats.con.consess{5}.tcon.weights = [-1 0 0.5 0 0.5 0 0 0];
 matlabbatch{16}.spm.stats.con.consess{5}.tcon.sessrep = 'replsc';
 matlabbatch{16}.spm.stats.con.delete = 0;
