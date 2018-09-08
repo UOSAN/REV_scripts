@@ -141,7 +141,7 @@ for s=1:numSubs
                     FailedGoCount(s,r)=sum(isIncorrectGo);
                 end
                 
-                fxFolder = [repodir 'names_onsets_durations/sst/'];
+                fxFolder = [repodir 'names_onsets_durations/SST/'];
                 if exist(fxFolder)==7 %do nothing
                 else mkdir(fxFolder)
                 end
