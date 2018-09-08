@@ -6,7 +6,7 @@
 #
 # Set your directories
 
-container=containers/poldracklab_fmriprep_latest-2017-12-07-ba92e815fc4e.img
+container=containers/fmriprep-latest-2018-09-05.simg
 group_dir=/projects/sanlab/shared/ #set path to directory within which study folder lives
 study="REV" 
 study_dir="${group_dir}""${study}"
@@ -17,7 +17,7 @@ fi
 
 
 # Set subject list
-subject_list=`cat subject_list_resubmit_2018.09.04.txt` 
+subject_list=`cat subject_list_fmriprep.txt` 
 
 # Loop through subjects and run job_mriqc
 for subject in $subject_list; do
