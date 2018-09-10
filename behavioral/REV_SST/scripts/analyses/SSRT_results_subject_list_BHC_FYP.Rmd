@@ -1,6 +1,6 @@
 ---
 title: 'REV Behavioral Data Analysis: SST'
-author: "Krista DeStasio"
+author: "Krista DeStasio/Brendan Cullen"
 date: "4/26/2017"
 output:
   html_document:
@@ -17,7 +17,7 @@ editor_options:
 ```{r setup, include=FALSE}
 ## R version 3.4.3 ##
 rm(list = ls())
-setwd("~/Desktop/REV/REV_scripts/behavioral/REV_SST/scripts/analyses/")
+setwd("~/Desktop/REV_scripts/behavioral/REV_SST/scripts/analyses/")
 
 ## Install and load required packages
 list.of.packages <- c("stringr", "tidyverse", "reshape2", "ggplot2", "psych", "gridExtra", "knitr", "lme4", "memisc", "withr", "ez")
@@ -54,19 +54,19 @@ condition <- factor(condition, labels = c("control", "train"))
 ```{r Import task data}
 ## Import the SSRT results output from the extractAllSSTResults.m script
 SSRTdata <- read.table(
-  "~/Desktop/REV/REV_scripts/behavioral/REV_SST/compiledResults/upToREV144/singleVarTxts/REV_SSRTint16.txt",
+  "~/Desktop/REV_scripts/behavioral/REV_SST/compiledResults/upToREV144/singleVarTxts/REV_SSRTint16.txt",
   sep = "\t", header = FALSE)
 ## No Response Counts
 noResponseCount <- read.table(
-  "~/Desktop/REV/REV_scripts/behavioral/REV_SST/compiledResults/upToREV144/initialCheck/NRCount.txt",
+  "~/Desktop/REV_scripts/behavioral/REV_SST/compiledResults/upToREV144/initialCheck/NRCount.txt",
   sep = "\t", header = FALSE)
 ## Wrong Go Counts
 wrongGoCount <- read.table(
-  "~/Desktop/REV/REV_scripts/behavioral/REV_SST/compiledResults/upToREV144/initialCheck/wrongGoCount.txt",
+  "~/Desktop/REV_scripts/behavioral/REV_SST/compiledResults/upToREV144/initialCheck/wrongGoCount.txt",
   sep = "\t", header = FALSE)
 ## Percent inhibition
 pctInhibition <- read.table(
-  "~/Desktop/REV/REV_scripts/behavioral/REV_SST/compiledResults/upToREV144/singleVarTxts/REV_PctInhib16.txt",
+  "~/Desktop/REV_scripts/behavioral/REV_SST/compiledResults/upToREV144/singleVarTxts/REV_PctInhib16.txt",
   sep = "\t", header = FALSE)
 ```
 
@@ -143,6 +143,7 @@ df_SSRT <- df_SSRT %>%
 
 # Look at which participants had runs removed & how many
 outliers1 <- (!df_rawSSRT$SSRT %in% df_SSRT$SSRT)
+
 outliers_pctInhib <- as.data.frame(table(df_rawSSRT[outliers1,]$ID))
 colnames(outliers_pctInhib) <- c("ID", "outliers_pctInhib")
 ```
