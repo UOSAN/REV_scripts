@@ -133,13 +133,13 @@ df_SSRT <- df_rawSSRT
 
 df_SSRT <- df_SSRT %>% 
     mutate(SSRT = replace(SSRT, 
-                         which(pctInhibition > 75 & time != "run3" & time != "run4" & time != "run5" & time != "run6" & time != "run7" & time != "run8" & time != "run9" & time != "run10" & time != "run11" & time != "run12" | pctInhibition < 20 & time != "run3" & time != "run4" & time != "run5" & time != "run6" & time != "run7" & time != "run8" & time != "run9" & time != "run10" & time != "run11" & time != "run12" & time != "run13" & time != "run14"), NA)) # Baseline Scans
+                         which(pctInhibition > 75 & time != "run3" & time != "run4" & time != "run5" & time != "run6" & time != "run7" & time != "run8" & time != "run9" & time != "run10" & time != "run11" & time != "run12" & time != "run13" & time != "run14" | pctInhibition < 20 & time != "run3" & time != "run4" & time != "run5" & time != "run6" & time != "run7" & time != "run8" & time != "run9" & time != "run10" & time != "run11" & time != "run12" & time != "run13" & time != "run14"), NA)) # Baseline Scans
 
 ## Replace the percent inhibition with NAs if they  > 75 | < 20 during scans (all participants)
 
 df_SSRT <- df_SSRT %>%
     mutate(pctInhibition = replace(pctInhibition,
-                                  which(pctInhibition < 20  & time != "run3" & time != "run4" & time != "run5" & time != "run6" & time != "run7" & time != "run8" & time != "run9" & time != "run10" & time != "run11" & time != "run12" | pctInhibition > 75 & time != "run3" & time != "run4" & time != "run5" & time != "run6" & time != "run7" & time != "run8" & time != "run9" & time != "run10" & time != "run11" & time != "run12" & time != "run13" & time != "run14"), NA)) # Baseline Scans
+                                  which(pctInhibition < 20  & time != "run3" & time != "run4" & time != "run5" & time != "run6" & time != "run7" & time != "run8" & time != "run9" & time != "run10" & time != "run11" & time != "run12" & time != "run13" & time != "run14" | pctInhibition > 75 & time != "run3" & time != "run4" & time != "run5" & time != "run6" & time != "run7" & time != "run8" & time != "run9" & time != "run10" & time != "run11" & time != "run12" & time != "run13" & time != "run14"), NA)) # Baseline Scans
 
 # Look at which participants had runs removed & how many
 outliers1 <- (!df_rawSSRT$SSRT %in% df_SSRT$SSRT)
@@ -153,11 +153,11 @@ colnames(outliers_pctInhib) <- c("ID", "outliers_pctInhib")
 ## Replace the SSRTs with NAs if no-responses are > 50 during scans
 df_SSRT <- df_SSRT %>% 
     mutate(SSRT = replace(SSRT, 
-                         which(numNoResponse > 50 & time != "run3" & time != "run4" & time != "run5" & time != "run6" & time != "run7" & time != "run8" & time != "run9" & time != "run10" & time != "run11" & time != "run12" | pctInhibition < 20 & time != "run3" & time != "run4" & time != "run5" & time != "run6" & time != "run7" & time != "run8" & time != "run9" & time != "run10" & time != "run11" & time != "run12" & time != "run13" & time != "run14"), NA)) # Baseline Scans
+                         which(numNoResponse > 50 & time != "run3" & time != "run4" & time != "run5" & time != "run6" & time != "run7" & time != "run8" & time != "run9" & time != "run10" & time != "run11" & time != "run12" & time != "run13" & time != "run14" | pctInhibition < 20 & time != "run3" & time != "run4" & time != "run5" & time != "run6" & time != "run7" & time != "run8" & time != "run9" & time != "run10" & time != "run11" & time != "run12" & time != "run13" & time != "run14"), NA)) # Baseline Scans
 
 df_SSRT <- df_SSRT %>% 
     mutate(numNoResponse = replace(numNoResponse, 
-                                  which(numNoResponse > 50 & time != "run3" & time != "run4" & time != "run5" & time != "run6" & time != "run7" & time != "run8" & time != "run9" & time != "run10" & time != "run11" & time != "run12" | pctInhibition < 20 & time != "run3" & time != "run4" & time != "run5" & time != "run6" & time != "run7" & time != "run8" & time != "run9" & time != "run10" & time != "run11" & time != "run12" & time != "run13" & time != "run14"), NA)) # Baseline Scans
+                                  which(numNoResponse > 50 & time != "run3" & time != "run4" & time != "run5" & time != "run6" & time != "run7" & time != "run8" & time != "run9" & time != "run10" & time != "run11" & time != "run12" & time != "run13" & time != "run14" | pctInhibition < 20 & time != "run3" & time != "run4" & time != "run5" & time != "run6" & time != "run7" & time != "run8" & time != "run9" & time != "run10" & time != "run11" & time != "run12" & time != "run13" & time != "run14"), NA)) # Baseline Scans
 
 # Look at which participants had runs removed & how many
 outliers2 <- (!df_rawSSRT$SSRT %in% df_SSRT$SSRT)
@@ -191,7 +191,7 @@ colnames(outliers_wrongGo) <- c("ID", "Runs_omitted_wrongGo")
 
 df_SSRT <- df_SSRT %>% 
     mutate(SSRT = replace(SSRT,
-                         which(SSRT > 850 & time != "run3" & time != "run4" & time != "run5" & time != "run6" & time != "run7" & time != "run8" & time != "run9" & time != "run10" & time != "run11" & time != "run12" | SSRT < 100 & time != "run3" & time != "run4" & time != "run5" & time != "run6" & time != "run7" & time != "run8" & time != "run9" & time != "run10" & time != "run11" & time != "run12" & time != "run13" & time != "run14"), NA)) # Baseline Scans
+                         which(SSRT > 850 & time != "run3" & time != "run4" & time != "run5" & time != "run6" & time != "run7" & time != "run8" & time != "run9" & time != "run10" & time != "run11" & time != "run12" & time != "run13" & time != "run14" | SSRT < 100 & time != "run3" & time != "run4" & time != "run5" & time != "run6" & time != "run7" & time != "run8" & time != "run9" & time != "run10" & time != "run11" & time != "run12" & time != "run13" & time != "run14"), NA)) # Baseline Scans
 
 # Look at which participants had runs removed & how many
 outliers4 <- (!df_rawSSRT$SSRT %in% df_SSRT$SSRT)
