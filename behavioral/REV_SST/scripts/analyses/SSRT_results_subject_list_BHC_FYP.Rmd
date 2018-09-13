@@ -242,6 +242,11 @@ names(df_SSRT)[names(df_SSRT)=="run2"] <- "SSRT_run2"
 df_SSRT$SSRT_base_mean <- rowMeans(df_SSRT[,c("SSRT_run1","SSRT_run2")], na.rm = TRUE)
 ```
 
+## Write list of omitted runs to an excel file
+```{r}
+write.csv(df_omitted_runs, file = "~/Desktop/df_omitted_runs.csv", row.names = FALSE)
+```
+
 ## NOT USING THIS PART OF THE ORIGINAL CODE
 
 <!-- ## Comparison Plots: Raw vs. Cleaned Data   -->
