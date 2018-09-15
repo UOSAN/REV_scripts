@@ -25,7 +25,7 @@ REPLACESID='REV001'
 
 # Set MATLAB script path
 #COMPNAME=ralph #use this for help specifying paths to run locally
-SCRIPT=${STUDY}/REV_scripts/fMRI/fx/React/baseline_analyses/both_acqs/scripts/matlabbatch_job_react_both_acqs.m
+SCRIPT=${STUDY}/REV_scripts/fMRI/fx/React/baseline_analyses/acq1_only/scripts/matlabbatch_job_react_acq1_only.m
 
 #SPM Path
 SPM_PATH=/projects/sanlab/shared/spm12
