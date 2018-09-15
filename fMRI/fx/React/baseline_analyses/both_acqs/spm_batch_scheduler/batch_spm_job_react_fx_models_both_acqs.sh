@@ -34,7 +34,16 @@ SPM_PATH=/projects/sanlab/shared/spm12
 RESULTS_INFIX=fx_models
 
 # Set output dir
-OUTPUTDIR=${STUDY}/REV_scripts/fMRI/fx/react/scripts/output_logs
+if [ ! -d "${STUDY}/REV_scripts/fMRI/fx/React/baseline_analyses/both_acqs/scripts/output_logs" ]; then
+    mkdir -v "${STUDY}/REV_scripts/fMRI/fx/React/baseline_analyses/both_acqs/scripts/output_logs"
+OUTPUTDIR=${STUDY}/REV_scripts/fMRI/fx/React/baseline_analyses/both_acqs/scripts/output_logs
+
+# make sid_batch dir if doesn't exist
+if [ ! -d "${STUDY}/REV_scripts/fMRI/fx/React/baseline_analyses/both_acqs/scripts/sid_batches" ]; then
+    mkdir -v "${STUDY}/REV_scripts/fMRI/fx/React/baseline_analyses/both_acqs/scripts/sid_batches"
+
+if [ ! -d "${STUDY}/REV_scripts/fMRI/fx/React/baseline_analyses/both_acqs/scripts/sid_batches/matlab_job_react" ]; then
+    mkdir -v "${STUDY}/REV_scripts/fMRI/fx/React/baseline_analyses/both_acqs/scripts/sid_batches/matlab_job_react"
 
 # Set processor
 # use "slurm" for Talapas
