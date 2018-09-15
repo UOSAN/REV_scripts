@@ -18,14 +18,14 @@
 STUDY=/projects/sanlab/shared/REV
 
 # Set subject list
-SUBJLIST=`cat subject_list_sst.txt`
+SUBJLIST=`cat subject_list_sst_both_acqs.txt`
 
 # Which SID should be replaced?
 REPLACESID='REV001'
 
 # Set MATLAB script path
 #COMPNAME=ralph #use this for help specifying paths to run locally
-SCRIPT=${STUDY}/REV_scripts/fMRI/fx/SST/baseline_analyses/scripts/matlabbatch_job_sst.m
+SCRIPT=${STUDY}/REV_scripts/fMRI/fx/SST/baseline_analyses/both_acqs/scripts/matlabbatch_job_sst_both_acqs.m
 
 #SPM Path
 SPM_PATH=/projects/sanlab/shared/spm12
@@ -34,7 +34,16 @@ SPM_PATH=/projects/sanlab/shared/spm12
 RESULTS_INFIX=fx_models
 
 # Set output dir
-OUTPUTDIR=${STUDY}/REV_scripts/fMRI/fx/SST/baseline_analyses/scripts/output_logs
+if [ ! -d "${STUDY}/REV_scripts/fMRI/fx/SST/baseline_analyses/both_acqs/scripts/output_logs" ]; then
+    mkdir -v "${STUDY}/REV_scripts/fMRI/fx/SST/baseline_analyses/both_acqs/scripts/output_logs"
+OUTPUTDIR=${STUDY}/REV_scripts/fMRI/fx/SST/baseline_analyses/both_acqs/scripts/output_logs
+
+# make sid_batch dir if doesn't exist
+if [ ! -d "${STUDY}/REV_scripts/fMRI/fx/SST/baseline_analyses/both_acqs/scripts/sid_batches" ]; then
+    mkdir -v "${STUDY}/REV_scripts/fMRI/fx/SST/baseline_analyses/both_acqs/scripts/sid_batches"
+
+if [ ! -d "${STUDY}/REV_scripts/fMRI/fx/SST/baseline_analyses/both_acqs/scripts/sid_batches/matlab_job_sst" ]; then
+    mkdir -v "${STUDY}/REV_scripts/fMRI/fx/SST/baseline_analyses/both_acqs/scripts/sid_batches/matlab_job_sst"
 
 # Set processor
 # use "slurm" for Talapas
@@ -79,5 +88,5 @@ elif [ "${PROCESS}" == "serlocal" ]; then
 	 bash spm_job_sst.sh ${REPLACESID} ${SCRIPT} ${SUB} > "${OUTPUTDIR}"/"${SUBJ}"_${RESULTS_INFIX}_output.txt 2> /"${OUTPUTDIR}"/"${SUBJ}"_${RESULTS_INFIX}_error.txt
 	done
 elif [ "${PROCESS}" == "parlocal" ]; then 
-	parallel --verbose --results "${OUTPUTDIR}"/{}_${RESULTS_INFIX}_output -j${MAXJOBS} bash spm_job_sst.sh ${REPLACESID} ${SCRIPT} :::: subject_list_sst.txt
+	parallel --verbose --results "${OUTPUTDIR}"/{}_${RESULTS_INFIX}_output -j${MAXJOBS} bash spm_job_sst.sh ${REPLACESID} ${SCRIPT} :::: subject_list_sst_both_acqs.txt
 fi
