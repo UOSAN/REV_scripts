@@ -18,14 +18,14 @@
 STUDY=/projects/sanlab/shared/REV
 
 # Set subject list
-SUBJLIST=`cat subject_list_react.txt`
+SUBJLIST=`cat subject_list_react_both_acqs.txt`
 
 # Which SID should be replaced?
 REPLACESID='REV001'
 
 # Set MATLAB script path
 #COMPNAME=ralph #use this for help specifying paths to run locally
-SCRIPT=${STUDY}/REV_scripts/fMRI/fx/react/scripts/matlabbatch_job_react.m
+SCRIPT=${STUDY}/REV_scripts/fMRI/fx/React/baseline_analyses/both_acqs/scripts/matlabbatch_job_react_both_acqs.m
 
 #SPM Path
 SPM_PATH=/projects/sanlab/shared/spm12
@@ -69,15 +69,15 @@ if [ "${PROCESS}" == "slurm" ]; then
 		 -o "${OUTPUTDIR}"/"${SUB}"_${RESULTS_INFIX}.log \
 		 --cpus-per-task=${cpuspertask} \
 		 --mem-per-cpu=${mempercpu} \
-		 spm_job_react.sh
+		 spm_job_react_both_acqs.sh
 	 sleep .25
 	done
 elif [ "${PROCESS}" == "serlocal" ]; then 
 	for SUB in $SUBJLIST
 	do
 	 echo "submitting locally"
-	 bash spm_job_react.sh ${REPLACESID} ${SCRIPT} ${SUB} > "${OUTPUTDIR}"/"${SUBJ}"_${RESULTS_INFIX}_output.txt 2> /"${OUTPUTDIR}"/"${SUBJ}"_${RESULTS_INFIX}_error.txt
+	 bash spm_job_react_both_acqs.sh ${REPLACESID} ${SCRIPT} ${SUB} > "${OUTPUTDIR}"/"${SUBJ}"_${RESULTS_INFIX}_output.txt 2> /"${OUTPUTDIR}"/"${SUBJ}"_${RESULTS_INFIX}_error.txt
 	done
 elif [ "${PROCESS}" == "parlocal" ]; then 
-	parallel --verbose --results "${OUTPUTDIR}"/{}_${RESULTS_INFIX}_output -j${MAXJOBS} bash spm_job_react.sh ${REPLACESID} ${SCRIPT} :::: subject_list_react.txt
+	parallel --verbose --results "${OUTPUTDIR}"/{}_${RESULTS_INFIX}_output -j${MAXJOBS} bash spm_job_react_both_acqs.sh ${REPLACESID} ${SCRIPT} :::: subject_list_react_both_acqs.txt
 fi
