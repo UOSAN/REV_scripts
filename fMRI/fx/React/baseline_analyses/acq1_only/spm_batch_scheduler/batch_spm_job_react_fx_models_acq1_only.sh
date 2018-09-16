@@ -36,14 +36,17 @@ RESULTS_INFIX=fx_models
 # Set output dir
 if [ ! -d "${STUDY}/REV_scripts/fMRI/fx/React/baseline_analyses/acq1_only/scripts/output_logs" ]; then
     mkdir -v "${STUDY}/REV_scripts/fMRI/fx/React/baseline_analyses/acq1_only/scripts/output_logs"
+fi
 OUTPUTDIR=${STUDY}/REV_scripts/fMRI/fx/React/baseline_analyses/acq1_only/scripts/output_logs
 
 # make sid_batch dir if doesn't exist
 if [ ! -d "${STUDY}/REV_scripts/fMRI/fx/React/baseline_analyses/acq1_only/scripts/sid_batches" ]; then
     mkdir -v "${STUDY}/REV_scripts/fMRI/fx/React/baseline_analyses/acq1_only/scripts/sid_batches"
+fi
 
 if [ ! -d "${STUDY}/REV_scripts/fMRI/fx/React/baseline_analyses/acq1_only/scripts/sid_batches/matlab_job_react" ]; then
     mkdir -v "${STUDY}/REV_scripts/fMRI/fx/React/baseline_analyses/acq1_only/scripts/sid_batches/matlab_job_react"
+fi
 
 # Set processor
 # use "slurm" for Talapas
