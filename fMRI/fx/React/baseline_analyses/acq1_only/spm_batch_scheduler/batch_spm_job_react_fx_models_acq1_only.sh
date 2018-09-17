@@ -18,7 +18,7 @@
 STUDY=/projects/sanlab/shared/REV
 
 # Set subject list
-SUBJLIST=`cat subject_list_react_both_acqs.txt`
+SUBJLIST=`cat subject_list_react_acq1_only.txt`
 
 # Which SID should be replaced?
 REPLACESID='REV001'
@@ -91,5 +91,5 @@ elif [ "${PROCESS}" == "serlocal" ]; then
 	 bash spm_job_react.sh ${REPLACESID} ${SCRIPT} ${SUB} > "${OUTPUTDIR}"/"${SUBJ}"_${RESULTS_INFIX}_output.txt 2> /"${OUTPUTDIR}"/"${SUBJ}"_${RESULTS_INFIX}_error.txt
 	done
 elif [ "${PROCESS}" == "parlocal" ]; then 
-	parallel --verbose --results "${OUTPUTDIR}"/{}_${RESULTS_INFIX}_output -j${MAXJOBS} bash spm_job_react.sh ${REPLACESID} ${SCRIPT} :::: subject_list_react_both_acqs.txt
+	parallel --verbose --results "${OUTPUTDIR}"/{}_${RESULTS_INFIX}_output -j${MAXJOBS} bash spm_job_react.sh ${REPLACESID} ${SCRIPT} :::: subject_list_react_acq1_only.txt
 fi
