@@ -1,7 +1,6 @@
 # Set working directory
-working_dir = "/projects/sanlab/shared/REV/bids_data/derivatives/fmriprep"
-#working_dir = "/Users/brendancullen/Desktop/sub-REV001_React_data"
-#working_dir = "/Users/melmo/Downloads"
+#working_dir = "/projects/sanlab/shared/REV/bids_data/derivatives/fmriprep"
+working_dir = "/projects/sanlab/shared/REV/fmriprep_backup/2018.09.06_rev_fmriprep_backup"
 setwd(working_dir)
 
 # Set output directory
