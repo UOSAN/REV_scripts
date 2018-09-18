@@ -6,11 +6,11 @@
 ###################################################
 
 # Change this, path to data and script repos
-# repopath="/Users/kristadestasio/Desktop"
-repopath="/Users/brendancullen/Desktop/REV"
+#repopath="/Users/kristadestasio/Desktop/REV_scripts"
+repopath="/Users/brendancullen/Desktop/REV_scripts"
  
 # Set paths
-datadir="$repopath/REV_scripts/behavioral/REV_SST/output"
+datadir="$repopath/behavioral/REV_SST/output"
 outputlog="$datadir/outputlog_renamed.txt"
 
 # Create output log
@@ -63,6 +63,8 @@ cd ../post
 echo "----------------RENAMING POST FILES----------------" >> $outputlog
 mv sub55_run12_scan1_05-Sep-2015_10-10.mat sub55_run13_scan3_05-Sep-2015_10-10.mat
 echo "sub55_run12_scan1_05-Sep-2015_10-10.mat renamed to sub55_run13_scan3_05-Sep-2015_10-10.mat" >> $outputlog
+mv sub116_run11_scan1_25-Mar-2016_11-34.mat sub116_run13_scan1_25-Mar-2016_11-34.mat
+echo "sub116_run11_scan1_25-Mar-2016_11-34.mat renamed to sub116_run13_scan1_25-Mar-2016_11-34.mat" >> $outputlog
 
 echo "----------------MOVING POST FILES TO OMITTED FOLDER----------------" >> $outputlog
 mv sub17_run13_scan3_23-Apr-2015_10-32.mat ../omitted/sub17_run13_scan3_23-Apr-2015_10-32.mat

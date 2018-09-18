@@ -8,11 +8,12 @@
 
 # Change this, path to data and script repos
 # repopath="/Users/kristadestasio/Desktop"
-repopath="/Users/brendancullen/Desktop/REV"
+repopath="/Users/brendancullen/Desktop/REV_scripts"
 
 # Set paths
-outputdir="$repopath/REV_scripts/behavioral/REV_SST/output"
-sourcedir="$repopath/REV_BxData"
+outputdir="$repopath/behavioral/REV_SST/output"
+#sourcedir="/Users/kristadestasio/Desktop/REV_BxData"
+sourcedir="/Users/brendancullen/Desktop/REV_BxData"
 outputlog="$outputdir/outputlog_populate.txt"
 errorlog="$outputdir/errorlog_populate.txt"
 allsubs="$outputdir/subjectlist.txt"
@@ -42,8 +43,8 @@ if [ ! -d "${outputdir}/analysisReady" ]; then
 	mkdir -v "${outputdir}/analysisReady"
 fi
 
-if [ ! -d "${repopath}/REV_scripts/behavioral/REV_SST/compiledResults" ]; then
-	mkdir -v "${repopath}/REV_scripts/behavioral/REV_SST/compiledResults"	
+if [ ! -d "${repopath}/behavioral/REV_SST/compiledResults" ]; then
+	mkdir -v "${repopath}/behavioral/REV_SST/compiledResults"	
 fi
 
 if [ ! -d "${sourcedir}" ]; then

@@ -18,7 +18,7 @@ study = "REV"
 # They need to exist prior to running the script.
 logdir = os.path.join(os.getcwd(), 'logs_bidsQC')  # Where log files will go
 bidsdir = os.path.join(os.sep, 'projects', group, 'shared', study, 'bids_data')  # Where your subjects' nifti directories are
-tempdir = os.path.join(bidsdir, "tmp_dcm2bids")
+tempdir = os.path.join(bidsdir, "tmp_dcm2bids2")
 outputlog = os.path.join(logdir, "outputlog_bidsQC_" + datetime.now().strftime("%Y%m%d-%H%M") + ".txt")
 errorlog = os.path.join(logdir, "errorlog_bidsQC_" + datetime.now().strftime("%Y%m%d-%H%M") + ".txt")
 derivatives = os.path.join(bidsdir, "derivatives")

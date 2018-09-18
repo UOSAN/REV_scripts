@@ -4,8 +4,8 @@
 % analyisReady folder and rename them
 
 % INITIAL SETUP (may need to change these parameters)
-cd('~/Desktop/REV/REV_scripts/behavioral/REV_SST/output/')
-%cd('~/Desktop/REV_scripts/behavioral/REV_SST/output/')
+%cd('~/Desktop/REV/REV_scripts/behavioral/REV_SST/output/')
+cd('~/Desktop/REV_scripts/behavioral/REV_SST/output/')
 prefix = 'REV';
 Subs=[1:144]
     %1:3 6 9 10:11 13 16:24 26:27 29 31 32 34:39 41 43 44 46:60 62 65 67:70 73:78 80 82 84 86 88:91 93 94 97 98 100 102 104 107:111 114:119 121 124 126:127 129:131 134:138 140:142 144];

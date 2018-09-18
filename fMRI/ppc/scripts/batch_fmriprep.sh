@@ -6,7 +6,7 @@
 #
 # Set your directories
 
-container=containers/poldracklab_fmriprep_latest-2017-12-07-ba92e815fc4e.img
+container=containers/fmriprep-latest-2018-09-05.simg
 group_dir=/projects/sanlab/shared/ #set path to directory within which study folder lives
 study="REV" 
 study_dir="${group_dir}""${study}"
@@ -17,7 +17,7 @@ fi
 
 
 # Set subject list
-subject_list=`cat subject_list_fmriprep.txt` 
+subject_list=`cat subject_list_resubmit_2018.09.14.txt` 
 
 # Loop through subjects and run job_mriqc
 for subject in $subject_list; do
@@ -25,6 +25,6 @@ for subject in $subject_list; do
 subid=`echo $subject|awk '{print $1}' FS=","`
 sessid=`echo $subject|awk '{print $2}' FS=","`
   
-sbatch --export subid=${subid},sessid=${sessid},group_dir=${group_dir},study_dir=${study_dir},study=${study},container=${container} --job-name fmriprep --partition=long -n16 --mem=75G --time=20:00:00 -o "${group_dir}"/"${study}"/REV_scripts/fMRI/ppc/output/"${subid}"_"${sessid}"_fmriprep_output.txt -e "${group_dir}"/"${study}"/REV_scripts/fMRI/ppc/output/"${subid}"_"${sessid}"_fmriprep_error.txt job_fmriprep.sh
+sbatch --export subid=${subid},sessid=${sessid},group_dir=${group_dir},study_dir=${study_dir},study=${study},container=${container} --job-name fmriprep --partition=short --cpus-per-task=28 --mem=75G --time=24:00:00 -o "${group_dir}"/"${study}"/REV_scripts/fMRI/ppc/output/"${subid}"_"${sessid}"_fmriprep_output.txt -e "${group_dir}"/"${study}"/REV_scripts/fMRI/ppc/output/"${subid}"_"${sessid}"_fmriprep_error.txt job_fmriprep.sh
 	
 done

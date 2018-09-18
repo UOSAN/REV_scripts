@@ -10,19 +10,20 @@ echo_time2 = '0.00683'
 
 
 def main():
-    subjectdirs = get_subjectdirs()
-    for subjectdir in subjectdirs:
-        timepoints = get_timepoints(subjectdir)
-        for timepoint in timepoints:
-            func_dir_path = os.path.join(bidsdir, subjectdir, timepoint, 'func')
-            fmap_dir_path = os.path.join(bidsdir, subjectdir, timepoint, 'fmap')
-            if os.path.isdir(func_dir_path):
-                func_niftis_partialpath = get_funcdir_niftis(func_dir_path, timepoint)
-                if os.path.isdir(fmap_dir_path):
-                    fmap_jsons = get_fmap_jsons(fmap_dir_path)
-                    write_to_json(func_niftis_partialpath, fmap_jsons, fmap_dir_path, echo_time1, echo_time2)
-            else:
-                continue
+   #  subjectdirs = get_subjectdirs()
+   #  for subjectdir in subjectdirs:
+    subjectdir = 'sub-REV105'
+    timepoints = get_timepoints(subjectdir)
+    for timepoint in timepoints:
+        func_dir_path = os.path.join(bidsdir, subjectdir, timepoint, 'func')
+        fmap_dir_path = os.path.join(bidsdir, subjectdir, timepoint, 'fmap')
+        if os.path.isdir(func_dir_path):
+            func_niftis_partialpath = get_funcdir_niftis(func_dir_path, timepoint)
+            if os.path.isdir(fmap_dir_path):
+                fmap_jsons = get_fmap_jsons(fmap_dir_path)
+                write_to_json(func_niftis_partialpath, fmap_jsons, fmap_dir_path, echo_time1, echo_time2)
+        else:
+            continue
 
 
 def get_subjectdirs() -> list:
