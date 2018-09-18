@@ -2,10 +2,12 @@
 studyCode = 'REV';
 firstSub = 1;
 lastSub = 144;
-exclude = []%[4 5 7 8 12 14 15 25 28 30 33 40 42 45 61 63 64 66 71 72 79 81 83 85 87 92 95 96 99 101 103 105 106 112 113 120 122 123 125 128 132 133 139 143]; % If you want to exclude any numbers, put them in this vector (e.g. exclude = [5 20];)
+exclude = [];%[4 5 7 8 12 14 15 25 28 30 33 40 42 45 61 63 64 66 71 72 79 81 83 85 87 92 95 96 99 101 103 105 106 112 113 120 122 123 125 128 132 133 139 143]; % If you want to exclude any numbers, put them in this vector (e.g. exclude = [5 20];)
 task = 'React'; %'GNG';
 runs = [1 2 3 4];
-repodir = ['~/Desktop/REV/REV_BxData/']; %edit this path for your local computer
+%repodir = ['~/Desktop/REV/REV_BxData/']; %edit this path for your local computer
+repodir = ['~/Dropbox/REV_repos/REV_BxData/'];
+
 dataFolder = [repodir 'data/' task];
 
 
@@ -53,6 +55,7 @@ for s = firstSub:lastSub
                 % For React tast
                 if strcmp(task, 'React')
                     % Set what tags should be
+                    % 1 = risk cue (PRC image) | 2 = neutral cue | 3 = rating screen
                     if r == (1 | 3)
                         new_tags = [0 2 0 3 0 1 0 3 0 1 0 3 0 2 0 3 0 1 0 3 0 1 0 3 0 2 0 3 0 2 0 3 0 1 0 3 0 2 0 3 0 1 0 3 0 2 0 3 0 2 0 3 0 1 0 3 0 2 0 3 0 2 0 3 0 1 0 3 0 1 0 3 0 2 0 3 0 2 0 3 0 1 0 3 0 1 0 3 0 2 0 3 0 2 0 3 0 1 0 3 0 1 0 3 0];
                     elseif r == (2)
