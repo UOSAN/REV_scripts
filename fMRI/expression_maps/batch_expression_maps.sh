@@ -16,7 +16,9 @@ if [ ! -d "${output_dir}" ]; then
 fi
 
 # Set subject list
-subject_list=`cat expression_maps_subject_list.txt` 
+#subject_list=`cat expression_maps_subject_list.txt` 
+declare -a subject_list
+readarray -t subject_list < expression_maps_subject_list.txt
 
 # Loop through subjects and run shell script
 for subid in $subject_list; do
