@@ -42,6 +42,7 @@ catDir = paste0(scriptDir, '/REV_SST/info/')
 
 idDir = paste0(homeBase,'/REV_BxData/')
 dataDir = paste0(idDir, '/questionnaire_data/FromQualtrics/')
+vecsDir = paste0(idDir, 'prc_mappings')
 
 ```
 
@@ -1308,5 +1309,79 @@ survey_data$RC_pos_affect <- pca.orthogonal$scores[,2]
 survey_data$RC_neg_affect <- pca.orthogonal$scores[,3]
 
 # correlate these 3 components and make sure they correspond to the original corr matrix 
+```
+
+```{r get_lists_for_each_prc}
+library(stringr)
+
+ctA <- 1;
+ctD <- 1;
+ctT <- 1;
+ctF <- 1;
+
+subListAlc <- matrix(0, length(survey_data$ID), 1)
+subListDrug <- matrix(0, length(survey_data$ID), 1)
+subListTobac <- matrix(0, length(survey_data$ID), 1)
+subListFood <- matrix(0, length(survey_data$ID), 1)
+
+
+for (s in 1:length(survey_data$ID)) {
+  if (!is.na(survey_data$weighting_var_alcohol[s])) {
+    subListAlc[ctA,1] <- levels(survey_data$ID)[s]
+    subListAlc[ctA,1] <- str_pad(subListAlc[ctA,1], 3, side = "left", pad = 0)
+    ctA <- ctA + 1
+
+  }
+  if (!is.na(survey_data$weighting_var_drugs[s])) {
+    subListDrug[ctD,1] <- levels(survey_data$ID)[s]
+    subListDrug[ctD,1] <- str_pad(subListDrug[ctD,1], 3, side = "left", pad = 0)
+    ctD <- ctD + 1
+  }
+  if (!is.na(survey_data$weighting_var_tobacco[s])) {
+    subListTobac[ctT,1] <- levels(survey_data$ID)[s]
+    subListTobac[ctT,1] <- str_pad(subListTobac[ctT,1], 3, side = "left", pad = 0)
+    ctT <- ctT + 1
+  }
+  if (!is.na(survey_data$weighting_var_food[s])) {
+    subListFood[ctF,1] <- levels(survey_data$ID)[s]
+    subListFood[ctF,1] <- str_pad(subListFood[ctF,1], 3, side = "left", pad = 0)
+    ctF <- ctF + 1
+  }
+}
+
+subListAlc <- matrix(subListAlc[subListAlc != 0], ncol = 1)
+subListDrug <- matrix(subListDrug[subListDrug != 0], ncol = 1)
+subListTobac <- matrix(subListTobac[subListTobac != 0], ncol = 1)
+subListFood <- matrix(subListFood[subListFood != 0], ncol = 1)
+
+
+# setwd('~/Downloads')
+# write.table(subListAlc, "subListAlc.txt", sep = "\t", row.names = FALSE, col.names = FALSE)
+# write.table(subListDrug, "subListDrug.txt", sep = "\t", row.names = FALSE, col.names = FALSE)
+# write.table(subListTobac, "subListTobac.txt", sep = "\t", row.names = FALSE, col.names = FALSE)
+# write.table(subListFood, "subListFood.txt", sep = "\t", row.names = FALSE, col.names = FALSE)
+
+lst <- c('a', 'd', 't', 'f')
+prcListForVecs <- matrix('_', length(survey_data$ID), 2)
+
+for (s in 1:length(survey_data$ID)) {
+  if (survey_data$ID[s] %in% subListAlc) {
+    prcListForVecs[s,1] <- paste0(prcListForVecs[s,1],'A')
+  }
+  if (survey_data$ID[s] %in% subListDrug) {
+    prcListForVecs[s,1] <- paste0(prcListForVecs[s,1],'D')
+  }
+  if (survey_data$ID[s] %in% subListTobac) {
+    prcListForVecs[s,1] <- paste0(prcListForVecs[s,1],'T')
+  }
+  if (survey_data$ID[s] %in% subListFood) {
+    prcListForVecs[s,1] <- paste0(prcListForVecs[s,1],'F')
+  }
+  prcListForVecs[s,2] <- levels(survey_data$ID)[s]
+  
+}
+
+setwd(vecsDir)
+write.table(prcListForVecs, "prcListForVecs.txt", sep = "\t", row.names = FALSE, col.names = FALSE)
 ```
 
