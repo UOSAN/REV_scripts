@@ -242,9 +242,12 @@ names(df_SSRT)[names(df_SSRT)=="run2"] <- "SSRT_run2"
 df_SSRT$SSRT_base_mean <- rowMeans(df_SSRT[,c("SSRT_run1","SSRT_run2")], na.rm = TRUE)
 ```
 
-## Write list of omitted runs to an excel file
+## Write relevant output for Brendan's FYP to .csv file
 ```{r}
-write.csv(df_omitted_runs, file = "~/Desktop/df_omitted_runs.csv", row.names = FALSE)
+# list of omitted runs
+write.csv(df_omitted_runs, file = "~/Dropbox/FYP/Analysis/SST_ScanBx_omitted_runs.csv", row.names = FALSE)
+
+write.csv(df_SSRT, file = "~/Dropbox/FYP/Analysis/SSRT_base_mean.csv", row.names = FALSE)
 ```
 
 ## NOT USING THIS PART OF THE ORIGINAL CODE
