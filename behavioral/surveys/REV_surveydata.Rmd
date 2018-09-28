@@ -1270,7 +1270,7 @@ survey_data$upps_pos_urg <- rowMeans(survey_data[,upps_key_list[[5]]]) # UPPS Po
 
 # NOTE: Currently doing list-wise deletion on this data frame (na.omit), but this is getting rid of a lot of data. However, princomp() won't work with NA's in the dataset. Need to figure out how to manage PCA with missing data. 
 
-all_pca_vars <- cbind(scons_pca_items,bis_pca_items,bis_bas_pca_items) #%>% na.omit(all_pca_vars)
+all_pca_vars <- cbind(scons_pca_items,bis_pca_items,bis_bas_pca_items) 
 
 # get correlation matrix of raw scale items
 orig.cor <- cor(all_pca_vars, use="pairwise.complete.obs") %>%
@@ -1309,7 +1309,46 @@ survey_data$RC_pos_affect <- pca.orthogonal$scores[,2]
 survey_data$RC_neg_affect <- pca.orthogonal$scores[,3]
 
 # correlate these 3 components and make sure they correspond to the original corr matrix 
+
+
+
+# ### Use na.omit
+# # Use this if you want to omit IDs with no corresponding survey data
+# all_pca_vars_omitted <- na.omit(all_pca_vars)
+# 
+# # PCA with orthogonal rotation
+# pca.orthogonal_omitted <- principal(all_pca_vars_omitted, rotate="varimax", nfactors = 3, missing=TRUE)
+# summary(pca.orthogonal_omitted)
+# pca.orthogonal_omitted$loadings 
+# 
+# # Save row indices of pca scores as an ID variable in a new data frame 
+# pca.orthogonal_omitted_scores <- rownames_to_column(as.data.frame(pca.orthogonal_omitted$scores), var = "ID")
+# 
+# # convert both ID vars to character
+# survey_data$ID <- as.character(survey_data$ID)
+# pca.orthogonal_omitted_scores$ID <- as.character(pca.orthogonal_omitted_scores$ID)
+# 
+# # Make ID in pca.orthogonal_omitted$scores same format as in survey_data
+# fixID <- function(df) {
+#   for (i in 1:length(df$ID)) {
+#     if(nchar(df$ID[i]) == 1) {
+#       placeholder <- "00"
+#     } else if (nchar(df$ID[i]) == 2) {
+#       placeholder <- "0"
+#     } else {
+#       placeholder <-  ""
+#     }
+#   df$ID[i] <- as.character(paste0(placeholder, df$ID[i]))
+#   }
+#   return(df$ID)
+# }
+# 
+# pca.orthogonal_omitted_scores$ID <- fixID(pca.orthogonal_omitted_scores)
+# 
+# # Merge pca.orthogonal_omitted$scores with survey_data
+# survey_data_with_pca <- merge(survey_data, pca.orthogonal_omitted_scores, by = "ID")
 ```
+
 
 ```{r get_lists_for_each_prc}
 library(stringr)
