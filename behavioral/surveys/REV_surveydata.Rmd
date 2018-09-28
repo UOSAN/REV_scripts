@@ -1265,10 +1265,8 @@ survey_data$upps_pos_urg <- rowMeans(survey_data[,upps_key_list[[5]]]) # UPPS Po
 
 
 ## Perform data reduction on individual differences vars (SconS, BIS, BISBAS)
-```{r}
+```{r PCA without using na.omit}
 # create data frame with all vars that will be used for PCA. These are raw scale items and the relevant items have been reverse scored. 
-
-# NOTE: Currently doing list-wise deletion on this data frame (na.omit), but this is getting rid of a lot of data. However, princomp() won't work with NA's in the dataset. Need to figure out how to manage PCA with missing data. 
 
 all_pca_vars <- cbind(scons_pca_items,bis_pca_items,bis_bas_pca_items) 
 
@@ -1297,57 +1295,69 @@ pca.oblique <- principal(all_pca_vars, rotate="promax", nfactors = 3, missing=TR
 summary(pca.oblique)
 pca.oblique$loadings 
 
-# PCA with orthogonal rotation
+# PCA with orthogonal rotation. NOTE: Using this method.
 pca.orthogonal <- principal(all_pca_vars, rotate="varimax", nfactors = 3, missing=TRUE)
 summary(pca.orthogonal)
 pca.orthogonal$loadings 
 
 # save 3 components as variables
-# DOUBLE CHECK THESE
-survey_data$RC_drive <- pca.orthogonal$scores[,1]
-survey_data$RC_pos_affect <- pca.orthogonal$scores[,2]
-survey_data$RC_neg_affect <- pca.orthogonal$scores[,3]
+survey_data$pca_impulse <- pca.orthogonal$scores[,1]
+survey_data$pca_nonplanning <- pca.orthogonal$scores[,2]
+survey_data$pca_neg_anticipation <- pca.orthogonal$scores[,3]
 
-# correlate these 3 components and make sure they correspond to the original corr matrix 
-
-
-
-# ### Use na.omit
-# # Use this if you want to omit IDs with no corresponding survey data
-# all_pca_vars_omitted <- na.omit(all_pca_vars)
-# 
-# # PCA with orthogonal rotation
-# pca.orthogonal_omitted <- principal(all_pca_vars_omitted, rotate="varimax", nfactors = 3, missing=TRUE)
-# summary(pca.orthogonal_omitted)
-# pca.orthogonal_omitted$loadings 
-# 
-# # Save row indices of pca scores as an ID variable in a new data frame 
-# pca.orthogonal_omitted_scores <- rownames_to_column(as.data.frame(pca.orthogonal_omitted$scores), var = "ID")
-# 
-# # convert both ID vars to character
-# survey_data$ID <- as.character(survey_data$ID)
-# pca.orthogonal_omitted_scores$ID <- as.character(pca.orthogonal_omitted_scores$ID)
-# 
-# # Make ID in pca.orthogonal_omitted$scores same format as in survey_data
-# fixID <- function(df) {
-#   for (i in 1:length(df$ID)) {
-#     if(nchar(df$ID[i]) == 1) {
-#       placeholder <- "00"
-#     } else if (nchar(df$ID[i]) == 2) {
-#       placeholder <- "0"
-#     } else {
-#       placeholder <-  ""
-#     }
-#   df$ID[i] <- as.character(paste0(placeholder, df$ID[i]))
-#   }
-#   return(df$ID)
-# }
-# 
-# pca.orthogonal_omitted_scores$ID <- fixID(pca.orthogonal_omitted_scores)
-# 
-# # Merge pca.orthogonal_omitted$scores with survey_data
-# survey_data_with_pca <- merge(survey_data, pca.orthogonal_omitted_scores, by = "ID")
+# correlate these 3 components to make sure they don't highly correlate 
+pca_cor_matrix <- rcorr(as.matrix(survey_data[,c("pca_impulse", "pca_nonplanning", "pca_neg_anticipation")]), type = "pearson")
+pca_cor_matrix
 ```
+
+
+```{r PCA using na.omit}
+### # NOTE: Doing list-wise deletion on this data frame (na.omit).
+# Use this if you want to omit IDs with no corresponding survey data
+all_pca_vars_omitted <- cbind(scons_pca_items,bis_pca_items,bis_bas_pca_items) %>% na.omit()
+
+# PCA with orthogonal rotation
+pca.orthogonal_omitted <- principal(all_pca_vars_omitted, rotate="varimax", nfactors = 3, missing=TRUE)
+summary(pca.orthogonal_omitted)
+pca.orthogonal_omitted$loadings
+
+# Save row indices of pca scores as an ID variable in a new data frame
+pca.orthogonal_omitted_scores <- rownames_to_column(as.data.frame(pca.orthogonal_omitted$scores), var = "ID")
+
+# convert both ID vars to character
+survey_data$ID <- as.character(survey_data$ID)
+pca.orthogonal_omitted_scores$ID <- as.character(pca.orthogonal_omitted_scores$ID)
+
+# Make ID in pca.orthogonal_omitted$scores same format as in survey_data
+fixID <- function(df) {
+  for (i in 1:length(df$ID)) {
+    if(nchar(df$ID[i]) == 1) {
+      placeholder <- "00"
+    } else if (nchar(df$ID[i]) == 2) {
+      placeholder <- "0"
+    } else {
+      placeholder <-  ""
+    }
+  df$ID[i] <- as.character(paste0(placeholder, df$ID[i]))
+  }
+  return(df$ID)
+}
+
+pca.orthogonal_omitted_scores$ID <- fixID(pca.orthogonal_omitted_scores)
+
+# save 3 components as variables
+pca.orthogonal_omitted_scores$pca_impulse_omitted <- pca.orthogonal_omitted_scores[,2]
+pca.orthogonal_omitted_scores$pca_nonplanning_omitted <- pca.orthogonal_omitted_scores[,3]
+pca.orthogonal_omitted_scores$pca_neg_anticipation_omitted <- pca.orthogonal_omitted_scores[,4]
+
+# correlate these 3 components to make sure they don't highly correlate 
+pca_cor_matrix_omitted <- rcorr(as.matrix(pca.orthogonal_omitted_scores[,c("pca_impulse_omitted", "pca_nonplanning_omitted", "pca_neg_anticipation_omitted")]), type = "pearson")
+pca_cor_matrix_omitted
+
+# Merge pca.orthogonal_omitted$scores with survey_data
+survey_data_with_pca <- merge(survey_data, pca.orthogonal_omitted_scores, by = "ID")
+```
+
 
 
 ```{r get_lists_for_each_prc}
