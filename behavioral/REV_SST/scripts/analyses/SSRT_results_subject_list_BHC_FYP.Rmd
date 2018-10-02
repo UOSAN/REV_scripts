@@ -143,9 +143,17 @@ df_SSRT <- df_SSRT %>%
 
 # Look at which participants had runs removed & how many
 outliers1 <- (!df_rawSSRT$SSRT %in% df_SSRT$SSRT)
-
 outliers_pctInhib <- as.data.frame(table(df_rawSSRT[outliers1,]$ID))
 colnames(outliers_pctInhib) <- c("ID", "outliers_pctInhib")
+
+# NEW METHOD TO CATCH ALL CASES
+compare_SSRT_pctInhib <- summary(arsenal::compare(df_rawSSRT, df_SSRT))
+diff_SSRT_rows_pctInhib <- compare_SSRT_pctInhib[["diffs.table"]][["row.x"]]
+outliers_pctInhib_new <- as.data.frame(table(df_rawSSRT[diff_SSRT_rows_pctInhib,]$ID))
+colnames(outliers_pctInhib_new) <- c("ID", "outliers_pctInhib_new")
+
+# create new "outliers1" vector
+outliers1_new <- row.names(df_SSRT) %in% diff_SSRT_rows_pctInhib
 ```
 
 ```{r Remove problem runs no-response}
@@ -163,6 +171,15 @@ df_SSRT <- df_SSRT %>%
 outliers2 <- (!df_rawSSRT$SSRT %in% df_SSRT$SSRT)
 outliers_noResponse <- as.data.frame(table(df_rawSSRT[outliers2,]$ID))
 colnames(outliers_noResponse) <- c("ID", "Runs_omitted_noResponse")
+
+# NEW METHOD TO CATCH ALL CASES
+compare_SSRT_noResponse <- summary(arsenal::compare(df_rawSSRT, df_SSRT))
+diff_SSRT_rows_noResponse <- compare_SSRT_noResponse[["diffs.table"]][["row.x"]]
+outliers_noResponse_new <- as.data.frame(table(df_rawSSRT[diff_SSRT_rows_noResponse,]$ID))
+colnames(outliers_noResponse_new) <- c("ID", "outliers_noResponse_new")
+
+# create new "outliers2" vector
+outliers2_new <- row.names(df_SSRT) %in% diff_SSRT_rows_noResponse
 ```
 
 ```{r Remove problem runs wrong no-gos}
@@ -183,6 +200,15 @@ df_SSRT <- df_SSRT %>%
 outliers3 <- (!df_rawSSRT$SSRT %in% df_SSRT$SSRT)
 outliers_wrongGo <- as.data.frame(table(df_rawSSRT[outliers3,]$ID))
 colnames(outliers_wrongGo) <- c("ID", "Runs_omitted_wrongGo")
+
+# NEW METHOD TO CATCH ALL CASES
+compare_SSRT_wrongGo <- summary(arsenal::compare(df_rawSSRT, df_SSRT))
+diff_SSRT_rows_wrongGo <- compare_SSRT_wrongGo[["diffs.table"]][["row.x"]]
+outliers_wrongGo_new <- as.data.frame(table(df_rawSSRT[diff_SSRT_rows_wrongGo,]$ID))
+colnames(outliers_wrongGo_new) <- c("ID", "outliers_wrongGo_new")
+
+# create new "outliers3" vector
+outliers3_new <- row.names(df_SSRT) %in% diff_SSRT_rows_wrongGo
 ```
 
 ```{r runs omitted SSRT}
@@ -197,6 +223,15 @@ df_SSRT <- df_SSRT %>%
 outliers4 <- (!df_rawSSRT$SSRT %in% df_SSRT$SSRT)
 outliers_ssrt <- as.data.frame(table(df_rawSSRT[outliers4,]$ID))
 colnames(outliers_ssrt) <- c("ID", "Runs_omitted_ssrt")
+
+# NEW METHOD TO CATCH ALL CASES
+compare_SSRT_ssrt <- summary(arsenal::compare(df_rawSSRT, df_SSRT))
+diff_SSRT_rows_ssrt <- compare_SSRT_ssrt[["diffs.table"]][["row.x"]]
+outliers_ssrt_new <- as.data.frame(table(df_rawSSRT[diff_SSRT_rows_ssrt,]$ID))
+colnames(outliers_ssrt_new) <- c("ID", "outliers_ssrt_new")
+
+# create new "outliers4" vector
+outliers4_new <- row.names(df_SSRT) %in% diff_SSRT_rows_ssrt
 ```
 
 ```{r}
@@ -204,6 +239,12 @@ df_omitted_runs <- cbind(df_SSRT, outliers1, outliers2, outliers3, outliers4)
 df_omitted_runs <- filter(df_omitted_runs, (outliers1 == TRUE | outliers2 == TRUE | outliers3 == TRUE | outliers4 == TRUE))
 (df_omitted_runs <- sort(df_omitted_runs[,c(1,3)]))
 length(unique(as.numeric(df_omitted_runs$ID)))
+
+# NOTE: This is the correct list of omitted runs to use. There are 54 cases total. REV004 run 1 and REV059 run 1 were previously not flagged but should have been. REV004 has too many wrongGo's and REV059 has pctInhib > 75. 
+df_omitted_runs_new <- cbind(df_SSRT, outliers1_new, outliers2_new, outliers3_new, outliers4_new)
+df_omitted_runs_new <- filter(df_omitted_runs_new, (outliers1_new == TRUE | outliers2_new == TRUE | outliers3_new == TRUE | outliers4_new == TRUE))
+(df_omitted_runs_new <- sort(df_omitted_runs_new[,c(1,3)]))
+length(unique(as.numeric(df_omitted_runs_new$ID)))
 ```
 
 ## View omitted runs
