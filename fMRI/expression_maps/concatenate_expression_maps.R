@@ -7,7 +7,7 @@ working_dir = "/projects/sanlab/shared/REV/bids_data/derivatives/baseline_analys
 setwd(working_dir)
 
 fileList = list.files(working_dir, pattern = '.txt', recursive = TRUE)
-colnames <- c("ID", "dot_product_factors", "pattern_response_value")
+colnames <- c("ID", "dot_product_factors", "pattern_expression_value")
 
 for (file in fileList) {
   
@@ -27,7 +27,7 @@ for (file in fileList) {
 }
 
 # Convert from long to wide format
-expression_map_data <- tidyr::spread(expression_map_data, "dot_product_factors", "pattern_response_value")
+expression_map_data <- tidyr::spread(expression_map_data, "dot_product_factors", "pattern_expression_value")
 
 # Write data to a csv file
-write.csv(expression_map_data, file=paste(working_dir, "pattern_response_values.csv", sep = "/"), row.names=FALSE)
+write.csv(expression_map_data, file=paste(working_dir, "pattern_expression_values.csv", sep = "/"), row.names=FALSE)
