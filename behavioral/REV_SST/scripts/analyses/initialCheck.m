@@ -27,7 +27,12 @@
 % INITIAL SETUP
 studyPrefix = 'REV'; % will use this in analysisReady data filenames. Defined in prep4analysis.m (should be consistent throughout scripts)
 %cd '~/Desktop/REV/REV_scripts/behavioral/REV_SST/output/analysisReady/'
-cd '~/Desktop/REV_scripts/behavioral/REV_SST/output/analysisReady/'
+
+outputDir = '~/Desktop/REV_scripts/behavioral/REV_SST/output/analysisReady/';
+if ~exist(outputDir, 'dir')
+  mkdir(outputDir);
+end
+cd(outputDir)
 
 % This should be the folder where your consistently-named SST output live.
 % This script assumed they are named with this format: "REV_sub2_run3.mat"
