@@ -5,11 +5,11 @@
 #	are in the behavioral analysis folders				  #
 ###################################################
 
-# Change this, path to data and script repos
-#repopath="/Users/kristadestasio/Desktop/REV_scripts"
-repopath="/Users/brendancullen/Desktop/REV_scripts"
+# Import user from runscript
+user=$(awk -F'"' '/^user=/ {print $2}' 0_runscript.sh ) #https://unix.stackexchange.com/questions/136151/how-do-i-get-a-variables-value-from-one-script-and-import-it-in-another-script
  
 # Set paths
+repopath="/Users/${user}/Desktop/REV_scripts"
 datadir="$repopath/behavioral/REV_SST/output"
 outputlog="$datadir/outputlog_renamed.txt"
 

@@ -6,14 +6,15 @@
 # KD 2017.04.05															#
 #########################################################################
 
-# Change this, path to data and script repos
-# repopath="/Users/kristadestasio/Desktop"
-repopath="/Users/brendancullen/Desktop/REV_scripts"
+# Import user from runscript
+user=$(awk -F'"' '/^user=/ {print $2}' 0_runscript.sh ) #https://unix.stackexchange.com/questions/136151/how-do-i-get-a-variables-value-from-one-script-and-import-it-in-another-script
+
+# Set paths
+repopath="/Users/${user}/Desktop/REV_scripts"
 
 # Set paths
 outputdir="$repopath/behavioral/REV_SST/output"
-#sourcedir="/Users/kristadestasio/Desktop/REV_BxData"
-sourcedir="/Users/brendancullen/Desktop/REV_BxData"
+sourcedir="/Users/${user}/Desktop/REV_BxData"
 outputlog="$outputdir/outputlog_populate.txt"
 errorlog="$outputdir/errorlog_populate.txt"
 allsubs="$outputdir/subjectlist.txt"

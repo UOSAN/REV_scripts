@@ -1,8 +1,10 @@
 #!/bin/bash
 
-# Change this, path to data and script repos
-#repopath="/Users/kristadestasio/Desktop/REV_scripts" 
-repopath="/Users/brendancullen/Desktop/REV_scripts" 
+# Change the user
+user="kristadestasio"
+
+# path to data and script repos
+repopath="/Users/${user}/Desktop/REV_scripts" 
 
 sh ${repopath}/behavioral/REV_SST/scripts/data_prep/1_copyBxData.sh
 
