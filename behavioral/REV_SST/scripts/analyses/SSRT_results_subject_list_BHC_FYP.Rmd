@@ -62,7 +62,7 @@ noResponseCount <- read.table(
   sep = "\t", header = FALSE)
 ## Wrong Go Counts
 wrongGoCount <- read.table(
-  "~/Desktop/REV_scripts/behavioral/REV_SST/compiledResults/upToREV144/initialCheck/FailedGoCount_scanning.txt",
+  "~/Desktop/REV_scripts/behavioral/REV_SST/compiledResults/upToREV144/initialCheck/wrongGoCount.txt",
   sep = "\t", header = FALSE)
 ## Percent inhibition
 pctInhibition <- read.table(
