@@ -113,7 +113,6 @@ for s=1:numSubs
     else
         for r=1:numRuns % For runs 1 to numRuns defined previously
             if exist([studyPrefix '_sub' num2str(s) '_run' num2str(r) '.mat'])
-                s, r
                 load([studyPrefix '_sub' num2str(s) '_run' num2str(r) '.mat'])  % Load .mats
                 
                 problemSubIdx = find(buttonRuleExceptions(:,1)==s);
@@ -142,23 +141,40 @@ for s=1:numSubs
                     end
                     
                     if dub==1
-                        % DEFINE VARIBLES (FOR TRAINING TRIALS)
+                        %%%%%  DEFINE VARIBLES (FOR TRAINING TRIALS)
+                        % Get vectors of trial info
                         trialType=neutSeeker(:,trialTypeColumn); % 0=Go, 1=NoGo, 2=null, 3=notrial
                         arrowDir=neutSeeker(:,arrowDirColumn); % 0=left, 1=right, 2=null
                         responseKey=neutSeeker(:,responseKeyColumn);
+                        
+                        % Get total stop/go trials
                         numGoTrials = sum(trialType==goCode);
                         numStopTrials = sum(trialType==stopCode);
+                        
+                        % To beep or not to beep
                         isGo = trialType==goCode;
-                        isCorrectButton = (arrowDir==leftCode&responseKey==LEFT)|(arrowDir==rightCode&responseKey==RIGHT);
-                        numCorrectGoTrials = sum(isGo&isCorrectButton);
-                        numBadGoTrials = numGoTrials - numCorrectGoTrials;
-                        numNRTrials = sum(isGo&responseKey==0);
-                        weirdButtonTrials = ~(responseKey==0|responseKey==LEFT|responseKey==RIGHT);
+                        
+                        % Arrow presented
+                        isLeft = arrowDir==leftCode;
+                        isRight = arrowDir==rightCode;
+                        
+                        % Button response
+                        isLeftKey = responseKey==LEFT;
+                        isRightKey = responseKey==RIGHT;
+                        isNoResponse = responseKey==0;
+                        
+                        isCorrect = isLeft&isLeftKey | isRight&isRightKey;
+                        
+                        % Find important trial types
+                        numCorrectGoTrials = sum(isGo&isCorrect);
+                        isIncorrectGo = numGoTrials - numCorrectGoTrials;% Misses or "wrong" direction hits
+                        numNRTrials = sum(isGo&isNoResponse);
+                        weirdButtonTrials = ~(isNoResponse|isLeftKey|isRightKey);
                         
                         
                         % DEFINE VARIABLES (FOR NEUTRAL ON TRAINING TRIALS)
                         % This is only for a double seeker (comment out if using single seeker)
-                        wrongGoCountMatNeut(s,r) = numBadGoTrials - numNRTrials;
+                        wrongGoCountMatNeut(s,r) = isIncorrectGo - numNRTrials;
                         goCountMatNeut(s,r) = numGoTrials;
                         stopCountMatNeut(s,r) = numStopTrials;
                         NRCountMatNeut(s,r) = numNRTrials;
@@ -166,20 +182,41 @@ for s=1:numSubs
                     end  % End training loop
                     
                     
-                    % DEFINE VARIABLES (FOR SCAN TRIALS)
+                    %%%%% DEFINE VARIABLES (FOR SCAN TRIALS)
+                    % Get vectors of trial info
                     trialType=Seeker(:,trialTypeColumn); % 0=Go, 1=NoGo, 2=null, 3=notrial
                     arrowDir=Seeker(:,arrowDirColumn); % 0=left, 1=right, 2=null
                     responseKey=Seeker(:,responseKeyColumn);
+                    
+                    % Get total stop/go
                     numGoTrials = sum(trialType==goCode);
                     numStopTrials = sum(trialType==stopCode);
-                    isGo = trialType==goCode;
-                    isCorrectButton = (arrowDir==leftCode&responseKey==LEFT)|(arrowDir==rightCode&responseKey==RIGHT);
-                    numCorrectGoTrials = sum(isGo&isCorrectButton);
-                    numBadGoTrials = numGoTrials - numCorrectGoTrials;
-                    numNRTrials = sum(isGo&responseKey==0);
-                    weirdButtonTrials = ~(responseKey==0|responseKey==LEFT|responseKey==RIGHT);
                     
-                    wrongGoCountMat(s,r) = numBadGoTrials - numNRTrials;
+                    % To Beep Or Not To Beep
+                    isGo = trialType==goCode;
+                    isStop = trialType==stopCode;
+                    
+                    % Arrow presented
+                    isLeft = arrowDir==leftCode;
+                    isRight = arrowDir==rightCode;
+                    isNoResponse = responseKey==0;
+                    
+                    % Button response
+                    isLeftKey = responseKey==LEFT;
+                    isRightKey = responseKey==RIGHT;
+                    isNoResponse = responseKey==0;
+                    
+                    isCorrect = isLeft&isLeftKey | isRight&isRightKey;
+                    isPressed = isLeftKey|isRightKey;
+                    
+                    % Find Important Trial Types
+                    isCorrectGo = isGo&isCorrect; % Hits
+                    isIncorrectGo = (isGo&isNoResponse)|(isGo&(~isCorrect));% Misses or "wrong" direction hits - will be assigned to FailedGo
+                    numNRTrials = sum(isGo&isNoResponse);
+                    weirdButtonTrials = ~(isNoResponse|isLeftKey|isRightKey);
+                    
+                    % Fill the matrix
+                    wrongGoCountMat(s,r) = sum(isIncorrectGo);
                     goCountMat(s,r) = numGoTrials;
                     stopCountMat(s,r) = numStopTrials;
                     NRCountMat(s,r) = numNRTrials;
