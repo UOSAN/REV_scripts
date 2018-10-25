@@ -5,7 +5,8 @@ exclude = [];%[4 5 7 8 12 14 15 25 28 30 33 40 42 45 61 63 64 66 71 72 79 81 83 
 task = 'gng';
 runs = [1 2 3 4];
 repodir = ['~/Desktop/REV_BxData/']; %edit this path for your local computer
-dataFolder = ['~/Desktop/REV_BxData/data/' task];
+analysis = 'prepost_analysis'
+dataFolder = ['~/Desktop/REV_BxData/data/' task analysis];
 %dataFolder = ['/projects/sanlab/shared/REV/REV_scripts/behavioral/' task '/data']; %Talapas path
 
 
