@@ -1,5 +1,5 @@
 ---
-title: 'REV Behavioral Data Analysis: SST'
+title: 'List of runs and IDs to exclude from analyses'
 author: "Krista DeStasio/Brendan Cullen"
 date: "4/26/2017"
 output:
@@ -18,15 +18,20 @@ editor_options:
 ## R version 3.4.3 ##
 rm(list = ls())
 setwd("~/Desktop/REV_scripts/behavioral/REV_SST/scripts/analyses/")
+outputDir = '~/Desktop/REV_scripts/behavioral/REV_SST/output'
 
 ## Install and load required packages
-list.of.packages <- c("stringr", "tidyverse", "reshape2", "ggplot2", "psych", "gridExtra", "knitr", "lme4", "memisc", "withr", "ez")
+list.of.packages <- c("stringr", "tidyverse", "reshape2", "ggplot2", "psych", "gridExtra", "knitr", "lme4", "memisc", "withr", "ez", "arsenal")
 new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])] 
 if (length(new.packages)) install.packages(new.packages, repos = "http://cran.us.r-project.org")
 lapply(list.of.packages, library, character.only = TRUE)
 
 knitr::opts_chunk$set(fig.width = 12, fig.height = 8, fig.path = 'Figs/', echo = TRUE, warning = FALSE, message = FALSE)
 ```
+# Purpose
+Returns a list of participant IDs to omit based on behavioral data exclusion criteria.  
+Returns SSRTs for each participant that is retained.  
+
 
 ### Key:
 
@@ -45,13 +50,13 @@ Results calculated based on the inegration method of estimating the stop-signal 
 
 The integration method finds "the point at which the integral equals equals the probability of responding, $p(respond|signal)$, for a specific delay." 
 
-```{r Create the participant ID and condition variables}
+```{r Create the participant ID and condition variables, include=FALSE}
 ID <- as.factor(c(1:144)) # Create the subject ID column
 condition <- c(0, 1, 0, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0) # Match the participant to their condition
 condition <- factor(condition, labels = c("control", "train"))
 ```
 
-```{r Import task data}
+```{r Import task data, include=FALSE}
 ## Import the SSRT results output from the extractAllSSTResults.m script
 SSRTdata <- read.table(
   "~/Desktop/REV_scripts/behavioral/REV_SST/compiledResults/upToREV144/singleVarTxts/REV_SSRTint16.txt",
@@ -70,7 +75,7 @@ pctInhibition <- read.table(
   sep = "\t", header = FALSE)
 ```
 
-```{r Put all data frames in long form}
+```{r Put all data frames in long form, include=FALSE}
 # Make a vector containing all the dataframes
 dfs <- c("noResponseCount", "wrongGoCount", "pctInhibition", "SSRTdata") 
 
@@ -96,7 +101,7 @@ for (df in dfs) {
 }
 ```
 
-```{r Create a single data frame}
+```{r Create a single data frame, include=FALSE}
 df_rawSSRT <- cbind(SSRTdata_long, noResponseCount_long[,4], wrongGoCount_long[,4], pctInhibition_long[,4])
 colnames(df_rawSSRT) <- c("ID", "condition", "time", "SSRT", "numNoResponse", "numWrongGo", "pctInhibition")
 
@@ -105,7 +110,7 @@ df_rawSSRT[ is.na(df_rawSSRT) ] <- NA
 ```
 
 # Visualizing Participant Responses
-Looking for: slow reaction times, lots of no responses, and weird (negative, super small, super big) SSRTs
+Looking for: slow reaction times, lots of no responses, and weird (negative, super small, super big) SSRTs  
 
 ## Cut-offs
 Cut-off values are determined by visual inspection of the scatterplots, which are presented below in raw and trimmed form.  
@@ -123,11 +128,11 @@ Cut-off values are determined by visual inspection of the scatterplots, which ar
     + During Training: upper limit 500
     + During Scanning: upper limit 850, lower limit 100
     
-```{r make new data frame}
+```{r make new data frame, include=FALSE}
 df_SSRT <- df_rawSSRT
 ```
 
-```{r runs omitted pct inhibition}
+```{r runs omitted pct inhibition, echo=FALSE}
 ### PERCENT INHIBITION ###
 ## Replace SSRTs with NAs if percent inihibition is > 75 | < 20 during scans (all participants)
 
@@ -135,54 +140,34 @@ df_SSRT <- df_SSRT %>%
     mutate(SSRT = replace(SSRT, 
                          which(pctInhibition > 75 & time != "run3" & time != "run4" & time != "run5" & time != "run6" & time != "run7" & time != "run8" & time != "run9" & time != "run10" & time != "run11" & time != "run12" & time != "run13" & time != "run14" | pctInhibition < 20 & time != "run3" & time != "run4" & time != "run5" & time != "run6" & time != "run7" & time != "run8" & time != "run9" & time != "run10" & time != "run11" & time != "run12" & time != "run13" & time != "run14"), NA)) # Baseline Scans
 
-## Replace the percent inhibition with NAs if they  > 75 | < 20 during scans (all participants)
-
-# df_SSRT <- df_SSRT %>%
-#     mutate(pctInhibition = replace(pctInhibition,
-#                                   which(pctInhibition < 20  & time != "run3" & time != "run4" & time != "run5" & time != "run6" & time != "run7" & time != "run8" & time != "run9" & time != "run10" & time != "run11" & time != "run12" & time != "run13" & time != "run14" | pctInhibition > 75 & time != "run3" & time != "run4" & time != "run5" & time != "run6" & time != "run7" & time != "run8" & time != "run9" & time != "run10" & time != "run11" & time != "run12" & time != "run13" & time != "run14"), NA)) # Baseline Scans
-
 # Look at which participants had runs removed & how many
-outliers1 <- (!df_rawSSRT$SSRT %in% df_SSRT$SSRT)
-outliers_pctInhib <- as.data.frame(table(df_rawSSRT[outliers1,]$ID))
-colnames(outliers_pctInhib) <- c("ID", "outliers_pctInhib")
-
-# NEW METHOD TO CATCH ALL CASES
 compare_SSRT_pctInhib <- summary(arsenal::compare(df_rawSSRT, df_SSRT))
 diff_SSRT_rows_pctInhib <- compare_SSRT_pctInhib[["diffs.table"]][["row.x"]]
-outliers_pctInhib_new <- as.data.frame(table(df_rawSSRT[diff_SSRT_rows_pctInhib,]$ID))
-colnames(outliers_pctInhib_new) <- c("ID", "outliers_pctInhib_new")
+outliers_pctInhib_count <- as.data.frame(table(df_rawSSRT[diff_SSRT_rows_pctInhib,]$ID))
+colnames(outliers_pctInhib_count) <- c("ID", "outliers_pctInhib_new")
 
 # create new "outliers1" vector
-outliers1_new <- row.names(df_SSRT) %in% diff_SSRT_rows_pctInhib
+outliers_pctInhib_logical <- row.names(df_SSRT) %in% diff_SSRT_rows_pctInhib
 ```
 
-```{r Remove problem runs no-response}
+```{r Remove problem runs no-response, echo=FALSE}
 ### NO RESPONSE ###
 ## Replace the SSRTs with NAs if no-responses are > 50 during scans
 df_SSRT <- df_SSRT %>% 
     mutate(SSRT = replace(SSRT, 
                          which(numNoResponse > 50 & time != "run3" & time != "run4" & time != "run5" & time != "run6" & time != "run7" & time != "run8" & time != "run9" & time != "run10" & time != "run11" & time != "run12" & time != "run13" & time != "run14"), NA)) # Baseline Scans
 
-# df_SSRT <- df_SSRT %>% 
-#     mutate(numNoResponse = replace(numNoResponse, 
-#                                   which(numNoResponse > 50 & time != "run3" & time != "run4" & time != "run5" & time != "run6" & time != "run7" & time != "run8" & time != "run9" & time != "run10" & time != "run11" & time != "run12" & time != "run13" & time != "run14" | pctInhibition < 20 & time != "run3" & time != "run4" & time != "run5" & time != "run6" & time != "run7" & time != "run8" & time != "run9" & time != "run10" & time != "run11" & time != "run12" & time != "run13" & time != "run14"), NA)) # Baseline Scans
-
 # Look at which participants had runs removed & how many
-outliers2 <- (!df_rawSSRT$SSRT %in% df_SSRT$SSRT)
-outliers_noResponse <- as.data.frame(table(df_rawSSRT[outliers2,]$ID))
-colnames(outliers_noResponse) <- c("ID", "Runs_omitted_noResponse")
-
-# NEW METHOD TO CATCH ALL CASES
 compare_SSRT_noResponse <- summary(arsenal::compare(df_rawSSRT, df_SSRT))
 diff_SSRT_rows_noResponse <- compare_SSRT_noResponse[["diffs.table"]][["row.x"]]
-outliers_noResponse_new <- as.data.frame(table(df_rawSSRT[diff_SSRT_rows_noResponse,]$ID))
+outliers_noResponse_count <- as.data.frame(table(df_rawSSRT[diff_SSRT_rows_noResponse,]$ID))
 colnames(outliers_noResponse_new) <- c("ID", "outliers_noResponse_new")
 
-# create new "outliers2" vector
-outliers2_new <- row.names(df_SSRT) %in% diff_SSRT_rows_noResponse
+# create new "outliers2" vector (cumulative)
+outliers_noResponse_logical <- row.names(df_SSRT) %in% diff_SSRT_rows_noResponse
 ```
 
-```{r Remove problem runs wrong no-gos}
+```{r Remove problem runs wrong no-gos, echo=FALSE}
 ### WRONG GO ###
 ## Replace the SSRTs with NAs if wrong-gos are > 25 during scans (all participants)
 
@@ -190,28 +175,17 @@ df_SSRT <- df_SSRT %>%
     mutate(SSRT = replace(SSRT, 
                            which(numWrongGo > 25 & time != "run3" & time != "run4" & time != "run5" & time != "run6" & time != "run7" & time != "run8" & time != "run9" & time != "run10" & time != "run11" & time != "run12" & time != "run13" & time != "run14"), NA)) # Scans
 
-## Replace the wrong-gos with NAs if they are > 25 during scans (all participants)
-
-# df_SSRT <- df_SSRT %>% 
-#     mutate(numWrongGo = replace(numWrongGo, 
-#                         which(numWrongGo > 25 & time != "run3" & time != "run4" & time != "run5" & time != "run6" & time != "run7" & time != "run8" & time != "run9" & time != "run10" & time != "run11" & time != "run12" & time != "run13" & time != "run14"), NA)) # Baseline Scan
-
 # Look at which participants had runs removed & how many
-outliers3 <- (!df_rawSSRT$SSRT %in% df_SSRT$SSRT)
-outliers_wrongGo <- as.data.frame(table(df_rawSSRT[outliers3,]$ID))
-colnames(outliers_wrongGo) <- c("ID", "Runs_omitted_wrongGo")
-
-# NEW METHOD TO CATCH ALL CASES
 compare_SSRT_wrongGo <- summary(arsenal::compare(df_rawSSRT, df_SSRT))
 diff_SSRT_rows_wrongGo <- compare_SSRT_wrongGo[["diffs.table"]][["row.x"]]
-outliers_wrongGo_new <- as.data.frame(table(df_rawSSRT[diff_SSRT_rows_wrongGo,]$ID))
+outliers_wrongGo_count <- as.data.frame(table(df_rawSSRT[diff_SSRT_rows_wrongGo,]$ID))
 colnames(outliers_wrongGo_new) <- c("ID", "outliers_wrongGo_new")
 
 # create new "outliers3" vector
-outliers3_new <- row.names(df_SSRT) %in% diff_SSRT_rows_wrongGo
+outliers_wrongGo_logical <- row.names(df_SSRT) %in% diff_SSRT_rows_wrongGo
 ```
 
-```{r runs omitted SSRT}
+```{r runs omitted SSRT, echo=FALSE}
 ### SSRT ###
 ## Replace the SSRTs with NAs if they are > 850 | < 100 during scans (all participants)
 
@@ -220,37 +194,29 @@ df_SSRT <- df_SSRT %>%
                          which(SSRT > 850 & time != "run3" & time != "run4" & time != "run5" & time != "run6" & time != "run7" & time != "run8" & time != "run9" & time != "run10" & time != "run11" & time != "run12" & time != "run13" & time != "run14" | SSRT < 100 & time != "run3" & time != "run4" & time != "run5" & time != "run6" & time != "run7" & time != "run8" & time != "run9" & time != "run10" & time != "run11" & time != "run12" & time != "run13" & time != "run14"), NA)) # Baseline Scans
 
 # Look at which participants had runs removed & how many
-outliers4 <- (!df_rawSSRT$SSRT %in% df_SSRT$SSRT)
-outliers_ssrt <- as.data.frame(table(df_rawSSRT[outliers4,]$ID))
-colnames(outliers_ssrt) <- c("ID", "Runs_omitted_ssrt")
-
-# NEW METHOD TO CATCH ALL CASES
 compare_SSRT_ssrt <- summary(arsenal::compare(df_rawSSRT, df_SSRT))
 diff_SSRT_rows_ssrt <- compare_SSRT_ssrt[["diffs.table"]][["row.x"]]
-outliers_ssrt_new <- as.data.frame(table(df_rawSSRT[diff_SSRT_rows_ssrt,]$ID))
+outliers_ssrt_count <- as.data.frame(table(df_rawSSRT[diff_SSRT_rows_ssrt,]$ID))
 colnames(outliers_ssrt_new) <- c("ID", "outliers_ssrt_new")
 
 # create new "outliers4" vector
-outliers4_new <- row.names(df_SSRT) %in% diff_SSRT_rows_ssrt
-```
-
-```{r}
-df_omitted_runs <- cbind(df_SSRT, outliers1, outliers2, outliers3, outliers4)
-df_omitted_runs <- filter(df_omitted_runs, (outliers1 == TRUE | outliers2 == TRUE | outliers3 == TRUE | outliers4 == TRUE))
-(df_omitted_runs <- sort(df_omitted_runs[,c(1,3)]))
-length(unique(as.numeric(df_omitted_runs$ID)))
-
-# NOTE: This is the correct list of omitted runs to use. There are 54 cases total. REV004 run 1 and REV059 run 1 were previously not flagged but should have been. REV004 has too many wrongGo's and REV059 has pctInhib > 75. 
-df_omitted_runs_new <- cbind(df_SSRT, outliers1_new, outliers2_new, outliers3_new, outliers4_new)
-df_omitted_runs_new <- filter(df_omitted_runs_new, (outliers1_new == TRUE | outliers2_new == TRUE | outliers3_new == TRUE | outliers4_new == TRUE))
-(df_omitted_runs_new <- sort(df_omitted_runs_new[,c(1,3)]))
-length(unique(as.numeric(df_omitted_runs_new$ID)))
+outliers_ssrt_logical <- row.names(df_SSRT) %in% diff_SSRT_rows_ssrt
 ```
 
 ## View omitted runs
+```{r Full table of omitted runs}
+# NOTE: This is the correct list of omitted runs to use. There are 54 cases total. REV004 run 1 and REV059 run 1 were previously not flagged but should have been. REV004 has too many wrongGo's and REV059 has pctInhib > 75. 
+df_omitted_runs_new <- cbind(df_SSRT, outliers1_new, outliers2_new, outliers3_new, outliers4_new)
+df_omitted_runs_new <- filter(df_omitted_runs_new, (outliers1_new == TRUE | outliers2_new == TRUE | outliers3_new == TRUE | outliers4_new == TRUE))
+df_omitted_runs_new <- sort(df_omitted_runs_new[,c(1,3)])
+kable(df_omitted_runs_new, caption = "Full list of runs to omit from analysis")
+```
+A total of `r length(unique(as.numeric(df_omitted_runs_new$ID)))` participants have at least one run that will be excluded from analysis.  
+
+
 ```{r Create a table of omitted runs}
 # See omitted
-dfs <- list(outliers_pctInhib, outliers_noResponse, outliers_wrongGo, outliers_ssrt)
+counts_list <- list(outliers_pctInhib_count, outliers_noResponse_count, outliers_wrongGo_count, outliers_ssrt_count)
 outliers_tableFull <- plyr::join_all(dfs, by = "ID")
 outliers_table <- outliers_tableFull[which(outliers_tableFull$Runs_omitted_ssrt != 0),]
 kable(outliers_table, caption = "Runs Omitted (columns are cumulative)")
@@ -286,9 +252,9 @@ df_SSRT$SSRT_base_mean <- rowMeans(df_SSRT[,c("SSRT_run1","SSRT_run2")], na.rm =
 ## Write relevant output for Brendan's FYP to .csv file
 ```{r}
 # list of omitted runs
-write.csv(df_omitted_runs, file = "~/Dropbox/FYP/Analysis/SST_ScanBx_omitted_runs.csv", row.names = FALSE)
+write.csv(df_omitted_runs, file = paste0(outputDir, "/SST_ScanBx_omitted_runs.csv"), row.names = FALSE)
 
-write.csv(df_SSRT, file = "~/Dropbox/FYP/Analysis/SSRT_base_mean.csv", row.names = FALSE)
+write.csv(df_SSRT, file = paste0(outputDir, "/SSRT_base_mean.csv"), row.names = FALSE)
 ```
 
 ## NOT USING THIS PART OF THE ORIGINAL CODE
