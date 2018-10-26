@@ -1,5 +1,5 @@
 ---
-title: 'List of runs and IDs to exclude from analyses'
+title: 'List of SST runs and IDs to exclude from analyses'
 author: "Krista DeStasio/Brendan Cullen"
 date: "4/26/2017"
 output:
