@@ -95,7 +95,7 @@ df_gng_cleaned <- df_gng
 ```
 
 # Remove Outliers
-```{r}
+```{r outlier function, include=FALSE}
 # Remove outliers ranged above and below the 1.5*IQR; source "http://goo.gl/UUyEzD"
 outlierKD <- function(dt, var) {
      var_name <- eval(substitute(var),eval(dt))
@@ -122,8 +122,82 @@ outlierKD <- function(dt, var) {
           cat("Outliers successfully removed", sep = "\n")
           return(invisible(dt))
 }
-
-outlierKD(df_gng_cleaned, IncorrGo)
-outlierKD(df_gng_cleaned, IncorrNoGo)
-outlierKD(df_gng_cleaned, IncorrNoGo_RT)
 ```
+
+## Incorrect Go's
+```{r Incorrect Gos, echo = FALSE}
+outlierKD(df_gng_cleaned, IncorrGo)
+
+# Look at which participants had runs removed & how many
+compare_gng_incorrGo <- summary(arsenal::compare(df_gng, df_gng_cleaned))
+diff_gng_rows_incorrGo <- compare_gng_incorrGo[["diffs.table"]][["row.x"]]
+outliers_incorrGo_count <- as.data.frame(table(df_gng[diff_gng_rows_incorrGo,]$ID))
+colnames(outliers_incorrGo_count) <- c("ID", "outliers_incorrGo_count")
+
+# create new vector (cumulative)
+outliers_incorrGo_logical <- row.names(df_gng) %in% diff_gng_rows_incorrGo
+
+# update gng data frame
+df_gng <- df_gng_cleaned
+```
+
+## Incorrect No-go's
+```{r Incorrect NoGos, echo = FALSE}
+outlierKD(df_gng_cleaned, IncorrNoGo)
+
+# Look at which participants had runs removed & how many
+compare_gng_incorrNoGo <- summary(arsenal::compare(df_gng, df_gng_cleaned))
+diff_gng_rows_incorrNoGo <- compare_gng_incorrNoGo[["diffs.table"]][["row.x"]]
+outliers_incorrNoGo_count <- as.data.frame(table(df_gng[diff_gng_rows_incorrNoGo,]$ID))
+colnames(outliers_incorrNoGo_count) <- c("ID", "outliers_incorrNoGo_count")
+
+# create new vector (cumulative)
+outliers_incorrNoGo_logical <- row.names(df_gng) %in% diff_gng_rows_incorrNoGo
+
+# update gng data frame
+df_gng <- df_gng_cleaned
+```
+
+## Incorrect No-go Response Times
+```{r IncorrNoGo_RT, echo = FALSE}
+outlierKD(df_gng_cleaned, IncorrNoGo_RT)
+
+# Look at which participants had runs removed & how many
+compare_gng_incorrNoGoRT <- summary(arsenal::compare(df_gng, df_gng_cleaned))
+diff_gng_rows_incorrNoGoRT <- compare_gng_incorrNoGoRT[["diffs.table"]][["row.x"]]
+outliers_incorrNoGoRT_count <- as.data.frame(table(df_gng[diff_gng_rows_incorrNoGoRT,]$ID))
+colnames(outliers_incorrNoGoRT_count) <- c("ID", "outliers_incorrNoGoRT_count")
+
+# create new vector (cumulative)
+outliers_incorrNoGoRT_logical <- row.names(df_gng) %in% diff_gng_rows_incorrNoGoRT
+
+# update gng data frame
+df_gng <- df_gng_cleaned
+```
+
+# Summary tables
+## View omitted runs
+### Both scans
+```{r Full table of omitted runs, echo=FALSE}
+df_omitted_runs <- cbind(df_gng, outliers_incorrGo_logical, outliers_incorrNoGo_logical, outliers_incorrNoGoRT_logical)
+df_omitted_runs_all <- filter(df_omitted_runs, (outliers_incorrGo_logical == TRUE | outliers_incorrNoGo_logical == TRUE | outliers_incorrNoGoRT_logical == TRUE))
+df_omitted_runs_all <- sort(df_omitted_runs_all[,c(1,3)])
+kable(df_omitted_runs_all, caption = "Full list of scanner runs to omit from analysis", row.names = FALSE)
+```
+A total of `r length(unique(as.numeric(df_omitted_runs_all$ID)))` participants have at least one run that will be excluded from analysis.  
+
+### Base scan only
+```{r table of omitted baseline runs, echo = FALSE}
+df_omitted_runs_base <- filter(df_omitted_runs, (time == 'run1' | time == 'run2' | outliers_incorrGo_logical == TRUE | outliers_incorrNoGo_logical == TRUE | outliers_incorrNoGoRT_logical == TRUE))
+df_omitted_runs_base <- sort(df_omitted_runs_base[,c(1,3)])
+kable(df_omitted_runs_base, caption = "List of baseline scanner runs to omit from analysis", row.names = FALSE)
+```
+A total of `r length(unique(as.numeric(df_omitted_runs_base$ID)))` participants have at least one run at baseline that will be excluded from analysis.  
+
+### End scan only
+```{r table of omitted endpoint runs, echo = FALSE}
+df_omitted_runs_end <- filter(df_omitted_runs, (time == 'run3' | time == 'run4' | outliers_incorrGo_logical == TRUE | outliers_incorrNoGo_logical == TRUE | outliers_incorrNoGoRT_logical == TRUE))
+df_omitted_runs_end <- sort(df_omitted_runs_end[,c(1,3)])
+kable(df_omitted_runs_end, caption = "List of endpoint scanner runs to omit from analysis", row.names = FALSE)
+```
+A total of `r length(unique(as.numeric(df_omitted_runs_end$ID)))` participants have at least one run at baseline that will be excluded from analysis.  
