@@ -1,0 +1,129 @@
+---
+title: 'List of gng runs and IDs to exclude from analyses'
+author: "Krista DeStasio"
+date: "10/25/2018"
+output:
+  html_document:
+    toc: yes
+    toc_depth: 3
+    toc_float: yes
+  pdf_document:
+    toc: yes
+    toc_depth: '3'
+editor_options: 
+  chunk_output_type: inline
+---
+
+```{r setup, include=FALSE}
+## R version 3.4.3 ##
+
+rm(list = ls())
+setwd("~/Desktop/REV_scripts/behavioral/gng/scripts/analyses/")
+
+## Install and load required packages
+list.of.packages <- c("reshape2", "knitr", "lme4", "sjPlot", "sjmisc", "tidyverse", "lme4", "lmerTest", "ez")
+new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])] 
+if (length(new.packages)) install.packages(new.packages, repos = "http://cran.us.r-project.org") 
+lapply(list.of.packages, library, character.only = TRUE)
+
+knitr::opts_chunk$set(fig.width = 12, fig.height = 8, fig.path = 'Figs/', echo = TRUE, warning = FALSE, message = FALSE)
+```
+
+```{r Create the participant ID and condition variables, include=FALSE}
+ID <- as.factor(c(1:144)) # Create the subject ID column
+cond <- c(0, 1, 0, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0) # Match the participant to their condition
+condition <- factor(cond, labels = c("Control", "Training"))
+```
+
+```{r Read in the data, include=FALSE}
+# Counts
+CorrTotal <- read.table("~/Desktop/REV_scripts/behavioral/gng/output/gng_Corr_Count.txt") # All stimuli, all trial types
+CorrGo <- read.table("~/Desktop/REV_scripts/behavioral/gng/output/gng_CorrGo_Count.txt") # All stimuli, go trials
+CorrNoGo <- read.table("~/Desktop/REV_scripts/behavioral/gng/output/gng_CorrNoGo_Count.txt") # All stimuli, no-go trials
+IncorrGo <- read.table("~/Desktop/REV_scripts/behavioral/gng/output/gng_IncorrGo_Count.txt") # All stimuli, go trials
+IncorrNoGo <- read.table("~/Desktop/REV_scripts/behavioral/gng/output/gng_IncorrNoGo_Count.txt") # All stimuli, no-go trials
+CorrNoGo_Risk <- read.table("~/Desktop/REV_scripts/behavioral/gng/output/gng_CorrNoGo_Count_Risk.txt") # PRC stimuli, no-go trials
+IncorrNoGo_Risk <- read.table("~/Desktop/REV_scripts/behavioral/gng/output/gng_IncorrNoGo_Count_Risk.txt") # PRC stimuli, no-go trials
+IncorrNoGo_Neutral <- read.table("~/Desktop/REV_scripts/behavioral/gng/output/gng_IncorrNoGo_Count_Neutral.txt") # Neutral stimuli, no-go trials
+
+# Response times
+CorrGoRT_Risk <- read.table("~/Desktop/REV_scripts/behavioral/gng/output/gng_CorrGo_RT_Risk.txt")
+CorrGoRT_Neutral <- read.table("~/Desktop/REV_scripts/behavioral/gng/output/gng_CorrGo_RT_Neutral.txt")
+CorrGoRT_Total <- read.table("~/Desktop/REV_scripts/behavioral/gng/output/gng_CorrGo_RT.txt")
+IncorrNoGoRT <- read.table("~/Desktop/REV_scripts/behavioral/gng/output/gng_IncorrNoGo_RT.txt")
+```
+
+```{r Put data frames in long form, include=FALSE}
+# Make a vector containing all the dataframes
+dfs <- c("CorrGo", "CorrTotal", "CorrNoGo", "CorrNoGo_Risk", "IncorrGo", "IncorrNoGo", "IncorrNoGo_Risk", "IncorrNoGo_Neutral", "CorrGoRT_Risk", "CorrGoRT_Neutral", "CorrGoRT_Total", "IncorrNoGoRT") 
+
+# Name the columns for each data frame by the run number
+for (df in dfs) {
+  df.tmp <- get(df)
+  names(df.tmp) <- c("run1", "run2", "run3", "run4")
+  assign(df, df.tmp)
+}
+
+# Append the participant IDs and conditions to the front of each data frame
+for (df in dfs) {
+    df.tmp <- get(df)
+    df.tmp <- cbind(ID, condition, df.tmp)
+    assign(df, df.tmp)
+}
+
+# Put the data frames in long form and append "_long" to the data frame name
+for (df in dfs) {
+    df.tmp <- get(df)
+    df.tmp <- melt(data = df.tmp, idvars = ID, measure.vars = c("run1", "run2","run3", "run4"), variable.name = "time", value.name = df)
+    assign(paste(df, "_long", sep = ""),df.tmp)
+}
+```
+    
+```{r Create a single data frame, include=FALSE}
+# Get count for each stim type  
+df_gng <- cbind(CorrGo_long, CorrTotal_long[,4], CorrNoGo_long[,4], CorrNoGo_Risk_long[,4], IncorrGo_long[,4], IncorrNoGo_long[,4], IncorrNoGo_Risk_long[,4], IncorrNoGo_Neutral_long[,4], CorrGoRT_Risk_long[,4], CorrGoRT_Neutral_long[,4], CorrGoRT_Total_long[,4], IncorrNoGoRT_long[,4])
+
+colnames(df_gng) <- c("ID", "Condition", "time", "CorrGo", "CorrTotal", "CorrNoGo", "CorrNoGo_Risk", "IncorrGo", "IncorrNoGo", "IncorrNoGo_Risk", "IncorrNoGo_Neutral", "CorrGoRT_Risk", "CorrGoRT_Neutral", "CorrGoRT_Total", "IncorrNoGo_RT") 
+
+# Replace NaNs with Na
+df_gng[ is.na(df_gng) ] <- NA
+
+# Make a column to specify whether scores are from the base scan (pre) or end scan (post)
+df_gng$Scan <- ifelse(df_gng$time %in% c("run1", "run2"), "pre", ifelse(df_gng$time %in% c("run3", "run4"), "post", NA))
+
+df_gng_cleaned <- df_gng
+```
+
+# Remove Outliers
+```{r}
+# Remove outliers ranged above and below the 1.5*IQR; source "http://goo.gl/UUyEzD"
+outlierKD <- function(dt, var) {
+     var_name <- eval(substitute(var),eval(dt))
+     na1 <- sum(is.na(var_name))
+     m1 <- mean(var_name, na.rm = T)
+     par(mfrow=c(2, 2), oma=c(0,0,3,0))
+     boxplot(var_name, main="With outliers")
+     hist(var_name, main="With outliers", xlab=NA, ylab=NA)
+     outlier <- boxplot.stats(var_name)$out
+     mo <- mean(outlier)
+     var_name <- ifelse(var_name %in% outlier, NA, var_name)
+     boxplot(var_name, main="Without outliers")
+     hist(var_name, main="Without outliers", xlab=NA, ylab=NA)
+     title("Outlier Check", outer=TRUE)
+     na2 <- sum(is.na(var_name))
+     cat("Outliers identified:", na2 - na1, sep = "\n")
+     cat("Propotion (%) of outliers:", round((na2 - na1) / sum(!is.na(var_name))*100, 1), sep = "\n")
+     cat("Mean of the outliers:", round(mo, 2), sep = "\n")
+     m2 <- mean(var_name, na.rm = T)
+     cat("Mean without removing outliers:", round(m1, 2), sep = "\n")
+     cat("Mean if we remove outliers:", round(m2, 2), sep = "\n")
+          dt[as.character(substitute(var))] <- invisible(var_name)
+          assign(as.character(as.list(match.call())$dt), dt, envir = .GlobalEnv)
+          cat("Outliers successfully removed", sep = "\n")
+          return(invisible(dt))
+}
+
+outlierKD(df_gng_cleaned, IncorrGo)
+outlierKD(df_gng_cleaned, IncorrNoGo)
+outlierKD(df_gng_cleaned, IncorrNoGo_RT)
+```
