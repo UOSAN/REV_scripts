@@ -1,5 +1,5 @@
 ---
-title: 'List of runs and IDs to exclude from analyses'
+title: 'List of SST runs and IDs to exclude from analyses'
 author: "Krista DeStasio/Brendan Cullen"
 date: "4/26/2017"
 output:
@@ -138,13 +138,13 @@ df_SSRT <- df_rawSSRT
 
 df_SSRT <- df_SSRT %>% 
     mutate(SSRT = replace(SSRT, 
-                         which(pctInhibition > 75 & time != "run3" & time != "run4" & time != "run5" & time != "run6" & time != "run7" & time != "run8" & time != "run9" & time != "run10" & time != "run11" & time != "run12" & time != "run13" & time != "run14" | pctInhibition < 20 & time != "run3" & time != "run4" & time != "run5" & time != "run6" & time != "run7" & time != "run8" & time != "run9" & time != "run10" & time != "run11" & time != "run12" & time != "run13" & time != "run14"), NA)) # Baseline Scans
+                         which(pctInhibition > 75 & time != "run3" & time != "run4" & time != "run5" & time != "run6" & time != "run7" & time != "run8" & time != "run9" & time != "run10" & time != "run11" & time != "run12"  | pctInhibition < 20 & time != "run3" & time != "run4" & time != "run5" & time != "run6" & time != "run7" & time != "run8" & time != "run9" & time != "run10" & time != "run11" & time != "run12" ), NA)) # Scans
 
 # Look at which participants had runs removed & how many
 compare_SSRT_pctInhib <- summary(arsenal::compare(df_rawSSRT, df_SSRT))
 diff_SSRT_rows_pctInhib <- compare_SSRT_pctInhib[["diffs.table"]][["row.x"]]
 outliers_pctInhib_count <- as.data.frame(table(df_rawSSRT[diff_SSRT_rows_pctInhib,]$ID))
-colnames(outliers_pctInhib_count) <- c("ID", "outliers_pctInhib_new")
+colnames(outliers_pctInhib_count) <- c("ID", "outliers_pctInhib_count")
 
 # create new "outliers1" vector
 outliers_pctInhib_logical <- row.names(df_SSRT) %in% diff_SSRT_rows_pctInhib
@@ -155,13 +155,13 @@ outliers_pctInhib_logical <- row.names(df_SSRT) %in% diff_SSRT_rows_pctInhib
 ## Replace the SSRTs with NAs if no-responses are > 50 during scans
 df_SSRT <- df_SSRT %>% 
     mutate(SSRT = replace(SSRT, 
-                         which(numNoResponse > 50 & time != "run3" & time != "run4" & time != "run5" & time != "run6" & time != "run7" & time != "run8" & time != "run9" & time != "run10" & time != "run11" & time != "run12" & time != "run13" & time != "run14"), NA)) # Baseline Scans
+                         which(numNoResponse > 50 & time != "run3" & time != "run4" & time != "run5" & time != "run6" & time != "run7" & time != "run8" & time != "run9" & time != "run10" & time != "run11" & time != "run12" ), NA)) # Scans
 
 # Look at which participants had runs removed & how many
 compare_SSRT_noResponse <- summary(arsenal::compare(df_rawSSRT, df_SSRT))
 diff_SSRT_rows_noResponse <- compare_SSRT_noResponse[["diffs.table"]][["row.x"]]
 outliers_noResponse_count <- as.data.frame(table(df_rawSSRT[diff_SSRT_rows_noResponse,]$ID))
-colnames(outliers_noResponse_new) <- c("ID", "outliers_noResponse_new")
+colnames(outliers_noResponse_count) <- c("ID", "outliers_noResponse_count")
 
 # create new "outliers2" vector (cumulative)
 outliers_noResponse_logical <- row.names(df_SSRT) %in% diff_SSRT_rows_noResponse
@@ -173,13 +173,13 @@ outliers_noResponse_logical <- row.names(df_SSRT) %in% diff_SSRT_rows_noResponse
 
 df_SSRT <- df_SSRT %>% 
     mutate(SSRT = replace(SSRT, 
-                           which(numWrongGo > 25 & time != "run3" & time != "run4" & time != "run5" & time != "run6" & time != "run7" & time != "run8" & time != "run9" & time != "run10" & time != "run11" & time != "run12" & time != "run13" & time != "run14"), NA)) # Scans
+                           which(numWrongGo > 25 & time != "run3" & time != "run4" & time != "run5" & time != "run6" & time != "run7" & time != "run8" & time != "run9" & time != "run10" & time != "run11" & time != "run12" ), NA)) # Scans
 
 # Look at which participants had runs removed & how many
 compare_SSRT_wrongGo <- summary(arsenal::compare(df_rawSSRT, df_SSRT))
 diff_SSRT_rows_wrongGo <- compare_SSRT_wrongGo[["diffs.table"]][["row.x"]]
 outliers_wrongGo_count <- as.data.frame(table(df_rawSSRT[diff_SSRT_rows_wrongGo,]$ID))
-colnames(outliers_wrongGo_new) <- c("ID", "outliers_wrongGo_new")
+colnames(outliers_wrongGo_count) <- c("ID", "outliers_wrongGo_count")
 
 # create new "outliers3" vector
 outliers_wrongGo_logical <- row.names(df_SSRT) %in% diff_SSRT_rows_wrongGo
@@ -191,36 +191,52 @@ outliers_wrongGo_logical <- row.names(df_SSRT) %in% diff_SSRT_rows_wrongGo
 
 df_SSRT <- df_SSRT %>% 
     mutate(SSRT = replace(SSRT,
-                         which(SSRT > 850 & time != "run3" & time != "run4" & time != "run5" & time != "run6" & time != "run7" & time != "run8" & time != "run9" & time != "run10" & time != "run11" & time != "run12" & time != "run13" & time != "run14" | SSRT < 100 & time != "run3" & time != "run4" & time != "run5" & time != "run6" & time != "run7" & time != "run8" & time != "run9" & time != "run10" & time != "run11" & time != "run12" & time != "run13" & time != "run14"), NA)) # Baseline Scans
+                         which(SSRT > 850 & time != "run3" & time != "run4" & time != "run5" & time != "run6" & time != "run7" & time != "run8" & time != "run9" & time != "run10" & time != "run11" & time != "run12"  | SSRT < 100 & time != "run3" & time != "run4" & time != "run5" & time != "run6" & time != "run7" & time != "run8" & time != "run9" & time != "run10" & time != "run11" & time != "run12" ), NA)) # Scans
 
 # Look at which participants had runs removed & how many
 compare_SSRT_ssrt <- summary(arsenal::compare(df_rawSSRT, df_SSRT))
 diff_SSRT_rows_ssrt <- compare_SSRT_ssrt[["diffs.table"]][["row.x"]]
 outliers_ssrt_count <- as.data.frame(table(df_rawSSRT[diff_SSRT_rows_ssrt,]$ID))
-colnames(outliers_ssrt_new) <- c("ID", "outliers_ssrt_new")
+colnames(outliers_ssrt_count) <- c("ID", "outliers_ssrt_count")
 
 # create new "outliers4" vector
 outliers_ssrt_logical <- row.names(df_SSRT) %in% diff_SSRT_rows_ssrt
 ```
 
 ## View omitted runs
-```{r Full table of omitted runs}
+### Both scans
+```{r Full table of omitted runs, echo=FALSE}
 # NOTE: This is the correct list of omitted runs to use. There are 54 cases total. REV004 run 1 and REV059 run 1 were previously not flagged but should have been. REV004 has too many wrongGo's and REV059 has pctInhib > 75. 
-df_omitted_runs_new <- cbind(df_SSRT, outliers1_new, outliers2_new, outliers3_new, outliers4_new)
-df_omitted_runs_new <- filter(df_omitted_runs_new, (outliers1_new == TRUE | outliers2_new == TRUE | outliers3_new == TRUE | outliers4_new == TRUE))
-df_omitted_runs_new <- sort(df_omitted_runs_new[,c(1,3)])
-kable(df_omitted_runs_new, caption = "Full list of runs to omit from analysis")
+df_omitted_runs <- cbind(df_SSRT, outliers_pctInhib_logical, outliers_noResponse_logical, outliers_wrongGo_logical, outliers_ssrt_logical)
+df_omitted_runs_all <- filter(df_omitted_runs, (outliers_pctInhib_logical == TRUE | outliers_noResponse_logical == TRUE | outliers_wrongGo_logical == TRUE | outliers_ssrt_logical == TRUE))
+df_omitted_runs_all <- sort(df_omitted_runs_all[,c(1,3)])
+kable(df_omitted_runs_all, caption = "Full list of scanner runs to omit from analysis", row.names = FALSE)
 ```
-A total of `r length(unique(as.numeric(df_omitted_runs_new$ID)))` participants have at least one run that will be excluded from analysis.  
+A total of `r length(unique(as.numeric(df_omitted_runs_all$ID)))` participants have at least one run that will be excluded from analysis.  
 
+### Base scan only
+```{r table of omitted baseline runs, echo = FALSE}
+df_omitted_runs_base <- filter(df_omitted_runs, (time == 'run1' | time == 'run2' | outliers_pctInhib_logical == TRUE | outliers_noResponse_logical == TRUE | outliers_wrongGo_logical == TRUE | outliers_ssrt_logical == TRUE))
+df_omitted_runs_base <- sort(df_omitted_runs_base[,c(1,3)])
+kable(df_omitted_runs_base, caption = "List of baseline scanner runs to omit from analysis", row.names = FALSE)
+```
+A total of `r length(unique(as.numeric(df_omitted_runs_base$ID)))` participants have at least one run at baseline that will be excluded from analysis.  
+
+### End scan only
+```{r table of omitted endpoint runs, echo = FALSE}
+df_omitted_runs_end <- filter(df_omitted_runs, (time == 'run13' | time == 'run14' | outliers_pctInhib_logical == TRUE | outliers_noResponse_logical == TRUE | outliers_wrongGo_logical == TRUE | outliers_ssrt_logical == TRUE))
+df_omitted_runs_end <- sort(df_omitted_runs_end[,c(1,3)])
+kable(df_omitted_runs_end, caption = "List of endpoint scanner runs to omit from analysis", row.names = FALSE)
+```
+A total of `r length(unique(as.numeric(df_omitted_runs_end$ID)))` participants have at least one run at endpoint that will be excluded from analysis.  
 
 ```{r Create a table of omitted runs}
 # See omitted
-counts_list <- list(outliers_pctInhib_count, outliers_noResponse_count, outliers_wrongGo_count, outliers_ssrt_count)
+dfs <- list(outliers_pctInhib_count, outliers_noResponse_count, outliers_wrongGo_count, outliers_ssrt_count)
 outliers_tableFull <- plyr::join_all(dfs, by = "ID")
-outliers_table <- outliers_tableFull[which(outliers_tableFull$Runs_omitted_ssrt != 0),]
-kable(outliers_table, caption = "Runs Omitted (columns are cumulative)")
-summary(outliers_tableFull$Runs_omitted_ssrt)
+outliers_table <- outliers_tableFull[which(outliers_tableFull$outliers_ssrt_count != 0),]
+kable(outliers_table, caption = "Runs Omitted, Base & End Scans (columns are cumulative)")
+summary(outliers_tableFull$outliers_ssrt_count)
 ```
 
 ## Notes on problem runs
@@ -236,7 +252,7 @@ summary(outliers_tableFull$Runs_omitted_ssrt)
     
     
     
-```{r Subset only the scan data and convert long to wide}
+```{r Subset only the base scan data and convert long to wide}
 # select only scan data (get rid of training data)
 df_SSRT <- subset(df_SSRT,time %in% c("run1", "run2"))[,c("ID","time","SSRT")] %>%
   spread(time, SSRT)
@@ -245,7 +261,7 @@ df_SSRT <- subset(df_SSRT,time %in% c("run1", "run2"))[,c("ID","time","SSRT")] %
 names(df_SSRT)[names(df_SSRT)=="run1"] <- "SSRT_run1"
 names(df_SSRT)[names(df_SSRT)=="run2"] <- "SSRT_run2"
 
-# Create vars that represent mean SSRT across available runs for baseline and endpoint scans
+# Create vars that represent mean SSRT across available runs for and endpoint scans
 df_SSRT$SSRT_base_mean <- rowMeans(df_SSRT[,c("SSRT_run1","SSRT_run2")], na.rm = TRUE)
 ```
 
@@ -256,421 +272,3 @@ write.csv(df_omitted_runs, file = paste0(outputDir, "/SST_ScanBx_omitted_runs.cs
 
 write.csv(df_SSRT, file = paste0(outputDir, "/SSRT_base_mean.csv"), row.names = FALSE)
 ```
-
-## NOT USING THIS PART OF THE ORIGINAL CODE
-
-<!-- ## Comparison Plots: Raw vs. Cleaned Data   -->
-<!-- ```{r Create plots of the data} -->
-<!-- ### CHECKING FOR PROBLEMS ### -->
-<!-- ## Plot All Non-responses -->
-<!-- noResp_raw <- ggplot(df_rawSSRT, aes(x = time, y = numNoResponse, label = ID)) + -->
-<!--     geom_point(na.rm = TRUE) + -->
-<!--     geom_text(aes(label = ifelse(numNoResponse > 10,as.character(ID),'')),hjust = 0, vjust = 0, na.rm = TRUE) + -->
-<!--     ggtitle("Num of Non-Responses Raw Data, \nAll Participants, All Time Points") -->
-
-<!-- ## Plot Wrong Go Count, Scans, All Participants -->
-<!-- wrongGo_rawAll <- ggplot(subset(df_rawSSRT, time %in% c("run1", "run2", "run13", "run14"))) + -->
-<!--     aes(x = time, y = numWrongGo, label = ID) + -->
-<!--     geom_point(na.rm = TRUE) + -->
-<!--     geom_text(aes(label = as.character(ID)),hjust = 0, vjust = 0, na.rm = TRUE) + -->
-<!--     ggtitle("Wrong Go Count During Scans \nRaw Data, All Participants") -->
-
-<!-- # ## Plot Wrong Gos During Training, Training Group Only -->
-<!-- # wrongGo_rawTrn <- ggplot(subset(df_rawSSRT,time %in%  c("run3", "run4", "run5", "run6", "run7", "run8", "run9", "run10", "run11", "run12") & condition == "train")) + -->
-<!-- #     aes(x = time, y = numWrongGo, label = ID) + -->
-<!-- #     geom_point(na.rm = TRUE) + -->
-<!-- #     geom_text(aes(label = ifelse(numWrongGo > 25,as.character(ID),'')),hjust = 0, vjust = 0, na.rm = TRUE) + -->
-<!-- #     ggtitle("Wrong Go Count During Training \nRaw Data, Training Group Only") -->
-
-<!-- ## Plot SSRTs during Scan -->
-<!-- SSRT_rawScan <- ggplot(subset(df_rawSSRT,time %in% c("run1", "run2", "run13", "run14"))) + -->
-<!--     aes(x = time, y = SSRT, label = ID) + -->
-<!--     geom_point(na.rm = TRUE) + -->
-<!--     geom_text(aes(label = as.character(ID)),hjust = 0, vjust = 0, na.rm = TRUE) + -->
-<!--     ggtitle("SSRTs During Scans, \nAll Participants") -->
-
-<!-- # ## Plot SSRTs during training, only for the training group -->
-<!-- # SSRT_rawTrn <- ggplot(subset(df_rawSSRT, time %in%  c("run3", "run4", "run5", "run6", "run7", "run8", "run9", "run10", "run11", "run12") & condition == "train")) + -->
-<!-- #     aes(x = time, y = SSRT, label = ID) + -->
-<!-- #     geom_point(na.rm = TRUE) + -->
-<!-- #     geom_text(aes(label = as.character(ID)),hjust = 0, vjust = 0, na.rm = TRUE) + -->
-<!-- #     ggtitle("SSRTs During Training Raw Data, \nTraining Group Only") -->
-
-<!-- ## Plot Pct inhibition during Scan -->
-<!-- PctInhib_rawScan <- ggplot(subset(df_rawSSRT,time %in% c("run1", "run2", "run13", "run14"))) + -->
-<!--     aes(x = time, y = pctInhibition, label = ID) + -->
-<!--     geom_point(na.rm = TRUE) + -->
-<!--     geom_text(aes(label = as.character(ID)),hjust = 0, vjust = 0, na.rm = TRUE) + -->
-<!--     ggtitle("Percent Inhibition During Scans, \nAll Participants") -->
-
-<!-- # ## Plot Percent Inhibition during training for the training group  -->
-<!-- # pctInhib_rawTrn <- ggplot(subset(df_rawSSRT, time %in% c("run3", "run4", "run5", "run6", "run7", "run8", "run9", "run10", "run11", "run12") & condition == "train")) + -->
-<!-- #     aes(x = time, y = pctInhibition, label = ID) + -->
-<!-- #     geom_point(na.rm = TRUE) + -->
-<!-- #     geom_jitter(width = 0.25) + -->
-<!-- #     geom_text(aes(label = as.character(ID)),hjust = 0, vjust = 0, na.rm = TRUE) + -->
-<!-- #     ggtitle("Percent Inhibition Raw Data, \nTraining Group During Training") -->
-
-<!-- ### CLEANED DATA ### -->
-
-<!-- ## Plot All Non-responses -->
-<!-- noResp_clean <- ggplot(df_SSRT, aes(x = time, y = numNoResponse, label = ID)) + -->
-<!--     geom_point(na.rm = TRUE) + -->
-<!--     geom_text(aes(label = ifelse(numNoResponse > 10,as.character(ID),'')),hjust = 0, vjust = 0, na.rm = TRUE) + -->
-<!--     ggtitle("Non-Responses, All P's, All Times, \nUpper Limits: Training 25, Scans 50") -->
-
-<!-- ## Plot Wrong Go Count, Scans, All Participants -->
-<!-- wrongGo_cleanAll <- ggplot(subset(df_SSRT, time %in% c("run1", "run2", "run13", "run14"))) + -->
-<!--     aes(x = time, y = numWrongGo, label = ID) + -->
-<!--     geom_point(na.rm = TRUE) + -->
-<!--     geom_text(aes(label = as.character(ID)),hjust = 0, vjust = 0, na.rm = TRUE) + -->
-<!--     ggtitle("Wrong Gos During Scans, All P's, \nUpper Limit Cut-Off of 25") -->
-
-<!-- # ## Plot Wrong Gos During Training, Training Group Only -->
-<!-- # wrongGo_cleanTrn <- ggplot(subset(df_SSRT,time %in%  c("run3", "run4", "run5", "run6", "run7", "run8", "run9", "run10", "run11", "run12") & condition == "train")) + -->
-<!-- #     aes(x = time, y = numWrongGo, label = ID) + -->
-<!-- #     geom_point(na.rm = TRUE) + -->
-<!-- #     geom_text(aes(label = ifelse(numWrongGo > 25,as.character(ID),'')),hjust = 0, vjust = 0, na.rm = TRUE) + -->
-<!-- #     ggtitle("Wrong Go's During Training, \nTraining Group Only, Upper Limit 25") -->
-
-<!-- # ## Plot Pct Inhibition during training, training group only  -->
-<!-- # PctInhib_cleanTrn <- ggplot(subset(df_SSRT, time %in%  c("run3", "run4", "run5", "run6", "run7", "run8", "run9", "run10", "run11", "run12") & condition == "train")) + -->
-<!-- #     aes(x = time, y = pctInhibition, label = ID) + -->
-<!-- #     geom_point(na.rm = TRUE) + -->
-<!-- #     geom_text(aes(label = as.character(ID)), hjust = 0, vjust = 0, na.rm = TRUE) + -->
-<!-- #     ggtitle("Percent Inhibition During Training, \nTraining Group Only, Lower Limit 15, Upper Limit 75") -->
-
-<!-- ## Plot pct inhib during scans for all participants -->
-<!-- PctInhib_cleanScan <- ggplot(subset(df_SSRT,time %in% c("run1", "run2", "run13", "run14"))) + -->
-<!--     aes(x = time, y = pctInhibition, label = ID) + -->
-<!--     geom_point(na.rm = TRUE) + -->
-<!--     geom_text(aes(label = as.character(ID)),hjust = 0, vjust = 0, na.rm = TRUE) + -->
-<!--     ggtitle("Pct Inhibition During Scans, All P's, \n Lower Limit 15, Upper Limit 75") -->
-
-<!-- ## Plot SSRTs during Scan -->
-<!-- SSRT_cleanScan <- ggplot(subset(df_SSRT,time %in% c("run1", "run2", "run13", "run14"))) + -->
-<!--     aes(x = time, y = SSRT, label = ID) + -->
-<!--     geom_point(na.rm = TRUE) + -->
-<!--     geom_text(aes(label = as.character(ID)),hjust = 0, vjust = 0, na.rm = TRUE) + -->
-<!--     ggtitle("SSRTs During Scans, All P's, \nUpper Limit 850, Lower Limit 100") -->
-
-<!-- # ## Plot SSRTs during training, only for the training group -->
-<!-- # SSRT_cleanTrn <- ggplot(subset(df_SSRT, time %in%  c("run3", "run4", "run5", "run6", "run7", "run8", "run9", "run10", "run11", "run12") & condition == "train")) + -->
-<!-- #     aes(x = time, y = SSRT, label = ID) + -->
-<!-- #     geom_point(na.rm = TRUE) + -->
-<!-- #     geom_text(aes(label = as.character(ID)),hjust = 0, vjust = 0, na.rm = TRUE) + -->
-<!-- #     ggtitle("SSRTs During Training, \nTraining Group, Upper Limit 500") -->
-<!-- ``` -->
-
-<!-- ### Wrong Gos   -->
-
-<!-- ```{r Plot wrong-gos} -->
-<!-- # Define grid layout to locate plots and print each graph -->
-<!-- grid.arrange(wrongGo_rawAll, wrongGo_cleanAll, ncol = 2) -->
-<!-- grid.arrange(wrongGo_rawTrn, wrongGo_cleanTrn, ncol = 2) -->
-<!-- ``` -->
-
-<!-- ### Non-Responses -->
-<!-- ```{r Plot non-responses} -->
-<!-- grid.arrange(noResp_raw, noResp_clean, ncol = 2) -->
-<!-- ``` -->
-
-<!-- ### Percent Inhibition -->
-<!-- ```{r Plot percent inhibition} -->
-<!-- grid.arrange(PctInhib_rawScan,PctInhib_cleanScan, ncol = 2) -->
-<!-- grid.arrange(pctInhib_rawTrn, PctInhib_cleanTrn, ncol = 2) -->
-<!-- ``` -->
-
-<!-- ### SSRTs -->
-<!-- ```{r plot SSRTs} -->
-<!-- grid.arrange(SSRT_rawScan, SSRT_cleanScan, ncol = 2) -->
-<!-- grid.arrange(SSRT_rawTrn, SSRT_cleanTrn, ncol = 2) -->
-<!-- ``` -->
-
-<!-- ## Description of Omitted Runs by Participant -->
-<!-- ```{r Compare clean and raw data} -->
-<!-- ## Compare raw and cleaned data frames to find how many runs dropped by participant. Get avg. dropped, min, max, and outliers. -->
-<!-- omitted_runs <- (!df_rawSSRT$SSRT %in% df_SSRT$SSRT) -->
-
-<!-- # Plot the number of omitted runs by participant ID -->
-<!-- ggplot(df_rawSSRT[omitted_runs,], aes(x = ID)) + -->
-<!--     geom_bar() + -->
-<!--     theme(plot.title = element_text(hjust = 0.5)) + -->
-<!--     ggtitle("Number of Runs Omitted Per Participant") + -->
-<!--     labs(x = "Participant ID", y = "Number of Runs Omitted") -->
-
-<!-- runOmit <- as.data.frame(table(df_rawSSRT[omitted_runs,]$ID)) -->
-<!-- summary(runOmit$Freq) -->
-<!-- ``` -->
-
-<!-- ```{r Create the Pre and Post average SSRT scores, include=FALSE} -->
-<!-- # Make a column in the dataframe called prepost. If the run numbers are 1 or 2, put "pre" in the new column. If run num = 13 or 14, put "post" in the new column -->
-<!-- df_SSRT$prepost <- ifelse(df_SSRT$time %in% c("run1", "run2"), "pre", ifelse(df_SSRT$time %in% c("run13", "run14"), "post", NA)) -->
-
-<!-- # Take the mean of cells for which IDs match and prepost matches -->
-<!-- df_avgSSRT <- df_SSRT %>% group_by(ID, prepost) %>% summarise(mean(SSRT, na.rm = TRUE))  -->
-
-<!-- # Keep only average values for pre and post, discard avg. training SSRT -->
-<!-- df_avgSSRT <- df_avgSSRT[ which(df_avgSSRT$prepost == "pre" | df_avgSSRT$prepost == "post"), ]  -->
-<!-- df_avgSSRT$prepost <- as.factor(df_avgSSRT$prepost) # Make prepost a factor -->
-<!-- df_avgSSRT <- df_avgSSRT[order(df_avgSSRT$prepost),] # Order values in the data frame by the prepost column -->
-
-<!-- condition_twice <- rep(condition, 2) -->
-<!-- condition <- cbind(condition_twice) -->
-<!-- condition <- factor(condition, labels = c("control", "train")) -->
-
-<!-- df_avgSSRT <- merge(condition, df_avgSSRT, by = 0) -->
-<!-- df_avgSSRT <- df_avgSSRT[order(df_avgSSRT$ID),] -->
-<!-- df_avgSSRT <- df_avgSSRT[,2:5] -->
-<!-- colnames(df_avgSSRT) <- c("condition", "ID", "time", "SSRT_avg") -->
-<!-- ``` -->
-
-<!-- ## Final Sample Viable Training Sessions -->
-<!-- ```{r Plot how many viable runs participants have} -->
-<!-- # Count the viable sessions during "training" for the training group -->
-<!-- df_viable_train <- subset(df_SSRT, condition == "train") -->
-<!-- df_viable_train <- df_viable_train[ which(df_viable_train$time != "run1" & df_viable_train$time != "run2" & df_viable_train$time != "run13"  & df_viable_train$time != "run14"), ] -->
-<!-- df_viable_train <- df_viable_train %>% group_by(ID) %>% summarize(ViableN = sum(!is.na(SSRT))) -->
-
-<!-- # Plot the training group -->
-<!-- viable_trn <- qplot(df_viable_train$ViableN, geom = "bar", xlab = "Viable SST Runs", ylab = "Count", main = "Viable Training Sessions, Training Group") -->
-
-<!-- # Count the viable sessions during "training" for the conrol group -->
-<!-- df_viable_control <- subset(df_SSRT, condition == "control") -->
-<!-- df_viable_control <- df_viable_control[ which(df_viable_control$time != "run1" & df_viable_control$time != "run2" & df_viable_control$time != "run13" & df_viable_control$time != "run14"), ] -->
-<!-- df_viable_control <- df_viable_control %>% group_by(ID) %>% summarize(ViableN = sum(!is.na(SSRT))) -->
-
-<!-- # Plot the control group -->
-<!-- viable_contr <- qplot(df_viable_control$ViableN, geom = "bar", xlab = "Viable SST Runs", ylab = "Count", main = "Viable Training Sessions, Control Group") -->
-
-<!-- grid.arrange(viable_trn, viable_contr, ncol = 2) -->
-<!-- ``` -->
-
-<!-- **Count of viable training sessions (out of 10 possible), training group:** -->
-<!-- ```{r plot viable sessions for training group} -->
-<!-- table(df_viable_train$ViableN) -->
-<!-- ``` -->
-
-<!-- **Count of viable training sessions (out of 10 possible), control group:** -->
-<!-- ```{r plot viable sessions for control group} -->
-<!-- table(df_viable_control$ViableN) -->
-<!-- ``` -->
-
-<!-- **Who was excluded based on too few training sessions?** -->
-<!-- ```{r Excluded based on viable training sessions} -->
-<!-- ## Exclude participants with too few training sessions -->
-<!-- (exclude <- as.numeric(df_viable_train$ID[(df_viable_train$ViableN < 6)])) -->
-<!-- ``` -->
-
-<!-- ```{r Create data frames for analysis} -->
-<!-- ## Data frame containing pre/post averages, participants excluded based on too few training sessions -->
-<!-- df_SSRTprepost <- df_avgSSRT %>% mutate(SSRT_avg = replace(SSRT_avg, which(ID %in% exclude), NA)) -->
-<!-- df_SSRTprepost[ is.na(df_SSRTprepost) ] <- NA -->
-
-<!-- ## Data frame with all runs, participants excluded based on above criteria -->
-<!-- df_SSRTclean <- df_SSRT %>% mutate(SSRT = replace(SSRT, which(ID %in% exclude), NA)) -->
-
-<!-- ## Data frame with all runs and average base and end SSRT, participants not excluded based on too few runs -->
-<!-- colnames(df_avgSSRT) <- c("condition", "ID", "prepost", "SSRT_avg") -->
-<!-- df_SSRTallSubs <- merge(df_SSRT,df_avgSSRT, by = c("ID", "condition", "prepost"), all.x = TRUE) -->
-
-<!-- # Label prepost only for runs 1 and 14 -->
-<!-- df_SSRTallSubs <- df_SSRTallSubs %>%  -->
-<!--     mutate(prepost = replace(prepost,  -->
-<!--                                   which(time != "run1" & time != "run14"), NA)) -->
-<!-- df_SSRTallSubs <- df_SSRTallSubs %>%  -->
-<!--     mutate(SSRT_avg = replace(SSRT_avg,  -->
-<!--                                   which(time != "run1" & time != "run14"), NA)) -->
-
-<!-- df_SSRTallSubs$prepost <- as.factor(df_SSRTallSubs$prepost) -->
-<!-- str(df_SSRTallSubs) -->
-<!-- # Export full data frame -->
-<!-- save(df_SSRTallSubs, file = "df_SSRT.Rda") -->
-<!-- ``` -->
-
-<!-- # Analyses of SSRT Data -->
-<!-- ## Pre-post change in SSRT -->
-
-<!-- ### Multilevel model test of primary hypothesis -->
-<!-- ```{r Model pre-post change with lmer} -->
-<!-- df_SSRTprepost$time <- relevel(df_SSRTprepost$time, ref = "pre") # make baseline the reference group -->
-
-<!-- # Keep only participants with base and end session data -->
-<!-- SSRTcomplete <- df_SSRTprepost[complete.cases(df_SSRTprepost),] -->
-<!-- tt <- table(SSRTcomplete$ID) -->
-<!-- SSRTcomplete <- SSRTcomplete[SSRTcomplete$ID %in% names(tt[tt > 1]), ] -->
-<!-- SSRTcomplete$ID <- factor(SSRTcomplete$ID) -->
-<!-- SSRTcomplete$time <- factor(SSRTcomplete$time) -->
-<!-- SSRTcomplete$condition <- factor(SSRTcomplete$condition) -->
-
-<!-- # Multilevel model with intercept allowed to vary & fixed slopes for time & condition -->
-<!-- multilevel_model <- lmer( SSRT_avg ~ time*condition + (1 |ID), data = SSRTcomplete ) -->
-<!-- kable(round(anova(multilevel_model),2)) # have to use anova table rather than summary -->
-<!-- #model_norand <- lm( SSRT_avg ~ time*condition, data = SSRTcomplete ) -->
-<!-- ``` -->
-
-<!-- ### Repeated measures ANOVA test of main hypothesis for comparison -->
-<!-- ```{r Model pre-post change with ezANOVA and lmer} -->
-<!-- # Repeated measures ANOVA with SSRT as DV, time as within subs factor, and condition as between subs factor -->
-<!-- ezmultilevel_model <- ez::ezANOVA(data = SSRTcomplete, dv = SSRT_avg, wid = ID, within = time, between = condition, type = 3, detailed = TRUE)  -->
-<!-- kable(ezmultilevel_model$ANOVA) -->
-<!-- ``` -->
-
-<!-- ### Plots -->
-<!-- ```{r Bar plot of pre-post change in SSRT} -->
-<!-- # calculate the means to plot -->
-<!-- #SSRTcomplete$condition <- as.numeric(SSRTcomplete$condition) -->
-<!-- #SSRTcomplete$prepost <- as.numeric(SSRTcomplete$prepost) -->
-<!-- groups <- group_by(SSRTcomplete, condition, time) -->
-<!-- plot_data <- dplyr::summarise(groups,  -->
-<!--                        mean = mean(SSRT_avg, na.rm = TRUE), -->
-<!--                        sd = sd(SSRT_avg, na.rm = TRUE), -->
-<!--                        n = n()) -->
-<!-- plot_data <- mutate(plot_data, -->
-<!--                     se = sd/sqrt(n), -->
-<!--                     ci = qt(0.975,df = n-1)*se) -->
-
-<!-- # Re-level and rename the condition factor for plotting -->
-<!-- plot_data$condition <- factor(plot_data$condition, levels(plot_data$condition)[c(2,1)]) -->
-<!-- plot_data$condition <- plyr::revalue(plot_data$condition, c("train" = "Training", "control" = "Control")) -->
-
-<!-- # Bar graph of pre-post change by condition with standard error bars. -->
-
-<!-- ggplot(plot_data, aes(x = condition, y = mean, fill = interaction(time, condition))) + -->
-<!--    geom_bar(stat = "identity", position = position_dodge(), color = "black", size = .3) + -->
-<!--   geom_errorbar(aes(ymin = mean - ci, ymax = mean + ci),  -->
-<!--                 size = .8, -->
-<!--                 width = .2, -->
-<!--                 position = position_dodge(.9)) + -->
-<!--     xlab("Condition") + -->
-<!--     ylab("SSRT (ms)") + -->
-<!-- scale_fill_manual(values = c("#28B463", "#90EE90", "#4169E1", "#87CEEB"),name = "Time",  -->
-<!--               labels = c("Baseline", "Endpoint", "Baseline","Endpoint")) + -->
-<!--     theme(plot.title = element_text(hjust = 0.5)) + -->
-<!--     ggtitle("Mean Stop-Signal Reaction Time at \nPre and Post Intervention by Condition") + -->
-<!--     coord_cartesian(ylim = c(200, 320))  + -->
-<!--     scale_y_continuous(breaks = seq(200, 320, 10)) + -->
-<!--     theme(axis.text = element_text(size = 24), -->
-<!--         axis.title = element_text(size = 24, face = "bold"), -->
-<!--         legend.title = element_text(size = 14, face = "bold"), -->
-<!--         legend.position = c(.98, .98), -->
-<!--         legend.justification = c("right", "top"), -->
-<!--         legend.key.size = unit(.5, "cm"), -->
-<!--         legend.text = element_text(size = 14), -->
-<!--         title = element_text(size = 24)) -->
-<!-- ``` -->
-
-<!-- ```{r plot the model data} -->
-<!-- ggplot(SSRTcomplete, aes(x = time, y = SSRT_avg, fill = condition)) + -->
-<!--     geom_boxplot(na.rm = TRUE) + -->
-<!--     theme(plot.title = element_text(hjust = 0.5)) + -->
-<!--     ggtitle("Pre and Post Stop Signal \nResponse Time (SSRT) by Group") +  -->
-<!--     labs(x = "Time Point", y = "Stop Signal Response Time") + -->
-<!--     scale_fill_discrete(name = "Condition", -->
-<!--                          breaks = c("control", "train"), -->
-<!--                          labels = c("Control", "Training")) -->
-<!-- ``` -->
-
-<!-- ## Final sample  -->
-<!-- ```{r final sample description} -->
-<!-- (table(SSRTcomplete$condition))/2 -->
-<!-- included_IDs <- dimnames(table(SSRTcomplete$ID)) -->
-<!-- save(included_IDs, file = "Included_IDs.rda") -->
-<!-- ``` -->
-
-<!-- # Training sessions -->
-<!-- ## Linear effect of time within the training sessions (in the training group) -->
-<!-- ```{r Use lmer to examine training slopes} -->
-<!-- ## Create data frame of only training sessions for training group only -->
-<!-- df_SSRTtrain <- subset(df_SSRTclean, condition == "train" & time != "run1" & time != "run2" & time != "run13" & time != "run14")  -->
-<!-- ## Data frame of only training sessions, both control and training groups -->
-<!-- df_SSRT10ses <- subset(df_SSRTclean, time != "run1" & time != "run2" & time != "run13" & time != "run14")  -->
-
-<!-- # Model -->
-<!-- df_SSRTtrain$time <- as.numeric(df_SSRTtrain$time) -->
-<!-- mlmodel <- lmer( SSRT ~ time + (1 + time|ID), data = df_SSRTtrain ) -->
-<!-- summary(mlmodel) -->
-
-<!-- df_SSRT10ses$time <- as.numeric(df_SSRT10ses$time) -->
-<!-- full_mlModel <- lmer( SSRT ~ condition*time + (1 + time | ID), data = df_SSRT10ses) -->
-<!-- summary(full_mlModel) -->
-<!-- ``` -->
-
-<!-- ## Plots -->
-<!-- ```{r Boxplots of SST performance across time} -->
-<!-- ggplot(subset(df_SSRTclean, condition == "train" | condition == "control" & time %in% c("run1", "run2", "run13", "run14"))) +  -->
-<!--     aes(x = time, y = SSRT, fill = condition) + -->
-<!--     geom_boxplot(na.rm = TRUE) + -->
-<!--     coord_flip() + -->
-<!--     scale_x_discrete(limits = rev(levels(df_SSRTclean$time))) + -->
-<!--     theme(plot.title = element_text(hjust = 0.5)) + -->
-<!--     ggtitle("Stop Signal Response Times \nby Time and Group") + -->
-<!--     labs(x = "Time Point", y = "Stop Signal Response Time") + -->
-<!--     scale_fill_discrete(name = "Condition", -->
-<!--                          breaks = c("control", "train"), -->
-<!--                          labels = c("Control", "Training")) -->
-<!-- ``` -->
-
-<!-- # Post-hoc -->
-<!-- ## Partial eta-squared -->
-<!-- ```{r Partial eta-squared} -->
-<!-- anova_table <- anova(multilevel_model) -->
-<!-- SS_interaction <- anova_table$'Sum Sq'[3] -->
-
-<!-- mlm_summary <- summary(multilevel_model) -->
-<!-- SS_error <- sum(mlm_summary$residuals^2) -->
-<!-- partial_etasq <- SS_interaction / (SS_interaction + 3705.7) -->
-<!-- meanSqError <- 3705.7 -->
-
-<!-- ``` -->
-
-<!-- ## Correlation coefficient for pre & post SSRT -->
-<!-- ```{r Correlation coefficient} -->
-<!-- # Create a date frame with averaged SSRT scores in separate columns for pre and post sessions -->
-<!-- forCorr <- dcast(data = SSRTcomplete, formula = ID ~ time, fun.aggregate = sum, value.var = "SSRT_avg") -->
-<!-- forCorr <- forCorr[,2:3] -->
-
-<!-- # Calculate the correlation coeficient  -->
-<!-- correlation_coeff <- cor(x = forCorr$pre, y = forCorr$post, use = "pairwise.complete.obs", method = "pearson") -->
-<!-- ``` -->
-
-<!-- ```{r Final N} -->
-<!-- # Number of complete cases -->
-<!-- length(!is.na(forCorr[,1] & forCorr[,2])) -->
-<!-- ``` -->
-
-<!-- ## Plots of outliers -->
-<!-- ### Plots of cleaned, averaged SSRTs -->
-<!-- ```{r Look at SSRT_avg outliers in cleaned data} -->
-<!-- p <- ggplot(data = df_SSRTprepost, aes(x = time, SSRT_avg))  -->
-
-<!-- # Boxplot -->
-<!-- p + -->
-<!--     geom_boxplot(outlier.size = 4, outlier.colour = "green") + -->
-<!--     geom_text(label = df_SSRTprepost$ID)  -->
-
-
-<!-- # Line plot -->
-<!-- p + -->
-<!--     geom_line(aes(group = ID, color = factor(condition))) -->
-<!-- p + -->
-<!--     geom_line(aes(group = ID, color = factor(ID))) -->
-
-<!-- # Both plots overlaid -->
-
-<!-- p + -->
-<!--     geom_boxplot(outlier.size=4, outlier.colour = "green") + -->
-<!--     geom_text(label = df_SSRTprepost$ID) + -->
-<!--     geom_line(aes(group = ID, color = factor(ID))) + -->
-<!--     ggtitle("Averaged and Cleaned SSRTs During Scans, Outliers in Green are Beyond 1.5 IQR") -->
-<!-- ``` -->
-
-<!-- ### Plots of raw SSRTs from base and end scans -->
-<!-- ```{r} -->
-<!-- ggplot(subset(df_rawSSRT, time %in% c("run1", "run2", "run13", "run14"))) + -->
-<!--     aes(x = time, y = SSRT, label = ID) + -->
-<!--     geom_point(na.rm = TRUE) + -->
-<!--     geom_boxplot(range = 2.5, outlier.size = 4, outlier.colour = "green") + -->
-<!--     geom_text(aes(label = as.character(ID)),hjust = 0, vjust = 0, na.rm = TRUE) + -->
-<!--     ggtitle("Raw SSRTs During Scans, Outliers in Green are Beyond 1.5 IQR") -->
-<!-- ```  -->
