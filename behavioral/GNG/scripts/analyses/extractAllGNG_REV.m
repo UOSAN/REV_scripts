@@ -18,8 +18,7 @@ eventTypeCol=3;
 numRuns=4;
 numSubs=144;
 numTrials = 256;
-
-% Set up 7 blank matrices
+% Set up 8 blank matrices
 GNG_CorrGo_RT = nan(numSubs,numRuns);
 GNG_IncorrNoGo_RT = nan(numSubs,numRuns);
 
@@ -29,11 +28,16 @@ GNG_IncorrNoGo_Count = nan(numSubs,numRuns);
 GNG_IncorrGo_Count = nan(numSubs,numRuns);
 GNG_Corr_Count = nan(numSubs,numRuns);
 
+GNG_IncorrGo_CountByBlock_run1 = nan(numSubs, numRuns);
+GNG_IncorrGo_CountByBlock_run2 = nan(numSubs, numRuns);
+GNG_IncorrGo_CountByBlock_run3 = nan(numSubs, numRuns);
+GNG_IncorrGo_CountByBlock_run4 = nan(numSubs, numRuns);
+
 for runNum=1:numRuns
     
     taskfile=dir(['GNG' num2str(runNum) '.txt']);
     
-    for k=1:length(taskfile);
+    for k=1:length(taskfile)
         data=dlmread(taskfile(k).name,'\t');
         GoIndices = data(:,eventTypeCol)==1; % Create a binary vector to indicate whether a row is a go event
         GoEvents = data(GoIndices,indexCol); % Provide the even number corresponding to the go events
@@ -41,6 +45,8 @@ for runNum=1:numRuns
         NoGoEvents = data(NoGoIndices,indexCol); % Provide the even number corresponding to the no-go events
         RiskCue = data(:,stimTypeCol)==1;
         NeutralCue = data(:,stimTypeCol)==2;
+        InstructionIndices = data(:,eventTypeCol)==0;
+        InstructEvents = data(InstructionIndices,indexCol);
     end
     
     cd('~/Desktop/REV_BxData/data/GNG')
@@ -49,7 +55,7 @@ for runNum=1:numRuns
     
     % corrGo
     % corrNoGo
-    % inCorrNoGo
+    % IncorrNoGo
     % Instructions
     % Trash
     
@@ -60,16 +66,31 @@ for runNum=1:numRuns
     IncorrNoGo = nan(numFiles,numTrials);
     IncorrNoGoRT = nan(numFiles,numTrials);
     IncorrGo = nan(numFiles,numTrials);
+    
+    % Not sure this part is needed. Can probably split IncorrGo vector at
+    % these indices 
+    IncorrGo_block1 = nan(numFiles, range(InstructEvents(2), InstructEvents(3)));
+    IncorrGo_block2 = nan(numFiles, range(InstructEvents(3), InstructEvents(4)));
+    IncorrGo_block3 = nan(numFiles, range(InstructEvents(4), InstructEvents(5)));
+    IncorrGo_block4 = nan(numFiles, range(InstructEvents(5), InstructEvents(6)));
+    IncorrGo_block5 = nan(numFiles, range(InstructEvents(6), numTrials));
 
-    for i = 1:numFiles;
+    IncorrGo_indices_block1 = InstructEvents(2):InstructEvents(3);
+    IncorrGo_indices_block2 = InstructEvents(3):InstructEvents(4);
+    IncorrGo_indices_block3 = InstructEvents(4):InstructEvents(5);
+    IncorrGo_indices_block4 = InstructEvents(5):InstructEvents(6);
+    IncorrGo_indices_block5 = InstructEvents(6):numTrials;
+    
+    for i = 1:numFiles
         inputFilename = files(i).name;
         load(inputFilename);
         responsesRaw=run_info.responses; %pull out the cell array of button presses
         rtsRaw=run_info.rt; %pull out the cell array of RTs
         subNum = str2num(inputFilename(4:6));
         
-        for t=1:numTrials; % go through each trial
-            % assign it to CorrGo column if it's CorrGo
+        for t=1:numTrials % go through each trial
+            % assign it to CorrGo column if it's CorrGo (any button press
+            % counts as a go)
             if ismember(t,GoEvents) && ~isempty(responsesRaw{t})
                 CorrGo(i,t) = 1;
                 CorrGoRT(i,t) = rtsRaw(t);
@@ -86,8 +107,21 @@ for runNum=1:numRuns
                 % assign it to IncorrGo column if it's IncorrGo
             elseif ismember(t,GoEvents) && isempty(responsesRaw{t})
                 IncorrGo(i,t) = 1;
+                if ismember(t, IncorrGo_indices_block1)
+                    IncorrGo_block1(i,t) = 1;
+                elseif ismember(t, IncorrGo_indices_block2)
+                    IncorrGo_block2(i,t) = 1;
+                elseif ismember(t, IncorrGo_indices_block3)
+                    IncorrGo_block3(i,t) = 1;
+                elseif ismember(t, IncorrGo_indices_block4)
+                    IncorrGo_block4(i,t) = 1;
+                elseif ismember(t, IncorrGo_indices_block5)
+                    IncorrGo_block5(i,t) = 1;
+                end
             end
         end
+
+        
         
         GNG_CorrGo_RT(subNum,runNum) = nanmean(CorrGoRT(i,:));
         GNG_CorrGo_RT_Risk(subNum,runNum) = nanmean(CorrGoRT(i,RiskCue));
@@ -112,6 +146,12 @@ for runNum=1:numRuns
         
         GNG_Corr_Count(subNum,runNum) = nansum(CorrGo(i,:))+nansum(CorrNoGo(i,:));
         
+        GNG_IncorrGo_CountByBlock_run1(subNum, runNum) = nansum(IncorrGo_block1(i,:));
+        GNG_IncorrGo_CountByBlock_run2(subNum, runNum) = nansum(IncorrGo_block2(i,:));
+        GNG_IncorrGo_CountByBlock_run3(subNum, runNum) = nansum(IncorrGo_block3(i,:));
+        GNG_IncorrGo_CountByBlock_run4(subNum, runNum) = nansum(IncorrGo_block4(i,:));
+        GNG_IncorrGo_CountByBlock_run5(subNum, runNum) = nansum(IncorrGo_block5(i,:));
+        
     end %end numFiles loop
 end
 
@@ -135,3 +175,8 @@ dlmwrite([outputDir '/GNG_IncorrGo_Count.txt'], GNG_IncorrGo_Count, 'delimiter',
 dlmwrite([outputDir '/GNG_IncorrGo_Count_Risk.txt'], GNG_IncorrGo_Count_Neutral, 'delimiter','\t');
 dlmwrite([outputDir '/GNG_IncorrGo_Count_Risk.txt'], GNG_IncorrGo_Count_Neutral, 'delimiter','\t');
 dlmwrite([outputDir '/GNG_Corr_Count.txt'], GNG_Corr_Count, 'delimiter','\t');
+dlmwrite([outputDir '/GNG_IncorrGo_CountByBlock_run1.txt'], GNG_IncorrGo_CountByBlock_run1, 'delimiter','\t');
+dlmwrite([outputDir '/GNG_IncorrGo_CountByBlock_run2.txt'], GNG_IncorrGo_CountByBlock_run2, 'delimiter','\t');
+dlmwrite([outputDir '/GNG_IncorrGo_CountByBlock_run3.txt'], GNG_IncorrGo_CountByBlock_run3, 'delimiter','\t');
+dlmwrite([outputDir '/GNG_IncorrGo_CountByBlock_run4.txt'], GNG_IncorrGo_CountByBlock_run4, 'delimiter','\t');
+dlmwrite([outputDir '/GNG_IncorrGo_CountByBlock_run5.txt'], GNG_IncorrGo_CountByBlock_run5, 'delimiter','\t');
