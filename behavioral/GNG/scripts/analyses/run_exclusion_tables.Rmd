@@ -1,5 +1,5 @@
 ---
-title: 'List of gng runs and IDs to exclude from analyses'
+title: 'List of GNG runs and IDs to exclude from analyses'
 author: 'Krista DeStasio'
 date: '10/25/2018'
 output:
@@ -20,11 +20,11 @@ editor_options:
 ```{r setup, include=FALSE}
 ## R version 3.4.3 ##
 rm(list = ls())
-setwd('~/Desktop/REV_scripts/behavioral/gng/scripts/analyses/')
-output_dir = '~/Desktop/REV_scripts/behavioral/gng/output/'
+setwd('~/Desktop/REV_scripts/behavioral/GNG/scripts/analyses/')
+output_dir = '~/Desktop/REV_scripts/behavioral/GNG/output/'
 
 ## Install and load required packages
-list.of.packages <- c('reshape2', 'knitr', 'lme4', 'sjPlot', 'sjmisc', 'tidyverse', 'lme4', 'lmerTest', 'ez', 'gridExtra', 'arsenal')
+list.of.packages <- c('reshape2', 'knitr', 'gridExtra', 'arsenal', 'ggplot2', 'dplyr')
 new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,'Package'])] 
 if (length(new.packages)) install.packages(new.packages, repos = 'http://cran.us.r-project.org') 
 lapply(list.of.packages, library, character.only = TRUE)
@@ -40,20 +40,20 @@ condition <- factor(cond, labels = c('Control', 'Training'))
 
 ```{r Read in the data, include=FALSE}
 # Counts
-CorrTotal <- read.table(paste0(output_dir, 'gng_Corr_Count.txt')) # All stimuli, all trial types
-CorrGo <- read.table(paste0(output_dir, 'gng_CorrGo_Count.txt')) # All stimuli, go trials
-CorrNoGo <- read.table(paste0(output_dir, 'gng_CorrNoGo_Count.txt')) # All stimuli, no-go trials
-IncorrGo <- read.table(paste0(output_dir, 'gng_IncorrGo_Count.txt')) # All stimuli, go trials
-IncorrNoGo <- read.table(paste0(output_dir, 'gng_IncorrNoGo_Count.txt')) # All stimuli, no-go trials
-CorrNoGo_Risk <- read.table(paste0(output_dir, 'gng_CorrNoGo_Count_Risk.txt')) # PRC stimuli, no-go trials
-IncorrNoGo_Risk <- read.table(paste0(output_dir, 'gng_IncorrNoGo_Count_Risk.txt')) # PRC stimuli, no-go trials
-IncorrNoGo_Neutral <- read.table(paste0(output_dir, 'gng_IncorrNoGo_Count_Neutral.txt')) # Neutral stimuli, no-go trials
+CorrTotal <- read.table(paste0(output_dir, 'GNG_Corr_Count.txt')) # All stimuli, all trial types
+CorrGo <- read.table(paste0(output_dir, 'GNG_CorrGo_Count.txt')) # All stimuli, go trials
+CorrNoGo <- read.table(paste0(output_dir, 'GNG_CorrNoGo_Count.txt')) # All stimuli, no-go trials
+IncorrGo <- read.table(paste0(output_dir, 'GNG_IncorrGo_Count.txt')) # All stimuli, go trials
+IncorrNoGo <- read.table(paste0(output_dir, 'GNG_IncorrNoGo_Count.txt')) # All stimuli, no-go trials
+CorrNoGo_Risk <- read.table(paste0(output_dir, 'GNG_CorrNoGo_Count_Risk.txt')) # PRC stimuli, no-go trials
+IncorrNoGo_Risk <- read.table(paste0(output_dir, 'GNG_IncorrNoGo_Count_Risk.txt')) # PRC stimuli, no-go trials
+IncorrNoGo_Neutral <- read.table(paste0(output_dir, 'GNG_IncorrNoGo_Count_Neutral.txt')) # Neutral stimuli, no-go trials
 
 # Response times
-CorrGoRT_Risk <- read.table(paste0(output_dir, 'gng_CorrGo_RT_Risk.txt'))
-CorrGoRT_Neutral <- read.table(paste0(output_dir, 'gng_CorrGo_RT_Neutral.txt'))
-CorrGoRT_Total <- read.table(paste0(output_dir, 'gng_CorrGo_RT.txt'))
-IncorrNoGoRT <- read.table(paste0(output_dir, 'gng_IncorrNoGo_RT.txt'))
+CorrGoRT_Risk <- read.table(paste0(output_dir, 'GNG_CorrGo_RT_Risk.txt'))
+CorrGoRT_Neutral <- read.table(paste0(output_dir, 'GNG_CorrGo_RT_Neutral.txt'))
+CorrGoRT_Total <- read.table(paste0(output_dir, 'GNG_CorrGo_RT.txt'))
+IncorrNoGoRT <- read.table(paste0(output_dir, 'GNG_IncorrNoGo_RT.txt'))
 
 # Wrong go's by block
 block1_IncorrGo <- read.table(paste0(output_dir, 'GNG_IncorrGo_CountByBlock_run1.txt'))
@@ -342,6 +342,6 @@ outlierLogical_gng <- row.names(clean_df_gng) %in% gng_diffs
 ```{r, echo = FALSE}
 df_omitted_runs <- cbind(clean_df_gng, outlierLogical_gng)
 df_omitted_runs_all <- filter(df_omitted_runs, outlierLogical_gng == TRUE)
-df_omitted_runs_all <- sort(df_omitted_runs_all[,c('ID' , 'run_number')])
+df_omitted_runs_all <- df_omitted_runs_all[order(df_omitted_runs_all$ID, df_omitted_runs_all$run_number), c('ID' , 'run_number')]
 kable(df_omitted_runs_all, caption = "Full list of runs to omit from analysis", row.names = FALSE)
 ```
