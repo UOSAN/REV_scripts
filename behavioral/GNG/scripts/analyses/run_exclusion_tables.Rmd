@@ -1,12 +1,12 @@
 ---
-title: "List of gng runs and IDs to exclude from analyses"
-author: "Krista DeStasio"
-date: "10/25/2018"
+title: 'List of gng runs and IDs to exclude from analyses'
+author: 'Krista DeStasio'
+date: '10/25/2018'
 output:
   html_document:
     toc: yes
     toc_depth: 3
-    toc_float: yes
+    toc_float: no
   pdf_document:
     toc: yes
     toc_depth: '3'
@@ -19,14 +19,14 @@ editor_options:
 
 ```{r setup, include=FALSE}
 ## R version 3.4.3 ##
-
 rm(list = ls())
-setwd("~/Desktop/REV_scripts/behavioral/gng/scripts/analyses/")
+setwd('~/Desktop/REV_scripts/behavioral/gng/scripts/analyses/')
+output_dir = '~/Desktop/REV_scripts/behavioral/gng/output/'
 
 ## Install and load required packages
-list.of.packages <- c("reshape2", "knitr", "lme4", "sjPlot", "sjmisc", "tidyverse", "lme4", "lmerTest", "ez", "gridExtra")
-new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])] 
-if (length(new.packages)) install.packages(new.packages, repos = "http://cran.us.r-project.org") 
+list.of.packages <- c('reshape2', 'knitr', 'lme4', 'sjPlot', 'sjmisc', 'tidyverse', 'lme4', 'lmerTest', 'ez', 'gridExtra')
+new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,'Package'])] 
+if (length(new.packages)) install.packages(new.packages, repos = 'http://cran.us.r-project.org') 
 lapply(list.of.packages, library, character.only = TRUE)
 
 knitr::opts_chunk$set(fig.width = 12, fig.height = 8, fig.path = 'Figs/', echo = TRUE, warning = FALSE, message = FALSE)
@@ -35,35 +35,42 @@ knitr::opts_chunk$set(fig.width = 12, fig.height = 8, fig.path = 'Figs/', echo =
 ```{r Create the participant ID and condition variables, include=FALSE}
 ID <- as.factor(c(1:144)) # Create the subject ID column
 cond <- c(0, 1, 0, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0) # Match the participant to their condition
-condition <- factor(cond, labels = c("Control", "Training"))
+condition <- factor(cond, labels = c('Control', 'Training'))
 ```
 
 ```{r Read in the data, include=FALSE}
 # Counts
-CorrTotal <- read.table("~/Desktop/REV_scripts/behavioral/gng/output/gng_Corr_Count.txt") # All stimuli, all trial types
-CorrGo <- read.table("~/Desktop/REV_scripts/behavioral/gng/output/gng_CorrGo_Count.txt") # All stimuli, go trials
-CorrNoGo <- read.table("~/Desktop/REV_scripts/behavioral/gng/output/gng_CorrNoGo_Count.txt") # All stimuli, no-go trials
-IncorrGo <- read.table("~/Desktop/REV_scripts/behavioral/gng/output/gng_IncorrGo_Count.txt") # All stimuli, go trials
-IncorrNoGo <- read.table("~/Desktop/REV_scripts/behavioral/gng/output/gng_IncorrNoGo_Count.txt") # All stimuli, no-go trials
-CorrNoGo_Risk <- read.table("~/Desktop/REV_scripts/behavioral/gng/output/gng_CorrNoGo_Count_Risk.txt") # PRC stimuli, no-go trials
-IncorrNoGo_Risk <- read.table("~/Desktop/REV_scripts/behavioral/gng/output/gng_IncorrNoGo_Count_Risk.txt") # PRC stimuli, no-go trials
-IncorrNoGo_Neutral <- read.table("~/Desktop/REV_scripts/behavioral/gng/output/gng_IncorrNoGo_Count_Neutral.txt") # Neutral stimuli, no-go trials
+CorrTotal <- read.table(paste0(output_dir, 'gng_Corr_Count.txt')) # All stimuli, all trial types
+CorrGo <- read.table(paste0(output_dir, 'gng_CorrGo_Count.txt')) # All stimuli, go trials
+CorrNoGo <- read.table(paste0(output_dir, 'gng_CorrNoGo_Count.txt')) # All stimuli, no-go trials
+IncorrGo <- read.table(paste0(output_dir, 'gng_IncorrGo_Count.txt')) # All stimuli, go trials
+IncorrNoGo <- read.table(paste0(output_dir, 'gng_IncorrNoGo_Count.txt')) # All stimuli, no-go trials
+CorrNoGo_Risk <- read.table(paste0(output_dir, 'gng_CorrNoGo_Count_Risk.txt')) # PRC stimuli, no-go trials
+IncorrNoGo_Risk <- read.table(paste0(output_dir, 'gng_IncorrNoGo_Count_Risk.txt')) # PRC stimuli, no-go trials
+IncorrNoGo_Neutral <- read.table(paste0(output_dir, 'gng_IncorrNoGo_Count_Neutral.txt')) # Neutral stimuli, no-go trials
 
 # Response times
-CorrGoRT_Risk <- read.table("~/Desktop/REV_scripts/behavioral/gng/output/gng_CorrGo_RT_Risk.txt")
-CorrGoRT_Neutral <- read.table("~/Desktop/REV_scripts/behavioral/gng/output/gng_CorrGo_RT_Neutral.txt")
-CorrGoRT_Total <- read.table("~/Desktop/REV_scripts/behavioral/gng/output/gng_CorrGo_RT.txt")
-IncorrNoGoRT <- read.table("~/Desktop/REV_scripts/behavioral/gng/output/gng_IncorrNoGo_RT.txt")
+CorrGoRT_Risk <- read.table(paste0(output_dir, 'gng_CorrGo_RT_Risk.txt'))
+CorrGoRT_Neutral <- read.table(paste0(output_dir, 'gng_CorrGo_RT_Neutral.txt'))
+CorrGoRT_Total <- read.table(paste0(output_dir, 'gng_CorrGo_RT.txt'))
+IncorrNoGoRT <- read.table(paste0(output_dir, 'gng_IncorrNoGo_RT.txt'))
+
+# Wrong go's by block
+block1_IncorrGo <- read.table(paste0(output_dir, 'GNG_IncorrGo_CountByBlock_run1.txt'))
+block2_IncorrGo <- read.table(paste0(output_dir, 'GNG_IncorrGo_CountByBlock_run2.txt'))
+block3_IncorrGo <- read.table(paste0(output_dir, 'GNG_IncorrGo_CountByBlock_run3.txt'))
+block4_IncorrGo <- read.table(paste0(output_dir, 'GNG_IncorrGo_CountByBlock_run4.txt'))
+block5_IncorrGo <- read.table(paste0(output_dir, 'GNG_IncorrGo_CountByBlock_run5.txt'))
 ```
 
 ```{r Put data frames in long form, include=FALSE}
 # Make a vector containing all the dataframes
-dfs <- c("CorrGo", "CorrTotal", "CorrNoGo", "CorrNoGo_Risk", "IncorrGo", "IncorrNoGo", "IncorrNoGo_Risk", "IncorrNoGo_Neutral", "CorrGoRT_Risk", "CorrGoRT_Neutral", "CorrGoRT_Total", "IncorrNoGoRT") 
+dfs <- c('CorrGo', 'CorrTotal', 'CorrNoGo', 'CorrNoGo_Risk', 'IncorrGo', 'IncorrNoGo', 'IncorrNoGo_Risk', 'IncorrNoGo_Neutral', 'CorrGoRT_Risk', 'CorrGoRT_Neutral', 'CorrGoRT_Total', 'IncorrNoGoRT', 'block1_IncorrGo', 'block2_IncorrGo', 'block3_IncorrGo', 'block4_IncorrGo', 'block5_IncorrGo')
 
 # Name the columns for each data frame by the run number
 for (df in dfs) {
   df.tmp <- get(df)
-  names(df.tmp) <- c("run1", "run2", "run3", "run4")
+  names(df.tmp) <- c('run1', 'run2', 'run3', 'run4')
   assign(df, df.tmp)
 }
 
@@ -74,53 +81,267 @@ for (df in dfs) {
     assign(df, df.tmp)
 }
 
-# Put the data frames in long form and append "_long" to the data frame name
+# Put the data frames in long form and append '_long' to the data frame name
 for (df in dfs) {
     df.tmp <- get(df)
-    df.tmp <- melt(data = df.tmp, idvars = ID, measure.vars = c("run1", "run2","run3", "run4"), variable.name = "time", value.name = df)
-    assign(paste(df, "_long", sep = ""),df.tmp)
+    df.tmp <- melt(data = df.tmp, idvars = ID, measure.vars = c('run1', 'run2','run3', 'run4'), variable.name = 'run_number', value.name = df)
+    assign(paste(df, '_long', sep = ''),df.tmp)
 }
 ```
     
 ```{r Create a single data frame, include=FALSE}
 # Get count for each stim type  
-df_gng <- cbind(CorrGo_long, CorrTotal_long[,4], CorrNoGo_long[,4], CorrNoGo_Risk_long[,4], IncorrGo_long[,4], IncorrNoGo_long[,4], IncorrNoGo_Risk_long[,4], IncorrNoGo_Neutral_long[,4], CorrGoRT_Risk_long[,4], CorrGoRT_Neutral_long[,4], CorrGoRT_Total_long[,4], IncorrNoGoRT_long[,4])
+df_gng <- cbind(CorrGo_long, CorrTotal_long[,4], CorrNoGo_long[,4], CorrNoGo_Risk_long[,4], IncorrGo_long[,4], IncorrNoGo_long[,4], IncorrNoGo_Risk_long[,4], IncorrNoGo_Neutral_long[,4], CorrGoRT_Risk_long[,4], CorrGoRT_Neutral_long[,4], CorrGoRT_Total_long[,4], IncorrNoGoRT_long[,4], block1_IncorrGo_long[,4], block2_IncorrGo_long[,4], block3_IncorrGo_long[,4], block4_IncorrGo_long[,4], block5_IncorrGo_long[,4])
 
-colnames(df_gng) <- c("ID", "Condition", "time", "CorrGo", "CorrTotal", "CorrNoGo", "CorrNoGo_Risk", "IncorrGo", "IncorrNoGo", "IncorrNoGo_Risk", "IncorrNoGo_Neutral", "CorrGoRT_Risk", "CorrGoRT_Neutral", "CorrGoRT_Total", "IncorrNoGo_RT") 
+colnames(df_gng) <- c('ID', 'Condition', 'run_number', 'CorrGo', 'CorrTotal', 'CorrNoGo', 'CorrNoGo_Risk', 'IncorrGo', 'IncorrNoGo', 'IncorrNoGo_Risk', 'IncorrNoGo_Neutral', 'CorrGoRT_Risk', 'CorrGoRT_Neutral', 'CorrGoRT_Total', 'IncorrNoGo_RT', 'block1_IncorrGo', 'block2_IncorrGo', 'block3_IncorrGo', 'block4_IncorrGo', 'block5_IncorrGo') 
+
+# Sanity check
+# for (i in 1:length(df_gng)) {
+#     print(df_gng[i, 'IncorrGo'] == (sum(df_gng[i,16:length(df_gng)])))
+# }
+
+# Subset blocks, long format
+data_byblock <- melt(data = df_gng[,c(1:3, 16:length(df_gng))], idvars = ID, measure.vars = c('block1_IncorrGo', 'block2_IncorrGo','block3_IncorrGo', 'block4_IncorrGo', 'block5_IncorrGo'), variable.name = 'block')
 
 # Replace NaNs with Na
+data_byblock[ is.na(data_byblock) ] <- NA
 df_gng[ is.na(df_gng) ] <- NA
 
 # Make a column to specify whether scores are from the base scan (pre) or end scan (post)
-df_gng$Scan <- ifelse(df_gng$time %in% c("run1", "run2"), "pre", ifelse(df_gng$time %in% c("run3", "run4"), "post", NA))
-
-df_gng_cleaned <- df_gng
+df_gng$Scan <- ifelse(df_gng$run_number %in% c('run1', 'run2'), 'pre', ifelse(df_gng$run_number %in% c('run3', 'run4'), 'post', NA))
 ```
 
-# Plot Outliers
-```{r}
-incorrGo_base <- ggplot(subset(df_gng, time %in% c("run1", "run2"))) +
-    aes(x = time, y = IncorrGo, label = ID) +
+# Plots
+```{r, include=FALSE}
+incorrGo_base <- ggplot(subset(df_gng, run_number %in% c('run1', 'run2'))) +
+    aes(x = run_number, y = IncorrGo, label = ID) +
     geom_point(na.rm = TRUE) +
     geom_text(aes(label = as.character(ID)),hjust = 0, vjust = 0, na.rm = TRUE) +
-    ggtitle("Incorrect Go Count During Base Scan \nRaw Data, All Participants")
-incorrGo_end <- ggplot(subset(df_gng, time %in% c("run3", "run4"))) +
-    aes(x = time, y = IncorrGo, label = ID) +
+    ggtitle('Incorrect Go Count During Base Scan \nRaw Data, All Participants')
+incorrGo_end <- ggplot(subset(df_gng, run_number %in% c('run3', 'run4'))) +
+    aes(x = run_number, y = IncorrGo, label = ID) +
     geom_point(na.rm = TRUE) +
     geom_text(aes(label = as.character(ID)),hjust = 0, vjust = 0, na.rm = TRUE) +
-    ggtitle("Incorrect Go Count During End Scan \nRaw Data, All Participants")
-incorrNoGo_base <- ggplot(subset(df_gng, time %in% c("run1", "run2"))) +
-    aes(x = time, y = IncorrNoGo, label = ID) +
+    ggtitle('Incorrect Go Count During End Scan \nRaw Data, All Participants')
+
+incorrNoGo_base <- ggplot(subset(df_gng, run_number %in% c('run1', 'run2'))) +
+    aes(x = run_number, y = IncorrNoGo, label = ID) +
     geom_point(na.rm = TRUE) +
     geom_text(aes(label = as.character(ID)),hjust = 0, vjust = 0, na.rm = TRUE) +
-    ggtitle("Incorrect No Go Count During Base Scan \nRaw Data, All Participants")
-incorrNoGo_end <- ggplot(subset(df_gng, time %in% c("run3", "run4"))) +
-    aes(x = time, y = IncorrNoGo, label = ID) +
+    ggtitle('Incorrect No Go Count During Base Scan \nRaw Data, All Participants')
+incorrNoGo_end <- ggplot(subset(df_gng, run_number %in% c('run3', 'run4'))) +
+    aes(x = run_number, y = IncorrNoGo, label = ID) +
     geom_point(na.rm = TRUE) +
     geom_text(aes(label = as.character(ID)),hjust = 0, vjust = 0, na.rm = TRUE) +
-    ggtitle("Incorrect No Go Count During End Scan \nRaw Data, All Participants")
+    ggtitle('Incorrect Go Count During End Scan \nRaw Data, All Participants')
+
+incorrGo_byBlock_run1 <- ggplot(subset(data_byblock, run_number %in% c('run1'))) +
+    aes(x = block, y = value, label = ID) +
+    geom_point(na.rm = TRUE) +
+    geom_text(aes(label = as.character(ID)),hjust = 0, vjust = 0, na.rm = TRUE) +
+    ggtitle('Incorrect Go Count During Each Block \nRun 1, All Participants')
+incorrGo_byBlock_run2 <- ggplot(subset(data_byblock, run_number %in% c('run2'))) +
+    aes(x = block, y = value, label = ID) +
+    geom_point(na.rm = TRUE) +
+    geom_text(aes(label = as.character(ID)),hjust = 0, vjust = 0, na.rm = TRUE) +
+    ggtitle('Incorrect Go Count During Each Block \nRun 2, All Participants')
+incorrGo_byBlock_run3 <- ggplot(subset(data_byblock, run_number %in% c('run3'))) +
+    aes(x = block, y = value, label = ID) +
+    geom_point(na.rm = TRUE) +
+    geom_text(aes(label = as.character(ID)),hjust = 0, vjust = 0, na.rm = TRUE) +
+    ggtitle('Incorrect Go Count During Each Block \nRun 3, All Participants')
+incorrGo_byBlock_run4 <- ggplot(subset(data_byblock, run_number %in% c('run4'))) +
+    aes(x = block, y = value, label = ID) +
+    geom_point(na.rm = TRUE) +
+    geom_text(aes(label = as.character(ID)),hjust = 0, vjust = 0, na.rm = TRUE) +
+    ggtitle('Incorrect Go Count During Each Block \nRun 4, All Participants')
+
 ```
-```{r}
+```{r, echo = FALSE}
 grid.arrange(incorrGo_base, incorrGo_end, ncol = 2)
 grid.arrange(incorrNoGo_base, incorrNoGo_end, ncol = 2)
+grid.arrange(incorrGo_byBlock_run1, incorrGo_byBlock_run2, ncol = 2) 
+grid.arrange(incorrGo_byBlock_run3, incorrGo_byBlock_run4, ncol = 2)
+```
+
+# Remove outliers
+Remove runs in which a participant has more than 25 incorrect go responses in any given block.  
+```{r, echo=FALSE}
+# I know this is terrible - quick & dirty. I'm so sorry. I promise to come back and fix this!
+
+clean_df_gng <- df_gng
+clean_df_gng <- clean_df_gng %>%
+    mutate(CorrGo = replace(CorrGo, 
+                            which(block1_IncorrGo >= 25 | 
+                                      block2_IncorrGo >= 25 | 
+                                      block3_IncorrGo >= 25 |  
+                                      block4_IncorrGo >= 25 | 
+                                      block5_IncorrGo >= 25), NA))
+clean_df_gng <- clean_df_gng %>%
+    mutate(CorrTotal = replace(CorrTotal, 
+                            which(block1_IncorrGo >= 25 | 
+                                      block2_IncorrGo >= 25 | 
+                                      block3_IncorrGo >= 25 |  
+                                      block4_IncorrGo >= 25 | 
+                                      block5_IncorrGo >= 25), NA))
+clean_df_gng <- clean_df_gng %>%
+    mutate(CorrNoGo = replace(CorrNoGo, 
+                            which(block1_IncorrGo >= 25 | 
+                                      block2_IncorrGo >= 25 | 
+                                      block3_IncorrGo >= 25 |  
+                                      block4_IncorrGo >= 25 | 
+                                      block5_IncorrGo >= 25), NA))
+clean_df_gng <- clean_df_gng %>%
+    mutate(CorrNoGo_Risk = replace(CorrNoGo_Risk, 
+                            which(block1_IncorrGo >= 25 | 
+                                      block2_IncorrGo >= 25 | 
+                                      block3_IncorrGo >= 25 |  
+                                      block4_IncorrGo >= 25 | 
+                                      block5_IncorrGo >= 25), NA))
+clean_df_gng <- clean_df_gng %>%
+    mutate(IncorrGo = replace(IncorrGo, 
+                            which(block1_IncorrGo >= 25 | 
+                                      block2_IncorrGo >= 25 | 
+                                      block3_IncorrGo >= 25 |  
+                                      block4_IncorrGo >= 25 | 
+                                      block5_IncorrGo >= 25), NA))
+clean_df_gng <- clean_df_gng %>%
+    mutate(IncorrNoGo = replace(IncorrNoGo, 
+                            which(block1_IncorrGo >= 25 | 
+                                      block2_IncorrGo >= 25 | 
+                                      block3_IncorrGo >= 25 |  
+                                      block4_IncorrGo >= 25 | 
+                                      block5_IncorrGo >= 25), NA))
+clean_df_gng <- clean_df_gng %>%
+    mutate(IncorrNoGo_Risk = replace(IncorrNoGo_Risk, 
+                            which(block1_IncorrGo >= 25 | 
+                                      block2_IncorrGo >= 25 | 
+                                      block3_IncorrGo >= 25 |  
+                                      block4_IncorrGo >= 25 | 
+                                      block5_IncorrGo >= 25), NA))
+clean_df_gng <- clean_df_gng %>%
+    mutate(IncorrNoGo_Neutral = replace(IncorrNoGo_Neutral, 
+                            which(block1_IncorrGo >= 25 | 
+                                      block2_IncorrGo >= 25 | 
+                                      block3_IncorrGo >= 25 |  
+                                      block4_IncorrGo >= 25 | 
+                                      block5_IncorrGo >= 25), NA))
+clean_df_gng <- clean_df_gng %>%
+    mutate(CorrGoRT_Risk = replace(CorrGoRT_Risk, 
+                            which(block1_IncorrGo >= 25 | 
+                                      block2_IncorrGo >= 25 | 
+                                      block3_IncorrGo >= 25 |  
+                                      block4_IncorrGo >= 25 | 
+                                      block5_IncorrGo >= 25), NA))
+clean_df_gng <- clean_df_gng %>%
+    mutate(CorrGoRT_Neutral = replace(CorrGoRT_Neutral, 
+                            which(block1_IncorrGo >= 25 | 
+                                      block2_IncorrGo >= 25 | 
+                                      block3_IncorrGo >= 25 |  
+                                      block4_IncorrGo >= 25 | 
+                                      block5_IncorrGo >= 25), NA))
+clean_df_gng <- clean_df_gng %>%
+    mutate(CorrGoRT_Total = replace(CorrGoRT_Total, 
+                            which(block1_IncorrGo >= 25 | 
+                                      block2_IncorrGo >= 25 | 
+                                      block3_IncorrGo >= 25 |  
+                                      block4_IncorrGo >= 25 | 
+                                      block5_IncorrGo >= 25), NA))
+clean_df_gng <- clean_df_gng %>%
+    mutate(IncorrNoGo_RT = replace(IncorrNoGo_RT, 
+                            which(block1_IncorrGo >= 25 | 
+                                      block2_IncorrGo >= 25 | 
+                                      block3_IncorrGo >= 25 |  
+                                      block4_IncorrGo >= 25 | 
+                                      block5_IncorrGo >= 25), NA))
+
+clean_df_blocks <- data_byblock %>% 
+    mutate(value = replace(value, 
+                           which(value >= 25), NA))
+```
+
+
+
+Runs to remove (or fix?):
+
+Subject  | Run (acq) | Reason 
+-------- | --- | ------- 
+116      |  1  | Switching go/no-go stimuli (remove)
+106      |  2  | Sleeping & responding to wrong categories (remove)
+019      |  3  | Sleeping throughout (remove)
+002      |  2  | Reversed response categories toward end
+006      |  3  | Reversed categories in blocks 2 and 4
+009      |  2  | Reversed categories in first block
+013      |  2  | Reversed categories
+014      |  2  | Reversed categories
+
+# Plot without outliers
+```{r, include=FALSE}
+incorrGo_base <- ggplot(subset(clean_df_gng, run_number %in% c('run1', 'run2'))) +
+    aes(x = run_number, y = IncorrGo, label = ID) +
+    geom_point(na.rm = TRUE) +
+    geom_text(aes(label = as.character(ID)),hjust = 0, vjust = 0, na.rm = TRUE) +
+    ggtitle('Incorrect Go Count During Base Scan \nRaw Data, All Participants')
+incorrGo_end <- ggplot(subset(clean_df_gng, run_number %in% c('run3', 'run4'))) +
+    aes(x = run_number, y = IncorrGo, label = ID) +
+    geom_point(na.rm = TRUE) +
+    geom_text(aes(label = as.character(ID)),hjust = 0, vjust = 0, na.rm = TRUE) +
+    ggtitle('Incorrect Go Count During End Scan \nRaw Data, All Participants')
+
+incorrNoGo_base <- ggplot(subset(clean_df_gng, run_number %in% c('run1', 'run2'))) +
+    aes(x = run_number, y = IncorrNoGo, label = ID) +
+    geom_point(na.rm = TRUE) +
+    geom_text(aes(label = as.character(ID)),hjust = 0, vjust = 0, na.rm = TRUE) +
+    ggtitle('Incorrect No Go Count During Base Scan \nRaw Data, All Participants')
+incorrNoGo_end <- ggplot(subset(clean_df_gng, run_number %in% c('run3', 'run4'))) +
+    aes(x = run_number, y = IncorrNoGo, label = ID) +
+    geom_point(na.rm = TRUE) +
+    geom_text(aes(label = as.character(ID)),hjust = 0, vjust = 0, na.rm = TRUE) +
+    ggtitle('Incorrect Go Count During End Scan \nRaw Data, All Participants')
+
+incorrGo_byBlock_run1 <- ggplot(subset(clean_df_blocks, run_number %in% c('run1'))) +
+    aes(x = block, y = value, label = ID) +
+    geom_point(na.rm = TRUE) +
+    geom_text(aes(label = as.character(ID)),hjust = 0, vjust = 0, na.rm = TRUE) +
+    ggtitle('Incorrect Go Count During Each Block \nRun 1, All Participants')
+incorrGo_byBlock_run2 <- ggplot(subset(clean_df_blocks, run_number %in% c('run2'))) +
+    aes(x = block, y = value, label = ID) +
+    geom_point(na.rm = TRUE) +
+    geom_text(aes(label = as.character(ID)),hjust = 0, vjust = 0, na.rm = TRUE) +
+    ggtitle('Incorrect Go Count During Each Block \nRun 2, All Participants')
+incorrGo_byBlock_run3 <- ggplot(subset(clean_df_blocks, run_number %in% c('run3'))) +
+    aes(x = block, y = value, label = ID) +
+    geom_point(na.rm = TRUE) +
+    geom_text(aes(label = as.character(ID)),hjust = 0, vjust = 0, na.rm = TRUE) +
+    ggtitle('Incorrect Go Count During Each Block \nRun 3, All Participants')
+incorrGo_byBlock_run4 <- ggplot(subset(clean_df_blocks, run_number %in% c('run4'))) +
+    aes(x = block, y = value, label = ID) +
+    geom_point(na.rm = TRUE) +
+    geom_text(aes(label = as.character(ID)),hjust = 0, vjust = 0, na.rm = TRUE) +
+    ggtitle('Incorrect Go Count During Each Block \nRun 4, All Participants')
+
+```
+```{r, echo = FALSE}
+grid.arrange(incorrGo_base, incorrGo_end, ncol = 2)
+grid.arrange(incorrNoGo_base, incorrNoGo_end, ncol = 2)
+grid.arrange(incorrGo_byBlock_run1, incorrGo_byBlock_run2, ncol = 2) 
+grid.arrange(incorrGo_byBlock_run3, incorrGo_byBlock_run4, ncol = 2)
+```
+
+# Who was left out
+```{r, echo = FALSE}
+# Look at which participants had runs removed & how many
+compare_gng_dfs <- summary(arsenal::compare(df_gng, clean_df_gng))
+gng_diffs <- compare_gng_dfs[["diffs.table"]][["row.x"]]
+outlierCount_gng <- as.data.frame(table(df_gng[gng_diffs,]$ID))
+colnames(outlierCount_gng) <- c("ID", "outlierCount_gng")
+
+# create new "outliers3" vector
+outlierLogical_gng <- row.names(clean_df_gng) %in% gng_diffs
+```
+```{r, echo = FALSE}
+df_omitted_runs <- cbind(clean_df_gng, outlierLogical_gng)
+df_omitted_runs_all <- filter(df_omitted_runs, outlierLogical_gng == TRUE)
+df_omitted_runs_all <- sort(df_omitted_runs_all[,c(1,3)])
+kable(df_omitted_runs_all, caption = "Full list of runs to omit from analysis", row.names = FALSE)
 ```
