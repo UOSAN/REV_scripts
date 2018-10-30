@@ -24,7 +24,7 @@ setwd('~/Desktop/REV_scripts/behavioral/gng/scripts/analyses/')
 output_dir = '~/Desktop/REV_scripts/behavioral/gng/output/'
 
 ## Install and load required packages
-list.of.packages <- c('reshape2', 'knitr', 'lme4', 'sjPlot', 'sjmisc', 'tidyverse', 'lme4', 'lmerTest', 'ez', 'gridExtra')
+list.of.packages <- c('reshape2', 'knitr', 'lme4', 'sjPlot', 'sjmisc', 'tidyverse', 'lme4', 'lmerTest', 'ez', 'gridExtra', 'arsenal')
 new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,'Package'])] 
 if (length(new.packages)) install.packages(new.packages, repos = 'http://cran.us.r-project.org') 
 lapply(list.of.packages, library, character.only = TRUE)
@@ -342,6 +342,6 @@ outlierLogical_gng <- row.names(clean_df_gng) %in% gng_diffs
 ```{r, echo = FALSE}
 df_omitted_runs <- cbind(clean_df_gng, outlierLogical_gng)
 df_omitted_runs_all <- filter(df_omitted_runs, outlierLogical_gng == TRUE)
-df_omitted_runs_all <- sort(df_omitted_runs_all[,c(1,3)])
+df_omitted_runs_all <- sort(df_omitted_runs_all[,c('ID' , 'run_number')])
 kable(df_omitted_runs_all, caption = "Full list of runs to omit from analysis", row.names = FALSE)
 ```
