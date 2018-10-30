@@ -155,8 +155,7 @@ for runNum=1:numRuns
     end %end numFiles loop
 end
 
-% save('~/Desktop/REV/GNG/output/acc_GNG4');
-save([outputDir 'rtMean_GNG']);
+save([outputDir '/rtMean_GNG']);
 % dlmwrite('~/Desktop/REV/GNG/output/accuracyGNG4.txt', acc_GNG4, 'delimiter','\t');
 dlmwrite([outputDir '/GNG_CorrGo_RT.txt'], GNG_CorrGo_RT, 'delimiter','\t');
 dlmwrite([outputDir '/GNG_IncorrNoGo_RT.txt'], GNG_IncorrNoGo_RT, 'delimiter','\t');
