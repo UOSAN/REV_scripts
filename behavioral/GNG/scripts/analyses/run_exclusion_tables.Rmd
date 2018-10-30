@@ -262,7 +262,7 @@ clean_df_blocks <- data_byblock %>%
 
 
 
-Runs to remove (or fix?):
+Runs to remove, sanity check:
 
 Subject  | Run (acq) | Reason 
 -------- | --- | ------- 
@@ -343,5 +343,5 @@ outlierLogical_gng <- row.names(clean_df_gng) %in% gng_diffs
 df_omitted_runs <- cbind(clean_df_gng, outlierLogical_gng)
 df_omitted_runs_all <- filter(df_omitted_runs, outlierLogical_gng == TRUE)
 df_omitted_runs_all <- df_omitted_runs_all[order(df_omitted_runs_all$ID, df_omitted_runs_all$run_number), c('ID' , 'run_number')]
-kable(df_omitted_runs_all, caption = "Full list of runs to omit from analysis", row.names = FALSE)
+kable(df_omitted_runs_all, caption = "Full list of runs to omit from analysis: Based on <50% Correct Go Response per Block", row.names = FALSE)
 ```
