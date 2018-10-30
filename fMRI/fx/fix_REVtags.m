@@ -3,10 +3,10 @@ studyCode = 'REV';
 firstSub = 1;
 lastSub = 144;
 exclude = [];%[4 5 7 8 12 14 15 25 28 30 33 40 42 45 61 63 64 66 71 72 79 81 83 85 87 92 95 96 99 101 103 105 106 112 113 120 122 123 125 128 132 133 139 143]; % If you want to exclude any numbers, put them in this vector (e.g. exclude = [5 20];)
-task = 'React'; %'GNG';
+task = 'GNG'; %'React';
 runs = [1 2 3 4];
-%repodir = ['~/Desktop/REV/REV_BxData/']; %edit this path for your local computer
-repodir = ['~/Dropbox/REV_repos/REV_BxData/'];
+repodir = '~/Desktop/REV_BxData/'; %edit this path for your local computer
+%repodir = ['~/Dropbox/REV_repos/REV_BxData/'];
 
 dataFolder = [repodir 'data/' task];
 
@@ -40,13 +40,18 @@ for s = firstSub:lastSub
                     % For GNG task
                 if strcmp(task, 'GNG')
                     % Set what tags should be
+                    % 0 = fixation & instructions
+                    % 1 = risk cue go
+                    % 2 = risk cue no-go
+                    % 3 = neutral cue go
+                    % 4 = neutral cue no-go
                     if r == (1 | 3)
                         new_tags = [0 0 1 4 1 1 4 1 1 4 1 1 1 1 1 1 1 4 1 1 4 1 1 1 1 1 4 1 1 1 1 4 1 1 4 1 1 1 1 1 1 1 1 4 1 1 1 1 1 1 1 4 0 3 3 3 3 3 3 3 2 3 3 2 3 3 3 3 3 3 2 3 2 3 3 3 3 2 3 3 3 2 3 2 3 3 3 2 3 3 3 3 3 3 3 3 3 2 3 3 3 2 3 0 1 1 1 1 1 4 1 4 1 1 4 1 1 4 1 1 1 1 1 1 1 4 1 1 1 1 1 1 1 4 1 4 1 4 1 4 1 1 1 4 1 1 1 1 1 1 1 1 1 1 0 3 2 3 3 3 3 3 3 3 3 2 3 3 3 3 2 3 3 3 3 2 3 3 3 2 3 3 3 3 3 3 3 2 3 3 3 2 3 3 3 3 3 3 2 3 3 3 3 3 3 0 4 1 4 1 1 1 1 1 1 1 1 1 4 1 1 1 1 1 1 1 4 1 1 1 1 1 1 1 1 1 1 1 4 1 1 1 1 1 1 1 1 4 1 1 1 1 4 1 1 4];
                     elseif r == (2 | 4)
                         new_tags = [0 0 3 3 3 3 3 2 3 2 3 3 2 3 3 2 3 3 3 3 3 3 3 2 3 3 3 3 3 3 3 2 3 2 3 2 3 2 3 3 3 2 3 3 3 3 3 3 3 3 3 3 0 1 1 1 1 1 1 4 1 1 1 4 1 1 1 1 4 1 4 1 1 1 4 1 1 1 1 1 1 4 1 1 4 1 4 1 1 1 1 4 1 1 4 1 1 4 1 1 1 1 1 0 3 3 2 3 2 3 3 3 3 2 3 3 2 3 3 3 3 2 3 3 2 3 3 3 3 3 3 3 3 3 3 2 3 3 2 3 3 2 3 3 3 2 3 3 3 2 3 3 3 3 0 1 4 1 1 1 1 1 4 1 1 1 4 1 1 1 1 1 1 1 1 4 1 1 1 1 1 1 1 1 1 4 1 1 1 1 1 1 1 1 1 4 1 4 1 4 1 1 4 1 1 0 3 3 3 3 2 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 2 3 3 2 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 2 3 3 3 3 3 2 3 2];
                     end
                     % Assign tags
-                    for t = 1:length(new_tags);
+                    for t = 1:length(new_tags)
                         run_info.tag{t} = num2str(new_tags(t));
                     end
                     save(filename, 'key_presses', 'run_info')
@@ -55,7 +60,9 @@ for s = firstSub:lastSub
                 % For React tast
                 if strcmp(task, 'React')
                     % Set what tags should be
-                    % 1 = risk cue (PRC image) | 2 = neutral cue | 3 = rating screen
+                    % 1 = risk cue (PRC image)
+                    % 2 = neutral cue 
+                    % 3 = rating screen
                     if r == (1 | 3)
                         new_tags = [0 2 0 3 0 1 0 3 0 1 0 3 0 2 0 3 0 1 0 3 0 1 0 3 0 2 0 3 0 2 0 3 0 1 0 3 0 2 0 3 0 1 0 3 0 2 0 3 0 2 0 3 0 1 0 3 0 2 0 3 0 2 0 3 0 1 0 3 0 1 0 3 0 2 0 3 0 2 0 3 0 1 0 3 0 1 0 3 0 2 0 3 0 2 0 3 0 1 0 3 0 1 0 3 0];
                     elseif r == (2)
@@ -64,7 +71,7 @@ for s = firstSub:lastSub
                         new_tags = [0 1 0 3 0 1 0 3 0 1 0 3 0 1 0 3 0 1 0 3 0 2 0 3 0 2 0 3 0 1 0 3 0 2 0 3 0 2 0 3 0 2 0 3 0 1 0 3 0 2 0 3 0 1 0 3 0 2 0 3 0 1 0 3 0 2 0 3 0 2 0 3 0 2 0 3 0 1 0 3 0 2 0 3 0 2 0 3 0 1 0 3 0 1 0 3 0 2 0 3 0 1 0 3 0];
                     end
                     % Assign tags
-                    for t = 1:length(new_tags);
+                    for t = 1:length(new_tags)
                         run_info.tag{t} = num2str(new_tags(t));
                     end
                     save(filename, 'key_presses', 'run_info')
