@@ -76,7 +76,7 @@ if [ "${PROCESS}" == "slurm" ]; then
     		mkdir -v "${STUDY}/bids_data/derivatives/baseline_analyses/sub-${SUB}/fx/react"
 		fi
 	 echo "submitting via slurm"
-	 sbatch --export=REPLACESID=$REPLACESID,SCRIPT=$SCRIPT,SUB=$SUB,SPM_PATH=$SPM_PATH,PROCESS=$PROCESS  \
+	 sbatch --export=ALL,REPLACESID=$REPLACESID,SCRIPT=$SCRIPT,SUB=$SUB,SPM_PATH=$SPM_PATH,PROCESS=$PROCESS  \
 		 --job-name=${RESULTS_INFIX} \
 		 -o "${OUTPUTDIR}"/"${SUB}"_${RESULTS_INFIX}.log \
 		 --cpus-per-task=${cpuspertask} \
