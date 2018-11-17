@@ -65,12 +65,12 @@ matlabbatch{10}.cfg_basicio.file_dir.file_ops.cfg_gunzip_files.keep = true;
 matlabbatch{11}.spm.util.exp_frames.files(1) = cfg_dep('Gunzip Files: Gunzipped Files', substruct('.','val', '{}',{10}, '.','val', '{}',{1}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('()',{':'}));
 matlabbatch{11}.spm.util.exp_frames.frames = Inf;
 
-%% select motion confounds file for acq-1. NOTE: these confounds files are created by subset_confounds.R
-matlabbatch{12}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {'/projects/sanlab/shared/REV/bids_data/derivatives/motion'};
-matlabbatch{12}.cfg_basicio.file_dir.file_ops.file_fplist.filter = 'sub-REV001_ses-wave1_task-react_acq-1_run-.*_bold_confounds.txt';
+%% select auto_motion output for acq-1 and acq-2.
+matlabbatch{12}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {'/projects/sanlab/shared/REV/fmriprep_backup/2018.09.06_auto_motion_output_backup/rp_txt'};
+matlabbatch{12}.cfg_basicio.file_dir.file_ops.file_fplist.filter = 'rp_REV001_1_sst_1.txt';  % auto_motion output file acq-1
 matlabbatch{12}.cfg_basicio.file_dir.file_ops.file_fplist.rec = 'FPList';
-matlabbatch{13}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {'/projects/sanlab/shared/REV/bids_data/derivatives/motion'};
-matlabbatch{13}.cfg_basicio.file_dir.file_ops.file_fplist.filter = 'sub-REV001_ses-wave1_task-react_acq-2_run-.*_bold_confounds.txt';
+matlabbatch{13}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {'/projects/sanlab/shared/REV/fmriprep_backup/2018.09.06_auto_motion_output_backup/rp_txt'};
+matlabbatch{13}.cfg_basicio.file_dir.file_ops.file_fplist.filter = 'rp_REV001_1_sst_2.txt';  % auto_motion output file acq-2
 matlabbatch{13}.cfg_basicio.file_dir.file_ops.file_fplist.rec = 'FPList';
 
 %% specify the model
@@ -83,13 +83,13 @@ matlabbatch{14}.spm.stats.fmri_spec.sess(1).scans(1) = cfg_dep('Smooth: Smoothed
 matlabbatch{14}.spm.stats.fmri_spec.sess(1).cond = struct('name', {}, 'onset', {}, 'duration', {}, 'tmod', {}, 'pmod', {}, 'orth', {});
 matlabbatch{14}.spm.stats.fmri_spec.sess(1).multi = {'/projects/sanlab/shared/REV/REV_BxData/names_onsets_durations/react/sub-REV001_task-react_acq-1_onsets.mat'};
 matlabbatch{14}.spm.stats.fmri_spec.sess(1).regress = struct('name', {}, 'val', {});
-matlabbatch{14}.spm.stats.fmri_spec.sess(1).multi_reg(1) = cfg_dep('File Selector (Batch Mode): Selected Files (sub-REV001_ses-wave1_task-react_acq-1_run-.*_bold_confounds.txt)', substruct('.','val', '{}',{12}, '.','val', '{}',{1}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','files'));
+matlabbatch{14}.spm.stats.fmri_spec.sess(1).multi_reg(1) = cfg_dep('File Selector (Batch Mode): Selected Files (rp_REV001_1_sst_1.txt)', substruct('.','val', '{}',{12}, '.','val', '{}',{1}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','files'));
 matlabbatch{14}.spm.stats.fmri_spec.sess(1).hpf = 128;
 matlabbatch{14}.spm.stats.fmri_spec.sess(2).scans(1) = cfg_dep('Smooth: Smoothed Images', substruct('.','val', '{}',{8}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','files'));
 matlabbatch{14}.spm.stats.fmri_spec.sess(2).cond = struct('name', {}, 'onset', {}, 'duration', {}, 'tmod', {}, 'pmod', {}, 'orth', {});
 matlabbatch{14}.spm.stats.fmri_spec.sess(2).multi = {'/projects/sanlab/shared/REV/REV_BxData/names_onsets_durations/react/sub-REV001_task-react_acq-2_onsets.mat'};
 matlabbatch{14}.spm.stats.fmri_spec.sess(2).regress = struct('name', {}, 'val', {});
-matlabbatch{14}.spm.stats.fmri_spec.sess(2).multi_reg(1) = cfg_dep('File Selector (Batch Mode): Selected Files (sub-REV001_ses-wave1_task-react_acq-2_run-.*_bold_confounds.txt)', substruct('.','val', '{}',{13}, '.','val', '{}',{1}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','files'));
+matlabbatch{14}.spm.stats.fmri_spec.sess(2).multi_reg(1) = cfg_dep('File Selector (Batch Mode): Selected Files (rp_REV001_1_sst_2.txt)', substruct('.','val', '{}',{13}, '.','val', '{}',{1}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','files'));
 matlabbatch{14}.spm.stats.fmri_spec.sess(2).hpf = 128;
 matlabbatch{14}.spm.stats.fmri_spec.fact = struct('name', {}, 'levels', {});
 matlabbatch{14}.spm.stats.fmri_spec.bases.hrf.derivs = [1 0];
