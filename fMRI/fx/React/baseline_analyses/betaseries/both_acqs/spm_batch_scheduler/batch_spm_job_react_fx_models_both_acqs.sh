@@ -25,7 +25,7 @@ REPLACESID='REV001'
 
 # Set MATLAB script path
 #COMPNAME=ralph #use this for help specifying paths to run locally
-SCRIPT=${STUDY}/REV_scripts/fMRI/fx/React/baseline_analyses/both_acqs/scripts/matlabbatch_job_react_both_acqs.m
+SCRIPT=${STUDY}/REV_scripts/fMRI/fx/React/baseline_analyses/betaseries/both_acqs/scripts/matlabbatch_job_react_both_acqs.m
 
 #SPM Path
 SPM_PATH=/projects/sanlab/shared/spm12
@@ -34,18 +34,18 @@ SPM_PATH=/projects/sanlab/shared/spm12
 RESULTS_INFIX=fx_models
 
 # Set output dir
-if [ ! -d "${STUDY}/REV_scripts/fMRI/fx/React/baseline_analyses/both_acqs/scripts/output_logs" ]; then
-    mkdir -v "${STUDY}/REV_scripts/fMRI/fx/React/baseline_analyses/both_acqs/scripts/output_logs"
+if [ ! -d "${STUDY}/REV_scripts/fMRI/fx/React/baseline_analyses/betaseries/both_acqs/scripts/output_logs" ]; then
+    mkdir -v "${STUDY}/REV_scripts/fMRI/fx/React/baseline_analyses/betaseries/both_acqs/scripts/output_logs"
 fi
-OUTPUTDIR=${STUDY}/REV_scripts/fMRI/fx/React/baseline_analyses/both_acqs/scripts/output_logs
+OUTPUTDIR=${STUDY}/REV_scripts/fMRI/fx/React/baseline_analyses/betaseries/both_acqs/scripts/output_logs
 
 # make sid_batch dir if doesn't exist
-if [ ! -d "${STUDY}/REV_scripts/fMRI/fx/React/baseline_analyses/both_acqs/scripts/sid_batches" ]; then
-    mkdir -v "${STUDY}/REV_scripts/fMRI/fx/React/baseline_analyses/both_acqs/scripts/sid_batches"
+if [ ! -d "${STUDY}/REV_scripts/fMRI/fx/React/baseline_analyses/betaseries/both_acqs/scripts/sid_batches" ]; then
+    mkdir -v "${STUDY}/REV_scripts/fMRI/fx/React/baseline_analyses/betaseries/both_acqs/scripts/sid_batches"
 fi
 
-if [ ! -d "${STUDY}/REV_scripts/fMRI/fx/React/baseline_analyses/both_acqs/scripts/sid_batches/matlab_job_react" ]; then
-    mkdir -v "${STUDY}/REV_scripts/fMRI/fx/React/baseline_analyses/both_acqs/scripts/sid_batches/matlab_job_react"
+if [ ! -d "${STUDY}/REV_scripts/fMRI/fx/React/baseline_analyses/betaseries/both_acqs/scripts/sid_batches/matlab_job_react" ]; then
+    mkdir -v "${STUDY}/REV_scripts/fMRI/fx/React/baseline_analyses/betaseries/both_acqs/scripts/sid_batches/matlab_job_react"
 fi
 
 # Set processor
@@ -74,6 +74,9 @@ if [ "${PROCESS}" == "slurm" ]; then
 		fi
 		if [ ! -d "${STUDY}/bids_data/derivatives/baseline_analyses/sub-${SUB}/fx/react" ]; then
     		mkdir -v "${STUDY}/bids_data/derivatives/baseline_analyses/sub-${SUB}/fx/react"
+		fi
+		if [ ! -d "${STUDY}/bids_data/derivatives/baseline_analyses/sub-${SUB}/fx/react/betaseries" ]; then
+    		mkdir -v "${STUDY}/bids_data/derivatives/baseline_analyses/sub-${SUB}/fx/react/betaseries"
 		fi
 	 echo "submitting via slurm"
 	 sbatch --export=ALL,REPLACESID=$REPLACESID,SCRIPT=$SCRIPT,SUB=$SUB,SPM_PATH=$SPM_PATH,PROCESS=$PROCESS  \
