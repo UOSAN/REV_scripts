@@ -103,22 +103,3 @@ matlabbatch{14}.spm.stats.fmri_spec.cvi = 'AR(1)';
 matlabbatch{15}.spm.stats.fmri_est.spmmat(1) = cfg_dep('fMRI model specification: SPM.mat File', substruct('.','val', '{}',{14}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','spmmat'));
 matlabbatch{15}.spm.stats.fmri_est.write_residuals = 0;
 matlabbatch{15}.spm.stats.fmri_est.method.Classical = 1;
-
-%% specify the contrasts of interest
-matlabbatch{16}.spm.stats.con.spmmat(1) = cfg_dep('Model estimation: SPM.mat File', substruct('.','val', '{}',{15}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','spmmat'));
-matlabbatch{16}.spm.stats.con.consess{1}.tcon.name = '1_PRC>Neutral';
-matlabbatch{16}.spm.stats.con.consess{1}.tcon.weights = [1 0 -1 0 0 0];
-matlabbatch{16}.spm.stats.con.consess{1}.tcon.sessrep = 'replsc';
-matlabbatch{16}.spm.stats.con.consess{2}.tcon.name = '2_Neutral>ImpBaseline';
-matlabbatch{16}.spm.stats.con.consess{2}.tcon.weights = [0 0 1 0 0 0];
-matlabbatch{16}.spm.stats.con.consess{2}.tcon.sessrep = 'replsc';
-matlabbatch{16}.spm.stats.con.consess{3}.tcon.name = '3_PRC>ImpBaseline';
-matlabbatch{16}.spm.stats.con.consess{3}.tcon.weights = [1 0 0 0 0 0];
-matlabbatch{16}.spm.stats.con.consess{3}.tcon.sessrep = 'replsc';
-matlabbatch{16}.spm.stats.con.consess{4}.tcon.name = '4_Rating>ImpBaseline';
-matlabbatch{16}.spm.stats.con.consess{4}.tcon.weights = [0 0 0 0 1 0];
-matlabbatch{16}.spm.stats.con.consess{4}.tcon.sessrep = 'replsc';
-matlabbatch{16}.spm.stats.con.consess{5}.tcon.name = '5_Rating>View';
-matlabbatch{16}.spm.stats.con.consess{5}.tcon.weights = [-.5 0 -.5 0 1 0];
-matlabbatch{16}.spm.stats.con.consess{5}.tcon.sessrep = 'replsc';
-matlabbatch{16}.spm.stats.con.delete = 0;
