@@ -74,20 +74,20 @@ matlabbatch{13}.cfg_basicio.file_dir.file_ops.file_fplist.filter = 'rp_REV001_1_
 matlabbatch{13}.cfg_basicio.file_dir.file_ops.file_fplist.rec = 'FPList';
 
 %% specify the model
-matlabbatch{14}.spm.stats.fmri_spec.dir = {'/projects/sanlab/shared/REV/bids_data/derivatives/baseline_analyses/sub-REV001/fx/react'};
+matlabbatch{14}.spm.stats.fmri_spec.dir = {'/projects/sanlab/shared/REV/bids_data/derivatives/baseline_analyses/sub-REV001/fx/react/betaseries'};
 matlabbatch{14}.spm.stats.fmri_spec.timing.units = 'secs';
 matlabbatch{14}.spm.stats.fmri_spec.timing.RT = 2;
 matlabbatch{14}.spm.stats.fmri_spec.timing.fmri_t = 72;
 matlabbatch{14}.spm.stats.fmri_spec.timing.fmri_t0 = 36;
 matlabbatch{14}.spm.stats.fmri_spec.sess(1).scans(1) = cfg_dep('Smooth: Smoothed Images', substruct('.','val', '{}',{7}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','files'));
 matlabbatch{14}.spm.stats.fmri_spec.sess(1).cond = struct('name', {}, 'onset', {}, 'duration', {}, 'tmod', {}, 'pmod', {}, 'orth', {});
-matlabbatch{14}.spm.stats.fmri_spec.sess(1).multi = {'/projects/sanlab/shared/REV/REV_BxData/names_onsets_durations/react/sub-REV001_task-react_acq-1_onsets.mat'};
+matlabbatch{14}.spm.stats.fmri_spec.sess(1).multi = {'/projects/sanlab/shared/REV/REV_BxData/names_onsets_durations/react/multiconds/sub-REV001_task-react_acq-1_multiconds.mat'};
 matlabbatch{14}.spm.stats.fmri_spec.sess(1).regress = struct('name', {}, 'val', {});
 matlabbatch{14}.spm.stats.fmri_spec.sess(1).multi_reg(1) = cfg_dep('File Selector (Batch Mode): Selected Files (rp_REV001_1_react_1.txt)', substruct('.','val', '{}',{12}, '.','val', '{}',{1}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','files'));
 matlabbatch{14}.spm.stats.fmri_spec.sess(1).hpf = 128;
 matlabbatch{14}.spm.stats.fmri_spec.sess(2).scans(1) = cfg_dep('Smooth: Smoothed Images', substruct('.','val', '{}',{8}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','files'));
 matlabbatch{14}.spm.stats.fmri_spec.sess(2).cond = struct('name', {}, 'onset', {}, 'duration', {}, 'tmod', {}, 'pmod', {}, 'orth', {});
-matlabbatch{14}.spm.stats.fmri_spec.sess(2).multi = {'/projects/sanlab/shared/REV/REV_BxData/names_onsets_durations/react/sub-REV001_task-react_acq-2_onsets.mat'};
+matlabbatch{14}.spm.stats.fmri_spec.sess(2).multi = {'/projects/sanlab/shared/REV/REV_BxData/names_onsets_durations/react/multiconds/sub-REV001_task-react_acq-2_multiconds.mat'};
 matlabbatch{14}.spm.stats.fmri_spec.sess(2).regress = struct('name', {}, 'val', {});
 matlabbatch{14}.spm.stats.fmri_spec.sess(2).multi_reg(1) = cfg_dep('File Selector (Batch Mode): Selected Files (rp_REV001_1_react_2.txt)', substruct('.','val', '{}',{13}, '.','val', '{}',{1}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','files'));
 matlabbatch{14}.spm.stats.fmri_spec.sess(2).hpf = 128;
