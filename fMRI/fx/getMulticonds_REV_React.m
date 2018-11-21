@@ -43,15 +43,15 @@ for s = firstSub:lastSub
                 warning('No data file found for sub %d run %d',s,r)
             else
                 load(fileName.name)
-                
-                searchStrings = {'1' '2' '3'};
+               
+                % Convert to double
                 run_info.tag = str2double(run_info.tag);
                 
+                % Get indices corresponding to PRC and Neutral Images
                 ImageIndices =  run_info.tag() == 1 | run_info.tag() == 2;
                 ImageOnsets = run_info.onsets(ImageIndices);
                 ImageDurations = run_info.durations(ImageIndices);
                 
-            
                 % Onsets
                 for a = 1:length(ImageOnsets)
                     onsets{a} = ImageOnsets(a);
