@@ -74,7 +74,7 @@ for s = firstSub:lastSub
                 
                
                 onsets{1,length(onsets)+1} = [ratingOnsets]; % Add cell with rating onsets
-                names{1,length(names)+1} = {'rating'}; % Add cell with rating name
+                names{1,length(names)+1} = ['rating']; % Add cell with rating name
                 durations{1,length(durations)+1} = [ratingDurations]; % Add cell with rating durations
                 
                 save([outputDir 'sub-' subject_code '_task-' task '_acq-' num2str(r) '_multiconds.mat'], 'names', 'onsets', 'durations') %Note that NODs files should be distinguished by acq number, NOT run number
