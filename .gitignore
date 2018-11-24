@@ -42,3 +42,4 @@ behavioral/GNG/scripts/analyses/Figs/
 **/logs*
 **/scripts/output_logs/
 **/scripts/sid_batches/**
+fMRI/fx/motion/auto-motion-fmriprep/**
