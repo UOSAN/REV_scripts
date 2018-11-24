@@ -52,6 +52,11 @@ for s = firstSub:lastSub
                 ImageOnsets = run_info.onsets(ImageIndices);
                 ImageDurations = run_info.durations(ImageIndices);
                 
+                % Create the ratings vector 
+                ratingIndices = run_info.tag() == 3;
+                ratingOnsets = run_info.onsets(ratingIndices);
+                ratingDurations = run_info.durations(ratingIndices);
+                
                 % Onsets
                 for a = 1:length(ImageOnsets)
                     onsets{a} = ImageOnsets(a);
@@ -63,11 +68,17 @@ for s = firstSub:lastSub
                 end
                 
                 % Durations
-                for c = 1:length(onsets)    
+                for c = 1:length(names)    
                     durations{c} = ImageDurations(c);
                 end
                 
+               
+                onsets{1,length(onsets)+1} = [ratingOnsets]; % Add cell with rating onsets
+                names{1,length(names)+1} = {'rating'}; % Add cell with rating name
+                durations{1,length(durations)+1} = [ratingDurations]; % Add cell with rating durations
+                
                 save([outputDir 'sub-' subject_code '_task-' task '_acq-' num2str(r) '_multiconds.mat'], 'names', 'onsets', 'durations') %Note that NODs files should be distinguished by acq number, NOT run number
+                clear names onsets durations a b c;
             end
         end
     end
