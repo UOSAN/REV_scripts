@@ -1,0 +1,68 @@
+---
+title: "React_Bx_analysis"
+author: "Brendan Cullen"
+date: "11/24/2018"
+output:
+  html_document:
+    code_folding: hide
+    highlight: tango
+    theme: united
+    toc: true
+    toc_float: 
+      collapsed: TRUE
+      smooth_scroll: TRUE
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+rm(list=ls())
+```
+
+# load packages
+```{r}
+library(tidyr)
+library(dplyr)
+library(ggplot2)
+library(psych)
+library(knitr)
+library(stringr)
+```
+
+# define palette
+```{r}
+#pal = wesanderson::wes_palette("Darjeeling1", 2, "continuous")
+```
+
+# Import data
+```{r}
+file_dir = "~/Desktop/REV_BxData/data/React/desire_ratings"
+sub_pattern = "REV[0-9]{3}"
+file_pattern = paste0(sub_pattern, "_taskData_React*")
+file_list = list.files(file_dir, pattern = file_pattern)
+
+
+for (file in file_list) {
+  
+  # if the merged dataset doesn't exist, create it
+  if (!exists('dataset')) {
+    dataset = read.csv(file.path(file_dir, file))
+    ID = rep(substr(file, 1, 6), nrow(dataset))
+    acq = rep(substr(file, 22, 22), nrow(dataset))
+    dataset = cbind(ID, acq, dataset)
+    colnames(dataset) = c("ID", "acq", "condition", "trial", "desire_rating")
+  }
+  
+  # if the merged dataset does exist, append to it
+  else {
+    tmp = read.csv(file.path(file_dir, file))
+    ID = rep(substr(file, 1, 6), nrow(tmp))
+    acq = rep(substr(file, 22, 22), nrow(tmp))
+    tmp = cbind(ID, acq, tmp)
+    colnames(tmp) = c("ID", "acq", "condition", "trial", "desire_rating")
+    dataset = bind_rows(dataset, tmp)
+    rm(tmp)
+  }
+}
+```
+
