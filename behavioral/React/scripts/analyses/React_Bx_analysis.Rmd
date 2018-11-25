@@ -27,11 +27,12 @@ library(ggplot2)
 library(psych)
 library(knitr)
 library(stringr)
+library(wesanderson)
 ```
 
 # define palette
 ```{r}
-#pal = wesanderson::wes_palette("Darjeeling1", 2, "continuous")
+cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
 ```
 
 # Import data
@@ -41,28 +42,50 @@ sub_pattern = "REV[0-9]{3}"
 file_pattern = paste0(sub_pattern, "_taskData_React*")
 file_list = list.files(file_dir, pattern = file_pattern)
 
-
+# import data in long format
 for (file in file_list) {
-  
   # if the merged dataset doesn't exist, create it
   if (!exists('dataset')) {
-    dataset = read.csv(file.path(file_dir, file))
-    ID = rep(substr(file, 1, 6), nrow(dataset))
-    acq = rep(substr(file, 22, 22), nrow(dataset))
-    dataset = cbind(ID, acq, dataset)
-    colnames(dataset) = c("ID", "acq", "condition", "trial", "desire_rating")
+  dataset = read.csv(file.path(file_dir, file), header = FALSE)
+  ID = rep(substr(file, 1, 6), nrow(dataset)) # create ID var from first 6 chars of file name
+  acq = rep(substr(file, 22, 22), nrow(dataset)) # create acq var from acq number in file name
+  dataset = cbind(ID, acq, dataset) # add ID and acq vars to dataframe
+  colnames(dataset) = c("ID", "acq", "condition", "trial", "desire_rating")
   }
   
   # if the merged dataset does exist, append to it
   else {
-    tmp = read.csv(file.path(file_dir, file))
-    ID = rep(substr(file, 1, 6), nrow(tmp))
-    acq = rep(substr(file, 22, 22), nrow(tmp))
-    tmp = cbind(ID, acq, tmp)
-    colnames(tmp) = c("ID", "acq", "condition", "trial", "desire_rating")
-    dataset = bind_rows(dataset, tmp)
-    rm(tmp)
+  tmp = read.csv(file.path(file_dir, file), header = FALSE)
+  ID = rep(substr(file, 1, 6), nrow(tmp)) # create ID var from first 6 chars of file name
+  acq = rep(substr(file, 22, 22), nrow(tmp)) # create acq var from acq number in file name
+  tmp = cbind(ID, acq, tmp) # add ID and acq vars to dataframe
+  colnames(tmp) = c("ID", "acq", "condition", "trial", "desire_rating")
+  dataset = bind_rows(dataset, tmp)
+  rm(tmp)
   }
 }
+```
+
+# Plot desire ratings by condition for each time point
+```{r}
+# create var explicitly labeling image type for each trial
+dataset <- dataset %>% 
+  mutate(condImage = ifelse(condition == 1, "risk",
+                    ifelse(condition == 2, "neutral", NA))) %>% 
+  group_by(acq)
+
+# plot desire ratings by image type
+ggplot(dataset, aes(condImage, desire_rating)) +
+geom_boxplot() +
+geom_jitter(aes(color = condImage), alpha = .05) +
+scale_color_manual(values = cbPalette)
+
+
+# plot desire ratings by image type for each acq separately 
+ggplot(dataset, aes(condImage, desire_rating)) +
+geom_boxplot() +
+geom_jitter(aes(color = condImage), alpha = .05) +
+scale_color_manual(values = cbPalette) +
+facet_wrap( ~ acq)
 ```
 
