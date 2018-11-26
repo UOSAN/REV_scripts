@@ -86,7 +86,7 @@ neutral = data %>%
   do({
     fname=paste(
       outputDir,
-      'PRC_',.$ID[[1]],'.txt',
+      'neutral_',.$ID[[1]],'.txt',
       sep='')
     write.table(
       .[,"beta"],
@@ -105,7 +105,7 @@ all = data %>%
   do({
     fname=paste(
       outputDir,
-      'PRC_',.$ID[[1]],'.txt',
+      'all_',.$ID[[1]],'.txt',
       sep='')
     write.table(
       .[,"beta"],
