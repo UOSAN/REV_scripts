@@ -64,6 +64,9 @@ for (file in file_list) {
   rm(tmp)
   }
 }
+
+# write dataset to output file
+write.csv(dataset, file=paste(file_dir, "React_desire_ratings_all.csv", sep = "/"), row.names=FALSE)
 ```
 
 # Plot desire ratings by condition for each time point
