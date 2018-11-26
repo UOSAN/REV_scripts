@@ -1,0 +1,18 @@
+---
+title: "make_subject_betas_React"
+author: "Brendan Cullen"
+date: "11/26/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# load packages
+```{r}
+library(tidyverse)
+```
+
+
+
