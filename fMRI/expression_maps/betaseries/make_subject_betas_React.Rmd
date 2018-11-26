@@ -61,8 +61,46 @@ for (i in 1:nrow(data)) {
 outputDir='~/Desktop/REV_scripts/fMRI/expression_maps/betaseries/subject_beta_info/'
 
 PRC = data %>% 
-  arrange(ID, trial) %>% 
+  arrange(ID, beta) %>% 
   filter(condition == 1, !is.na(beta)) %>%
+  group_by(ID) %>% 
+  do({
+    fname=paste(
+      outputDir,
+      'PRC_',.$ID[[1]],'.txt',
+      sep='')
+    write.table(
+      .[,"beta"],
+      fname,
+      quote=F,
+      sep='   ',
+      row.names=F,
+      col.names=F)
+    data.frame(file_name=fname)
+  })
+
+neutral = data %>% 
+  arrange(ID, beta) %>% 
+  filter(condition == 2, !is.na(beta)) %>%
+  group_by(ID) %>% 
+  do({
+    fname=paste(
+      outputDir,
+      'PRC_',.$ID[[1]],'.txt',
+      sep='')
+    write.table(
+      .[,"beta"],
+      fname,
+      quote=F,
+      sep='   ',
+      row.names=F,
+      col.names=F)
+    data.frame(file_name=fname)
+  })
+
+all = data %>% 
+  arrange(ID, beta) %>% 
+  filter(!is.na(beta)) %>%
   group_by(ID) %>% 
   do({
     fname=paste(
