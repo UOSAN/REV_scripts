@@ -1,0 +1,13 @@
+beta0002.nii
+beta0003.nii
+beta0005.nii
+beta0006.nii
+beta0009.nii
+beta0011.nii
+beta0014.nii
+beta0017.nii
+beta0018.nii
+beta0021.nii
+beta0022.nii
+beta0025.nii
+beta0026.nii
