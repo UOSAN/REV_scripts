@@ -35,8 +35,8 @@ do
 	icMap="${mapDir}"/inhibitory_control_uniformity-test_z_FDR_0.01.nii.gz
 
 	# align maps
-	3dAllineate -source "${icMap}" -master "${react_betaMap}" -final NN -1Dparam_apply '1D: 12@0'\' -prefix "${mapDir}"/aligned_maps/aligned_inhibitory_control_"${subid}"_"${beta}"
-	aligned_icMap="${mapDir}"/aligned_maps/aligned_inhibitory_control_"${subid}"_"${beta}"+tlrc.BRIK
+	3dAllineate -source "${icMap}" -master "${react_betaMap}" -final NN -1Dparam_apply '1D: 12@0'\' -prefix "${mapDir}"/aligned_maps/aligned_inhibitory_control_"${subid}"
+	aligned_icMap="${mapDir}"/aligned_maps/aligned_inhibitory_control_"${subid}"+tlrc.BRIK
 
 	# multiply maps
 	echo "${subid}" "${beta}" NeuroSynth_IC `3ddot -dodot "${react_betaMap}" "${aligned_icMap}"` >> "${outputDir}"/"${subid}".txt
@@ -49,8 +49,8 @@ do
 	cravingMap="${mapDir}"/craving_uniformity-test_z_FDR_0.01.nii.gz
 
 	# align maps
-	3dAllineate -source "${cravingMap}" -master "${react_betaMap}" -final NN -1Dparam_apply '1D: 12@0'\' -prefix "${mapDir}"/aligned_maps/aligned_craving_"${subid}"_"${beta}"
-	aligned_cravingMap="${mapDir}"/aligned_maps/aligned_craving_"${subid}"_"${beta}"+tlrc.BRIK
+	3dAllineate -source "${cravingMap}" -master "${react_betaMap}" -final NN -1Dparam_apply '1D: 12@0'\' -prefix "${mapDir}"/aligned_maps/aligned_craving_"${subid}"
+	aligned_cravingMap="${mapDir}"/aligned_maps/aligned_craving_"${subid}"+tlrc.BRIK
 
 	# multiply maps
 	echo "${subid}" "${beta}" NeuroSynth_Craving `3ddot -dodot "${react_betaMap}" "${aligned_cravingMap}"` >> "${outputDir}"/"${subid}".txt
