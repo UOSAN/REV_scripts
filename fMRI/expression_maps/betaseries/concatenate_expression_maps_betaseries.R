@@ -14,17 +14,17 @@ for (file in fileList) {
   # if the merged dataset doesn't exist, create it
   if (!exists('expression_map_data')) {
     expression_map_data = read.table(file.path(working_dir, file))
-    colnames(expression_map_data) = colnames
   }
   
   # if the merged dataset does exist, append to it
   else {
     tmp = read.table(file.path(working_dir, file))
-    colnames(tmp) = colnames
     expression_map_data = dplyr::bind_rows(expression_map_data, tmp)
     rm(tmp)
   }
 }
+
+colnames(expression_map_data) = colnames
 
 # Convert from long to wide format
 expression_map_data <- tidyr::spread(expression_map_data, "neurosynth_map", "pattern_expression_value")
