@@ -44,13 +44,13 @@ data$ID <- as.character(data$ID)
 # specify name of corresponding beta map for each trial
 for (i in 1:nrow(data)) {
   if (data$acq[i] == 1 && data$ID[i] %in% bothacqsIDs){
-    data$beta[i] = sprintf('beta%04d.nii', data$trial[i])
+    data$beta[i] = sprintf('beta_%04d.nii', data$trial[i])
   } else if (data$acq[i] == 2 && data$ID[i] %in% bothacqsIDs){
-    data$beta[i] = sprintf('beta%04d.nii', data$trial[i] + num_trials + num_rating_reg + num_motion_regs)
+    data$beta[i] = sprintf('beta_%04d.nii', data$trial[i] + num_trials + num_rating_reg + num_motion_regs)
   } else if (data$acq[i] == 1 && data$ID[i] %in% acq1onlyIDs){
-    data$beta[i] = sprintf('beta%04d.nii', data$trial[i])
+    data$beta[i] = sprintf('beta_%04d.nii', data$trial[i])
   } else if (data$acq[i] == 2 && data$ID[i] %in% acq2onlyIDs){ # applies to REV064
-    data$beta[i] = sprintf('beta%04d.nii', data$trial[i])
+    data$beta[i] = sprintf('beta_%04d.nii', data$trial[i])
   }
 }
 ```
