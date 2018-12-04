@@ -11,11 +11,10 @@ output:
     toc: yes
     toc_depth: '3'
 editor_options: 
-  chunk_output_type: inline
+  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE}
-## R version 3.4.3 ##
 rm(list = ls())
 setwd("~/Desktop/REV_scripts/behavioral/REV_SST/scripts/analyses/")
 outputDir = '~/Desktop/REV_scripts/behavioral/REV_SST/output'
