@@ -38,7 +38,7 @@ do
 	aligned_icMap="${mapDir}"/aligned_maps/aligned_inhibitory_control_"${subid}"+tlrc.BRIK
 
 	# multiply maps
-	echo "${subid}" "${beta}" NeuroSynth_IC `3ddot -dodot "${react_betaMap}" "${aligned_icMap}"` >> "${outputDir}"/"${subid}".txt
+	echo "${subid}" "${beta}" PEV_IC `3ddot -dodot "${react_betaMap}" "${aligned_icMap}"` >> "${outputDir}"/"${subid}".txt
 
  
 	### Craving Expression Values
@@ -52,7 +52,7 @@ do
 	aligned_cravingMap="${mapDir}"/aligned_maps/aligned_craving_"${subid}"+tlrc.BRIK
 
 	# multiply maps
-	echo "${subid}" "${beta}" NeuroSynth_Craving `3ddot -dodot "${react_betaMap}" "${aligned_cravingMap}"` >> "${outputDir}"/"${subid}".txt
+	echo "${subid}" "${beta}" PEV_Crave `3ddot -dodot "${react_betaMap}" "${aligned_cravingMap}"` >> "${outputDir}"/"${subid}".txt
 done
 done
 
