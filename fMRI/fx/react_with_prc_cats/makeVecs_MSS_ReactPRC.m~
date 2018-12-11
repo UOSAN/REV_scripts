@@ -122,11 +122,12 @@ for s = firstSub:lastSub
                 flNm = strcat(fxFolder, 'sub-', subject_code, '_task-', task, '_acq-', num2str(r), '_onsets', fEnd, '.mat');
                 save(flNm{:}, 'names', 'onsets', 'durations'); %Note that NODs files should be distinguished by acq number, NOT run number
             else
-                fprintf('%s \n',fileName.name);
+                fprintf('\n**** %s Down! ****\n', num2str(s));
+                fprintf('%s',fileName.name);
             end
         end
-        %sprintf('%s','Yay, finished ',subject_code,'!');
-        fprintf('Yay, finished %s!\n',subject_code);
+        fprintf('%s','Yay, finished ',subject_code,'!');
+
     end
     
 end

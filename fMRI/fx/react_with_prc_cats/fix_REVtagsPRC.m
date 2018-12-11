@@ -17,7 +17,7 @@ runs = [1 2 3 4];
 %dataFolder = ['/Users/kristadestasio/Desktop/REV_scripts/behavioral/' task '/data'];
 repodir = ['~/Dropbox/REV_repos/REV_BxData/'];
 
-dataFolder = [repodir 'data/' task];
+dataFolder = [repodir 'data/' task '/data_prc_tags'];
 
 reactRunsFolder='~/Dropbox/REV_repos/REV_scripts/behavioral/tasks/REV_React/';
 prcFolder=[repodir,'prc_mappings/'];
@@ -52,7 +52,7 @@ for s = firstSub:lastSub
             for r=runs % For runs defined previously (scanning only here)
                 runFile = [reactRunsFolder task num2str(r) '.txt'];
                 reactRun = table2array(readtable(runFile));
-                reactRun=reactRun([1:21,23:42,44:63,65:84,86:length(reactRun)],:); %get ride of blank rows
+                reactRun=reactRun([1:21,23:42,44:63,65:84,86:length(reactRun)],:); %get rid of blank rows
                 
                 filename = [subject_code '_' task num2str(r) '.mat'];
                 
