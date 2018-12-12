@@ -167,24 +167,51 @@ matlabbatch{25}.spm.stats.fmri_est.method.Classical = 1;
 %% specify the contrasts of interest
 matlabbatch{26}.spm.stats.con.spmmat(1) = cfg_dep('Model estimation: SPM.mat File', substruct('.','val', '{}',{25}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','spmmat'));
 matlabbatch{26}.spm.stats.con.consess{1}.tcon.name = '1_NoGo>Go';
-matlabbatch{26}.spm.stats.con.consess{1}.tcon.weights = [0 0 -0.25 0 0.25 0 -0.25 0 0.25 0 -0.25 0 0.25 0 -0.25 0 0.25 0];
-matlabbatch{26}.spm.stats.con.consess{1}.tcon.sessrep = 'replsc';
+matlabbatch{26}.spm.stats.con.consess{1}.tcon.weights = [0 0 -0.0625 0 0.0625 0 -0.0625 0 0.0625 0 -0.0625 0 0.0625 0 -0.0625 0 0.0625 0 0 0 -0.0625 0 0.0625 0 -0.0625 0 0.0625 0 -0.0625 0 0.0625 0 -0.0625 0 0.0625 0 0 0 -0.0625 0 0.0625 0 -0.0625 0 0.0625 0 -0.0625 0 0.0625 0 -0.0625 0 0.0625 0 0 0 -0.0625 0 0.0625 0 -0.0625 0 0.0625 0 -0.0625 0 0.0625 0 -0.0625 0 0.0625 0];
+matlabbatch{26}.spm.stats.con.consess{1}.tcon.sessrep = 'none';
+
 matlabbatch{26}.spm.stats.con.consess{2}.tcon.name = '2_CorrectNoGo>CorrectGo';
-matlabbatch{26}.spm.stats.con.consess{2}.tcon.weights = [0 0 -0.5 0 0.5 0 -0.5 0 0.5 0 0 0 0 0 0 0 0 0];
-matlabbatch{26}.spm.stats.con.consess{2}.tcon.sessrep = 'replsc';
+matlabbatch{26}.spm.stats.con.consess{2}.tcon.weights = [0 0 -0.125 0 0.125 0 -0.125 0 0.125 0 0 0 0 0 0 0 0 0 0 0 -0.125 0 0.125 0 -0.125 0 0.125 0 0 0 0 0 0 0 0 0 0 0 -0.125 0 0.125 0 -0.125 0 0.125 0 0 0 0 0 0 0 0 0 0 0 -0.125 0 0.125 0 -0.125 0 0.125 0 0 0 0 0 0 0 0 0];
+matlabbatch{26}.spm.stats.con.consess{2}.tcon.sessrep = 'none';
+
 matlabbatch{26}.spm.stats.con.consess{3}.tcon.name = '3_IncorrectNoGo>CorrectGo';
-matlabbatch{26}.spm.stats.con.consess{3}.tcon.weights = [0 0 -0.5 0 0 0 -0.5 0 0 0 0 0 0.5 0 0 0 0.5 0];
-matlabbatch{26}.spm.stats.con.consess{3}.tcon.sessrep = 'replsc';
+matlabbatch{26}.spm.stats.con.consess{3}.tcon.weights = [0 0 -0.125 0 0 0 0.125 0 0 0 0 0 0.125 0 0 0 -0.125 0 0 0 -0.125 0 0 0 0.125 0 0 0 0 0 0.125 0 0 0 -0.125 0 0 0 -0.125 0 0 0 0.125 0 0 0 0 0 0.125 0 0 0 -0.125 0 0 0 -0.125 0 0 0 0.125 0 0 0 0 0 0.125 0 0 0 -0.125 0];
+matlabbatch{26}.spm.stats.con.consess{3}.tcon.sessrep = 'none';
+
 matlabbatch{26}.spm.stats.con.consess{4}.tcon.name = '4_Risk>Neutral';
-matlabbatch{26}.spm.stats.con.consess{4}.tcon.weights = [0 0 0.25 0 0.25 0 -0.25 0 -0.25 0 0.25 0 0.25 0 -0.25 0 -0.25 0];
-matlabbatch{26}.spm.stats.con.consess{4}.tcon.sessrep = 'replsc';
+matlabbatch{26}.spm.stats.con.consess{4}.tcon.weights = [0 0 0.0625 0 0.0625 0 -0.0625 0 -0.0625 0 0.0625 0 0.0625 0 -0.0625 0 -0.0625 0 0 0 0.0625 0 0.0625 0 -0.0625 0 -0.0625 0 0.0625 0 0.0625 0 -0.0625 0 -0.0625 0 0 0 0.0625 0 0.0625 0 -0.0625 0 -0.0625 0 0.0625 0 0.0625 0 -0.0625 0 -0.0625 0 0 0 0.0625 0 0.0625 0 -0.0625 0 -0.0625 0 0.0625 0 0.0625 0 -0.0625 0 -0.0625 0];
+matlabbatch{26}.spm.stats.con.consess{4}.tcon.sessrep = 'none';
+
 matlabbatch{26}.spm.stats.con.consess{5}.tcon.name = '5_CorrectNoGo>IncorrectNogo';
-matlabbatch{26}.spm.stats.con.consess{5}.tcon.weights = [0 0 0 0 0.5 0 0.5 0 0 0 0 0 -0.5 0 0 0 -0.5 0];
-matlabbatch{26}.spm.stats.con.consess{5}.tcon.sessrep = 'replsc';
+matlabbatch{26}.spm.stats.con.consess{5}.tcon.weights = [0 0 0 0 0.125 0 0.125 0 0 0 0 0 -0.125 0 0 0 -0.125 0 0 0 0 0 0.125 0 0.125 0 0 0 0 0 -0.125 0 0 0 -0.125 0 0 0 0 0 0.125 0 0.125 0 0 0 0 0 -0.125 0 0 0 -0.125 0 0 0 0 0 0.125 0 0.125 0 0 0 0 0 -0.125 0 0 0 -0.125 0];
+matlabbatch{26}.spm.stats.con.consess{5}.tcon.sessrep = 'none';
+
 matlabbatch{26}.spm.stats.con.consess{6}.tcon.name = '6_NoButtonPress>Baseline';
-matlabbatch{26}.spm.stats.con.consess{6}.tcon.weights = [0 0 0 0 0.25 0 0 0 0.25 0 0.25 0 0 0 0.25 0 0 0];
-matlabbatch{26}.spm.stats.con.consess{6}.tcon.sessrep = 'replsc';
+matlabbatch{26}.spm.stats.con.consess{6}.tcon.weights = [0 0 0 0 0.0625 0 0 0 0.0625 0 0.0625 0 0 0 0.0625 0 0 0 0 0 0 0 0.0625 0 0 0 0.0625 0 0.0625 0 0 0 0.0625 0 0 0 0 0 0 0 0.0625 0 0 0 0.0625 0 0.0625 0 0 0 0.0625 0 0 0 0 0 0 0 0.0625 0 0 0 0.0625 0 0.0625 0 0 0 0.0625 0 0 0];
+matlabbatch{26}.spm.stats.con.consess{6}.tcon.sessrep = 'none';
+
 matlabbatch{26}.spm.stats.con.consess{7}.tcon.name = '7_ButtonPress>Baseline';
-matlabbatch{26}.spm.stats.con.consess{7}.tcon.weights = [0 0 0.25 0 0 0 0.25 0 0 0 0 0 0.25 0 0 0 0.25 0];
-matlabbatch{26}.spm.stats.con.consess{7}.tcon.sessrep = 'replsc';
+matlabbatch{26}.spm.stats.con.consess{7}.tcon.weights = [0 0 0.0625 0 0 0 0.0625 0 0 0 0 0 0.0625 0 0 0 0.0625 0 0 0 0.0625 0 0 0 0.0625 0 0 0 0 0 0.0625 0 0 0 0.0625 0 0 0 0.0625 0 0 0 0.0625 0 0 0 0 0 0.0625 0 0 0 0.0625 0 0 0 0.0625 0 0 0 0.0625 0 0 0 0 0 0.0625 0 0 0 0.0625 0];
+matlabbatch{26}.spm.stats.con.consess{7}.tcon.sessrep = 'none';
+
+matlabbatch{26}.spm.stats.con.consess{8}.tcon.name = '8_T2(NoGo>Go)>T1(NoGo>Go)';
+matlabbatch{26}.spm.stats.con.consess{8}.tcon.weights = [0 0 0.0625 0 -0.0625 0 0.0625 0 -0.0625 0 0.0625 0 -0.0625 0 0.0625 0 -0.0625 0 0 0 0.0625 0 -0.0625 0 0.0625 0 -0.0625 0 0.0625 0 -0.0625 0 0.0625 0 -0.0625 0 0 0 -0.0625 0 0.0625 0 -0.0625 0 0.0625 0 -0.0625 0 0.0625 0 -0.0625 0 0.0625 0 0 0 -0.0625 0 0.0625 0 -0.0625 0 0.0625 0 -0.0625 0 0.0625 0 -0.0625 0 0.0625 0];
+matlabbatch{26}.spm.stats.con.consess{8}.tcon.sessrep = 'none';
+
+matlabbatch{26}.spm.stats.con.consess{9}.tcon.name = '9_T2(CorrectNoGo>CorrectGo)>T1(CorrectNoGo>CorrectGo)';
+matlabbatch{26}.spm.stats.con.consess{9}.tcon.weights = [0 0 0.125 0 -0.125 0 0.125 0 -0.125 0 0 0 0 0 0 0 0 0 0 0 0.125 0 -0.125 0 0.125 0 -0.125 0 0 0 0 0 0 0 0 0 0 0 -0.125 0 0.125 0 -0.125 0 0.125 0 0 0 0 0 0 0 0 0 0 0 -0.125 0 0.125 0 -0.125 0 0.125 0 0 0 0 0 0 0 0 0];
+matlabbatch{26}.spm.stats.con.consess{9}.tcon.sessrep = 'none';
+
+matlabbatch{26}.spm.stats.con.consess{10}.tcon.name = '10_T2(IncorrectNoGo>CorrectGo)>T1(IncorrectNoGo>CorrectGo)';
+matlabbatch{26}.spm.stats.con.consess{10}.tcon.weights = [0 0 0.125 0 0 0 -0.125 0 0 0 0 0 -0.125 0 0 0 0.125 0 0 0 0.125 0 0 0 -0.125 0 0 0 0 0 -0.125 0 0 0 0.125 0 0 0 -0.125 0 0 0 0.125 0 0 0 0 0 0.125 0 0 0 -0.125 0 0 0 -0.125 0 0 0 0.125 0 0 0 0 0 0.125 0 0 0 -0.125 0];
+matlabbatch{26}.spm.stats.con.consess{10}.tcon.sessrep = 'none';
+
+matlabbatch{26}.spm.stats.con.consess{11}.tcon.name = '11_T2(Risk>Neutral)>T1(Risk>Neutral)';
+matlabbatch{26}.spm.stats.con.consess{11}.tcon.weights = [0 0 -0.0625 0 -0.0625 0 0.0625 0 0.0625 0 -0.0625 0 -0.0625 0 0.0625 0 0.0625 0 0 0 -0.0625 0 -0.0625 0 0.0625 0 0.0625 0 -0.0625 0 -0.0625 0 0.0625 0 0.0625 0 0 0 0.0625 0 0.0625 0 -0.0625 0 -0.0625 0 0.0625 0 0.0625 0 -0.0625 0 -0.0625 0 0 0 0.0625 0 0.0625 0 -0.0625 0 -0.0625 0 0.0625 0 0.0625 0 -0.0625 0 -0.0625 0];
+matlabbatch{26}.spm.stats.con.consess{11}.tcon.sessrep = 'none';
+
+matlabbatch{26}.spm.stats.con.consess{12}.tcon.name = '12_T2(CorrectNoGo>IncorrectNogo)>T1(CorrectNoGo>IncorrectNogo)';
+matlabbatch{26}.spm.stats.con.consess{12}.tcon.weights = [0 0 0 0 -0.125 0 -0.125 0 0 0 0 0 0.125 0 0 0 0.125 0 0 0 0 0 -0.125 0 -0.125 0 0 0 0 0 0.125 0 0 0 0.125 0 0 0 0 0 0.125 0 0.125 0 0 0 0 0 -0.125 0 0 0 -0.125 0 0 0 0 0 0.125 0 0.125 0 0 0 0 0 -0.125 0 0 0 -0.125 0];
+matlabbatch{26}.spm.stats.con.consess{12}.tcon.sessrep = 'none';
 matlabbatch{26}.spm.stats.con.delete = 0;
+
