@@ -69,6 +69,7 @@ matlabbatch{11}.spm.util.exp_frames.frames = Inf;
 matlabbatch{12}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {'/projects/sanlab/shared/REV/fmriprep_backup/2018.09.06_auto_motion_output_backup/rp_txt'};
 matlabbatch{12}.cfg_basicio.file_dir.file_ops.file_fplist.filter = 'rp_REV001_1_sst_1.txt';  % auto_motion output file acq-1
 matlabbatch{12}.cfg_basicio.file_dir.file_ops.file_fplist.rec = 'FPList';
+
 matlabbatch{13}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {'/projects/sanlab/shared/REV/fmriprep_backup/2018.09.06_auto_motion_output_backup/rp_txt'};
 matlabbatch{13}.cfg_basicio.file_dir.file_ops.file_fplist.filter = 'rp_REV001_1_sst_2.txt';  % auto_motion output file acq-2
 matlabbatch{13}.cfg_basicio.file_dir.file_ops.file_fplist.rec = 'FPList';
