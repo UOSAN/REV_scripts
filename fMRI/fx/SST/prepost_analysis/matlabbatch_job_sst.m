@@ -146,14 +146,14 @@ matlabbatch{24}.spm.stats.fmri_spec.sess(3).scans(1) = cfg_dep('Smooth: Smoothed
 matlabbatch{24}.spm.stats.fmri_spec.sess(3).cond = struct('name', {}, 'onset', {}, 'duration', {}, 'tmod', {}, 'pmod', {}, 'orth', {});
 matlabbatch{24}.spm.stats.fmri_spec.sess(3).multi = {'/Users/kristadestasio/Desktop/REV_BxData/names_onsets_durations/SST/sub-REV001_task-sst_acq-13_onsets.mat'};
 matlabbatch{24}.spm.stats.fmri_spec.sess(3).regress = struct('name', {}, 'val', {});
-matlabbatch{24}.spm.stats.fmri_spec.sess(3).multi_reg(1) = cfg_dep('File Selector (Batch Mode): Selected Files (rp_REV001_2_sst_13.txt)', substruct('.','val', '{}',{22}, '.','val', '{}',{1}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','files'));
+matlabbatch{24}.spm.stats.fmri_spec.sess(3).multi_reg(1) = cfg_dep('File Selector (Batch Mode): Selected Files (rp_REV001_2_sst_3.txt)', substruct('.','val', '{}',{22}, '.','val', '{}',{1}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','files'));
 matlabbatch{24}.spm.stats.fmri_spec.sess(3).hpf = 128;
 
 matlabbatch{24}.spm.stats.fmri_spec.sess(4).scans(1) = cfg_dep('Smooth: Smoothed Images', substruct('.','val', '{}',{16}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','files'));
 matlabbatch{24}.spm.stats.fmri_spec.sess(4).cond = struct('name', {}, 'onset', {}, 'duration', {}, 'tmod', {}, 'pmod', {}, 'orth', {});
-matlabbatch{24}.spm.stats.fmri_spec.sess(4).multi = {'/Users/kristadestasio/Desktop/REV_BxData/names_onsets_durations/SST/sub-REV001_task-sst_acq-44_onsets.mat'};
+matlabbatch{24}.spm.stats.fmri_spec.sess(4).multi = {'/Users/kristadestasio/Desktop/REV_BxData/names_onsets_durations/SST/sub-REV001_task-sst_acq-14_onsets.mat'};
 matlabbatch{24}.spm.stats.fmri_spec.sess(4).regress = struct('name', {}, 'val', {});
-matlabbatch{24}.spm.stats.fmri_spec.sess(4).multi_reg(1) = cfg_dep('File Selector (Batch Mode): Selected Files (rp_REV001_2_sst_14.txt)', substruct('.','val', '{}',{23}, '.','val', '{}',{1}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','files'));
+matlabbatch{24}.spm.stats.fmri_spec.sess(4).multi_reg(1) = cfg_dep('File Selector (Batch Mode): Selected Files (rp_REV001_2_sst_4.txt)', substruct('.','val', '{}',{23}, '.','val', '{}',{1}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','files'));
 matlabbatch{24}.spm.stats.fmri_spec.sess(4).hpf = 128;
 
 matlabbatch{24}.spm.stats.fmri_spec.fact = struct('name', {}, 'levels', {});
