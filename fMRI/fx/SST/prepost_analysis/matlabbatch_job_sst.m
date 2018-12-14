@@ -136,4 +136,15 @@ matlabbatch{26}.spm.stats.con.consess{6}.tcon.sessrep = 'none';
 matlabbatch{26}.spm.stats.con.consess{7}.tcon.name = '7_T2(CorrectStop>CorrectGo)>T1(CorrectStop>CorrectGo)';
 matlabbatch{26}.spm.stats.con.consess{7}.tcon.weights = [0 0 -0.25 0 0.25 0 0 0 0 0 0 0 0 0 0 0 0 -0.25 0 0.25 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0 -0.25 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0 -0.25 0 0 0 0 0 0 0 0 0 0];
 matlabbatch{26}.spm.stats.con.consess{7}.tcon.sessrep = 'none';
+matlabbatch{26}.spm.stats.con.consess{8}.tcon.name = '8_T2(AnyStop>CorrectGo)>T1(AnyStop>CorrectGo)';
+matlabbatch{26}.spm.stats.con.consess{8}.tcon.weights = [0.25 0 -0.125 0 -0.125 0 0 0 0 0 0 0 0 0 0 0.25 0 -0.125 0 -0.125 0 0 0 0 0 0 0 0 0 0 -0.25 0 0.125 0 0.125 0 0 0 0 0 0 0 0 0 0 -0.25 0 0.125 0 0.125 0 0 0 0 0 0 0 0 0 0];
+matlabbatch{26}.spm.stats.con.consess{8}.tcon.sessrep = 'none';
+matlabbatch{26}.spm.stats.con.consess{9}.tcon.name = '9_T2(Correct Stop)>T1(Correct Stop)';
+matlabbatch{26}.spm.stats.con.consess{9}.tcon.weights = [0.000	0.000	-0.500	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	-0.500	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.500	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.500	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000];
+matlabbatch{26}.spm.stats.con.consess{9}.tcon.sessrep = 'none';
+matlabbatch{26}.spm.stats.con.consess{10}.tcon.name = '10_T2(Any Stop)>T1(Any Stop)';
+matlabbatch{26}.spm.stats.con.consess{10}.tcon.weights = [0.000	0.000	-0.250	0.000	-0.250	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	-0.250	0.000	-0.250	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.250	0.000	0.250	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.250	0.000	0.250	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000];
+matlabbatch{26}.spm.stats.con.consess{10}.tcon.sessrep = 'none';
 matlabbatch{26}.spm.stats.con.delete = 0;
+
+
