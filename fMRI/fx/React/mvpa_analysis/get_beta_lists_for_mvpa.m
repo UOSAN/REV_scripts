@@ -46,8 +46,8 @@ for sub=1:height(SUBLIST)
     
     
     filename = strcat(SUBLIST{sub,:}, '.txt');
-    
-    if exist(filename{:},'file'),
+    filename = filename{:};
+    if exist(filename,'file'),
         filename=strcat('duplicate','_',filename);
     end;
 
@@ -57,7 +57,7 @@ for sub=1:height(SUBLIST)
     DumpStructToText(filename, subBetas, 0)
     
 end
-
+find sub-REV*/fx/react/prc/*.mat -type f > /projects/sanlab/shared/REV/REV_scripts/fMRI/fx/React/mvpa_analysis/
 
 end
 
