@@ -57,7 +57,6 @@ for sub=1:height(SUBLIST)
     DumpStructToText(filename, subBetas, 0)
     
 end
-find sub-REV*/fx/react/prc/*.mat -type f > /projects/sanlab/shared/REV/REV_scripts/fMRI/fx/React/mvpa_analysis/
 
 end
 
