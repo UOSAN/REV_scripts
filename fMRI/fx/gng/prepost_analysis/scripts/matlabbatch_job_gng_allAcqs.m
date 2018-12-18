@@ -5,7 +5,7 @@
 %-----------------------------------------------------------------------
 
 %% select acq-1 files
-matlabbatch{1}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {'/projects/sanlab/shared/REV/fmriprep_backup/2018.09.06_rev_fmriprep_backup/sub-REV001/ses-wave1/func'};
+matlabbatch{1}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {'/projects/sanlab/shared/REV/bids_data/derivatives/fmriprep/sub-REV001/ses-wave1/func'};
 matlabbatch{1}.cfg_basicio.file_dir.file_ops.file_fplist.filter = 'sub-REV001_ses-wave1_task-gng_acq-1_run-.*_bold_space-MNI152NLin2009cAsym_preproc.nii.gz';
 matlabbatch{1}.cfg_basicio.file_dir.file_ops.file_fplist.rec = 'FPList';
 
@@ -19,7 +19,7 @@ matlabbatch{3}.spm.util.exp_frames.files(1) = cfg_dep('Gunzip Files: Gunzipped F
 matlabbatch{3}.spm.util.exp_frames.frames = Inf;
 
 %% select acq-2 files
-matlabbatch{4}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {'/projects/sanlab/shared/REV/fmriprep_backup/2018.09.06_rev_fmriprep_backup/sub-REV001/ses-wave1/func'};
+matlabbatch{4}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {'/projects/sanlab/shared/REV/bids_data/derivatives/fmriprep/sub-REV001/ses-wave1/func'};
 matlabbatch{4}.cfg_basicio.file_dir.file_ops.file_fplist.filter = 'sub-REV001_ses-wave1_task-gng_acq-2_run-.*_bold_space-MNI152NLin2009cAsym_preproc.nii.gz';
 matlabbatch{4}.cfg_basicio.file_dir.file_ops.file_fplist.rec = 'FPList';
 
@@ -33,7 +33,7 @@ matlabbatch{6}.spm.util.exp_frames.files(1) = cfg_dep('Gunzip Files: Gunzipped F
 matlabbatch{6}.spm.util.exp_frames.frames = Inf;
 
 %% select acq-3 files
-matlabbatch{7}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {'/projects/sanlab/shared/REV/fmriprep_backup/2018.09.06_rev_fmriprep_backup/sub-REV001/ses-wave2/func'};
+matlabbatch{7}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {'/projects/sanlab/shared/REV/bids_data/derivatives/fmriprep/sub-REV001/ses-wave2/func'};
 matlabbatch{7}.cfg_basicio.file_dir.file_ops.file_fplist.filter = 'sub-REV001_ses-wave2_task-gng_acq-3_run-.*_bold_space-MNI152NLin2009cAsym_preproc.nii.gz';
 matlabbatch{7}.cfg_basicio.file_dir.file_ops.file_fplist.rec = 'FPList';
 
@@ -47,7 +47,7 @@ matlabbatch{9}.spm.util.exp_frames.files(1) = cfg_dep('Gunzip Files: Gunzipped F
 matlabbatch{9}.spm.util.exp_frames.frames = Inf;
 
 %% select acq-4 files
-matlabbatch{10}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {'/projects/sanlab/shared/REV/fmriprep_backup/2018.09.06_rev_fmriprep_backup/sub-REV001/ses-wave2/func'};
+matlabbatch{10}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {'/projects/sanlab/shared/REV/bids_data/derivatives/fmriprep/sub-REV001/ses-wave2/func'};
 matlabbatch{10}.cfg_basicio.file_dir.file_ops.file_fplist.filter = 'sub-REV001_ses-wave2_task-gng_acq-4_run-.*_bold_space-MNI152NLin2009cAsym_preproc.nii.gz';
 matlabbatch{10}.cfg_basicio.file_dir.file_ops.file_fplist.rec = 'FPList';
 
@@ -86,7 +86,7 @@ matlabbatch{16}.spm.spatial.smooth.im = 0;
 matlabbatch{16}.spm.spatial.smooth.prefix = 's';
 
 %% %% select brain mask file
-matlabbatch{17}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {'/projects/sanlab/shared/REV/fmriprep_backup/2018.09.06_rev_fmriprep_backup/sub-REV001/ses-wave1/func'};
+matlabbatch{17}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {'/projects/sanlab/shared/REV/bids_data/derivatives/fmriprep/sub-REV001/ses-wave1/func'};
 matlabbatch{17}.cfg_basicio.file_dir.file_ops.file_fplist.filter = 'sub-REV001_ses-wave1_task-gng_acq-.*_run-01_bold_space-MNI152NLin2009cAsym_brainmask.nii.gz';
 matlabbatch{17}.cfg_basicio.file_dir.file_ops.file_fplist.rec = 'FPList';
 

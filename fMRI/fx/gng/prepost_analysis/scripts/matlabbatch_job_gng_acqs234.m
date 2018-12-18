@@ -5,7 +5,7 @@
 %-----------------------------------------------------------------------
 
 %% select acq-2 files
-matlabbatch{1}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {'/Users/kristadestasio/Desktop/bids_data/derivatives/fmriprep/sub-REV001/ses-wave1/func'};
+matlabbatch{1}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {'/projects/sanlab/shared/REV/bids_data/derivatives/fmriprep/sub-REV001/ses-wave1/func'};
 matlabbatch{1}.cfg_basicio.file_dir.file_ops.file_fplist.filter = 'sub-REV001_ses-wave1_task-gng_acq-2_run-.*_bold_space-MNI152NLin2009cAsym_preproc.nii.gz';
 matlabbatch{1}.cfg_basicio.file_dir.file_ops.file_fplist.rec = 'FPList';
 
@@ -19,7 +19,7 @@ matlabbatch{3}.spm.util.exp_frames.files(1) = cfg_dep('Gunzip Files: Gunzipped F
 matlabbatch{3}.spm.util.exp_frames.frames = Inf;
 
 %% select acq-3 files
-matlabbatch{4}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {'/Users/kristadestasio/Desktop/bids_data/derivatives/fmriprep/sub-REV001/ses-wave2/func'};
+matlabbatch{4}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {'/projects/sanlab/shared/REV/bids_data/derivatives/fmriprep/sub-REV001/ses-wave2/func'};
 matlabbatch{4}.cfg_basicio.file_dir.file_ops.file_fplist.filter = 'sub-REV001_ses-wave2_task-gng_acq-3_run-.*_bold_space-MNI152NLin2009cAsym_preproc.nii.gz';
 matlabbatch{4}.cfg_basicio.file_dir.file_ops.file_fplist.rec = 'FPList';
 
@@ -33,7 +33,7 @@ matlabbatch{6}.spm.util.exp_frames.files(1) = cfg_dep('Gunzip Files: Gunzipped F
 matlabbatch{6}.spm.util.exp_frames.frames = Inf;
 
 %% select acq-4 files
-matlabbatch{7}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {'/Users/kristadestasio/Desktop/bids_data/derivatives/fmriprep/sub-REV001/ses-wave2/func'};
+matlabbatch{7}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {'/projects/sanlab/shared/REV/bids_data/derivatives/fmriprep/sub-REV001/ses-wave2/func'};
 matlabbatch{7}.cfg_basicio.file_dir.file_ops.file_fplist.filter = 'sub-REV001_ses-wave2_task-gng_acq-4_run-.*_bold_space-MNI152NLin2009cAsym_preproc.nii.gz';
 matlabbatch{7}.cfg_basicio.file_dir.file_ops.file_fplist.rec = 'FPList';
 
@@ -66,7 +66,7 @@ matlabbatch{12}.spm.spatial.smooth.im = 0;
 matlabbatch{12}.spm.spatial.smooth.prefix = 's';
 
 %% %% select brain mask file
-matlabbatch{13}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {'/Users/kristadestasio/Desktop/bids_data/derivatives/fmriprep/sub-REV001/ses-wave1/func'};
+matlabbatch{13}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {'/projects/sanlab/shared/REV/fmriprep/sub-REV001/ses-wave1/func'};
 matlabbatch{13}.cfg_basicio.file_dir.file_ops.file_fplist.filter = 'sub-REV001_ses-wave1_task-gng_acq-.*_run-01_bold_space-MNI152NLin2009cAsym_brainmask.nii.gz';
 matlabbatch{13}.cfg_basicio.file_dir.file_ops.file_fplist.rec = 'FPList';
 
@@ -80,15 +80,15 @@ matlabbatch{15}.spm.util.exp_frames.files(1) = cfg_dep('Gunzip Files: Gunzipped 
 matlabbatch{15}.spm.util.exp_frames.frames = Inf;
 
 %% select auto_motion output
-matlabbatch{16}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {'/Users/kristadestasio/Desktop/bids_data/derivatives/motion/rp_txt'};
+matlabbatch{16}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {'/projects/sanlab/shared/REV/fmriprep_backup/2018.09.06_auto_motion_output_backup/rp_txt'};
 matlabbatch{16}.cfg_basicio.file_dir.file_ops.file_fplist.filter = 'rp_REV001_1_gng_2.txt';
 matlabbatch{16}.cfg_basicio.file_dir.file_ops.file_fplist.rec = 'FPList';
 
-matlabbatch{17}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {'/Users/kristadestasio/Desktop/bids_data/derivatives/motion/rp_txt'};
+matlabbatch{17}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {'/projects/sanlab/shared/REV/fmriprep_backup/2018.09.06_auto_motion_output_backup/rp_txt'};
 matlabbatch{17}.cfg_basicio.file_dir.file_ops.file_fplist.filter = 'rp_REV001_2_gng_3.txt';
 matlabbatch{17}.cfg_basicio.file_dir.file_ops.file_fplist.rec = 'FPList';
 
-matlabbatch{18}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {'/Users/kristadestasio/Desktop/bids_data/derivatives/motion/rp_txt'};
+matlabbatch{18}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {'/projects/sanlab/shared/REV/fmriprep_backup/2018.09.06_auto_motion_output_backup/rp_txt'};
 matlabbatch{18}.cfg_basicio.file_dir.file_ops.file_fplist.filter = 'rp_REV001_2_gng_4.txt';
 matlabbatch{18}.cfg_basicio.file_dir.file_ops.file_fplist.rec = 'FPList';
 
@@ -101,21 +101,21 @@ matlabbatch{19}.spm.stats.fmri_spec.timing.fmri_t0 = 36;
 
 matlabbatch{19}.spm.stats.fmri_spec.sess(1).scans(1) = cfg_dep('Smooth: Smoothed Images', substruct('.','val', '{}',{10}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','files'));
 matlabbatch{19}.spm.stats.fmri_spec.sess(1).cond = struct('name', {}, 'onset', {}, 'duration', {}, 'tmod', {}, 'pmod', {}, 'orth', {});
-matlabbatch{19}.spm.stats.fmri_spec.sess(1).multi = {'/Users/kristadestasio/Desktop/REV_BxData/names_onsets_durations/gng/prepost_analysis/sub-REV001_task-gng_acq-2_onsets.mat'};
+matlabbatch{19}.spm.stats.fmri_spec.sess(1).multi = {'/projects/sanlab/shared/REV/REV_BxData/names_onsets_durations/gng/prepost_analysis/sub-REV001_task-gng_acq-2_onsets.mat'};
 matlabbatch{19}.spm.stats.fmri_spec.sess(1).regress = struct('name', {}, 'val', {});
 matlabbatch{19}.spm.stats.fmri_spec.sess(1).multi_reg(1) = cfg_dep('File Selector (Batch Mode): Selected Files (rp_REV001_1_gng_2.txt)', substruct('.','val', '{}',{16}, '.','val', '{}',{1}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','files'));
 matlabbatch{19}.spm.stats.fmri_spec.sess(1).hpf = 128;
 
 matlabbatch{19}.spm.stats.fmri_spec.sess(2).scans(1) = cfg_dep('Smooth: Smoothed Images', substruct('.','val', '{}',{11}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','files'));
 matlabbatch{19}.spm.stats.fmri_spec.sess(2).cond = struct('name', {}, 'onset', {}, 'duration', {}, 'tmod', {}, 'pmod', {}, 'orth', {});
-matlabbatch{19}.spm.stats.fmri_spec.sess(2).multi = {'/Users/kristadestasio/Desktop/REV_BxData/names_onsets_durations/gng/prepost_analysis/sub-REV001_task-gng_acq-3_onsets.mat'};
+matlabbatch{19}.spm.stats.fmri_spec.sess(2).multi = {'/projects/sanlab/shared/REV/REV_BxData/names_onsets_durations/gng/prepost_analysis/sub-REV001_task-gng_acq-3_onsets.mat'};
 matlabbatch{19}.spm.stats.fmri_spec.sess(2).regress = struct('name', {}, 'val', {});
 matlabbatch{19}.spm.stats.fmri_spec.sess(2).multi_reg = cfg_dep('File Selector (Batch Mode): Selected Files (rp_REV001_1_gng_3.txt)', substruct('.','val', '{}',{17}, '.','val', '{}',{1}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','files'));
 matlabbatch{19}.spm.stats.fmri_spec.sess(2).hpf = 128;
 
 matlabbatch{19}.spm.stats.fmri_spec.sess(3).scans(1) = cfg_dep('Smooth: Smoothed Images', substruct('.','val', '{}',{12}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','files'));
 matlabbatch{19}.spm.stats.fmri_spec.sess(3).cond = struct('name', {}, 'onset', {}, 'duration', {}, 'tmod', {}, 'pmod', {}, 'orth', {});
-matlabbatch{19}.spm.stats.fmri_spec.sess(3).multi = {'/Users/kristadestasio/Desktop/REV_BxData/names_onsets_durations/gng/prepost_analysis/sub-REV001_task-gng_acq-4_onsets.mat'};
+matlabbatch{19}.spm.stats.fmri_spec.sess(3).multi = {'/projects/sanlab/shared/REV/REV_BxData/names_onsets_durations/gng/prepost_analysis/sub-REV001_task-gng_acq-4_onsets.mat'};
 matlabbatch{19}.spm.stats.fmri_spec.sess(3).regress = struct('name', {}, 'val', {});
 matlabbatch{19}.spm.stats.fmri_spec.sess(3).multi_reg = cfg_dep('File Selector (Batch Mode): Selected Files (rp_REV001_1_gng_4.txt)', substruct('.','val', '{}',{18}, '.','val', '{}',{1}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','files'));
 matlabbatch{19}.spm.stats.fmri_spec.sess(3).hpf = 128;
