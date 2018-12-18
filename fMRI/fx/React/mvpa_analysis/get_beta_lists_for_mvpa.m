@@ -47,7 +47,7 @@ for sub=1:height(SUBLIST)
     
     filename = strcat(SUBLIST{sub,:}, '.txt');
     
-    if exist(filename,'file'),
+    if exist(filename{:},'file'),
         filename=strcat('duplicate','_',filename);
     end;
 
