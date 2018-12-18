@@ -117,7 +117,7 @@ matlabbatch{23}.cfg_basicio.file_dir.file_ops.file_fplist.filter = 'rp_REV001_2_
 matlabbatch{23}.cfg_basicio.file_dir.file_ops.file_fplist.rec = 'FPList';
 
 %% specify the model
-matlabbatch{24}.spm.stats.fmri_spec.dir = {'/projects/sanlab/shared/REV/bids_data/derivatives/baseline_analyses/sub-REV001/fx/gng'};
+matlabbatch{24}.spm.stats.fmri_spec.dir = {'/projects/sanlab/shared/REV/bids_data/derivatives/prepost_analysis/sub-REV001/fx/gng'};
 matlabbatch{24}.spm.stats.fmri_spec.timing.units = 'secs';
 matlabbatch{24}.spm.stats.fmri_spec.timing.RT = 2;
 matlabbatch{24}.spm.stats.fmri_spec.timing.fmri_t = 72;
