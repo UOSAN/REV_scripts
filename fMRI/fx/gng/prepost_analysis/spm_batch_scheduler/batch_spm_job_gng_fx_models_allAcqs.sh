@@ -43,7 +43,7 @@ RESULTS_INFIX=fx_models
 
 # Set output dir
 if [ ! -d "${STUDY}/REV_scripts/fMRI/fx/${TASK}/prepost_analyses/scripts/output_logs" ]; then
-    mkdir -v "${STUDY}/REV_scripts/fMRI/fx/SST/prepost_analyses/scripts/output_logs"
+    mkdir -v "${STUDY}/REV_scripts/fMRI/fx/${TASK}/prepost_analyses/scripts/output_logs"
 fi
 OUTPUTDIR=${STUDY}/REV_scripts/fMRI/fx/${TASK}/prepost_analyses/scripts/output_logs
 
