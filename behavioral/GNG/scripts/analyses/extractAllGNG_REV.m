@@ -146,11 +146,11 @@ for runNum=1:numRuns
         
         GNG_Corr_Count(subNum,runNum) = nansum(CorrGo(i,:))+nansum(CorrNoGo(i,:));
         
-        GNG_IncorrGo_CountByBlock_run1(subNum, runNum) = nansum(IncorrGo_block1(i,:));
-        GNG_IncorrGo_CountByBlock_run2(subNum, runNum) = nansum(IncorrGo_block2(i,:));
-        GNG_IncorrGo_CountByBlock_run3(subNum, runNum) = nansum(IncorrGo_block3(i,:));
-        GNG_IncorrGo_CountByBlock_run4(subNum, runNum) = nansum(IncorrGo_block4(i,:));
-        GNG_IncorrGo_CountByBlock_run5(subNum, runNum) = nansum(IncorrGo_block5(i,:));
+        GNG_IncorrGo_CountByBlock_block1(subNum, runNum) = nansum(IncorrGo_block1(i,:));
+        GNG_IncorrGo_CountByBlock_block2(subNum, runNum) = nansum(IncorrGo_block2(i,:));
+        GNG_IncorrGo_CountByBlock_block3(subNum, runNum) = nansum(IncorrGo_block3(i,:));
+        GNG_IncorrGo_CountByBlock_block4(subNum, runNum) = nansum(IncorrGo_block4(i,:));
+        GNG_IncorrGo_CountByBlock_block5(subNum, runNum) = nansum(IncorrGo_block5(i,:));
         
     end %end numFiles loop
 end
@@ -174,8 +174,8 @@ dlmwrite([outputDir '/GNG_IncorrGo_Count.txt'], GNG_IncorrGo_Count, 'delimiter',
 dlmwrite([outputDir '/GNG_IncorrGo_Count_Risk.txt'], GNG_IncorrGo_Count_Neutral, 'delimiter','\t');
 dlmwrite([outputDir '/GNG_IncorrGo_Count_Risk.txt'], GNG_IncorrGo_Count_Neutral, 'delimiter','\t');
 dlmwrite([outputDir '/GNG_Corr_Count.txt'], GNG_Corr_Count, 'delimiter','\t');
-dlmwrite([outputDir '/GNG_IncorrGo_CountByBlock_run1.txt'], GNG_IncorrGo_CountByBlock_run1, 'delimiter','\t');
-dlmwrite([outputDir '/GNG_IncorrGo_CountByBlock_run2.txt'], GNG_IncorrGo_CountByBlock_run2, 'delimiter','\t');
-dlmwrite([outputDir '/GNG_IncorrGo_CountByBlock_run3.txt'], GNG_IncorrGo_CountByBlock_run3, 'delimiter','\t');
-dlmwrite([outputDir '/GNG_IncorrGo_CountByBlock_run4.txt'], GNG_IncorrGo_CountByBlock_run4, 'delimiter','\t');
-dlmwrite([outputDir '/GNG_IncorrGo_CountByBlock_run5.txt'], GNG_IncorrGo_CountByBlock_run5, 'delimiter','\t');
+dlmwrite([outputDir '/GNG_IncorrGo_CountByBlock_block1.txt'], GNG_IncorrGo_CountByBlock_block1, 'delimiter','\t');
+dlmwrite([outputDir '/GNG_IncorrGo_CountByBlock_block2.txt'], GNG_IncorrGo_CountByBlock_block2, 'delimiter','\t');
+dlmwrite([outputDir '/GNG_IncorrGo_CountByBlock_block3.txt'], GNG_IncorrGo_CountByBlock_block3, 'delimiter','\t');
+dlmwrite([outputDir '/GNG_IncorrGo_CountByBlock_block4.txt'], GNG_IncorrGo_CountByBlock_block4, 'delimiter','\t');
+dlmwrite([outputDir '/GNG_IncorrGo_CountByBlock_block5.txt'], GNG_IncorrGo_CountByBlock_block5, 'delimiter','\t');
