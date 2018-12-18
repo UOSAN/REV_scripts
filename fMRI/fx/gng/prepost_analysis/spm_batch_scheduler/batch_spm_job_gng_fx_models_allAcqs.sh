@@ -33,7 +33,7 @@ REPLACESID='REV001'
 
 # Set MATLAB script path
 #COMPNAME=ralph #use this for help specifying paths to run locally
-SCRIPT=${STUDY}/REV_scripts/fMRI/fx/${TASK}/prepost_analyses/scripts/matlabbatch_job_${TASK}_allAcqs.m
+SCRIPT=${STUDY}/REV_scripts/fMRI/fx/${TASK}/prepost_analysis/scripts/matlabbatch_job_${TASK}_allAcqs.m
 
 #SPM Path
 SPM_PATH=/projects/sanlab/shared/spm12
@@ -42,18 +42,18 @@ SPM_PATH=/projects/sanlab/shared/spm12
 RESULTS_INFIX=fx_models
 
 # Set output dir
-if [ ! -d "${STUDY}/REV_scripts/fMRI/fx/${TASK}/prepost_analyses/scripts/output_logs" ]; then
-    mkdir -v "${STUDY}/REV_scripts/fMRI/fx/${TASK}/prepost_analyses/scripts/output_logs"
+if [ ! -d "${STUDY}/REV_scripts/fMRI/fx/${TASK}/prepost_analysis/scripts/output_logs" ]; then
+    mkdir -v "${STUDY}/REV_scripts/fMRI/fx/${TASK}/prepost_analysis/scripts/output_logs"
 fi
-OUTPUTDIR=${STUDY}/REV_scripts/fMRI/fx/${TASK}/prepost_analyses/scripts/output_logs
+OUTPUTDIR=${STUDY}/REV_scripts/fMRI/fx/${TASK}/prepost_analysis/scripts/output_logs
 
 # make sid_batch dir if doesn't exist
-if [ ! -d "${STUDY}/REV_scripts/fMRI/fx/${TASK}/prepost_analyses/scripts/sid_batches" ]; then
-    mkdir -v "${STUDY}/REV_scripts/fMRI/fx/${TASK}/prepost_analyses/scripts/sid_batches"
+if [ ! -d "${STUDY}/REV_scripts/fMRI/fx/${TASK}/prepost_analysis/scripts/sid_batches" ]; then
+    mkdir -v "${STUDY}/REV_scripts/fMRI/fx/${TASK}/prepost_analysis/scripts/sid_batches"
 fi
 
-if [ ! -d "${STUDY}/REV_scripts/fMRI/fx/${TASK}/prepost_analyses/scripts/sid_batches/matlab_job_gng" ]; then
-    mkdir -v "${STUDY}/REV_scripts/fMRI/fx/${TASK}/prepost_analyses/scripts/sid_batches/matlab_job_gng"
+if [ ! -d "${STUDY}/REV_scripts/fMRI/fx/${TASK}/prepost_analysis/scripts/sid_batches/matlab_job_gng" ]; then
+    mkdir -v "${STUDY}/REV_scripts/fMRI/fx/${TASK}/prepost_analysis/scripts/sid_batches/matlab_job_gng"
 fi
 
 # Set processor
@@ -74,14 +74,14 @@ mempercpu=3G
 if [ "${PROCESS}" == "slurm" ]; then 
 	for SUB in $SUBJLIST
 	do
-		if [ ! -d "${STUDY}/bids_data/derivatives/prepost_analyses/sub-${SUB}" ]; then
-    		mkdir -v "${STUDY}/bids_data/derivatives/prepost_analyses/sub-${SUB}"
+		if [ ! -d "${STUDY}/bids_data/derivatives/prepost_analysis/sub-${SUB}" ]; then
+    		mkdir -v "${STUDY}/bids_data/derivatives/prepost_analysis/sub-${SUB}"
 		fi
-		if [ ! -d "${STUDY}/bids_data/derivatives/prepost_analyses/sub-${SUB}/fx" ]; then
-    		mkdir -v "${STUDY}/bids_data/derivatives/prepost_analyses/sub-${SUB}/fx"
+		if [ ! -d "${STUDY}/bids_data/derivatives/prepost_analysis/sub-${SUB}/fx" ]; then
+    		mkdir -v "${STUDY}/bids_data/derivatives/prepost_analysis/sub-${SUB}/fx"
 		fi
-		if [ ! -d "${STUDY}/bids_data/derivatives/prepost_analyses/sub-${SUB}/fx/${TASK}" ]; then
-    		mkdir -v "${STUDY}/bids_data/derivatives/prepost_analyses/sub-${SUB}/fx/${TASK}"
+		if [ ! -d "${STUDY}/bids_data/derivatives/prepost_analysis/sub-${SUB}/fx/${TASK}" ]; then
+    		mkdir -v "${STUDY}/bids_data/derivatives/prepost_analysis/sub-${SUB}/fx/${TASK}"
 		fi
 	 echo "submitting via slurm"
 	 sbatch --export=ALL,REPLACESID=$REPLACESID,SCRIPT=$SCRIPT,SUB=$SUB,SPM_PATH=$SPM_PATH,PROCESS=$PROCESS  \
