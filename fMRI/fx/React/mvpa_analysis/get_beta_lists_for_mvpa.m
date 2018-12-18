@@ -43,9 +43,16 @@ for sub=1:height(SUBLIST)
     subBetas.condIdx=condIdx;
     subBetas.condnames=condnames;
 
+    
+    
     filename = strcat(SUBLIST{sub,:}, '.txt');
+    
+    if exist(filename,'file'),
+        filename=strcat('duplicate','_',filename);
+    end;
 
     cd(wdpath)
+    
     
     DumpStructToText(filename, subBetas, 0)
     
