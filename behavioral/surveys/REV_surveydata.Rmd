@@ -1457,6 +1457,11 @@ for (s in 1:length(survey_data$ID)) {
   
 }
 
+
+# Need to manually change '063' from _ATF to _F (filled out alcohol and tobacco in base survey but is only food categories)
+prcListForVecs[63,1] <- "_F"
+
+
 setwd(vecsDir)
 write.table(prcListForVecs, "prcListForVecs.txt", sep = "\t", row.names = FALSE, col.names = FALSE)
 ```
