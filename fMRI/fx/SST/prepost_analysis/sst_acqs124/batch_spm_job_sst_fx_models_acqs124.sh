@@ -20,7 +20,7 @@ STUDY=/projects/sanlab/shared/REV
 TASK='sst'
 
 # Set subject list
-SUBSET='acqs123'
+SUBSET='acqs124'
 SUBJLIST=`cat subject_list_${TASK}_${SUBSET}.txt`
 
 # Set script folder
