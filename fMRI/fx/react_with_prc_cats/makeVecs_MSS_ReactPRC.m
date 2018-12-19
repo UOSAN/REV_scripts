@@ -20,13 +20,13 @@ prcListForVecs = table2dataset(readtable([repodir 'prc_mappings/prcListForVecs.t
 %A: 0
 %D: 0
 %T: 2
-%F: 47
+%F: 49
 %AD: 3
 %AT: 4
 %AF: 13
 %DT: 2
 %DF: 11
-%TF: 21
+%TF: 19
 %ADT: 2
 %ADF: 6
 %ATF: 15
