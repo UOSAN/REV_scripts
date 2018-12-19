@@ -21,12 +21,11 @@ STUDY=/projects/sanlab/shared/REV
 SUBSET='allAcqs'
 SUBJLIST=`cat subject_list_gng_${SUBSET}.txt`
 
-
 # Set task
 TASK='gng'
 
 # Set script folder
-PATH2SCRIPTS=${PATH2SCRIPTS}
+PATH2SCRIPTS=${STUDY}/REV_scripts/fMRI/fx/gng/prepost_analysis${TASK}_${SUBSET}
 
 # Which SID should be replaced?
 REPLACESID='REV001'
