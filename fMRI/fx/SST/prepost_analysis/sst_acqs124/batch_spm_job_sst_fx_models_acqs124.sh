@@ -87,7 +87,7 @@ if [ "${PROCESS}" == "slurm" ]; then
          -o "${OUTPUTDIR}"/"${SUB}"_${RESULTS_INFIX}.log \
          --cpus-per-task=${cpuspertask} \
          --mem-per-cpu=${mempercpu} \
-         spm_job_${TASK}.sh
+         spm_job_"${TASK}".sh
      sleep .25
     done
 elif [ "${PROCESS}" == "serlocal" ]; then 
