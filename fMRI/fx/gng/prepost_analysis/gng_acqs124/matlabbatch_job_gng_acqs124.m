@@ -33,7 +33,7 @@ matlabbatch{6}.spm.util.exp_frames.files(1) = cfg_dep('Gunzip Files: Gunzipped F
 matlabbatch{6}.spm.util.exp_frames.frames = Inf;
 
 %% select acq-4 files
-matlabbatch{7}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {''/projects/sanlab/shared/REV/bids_data/derivatives/fmriprep/sub-REV001/ses-wave2/func'};
+matlabbatch{7}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {'/projects/sanlab/shared/REV/bids_data/derivatives/fmriprep/sub-REV001/ses-wave2/func'};
 matlabbatch{7}.cfg_basicio.file_dir.file_ops.file_fplist.filter = 'sub-REV001_ses-wave2_task-gng_acq-4_run-.*_bold_space-MNI152NLin2009cAsym_preproc.nii.gz';
 matlabbatch{7}.cfg_basicio.file_dir.file_ops.file_fplist.rec = 'FPList';
 
