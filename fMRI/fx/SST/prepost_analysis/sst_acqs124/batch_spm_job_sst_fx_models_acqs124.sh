@@ -95,7 +95,7 @@ elif [ "${PROCESS}" == "serlocal" ]; then
     for SUB in $SUBJLIST
     do
      echo "submitting locally"
-     bash spm_job_${TASK}.sh ${REPLACESID} ${SCRIPT} ${SUB} > "${OUTPUTDIR}"/"${SUBJ}"_${RESULTS_INFIX}_output.txt 2> /"${OUTPUTDIR}"/"${SUBJ}"_${RESULTS_INFIX}_error.txt
+     bash spm_job_${TASK}.sh ${REPLACESID} ${SCRIPT} ${SUB} > "${OUTPUTDIR}"/"${SUB}"_${RESULTS_INFIX}_output.txt 2> /"${OUTPUTDIR}"/"${SUB}"_${RESULTS_INFIX}_error.txt
     done
 elif [ "${PROCESS}" == "parlocal" ]; then 
     parallel --verbose --results "${OUTPUTDIR}"/{}_${RESULTS_INFIX}_output -j${MAXJOBS} bash spm_job_${TASK}.sh ${REPLACESID} ${SCRIPT} :::: ${SUBJTXT}
