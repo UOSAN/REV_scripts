@@ -17,15 +17,15 @@
 # Set your study
 STUDY=/projects/sanlab/shared/REV
 
-# Set subject list
-SUBSET='acqs234'
-SUBJLIST=`cat subject_list_gng_${SUBSET}.txt`
-
 # Set task
 TASK='sst'
 
+# Set subject list
+SUBSET='acqs123'
+SUBJLIST=`cat subject_list_${TASK}_${SUBSET}.txt`
+
 # Set script folder
-PATH2SCRIPTS=${STUDY}/REV_scripts/fMRI/fx/${TASK}/prepost_analysis/${TASK}_${SUBSET}
+PATH2SCRIPTS=${STUDY}/REV_scripts/fMRI/fx/SST/prepost_analysis/${TASK}_${SUBSET}
 
 # Which SID should be replaced?
 REPLACESID='REV001'
