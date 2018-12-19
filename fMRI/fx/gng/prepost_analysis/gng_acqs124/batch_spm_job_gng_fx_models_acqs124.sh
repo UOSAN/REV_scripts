@@ -18,22 +18,21 @@
 STUDY=/projects/sanlab/shared/REV
 
 # Set subject list
-SUBJLIST=`cat subject_list_gng_allAcqs.txt`
-# subject_list_gng_allAcqs.txt
-# subject_list_gng_acqs234.txt
-# subject_list_gng_acqs134.txt
-# subject_list_gng_acqs124.txt
-# subject_list_gng_acqs123.txt
+SUBSET='acqs124'
+SUBJLIST=`cat subject_list_gng_${SUBSET}.txt`
 
 # Set task
 TASK='gng'
+
+# Set script folder
+PATH2SCRIPTS=${PATH2SCRIPTS}
 
 # Which SID should be replaced?
 REPLACESID='REV001'
 
 # Set MATLAB script path
 #COMPNAME=ralph #use this for help specifying paths to run locally
-SCRIPT=${STUDY}/REV_scripts/fMRI/fx/${TASK}/prepost_analysis/scripts/matlabbatch_job_${TASK}_allAcqs.m
+SCRIPT=${PATH2SCRIPTS}/matlabbatch_job_${TASK}_${SUBSET}.m
 
 #SPM Path
 SPM_PATH=/projects/sanlab/shared/spm12
@@ -42,18 +41,18 @@ SPM_PATH=/projects/sanlab/shared/spm12
 RESULTS_INFIX=fx_models
 
 # Set output dir
-if [ ! -d "${STUDY}/REV_scripts/fMRI/fx/${TASK}/prepost_analysis/scripts/output_logs" ]; then
-    mkdir -v "${STUDY}/REV_scripts/fMRI/fx/${TASK}/prepost_analysis/scripts/output_logs"
+if [ ! -d "${PATH2SCRIPTS}/output_logs" ]; then
+    mkdir -v "${PATH2SCRIPTS}/output_logs"
 fi
-OUTPUTDIR=${STUDY}/REV_scripts/fMRI/fx/${TASK}/prepost_analysis/scripts/output_logs
+OUTPUTDIR=${PATH2SCRIPTS}/output_logs
 
 # make sid_batch dir if doesn't exist
-if [ ! -d "${STUDY}/REV_scripts/fMRI/fx/${TASK}/prepost_analysis/scripts/sid_batches" ]; then
-    mkdir -v "${STUDY}/REV_scripts/fMRI/fx/${TASK}/prepost_analysis/scripts/sid_batches"
+if [ ! -d "${PATH2SCRIPTS}/sid_batches" ]; then
+    mkdir -v "${PATH2SCRIPTS}/sid_batches"
 fi
 
-if [ ! -d "${STUDY}/REV_scripts/fMRI/fx/${TASK}/prepost_analysis/scripts/sid_batches/matlab_job_gng" ]; then
-    mkdir -v "${STUDY}/REV_scripts/fMRI/fx/${TASK}/prepost_analysis/scripts/sid_batches/matlab_job_gng"
+if [ ! -d "${PATH2SCRIPTS}/sid_batches/matlab_job_${TASK}" ]; then
+    mkdir -v "${PATH2SCRIPTS}/sid_batches/matlab_job_${TASK}"
 fi
 
 # Set processor
@@ -89,15 +88,15 @@ if [ "${PROCESS}" == "slurm" ]; then
 		 -o "${OUTPUTDIR}"/"${SUB}"_${RESULTS_INFIX}.log \
 		 --cpus-per-task=${cpuspertask} \
 		 --mem-per-cpu=${mempercpu} \
-		 spm_job_sst.sh
+		 spm_job_${TASK}.sh
 	 sleep .25
 	done
 elif [ "${PROCESS}" == "serlocal" ]; then 
 	for SUB in $SUBJLIST
 	do
 	 echo "submitting locally"
-	 bash spm_job_sst.sh ${REPLACESID} ${SCRIPT} ${SUB} > "${OUTPUTDIR}"/"${SUBJ}"_${RESULTS_INFIX}_output.txt 2> /"${OUTPUTDIR}"/"${SUBJ}"_${RESULTS_INFIX}_error.txt
+	 bash spm_job_${TASK}.sh ${REPLACESID} ${SCRIPT} ${SUB} > "${OUTPUTDIR}"/"${SUBJ}"_${RESULTS_INFIX}_output.txt 2> /"${OUTPUTDIR}"/"${SUBJ}"_${RESULTS_INFIX}_error.txt
 	done
 elif [ "${PROCESS}" == "parlocal" ]; then 
-	parallel --verbose --results "${OUTPUTDIR}"/{}_${RESULTS_INFIX}_output -j${MAXJOBS} bash spm_job_${TASK}.sh ${REPLACESID} ${SCRIPT} :::: subject_list_${TASK}_allAcqs.txt
+	parallel --verbose --results "${OUTPUTDIR}"/{}_${RESULTS_INFIX}_output -j${MAXJOBS} bash spm_job_${TASK}.sh ${REPLACESID} ${SCRIPT} :::: ${SUBJTXT}
 fi
