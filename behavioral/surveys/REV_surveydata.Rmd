@@ -1375,28 +1375,55 @@ subListFood <- matrix(0, length(survey_data$ID), 1)
 
 
 for (s in 1:length(survey_data$ID)) {
-  if (!is.na(survey_data$weighting_var_alcohol[s])) {
+  if (survey_data[s,3] == "yes") {
+    #probs_alcohol
     subListAlc[ctA,1] <- levels(survey_data$ID)[s]
     subListAlc[ctA,1] <- str_pad(subListAlc[ctA,1], 3, side = "left", pad = 0)
     ctA <- ctA + 1
-
   }
-  if (!is.na(survey_data$weighting_var_drugs[s])) {
+  if (any(survey_data[s,4:8] == "yes")) {
+    #probs_drugs
     subListDrug[ctD,1] <- levels(survey_data$ID)[s]
-    subListDrug[ctD,1] <- str_pad(subListDrug[ctD,1], 3, side = "left", pad = 0)
-    ctD <- ctD + 1
+     subListDrug[ctD,1] <- str_pad(subListDrug[ctD,1], 3, side = "left", pad = 0)
+     ctD <- ctD + 1
   }
-  if (!is.na(survey_data$weighting_var_tobacco[s])) {
+  if (survey_data[s,9] == "yes") {
+    #probs_tobacco
     subListTobac[ctT,1] <- levels(survey_data$ID)[s]
-    subListTobac[ctT,1] <- str_pad(subListTobac[ctT,1], 3, side = "left", pad = 0)
-    ctT <- ctT + 1
+     subListTobac[ctT,1] <- str_pad(subListTobac[ctT,1], 3, side = "left", pad = 0)
+     ctT <- ctT + 1
   }
-  if (!is.na(survey_data$weighting_var_food[s])) {
+  if (any(survey_data[s,10:15] == "yes")) {
+    #probs_food
     subListFood[ctF,1] <- levels(survey_data$ID)[s]
-    subListFood[ctF,1] <- str_pad(subListFood[ctF,1], 3, side = "left", pad = 0)
+     subListFood[ctF,1] <- str_pad(subListFood[ctF,1], 3, side = "left", pad = 0)
     ctF <- ctF + 1
   }
 }
+
+# for (s in 1:length(survey_data$ID)) {
+#   if (!is.na(survey_data$weighting_var_alcohol[s])) {
+#     subListAlc[ctA,1] <- levels(survey_data$ID)[s]
+#     subListAlc[ctA,1] <- str_pad(subListAlc[ctA,1], 3, side = "left", pad = 0)
+#     ctA <- ctA + 1
+# 
+#   }
+#   if (!is.na(survey_data$weighting_var_drugs[s])) {
+#     subListDrug[ctD,1] <- levels(survey_data$ID)[s]
+#     subListDrug[ctD,1] <- str_pad(subListDrug[ctD,1], 3, side = "left", pad = 0)
+#     ctD <- ctD + 1
+#   }
+#   if (!is.na(survey_data$weighting_var_tobacco[s])) {
+#     subListTobac[ctT,1] <- levels(survey_data$ID)[s]
+#     subListTobac[ctT,1] <- str_pad(subListTobac[ctT,1], 3, side = "left", pad = 0)
+#     ctT <- ctT + 1
+#   }
+#   if (!is.na(survey_data$weighting_var_food[s])) {
+#     subListFood[ctF,1] <- levels(survey_data$ID)[s]
+#     subListFood[ctF,1] <- str_pad(subListFood[ctF,1], 3, side = "left", pad = 0)
+#     ctF <- ctF + 1
+#   }
+# }
 
 subListAlc <- matrix(subListAlc[subListAlc != 0], ncol = 1)
 subListDrug <- matrix(subListDrug[subListDrug != 0], ncol = 1)
