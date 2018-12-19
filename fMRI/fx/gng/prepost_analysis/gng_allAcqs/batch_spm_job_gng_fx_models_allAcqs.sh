@@ -25,7 +25,7 @@ SUBJLIST=`cat subject_list_gng_${SUBSET}.txt`
 TASK='gng'
 
 # Set script folder
-PATH2SCRIPTS=${STUDY}/REV_scripts/fMRI/fx/gng/prepost_analysis${TASK}_${SUBSET}
+PATH2SCRIPTS=${STUDY}/REV_scripts/fMRI/fx/${TASK}/prepost_analysis/${TASK}_${SUBSET}
 
 # Which SID should be replaced?
 REPLACESID='REV001'
