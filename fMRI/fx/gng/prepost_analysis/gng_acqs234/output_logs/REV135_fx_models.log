@@ -2,7 +2,7 @@ REV001 /projects/sanlab/shared/REV/REV_scripts/fMRI/fx/gng/prepost_analysis/gng_
 -------------------------------------------------------------------------------
 REV135
 Running /projects/sanlab/shared/REV/REV_scripts/fMRI/fx/gng/prepost_analysis/gng_acqs234/matlabbatch_job_gng_acqs234.m
-Wed Dec 19 10:45:41 PST 2018
+Wed Dec 19 12:58:22 PST 2018
 -------------------------------------------------------------------------------
 
                             < M A T L A B (R) >
@@ -30,31 +30,14 @@ Running 'Expand image frames'
 Done    'Expand image frames'
 Running 'File Selector (Batch Mode)'
 Done    'File Selector (Batch Mode)'
-No executable modules, but still unresolved dependencies or incomplete module inputs.
-The following modules did not run:
-Skipped: Gunzip Files
-Skipped: Expand image frames
-Skipped: File Selector (Batch Mode)
-Skipped: Gunzip Files
-Skipped: Expand image frames
-Skipped: Smooth
-Skipped: Smooth
-Skipped: Smooth
-Skipped: File Selector (Batch Mode)
-Skipped: Gunzip Files
-Skipped: Expand image frames
-Skipped: File Selector (Batch Mode)
-Skipped: File Selector (Batch Mode)
-Skipped: File Selector (Batch Mode)
-Skipped: fMRI model specification
-Skipped: Model estimation
-Skipped: Contrast Manager
-
-{Error using MATLABbatch system
-Job execution failed. The full log of this run can be found in MATLAB command
-window, starting with the lines (look for the line showing the exact #job as
-displayed in this error message)
-------------------
-Running job #1
-------------------
-} 
+Running 'Gunzip Files'
+Done    'Gunzip Files'
+Running 'Expand image frames'
+Done    'Expand image frames'
+Running 'File Selector (Batch Mode)'
+Done    'File Selector (Batch Mode)'
+Running 'Gunzip Files'
+Done    'Gunzip Files'
+Running 'Expand image frames'
+Done    'Expand image frames'
+Running 'Smooth'
