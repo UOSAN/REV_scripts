@@ -24,6 +24,8 @@ credentials.yaml.DEFAULT
 **/.vscode
 
 ## Folders
+**/sid_batches/
+**/output_logs/
 **/__pycache__/*
 fmaptest/
 subjects/
