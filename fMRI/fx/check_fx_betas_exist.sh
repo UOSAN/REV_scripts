@@ -22,6 +22,18 @@ echo "-------------------Participants WITH beta maps-------------------" > $gng_
 echo "-------------------Participants MISSING beta maps-------------------" > $sst_errorlog 
 echo "-------------------Participants MISSING beta maps-------------------" > $gng_errorlog
 
+
+
+
+# now check the size of the array
+
+    echo "no such files"
+else
+    echo "at least one:"
+    printf "aaaaaaaaa %s\n" "${files[@]}"
+fi
+
+
 # Check whether each folder has beta maps
 cd $fx_outputdir
 for subdir in $(ls -d ${fx_outputdir} sub*); do 
@@ -32,10 +44,13 @@ for subdir in $(ls -d ${fx_outputdir} sub*); do
         if [ -d ${fx_outputdir}/${subdir}/fx/${task} ]; then
             echo $subdir > $outputlog_${task}
             cd ${fx_outputdir}/${subdir}/fx/${task}
-            if [[ -e beta*.nii ]]; then
-                echo ${subdir} >> $outputlog
+            shopt -s nullglob
+            files=(beta*.nii)
+            #if [[ -e beta*.nii ]]; then
+            if (( ${#files[@]} == 0 )); then
+                echo "${subdir}" >> $errorlog
             else
-                echo ${subdir} >> $errorlog
+                echo "${subdir}" "%s\n" "${files[@]}" >> $outputlog
             fi 
         fi
     done
