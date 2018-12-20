@@ -32,7 +32,7 @@ for subdir in $(ls -d ${fx_outputdir} sub*); do
         if [ -d ${fx_outputdir}/${subdir}/fx/${task} ]; then
             echo $subdir > $outputlog_${task}
             cd ${fx_outputdir}/${subdir}/fx/${task}
-            if [ -e beta*.nii ]; then
+            if [[ -e beta*.nii ]]; then
                 echo ${subdir} >> $outputlog
             else
                 echo ${subdir} >> $errorlog
