@@ -48,9 +48,9 @@ for subdir in $(ls -d ${fx_outputdir} sub*); do
             files=(beta*.nii)
             #if [[ -e beta*.nii ]]; then
             if (( ${#files[@]} == 0 )); then
-                echo "${subdir}" >> $errorlog
+                echo ${subdir} >> $errorlog
             else
-                echo "${subdir}" "%s\n" "${files[@]}" >> $outputlog
+                echo ${subdir} >> $outputlog
             fi 
         fi
     done
