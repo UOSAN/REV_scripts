@@ -18,7 +18,8 @@
 STUDY=/projects/sanlab/shared/REV
 
 # Set subject list
-SUBJLIST=`cat subject_list_react_both_acqs.txt`
+#SUBJLIST=`cat subject_list_react_both_acqs.txt`
+SUBJLIST=`subject_list_react_both_acqs_resubmit.txt`
 
 # Which SID should be replaced?
 REPLACESID='REV001'
