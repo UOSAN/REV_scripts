@@ -38,7 +38,7 @@ for subdir in $(ls -d ${fx_outputdir} sub*); do
             if (( ${#files[@]} == 0 )); then
                 echo "${subdir}" >> $errorlog
             else
-                echo "${subdir}" "%s\n" "${files[@]}">> $outputlog
+                echo "${subdir}" >> $outputlog
             fi 
         fi
     done
