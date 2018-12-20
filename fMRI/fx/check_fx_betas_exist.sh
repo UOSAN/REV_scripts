@@ -29,8 +29,6 @@ for subdir in $(ls -d ${fx_outputdir} sub*); do
     for task in ${tasks[@]}; do
         errorlog="${logdir}/missing_fx_files_${task}.txt"
         outputlog="${logdir}/extant_fx_files_${task}.txt"
-        echo "errorlog =" $errorlog
-        echo "outputlog =" $outputlog
         if [ -d ${fx_outputdir}/${subdir}/fx/${task} ]; then
             echo $subdir > $outputlog_${task}
             cd ${fx_outputdir}/${subdir}/fx/${task}
