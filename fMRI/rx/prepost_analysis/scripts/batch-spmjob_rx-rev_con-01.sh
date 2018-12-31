@@ -47,12 +47,12 @@ mempercpu=2G
 if [ "${PROCESS}" == "slurm" ]; then 
     echo "submitting via qsub" 
     module load matlab
-    sbatch --export=ALL  \
+    sbatch --export=ALL \
          --job-name=${RESULTS_INFIX} \
          -o "${OUTPUTDIR}"/rx-rev_${RESULTS_INFIX}.log \
          --cpus-per-task=${cpuspertask} \
          --mem-per-cpu=${mempercpu} \
-         matlab -nosplash -nodisplay -nodesktop "-singleCompThread" -r "clear; addpath('$SPM_PATH'); spm_jobman('initcfg'); script_file='$SCRIPT'; run('rx-rev_con-01.m'); spm_jobman('run',matlabbatch); exit"
+         run_con-01.sbatch
      sleep .25
 else
     exit
