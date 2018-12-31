@@ -26,4 +26,4 @@ if [ ! -d "${OUTPUTDIR}" ]; then
     mkdir -v "${OUTPUTDIR}"
 fi
 
-rx-rev_con-01.sbatch
+./rx-rev_con-01.sbatch
