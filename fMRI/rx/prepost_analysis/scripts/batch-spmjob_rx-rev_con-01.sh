@@ -35,7 +35,7 @@ RESULTS_INFIX=con-01
 # Set output dir
 OUTPUTDIR=/projects/sanlab/shared/REV/REV_scripts/fMRI/rx/prepost_analysis/con-01
 
-if [! -d "${OUTPUTDIR}" ]; then
+if [ ! -d "${OUTPUTDIR}" ]; then
     mkdir -v "${OUTPUTDIR}"
 fi
 
