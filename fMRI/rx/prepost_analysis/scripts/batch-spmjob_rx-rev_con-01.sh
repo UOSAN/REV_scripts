@@ -19,13 +19,13 @@ STUDY=/projects/sanlab/shared/REV
 SPM_PATH=/projects/sanlab/shared/spm12
 
 # Set MATLAB script path
-SCRIPT=${STUDY}/REV_scripts/fMRI/rx/scripts/rx-rev_con-01.m
+SCRIPT=${STUDY}/REV_scripts/fMRI/rx/prepost_analysis/scripts/rx-rev_con-01.m
 
 # Tag the results files
 RESULTS_INFIX=rx-rev_con-01
 
 # Set output dir
-OUTPUTDIR=${STUDY}/REV_scripts/fMRI/rx/con-01
+OUTPUTDIR=${STUDY}/REV_scripts/fMRI/rx/prepost_analysis/con-01
 
 
 # Max jobs only matters for par local
@@ -37,7 +37,7 @@ mempercpu=10G
 
 # Create and execute batch job
 echo "submitting via slurm"
-sbatch SCRIPT=$SCRIPT SPM_PATH=$SPM_PATH  \
+sbatch SCRIPT=$SCRIPT, SPM_PATH=$SPM_PATH  \
     --job-name=${RESULTS_INFIX} \
     -o "${OUTPUTDIR}"/"${RESULTS_INFIX}".log \
     --cpus-per-task=${cpuspertask} \
