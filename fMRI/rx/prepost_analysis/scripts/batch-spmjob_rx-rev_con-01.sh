@@ -19,7 +19,7 @@ STUDY=/projects/sanlab/shared/REV
 SPM_PATH=/projects/sanlab/shared/spm12
 
 # Set MATLAB script path
-SCRIPT=${STUDY}/REV_scripts/fMRI/rx/prepost_analysis/rx-rev_con-01.m
+SCRIPT=${STUDY}/REV_scripts/fMRI/rx/prepost_analysis/scripts/rx-rev_con-01.m
 
 # Tag the results files
 RESULTS_INFIX=rx-rev_con-01
@@ -31,6 +31,14 @@ if [ ! -d ${OUTPUTDIR} ]; then
     mkdir -v ${OUTPUTDIR}
 fi
 
+
+# Set processor
+# use "qsub" for HPC
+# use "local" for local machine
+# use "parlocal" for local parallel processing
+
+PROCESS=slurm
+
 # Max jobs only matters for par local
 MAXJOBS=8
 
@@ -39,11 +47,23 @@ cpuspertask=1
 mempercpu=10G
 
 # Create and execute batch job
-echo "submitting via slurm"
-sbatch SCRIPT=$SCRIPT, SPM_PATH=$SPM_PATH  \
-    --job-name=${RESULTS_INFIX} \
-    -o "${OUTPUTDIR}"/"${RESULTS_INFIX}".log \
-    --cpus-per-task=${cpuspertask} \
-    --mem-per-cpu=${mempercpu} \
-    spm_job.sh
-sleep .25
+if [ "${PROCESS}" == "slurm" ]; then
+    echo "submitting via slurm"
+    sbatch SCRIPT=$SCRIPT, SPM_PATH=$SPM_PATH  \
+        --job-name=${RESULTS_INFIX} \
+        -o "${OUTPUTDIR}"/"${RESULTS_INFIX}".log \
+        --cpus-per-task=${cpuspertask} \
+        --mem-per-cpu=${mempercpu} \
+        spm_job.sh
+    sleep .25
+
+elif [ "${PROCESS}" == "local" ]; then 
+	for SUB in $SUBJLIST
+	do
+	 echo "submitting locally"
+	 bash spm_job.sh ${REPLACESID} ${SCRIPT} ${SUB} > "${OUTPUTDIR}"/"${SUBJ}"_"${RESULTS_INFIX}"_output.txt 2> /"${OUTPUTDIR}"/"${SUBJ}"_"${RESULTS_INFIX}"_error.txt
+	done
+
+elif [ "${PROCESS}" == "parlocal" ]; then 
+	parallel --verbose --results "${OUTPUTDIR}"/{}_${RESULTS_INFIX}_output -j${MAXJOBS} bash spm_job.sh ${REPLACESID} ${SCRIPT} :::: subject_list.txt
+fi
