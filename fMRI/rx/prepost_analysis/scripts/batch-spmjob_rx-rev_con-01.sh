@@ -55,18 +55,16 @@ mempercpu=2G
 
 # Create and execute batch job
 if [ "${PROCESS}" == "slurm" ]; then 
- echo "submitting via qsub" 
- sbatch --export=SCRIPT=$SCRIPT,SPM_PATH=$SPM_PATH,PROCESS=$PROCESS  \
+    echo "submitting via qsub" 
+    sbatch --export=SCRIPT=$SCRIPT,SPM_PATH=$SPM_PATH,PROCESS=$PROCESS  \
          --job-name=${RESULTS_INFIX} \
          -o "${OUTPUTDIR}"/rx-rev_${RESULTS_INFIX}.log \
          --cpus-per-task=${cpuspertask} \
          --mem-per-cpu=${mempercpu} \
          spm_job.sh
      sleep .25
-    done
 elif [ "${PROCESS}" == "serlocal" ]; then 
-    for SUB in $SUBJLIST
-    do
+    for SUB in $SUBJLIST; do
      echo "submitting locally"
      bash spm_job.sh ${REPLACESID} ${SCRIPT} ${SUB} > "${OUTPUTDIR}"/"${SUBJ}"_${RESULTS_INFIX}_output.txt 2> /"${OUTPUTDIR}"/"${SUBJ}"_${RESULTS_INFIX}_error.txt
     done
