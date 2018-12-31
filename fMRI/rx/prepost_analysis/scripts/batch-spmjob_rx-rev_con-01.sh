@@ -19,7 +19,7 @@ STUDY=/projects/sanlab/shared/REV
 SPM_PATH=/projects/sanlab/shared/spm12
 
 # Set MATLAB script path
-SCRIPT=${STUDY}/REV_scripts/fMRI/rx/prepost_analysis/scripts/rx-rev_con-01.m
+SCRIPT=${STUDY}/REV_scripts/fMRI/rx/prepost_analysis/rx-rev_con-01.m
 
 # Tag the results files
 RESULTS_INFIX=rx-rev_con-01
@@ -27,6 +27,9 @@ RESULTS_INFIX=rx-rev_con-01
 # Set output dir
 OUTPUTDIR=${STUDY}/REV_scripts/fMRI/rx/prepost_analysis/con-01
 
+if [ ! -d ${OUTPUTDIR} ]; then
+    mkdir -v ${OUTPUTDIR}
+fi
 
 # Max jobs only matters for par local
 MAXJOBS=8
