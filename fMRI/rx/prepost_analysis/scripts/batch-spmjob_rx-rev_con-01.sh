@@ -13,7 +13,7 @@
 #--------------------------------------------------------------
 
 # Set your study
-STUDY=/projects/sanlab/shared/REV/
+STUDY=/projects/sanlab/shared/REV
 
 #SPM Path
 SPM_PATH=/projects/sanlab/shared/spm12
@@ -39,7 +39,7 @@ mempercpu=10G
 echo "submitting via slurm"
 sbatch SCRIPT=$SCRIPT,SPM_PATH=$SPM_PATH  \
     --job-name=${RESULTS_INFIX} \
-    -o "${OUTPUTDIR}"/"${SUB}"_"${RESULTS_INFIX}".log \
+    -o "${OUTPUTDIR}"/"${RESULTS_INFIX}".log \
     --cpus-per-task=${cpuspertask} \
     --mem-per-cpu=${mempercpu} \
     spm_job.sh
