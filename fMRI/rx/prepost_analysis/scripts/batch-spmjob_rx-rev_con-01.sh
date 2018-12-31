@@ -61,13 +61,8 @@ if [ "${PROCESS}" == "slurm" ]; then
          -o "${OUTPUTDIR}"/rx-rev_${RESULTS_INFIX}.log \
          --cpus-per-task=${cpuspertask} \
          --mem-per-cpu=${mempercpu} \
-         spm_job.sh
+         matlab -nosplash -nodisplay -nodesktop "-singleCompThread" -r "clear; addpath('$SPM_PATH'); spm_jobman('initcfg'); script_file='$SCRIPT'; run('rx-rev_con-01.m'); spm_jobman('run',matlabbatch); exit"
      sleep .25
-elif [ "${PROCESS}" == "serlocal" ]; then 
-    for SUB in $SUBJLIST; do
-     echo "submitting locally"
-     bash spm_job.sh ${REPLACESID} ${SCRIPT} ${SUB} > "${OUTPUTDIR}"/"${SUBJ}"_${RESULTS_INFIX}_output.txt 2> /"${OUTPUTDIR}"/"${SUBJ}"_${RESULTS_INFIX}_error.txt
-    done
-elif [ "${PROCESS}" == "parlocal" ]; then 
-    parallel --verbose --results "${OUTPUTDIR}"/{}_${RESULTS_INFIX}_output -j${MAXJOBS} bash spm_job.sh ${REPLACESID} ${SCRIPT} :::: subject_list.txt
+else
+    exit
 fi
