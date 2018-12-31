@@ -47,7 +47,7 @@ mempercpu=2G
 if [ "${PROCESS}" == "slurm" ]; then 
     echo "submitting via qsub" 
     module load matlab
-    sbatch --export=SCRIPT=$SCRIPT,SPM_PATH=$SPM_PATH,PROCESS=$PROCESS  \
+    sbatch --export=ALL  \
          --job-name=${RESULTS_INFIX} \
          -o "${OUTPUTDIR}"/rx-rev_${RESULTS_INFIX}.log \
          --cpus-per-task=${cpuspertask} \
