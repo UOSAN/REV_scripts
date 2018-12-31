@@ -13,17 +13,7 @@
 # D.Cos 2017.3.7
 #--------------------------------------------------------------
 
-
-# Set your study
-STUDY=tds/tds_repo
-
-# Set subject list
-SUBJLIST=`cat subject_list.txt`
-#Which SID should be replaced?
-REPLACESID='101'
-
 # Set MATLAB script path
-COMPNAME=ralph #use this for help specifying paths to run locally
 SCRIPT=/projects/sanlab/shared/REV/REV_scripts/fMRI/rx/prepost_analysis/scripts/rx-rev_con-01.m
 
 #SPM Path
