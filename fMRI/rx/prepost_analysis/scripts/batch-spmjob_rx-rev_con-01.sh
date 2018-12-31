@@ -56,6 +56,7 @@ mempercpu=2G
 # Create and execute batch job
 if [ "${PROCESS}" == "slurm" ]; then 
     echo "submitting via qsub" 
+    module load matlab
     sbatch --export=SCRIPT=$SCRIPT,SPM_PATH=$SPM_PATH,PROCESS=$PROCESS  \
          --job-name=${RESULTS_INFIX} \
          -o "${OUTPUTDIR}"/rx-rev_${RESULTS_INFIX}.log \
