@@ -26,6 +26,4 @@ if [ ! -d "${OUTPUTDIR}" ]; then
     mkdir -v "${OUTPUTDIR}"
 fi
 
---export=ALL
-
 rx-rev_con-01.sbatch
