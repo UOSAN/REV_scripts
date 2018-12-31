@@ -37,7 +37,7 @@ mempercpu=10G
 
 # Create and execute batch job
 echo "submitting via slurm"
-sbatch SCRIPT=$SCRIPT, SPM_PATH=$SPM_PATH  \
+sbatch SCRIPT=$SCRIPT SPM_PATH=$SPM_PATH  \
     --job-name=${RESULTS_INFIX} \
     -o "${OUTPUTDIR}"/"${RESULTS_INFIX}".log \
     --cpus-per-task=${cpuspertask} \
