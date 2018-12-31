@@ -27,12 +27,6 @@ RESULTS_INFIX=rx-rev_con-01
 # Set output dir
 OUTPUTDIR=${STUDY}/REV_scripts/fMRI/rx/con-01
 
-# Set processor
-# use "qsub" for HPC
-# use "local" for local machine
-# use "parlocal" for local parallel processing
-
-PROCESS=slurm
 
 # Max jobs only matters for par local
 MAXJOBS=8
@@ -42,12 +36,11 @@ cpuspertask=1
 mempercpu=10G
 
 # Create and execute batch job
-if [ "${PROCESS}" == "slurm" ]; then 
-	 echo "submitting via slurm"
-	 sbatch --export=REPLACESID=Duke,SCRIPT=$SCRIPT,SUB=Duke,SPM_PATH=$SPM_PATH,PROCESS=$PROCESS  \
-		 --job-name=${RESULTS_INFIX} \
-		 -o "${OUTPUTDIR}"/"${SUB}"_"${RESULTS_INFIX}".log \
-		 --cpus-per-task=${cpuspertask} \
-		 --mem-per-cpu=${mempercpu} \
-		 spm_job.sh
-	 sleep .25
+echo "submitting via slurm"
+sbatch SCRIPT=$SCRIPT,SPM_PATH=$SPM_PATH  \
+    --job-name=${RESULTS_INFIX} \
+    -o "${OUTPUTDIR}"/"${SUB}"_"${RESULTS_INFIX}".log \
+    --cpus-per-task=${cpuspertask} \
+    --mem-per-cpu=${mempercpu} \
+    spm_job.sh
+sleep .25
