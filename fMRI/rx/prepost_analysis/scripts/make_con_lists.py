@@ -87,7 +87,7 @@ def check_confiles(confiles, subject_dir_fullpaths, output_directory, task):
                 
 def create_confile_reports(output_directory, confile, subject_confile_fullpath, output_textfile, subject_dir_fullpath, task):
         if os.path.isfile(subject_confile_fullpath):
-            write_to_file(output_textfile, subject_confile_fullpath)
+            write_to_file(output_textfile, "'" + subject_confile_fullpath + "'")
         else:
             if os.path.isdir(os.path.join(subject_dir_fullpath, 'fx', task)):
                 confile_list_error_txt = os.path.join(output_directory, 'missing_' + confile[0:-4] + '.txt')
