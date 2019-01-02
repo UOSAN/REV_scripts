@@ -93,10 +93,6 @@ def create_confile_reports(output_directory, confile, subject_confile_fullpath, 
             if not os.path.isfile(confile_list_error_txt):
                 touch(confile_list_error_txt)
             write_to_file(confile_list_error_txt, subject_confile_fullpath)
-<<<<<<< HEAD
-main()
-=======
 
 
 main()
->>>>>>> c3a9c90219dfcded5386cbcb509a7f7b620bf0a4
