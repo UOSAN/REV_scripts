@@ -3,8 +3,8 @@
 % spm SPM - SPM12 (7219)
 % cfg_basicio BasicIO - Unknown
 %-----------------------------------------------------------------------
-matlabbatch{1}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {'/projects/sanlab/shared/REV/bids_data/derivatives/prepost_analysis'};
-matlabbatch{1}.cfg_basicio.file_dir.file_ops.file_fplist.filter = 'sub-REV.*/fx/gng/con_0001.nii';
+matlabbatch{1}.cfg_basicio.file_dir.file_ops.file_fplist.dir = {'/projects/sanlab/shared/REV/bids_data/derivatives/prepost_analysis/sub-REV.*/fx/gng/'};
+matlabbatch{1}.cfg_basicio.file_dir.file_ops.file_fplist.filter = 'con_0001.nii';
 matlabbatch{1}.cfg_basicio.file_dir.file_ops.file_fplist.rec = 'FPListRec';
 matlabbatch{2}.spm.stats.factorial_design.dir = {'/projects/sanlab/shared/REV/REV_scripts/fMRI/rx/prepost_analysis/con-01'};
 matlabbatch{2}.spm.stats.factorial_design.des.t1.scans(1) = cfg_dep('File Selector (Batch Mode): Selected Files (sub-REV.*/fx/gng/con_0001.nii)', substruct('.','val', '{}',{1}, '.','val', '{}',{1}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','files'));
