@@ -81,18 +81,19 @@ def check_confiles(confiles, subject_dir_fullpaths, output_directory, task):
             subject_confile_fullpath = os.path.join(subject_dir_fullpath, 'fx', task, confile)
             if not os.path.isfile(output_textfile):
                 touch(output_textfile)
-            create_confile_reports(output_directory, confile, subject_confile_fullpath, output_textfile)
+            create_confile_reports(output_directory, confile, subject_confile_fullpath, output_textfile, subject_dir_fullpath, task)
     print('Done. Reports can be found in ' + output_directory)
 
                 
-def create_confile_reports(output_directory, confile, subject_confile_fullpath, output_textfile):
+def create_confile_reports(output_directory, confile, subject_confile_fullpath, output_textfile, subject_dir_fullpath, task):
         if os.path.isfile(subject_confile_fullpath):
             write_to_file(output_textfile, subject_confile_fullpath)
         else:
-            confile_list_error_txt = os.path.join(output_directory, 'missing_' + confile[0:-4] + '.txt')
-            if os.path.isdir(os.path.join(subject_dir_fullpath, 'fx', task) and not os.path.isfile(confile_list_error_txt):
-                touch(confile_list_error_txt)
-            write_to_file(confile_list_error_txt, subject_confile_fullpath)
+            if os.path.isdir(os.path.join(subject_dir_fullpath, 'fx', task)):
+                confile_list_error_txt = os.path.join(output_directory, 'missing_' + confile[0:-4] + '.txt')
+                if not os.path.isfile(confile_list_error_txt):
+                    touch(confile_list_error_txt)
+                write_to_file(confile_list_error_txt, subject_confile_fullpath)
 
 
 main()
