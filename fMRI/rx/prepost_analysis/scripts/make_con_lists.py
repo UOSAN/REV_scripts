@@ -1,29 +1,27 @@
 import os
 
 
-
 def main():
     task = 'gng'
     study = 'REV'
     number_confiles = 12
     output_directory = os.path.join(os.path.sep, 'projects', 'sanlab', 'shared', study, study + '_scripts', 'fMRI', 'rx', 'prepost_analysis', 'scripts', 'confile_lists')
-    check_dirs(output_directory)
+    check_dir(output_directory)
     toplevel_dir_confiles = os.path.join(os.path.sep, 'projects', 'sanlab', 'shared', study, 'bids_data', 'derivatives', 'prepost_analysis')
     confiles = get_confiles(number_confiles)
     subject_dir_fullpaths = get_subject_dirs(toplevel_dir_confiles)
     check_confiles(confiles, subject_dir_fullpaths, output_directory, task)
 
 
-def check_dirs(dir_fullpaths:list):
+def check_dir(dir_fullpath:str):
     """
     Check if a directory exists. If not, create it.
 
-    @type dir_fullpaths:        list or string
-    @param dir_fullpaths:       Paths to directorys to check
+    @type dir_fullpaths:        string
+    @param dir_fullpaths:       Path to directory to check
     """
-    for dir_fullpath in dir_fullpaths:
-        if not os.path.isdir(dir_fullpath):
-            os.mkdir(dir_fullpath)
+    if not os.path.isdir(dir_fullpath):
+        os.mkdir(dir_fullpath)
 
 
 def touch(path:str):
@@ -75,6 +73,7 @@ def get_subject_dirs(toplevel_dir_confiles):
     subject_dir_fullpaths = [ os.path.join(toplevel_dir_confiles, d) for d in os.listdir(toplevel_dir_confiles) if 'sub-REV' in d]
     return subject_dir_fullpaths
 
+
 def check_confiles(confiles, subject_dir_fullpaths, output_directory, task):
     for subject_dir_fullpath in subject_dir_fullpaths:
         for confile in confiles:
@@ -94,4 +93,10 @@ def create_confile_reports(output_directory, confile, subject_confile_fullpath, 
             if not os.path.isfile(confile_list_error_txt):
                 touch(confile_list_error_txt)
             write_to_file(confile_list_error_txt, subject_confile_fullpath)
+<<<<<<< HEAD
 main()
+=======
+
+
+main()
+>>>>>>> c3a9c90219dfcded5386cbcb509a7f7b620bf0a4
