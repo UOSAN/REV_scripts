@@ -24,6 +24,7 @@ credentials.yaml.DEFAULT
 **/.vscode
 
 ## Folders
+**/con-*
 **/sid_batches/
 **/output_logs/
 **/__pycache__/*
