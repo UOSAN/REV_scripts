@@ -24,6 +24,7 @@ credentials.yaml.DEFAULT
 **/.vscode
 
 ## Folders
+**/confile_lists/
 **/con-*
 **/sid_batches/
 **/output_logs/
