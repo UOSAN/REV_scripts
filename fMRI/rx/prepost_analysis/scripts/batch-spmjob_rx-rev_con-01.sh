@@ -14,7 +14,7 @@
 #--------------------------------------------------------------
 
 # Set MATLAB script path
-SCRIPT=/projects/sanlab/shared/REV/REV_scripts/fMRI/rx/prepost_analysis/scripts/rx-rev_con-01.m
+SCRIPT=/projects/sanlab/shared/REV/REV_scripts/fMRI/rx/prepost_analysis/scripts/rx_rev_con_01.m
 
 #SPM Path
 SPM_PATH=/projects/sanlab/shared/spm12
