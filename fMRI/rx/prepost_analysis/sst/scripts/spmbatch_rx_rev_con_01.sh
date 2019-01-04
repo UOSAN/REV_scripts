@@ -14,7 +14,7 @@
 #--------------------------------------------------------------
 
 # Set MATLAB script path
-SCRIPT=/projects/sanlab/shared/REV/REV_scripts/fMRI/rx/prepost_analysis/scripts/rx_rev_con_01.m
+SCRIPT=/projects/sanlab/shared/REV/REV_scripts/fMRI/rx/prepost_analysis/scripts/sst/rx_rev_con_01.m
 
 #SPM Path
 SPM_PATH=/projects/sanlab/shared/spm12
@@ -23,7 +23,7 @@ SPM_PATH=/projects/sanlab/shared/spm12
 RESULTS_INFIX=con-01
 
 # Set output dir
-OUTPUTDIR=/projects/sanlab/shared/REV/REV_scripts/fMRI/rx/prepost_analysis/con-01
+OUTPUTDIR=/projects/sanlab/shared/REV/REV_scripts/fMRI/rx/prepost_analysis/sst/con-01
 
 if [ ! -d "${OUTPUTDIR}" ]; then
     mkdir -v "${OUTPUTDIR}"
