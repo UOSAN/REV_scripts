@@ -2,10 +2,10 @@ import os
 
 
 def main():
-    task = 'gng'
+    task = 'sst'
     study = 'REV'
     number_confiles = 12
-    output_directory = os.path.join(os.path.sep, 'projects', 'sanlab', 'shared', study, study + '_scripts', 'fMRI', 'rx', 'prepost_analysis', 'scripts', 'confile_lists')
+    output_directory = os.path.join(os.path.sep, 'projects', 'sanlab', 'shared', study, study + '_scripts', 'fMRI', 'rx', 'prepost_analysis', task, 'scripts', 'confile_lists')
     check_dir(output_directory)
     toplevel_dir_confiles = os.path.join(os.path.sep, 'projects', 'sanlab', 'shared', study, 'bids_data', 'derivatives', 'prepost_analysis')
     confiles = get_confiles(number_confiles)
