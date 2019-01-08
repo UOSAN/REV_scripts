@@ -8,11 +8,9 @@ def main():
     task = 'gng'
     study = 'REV'
     number_confiles = 12
-    output_directory = os.path.join(os.path.sep, 'Users', 'kristadestasio', 'Desktop', study + '_scripts', 'fMRI', 'rx', 'prepost_analysis', task, 'confile_lists')
-    #os.path.join(os.path.sep, 'projects', 'sanlab', 'shared', study, study + '_scripts', 'fMRI', 'rx', 'prepost_analysis', task, 'scripts', 'confile_lists')
+    output_directory = os.path.join(os.path.sep, 'projects', 'sanlab', 'shared', study, study + '_scripts', 'fMRI', 'rx', 'prepost_analysis', task, 'confile_lists')
     check_dir(output_directory)
-    toplevel_dir_confiles = os.path.join(os.path.sep, 'Users', 'kristadestasio', 'Desktop', 'bids_data', 'derivatives', 'prepost_analysis')
-    #os.path.join(os.path.sep, 'projects', 'sanlab', 'shared', study, 'bids_data', 'derivatives', 'prepost_analysis')
+    toplevel_dir_confiles = os.path.join(os.path.sep, 'projects', 'sanlab', 'shared', study, 'bids_data', 'derivatives', 'prepost_analysis')
     confiles = get_confiles(number_confiles)
     subject_dir_fullpaths = get_subject_dirs(toplevel_dir_confiles)
     check_confiles(confiles, subject_dir_fullpaths, output_directory, task)
