@@ -42,9 +42,9 @@ for subdir in $(ls -d ${fx_outputdir} sub*); do
         num_betas=${TASKBETAS[$i]}
         errorlog="${logdir}/missing_fx_files_${task}.txt"
         outputlog="${logdir}/extant_fx_files_${task}.txt"
-        if [ -d ${fx_outputdir}/${subdir}/fx ]; then
+        path="${fx_outputdir}/${subdir}/fx/${task}"
+        if [ -d $path ]; then
             echo $subdir > $outputlog_${task}
-            path="${fx_outputdir}/${subdir}/fx/${task}"
             cd $path
             shopt -s nullglob
             beta_files=(beta*.nii)
