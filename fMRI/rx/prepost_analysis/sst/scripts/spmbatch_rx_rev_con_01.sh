@@ -52,7 +52,7 @@ if [ "${PROCESS}" == "slurm" ]; then
          -o "${OUTPUTDIR}"/rx-rev_${RESULTS_INFIX}.log \
          --cpus-per-task=${cpuspertask} \
          --mem-per-cpu=${mempercpu} \
-         runscript_con_01.sbatch 
+         runscript_rev_rx.sbatch 
      sleep .25
 else
     exit
