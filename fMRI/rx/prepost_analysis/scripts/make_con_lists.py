@@ -94,19 +94,11 @@ def check_confiles(confiles, subject_dir_fullpaths, output_directory, task):
 
                 
 def create_confile_reports(output_directory, confile, subject_confile_fullpath, output_textfile, error_textfile, subject_dir_fullpath, task):
-        iter_exists = 0
-        iter_missing = 0
         if os.path.isfile(subject_confile_fullpath):
             write_to_file(output_textfile, "'" + subject_confile_fullpath + "'")
-            iter_exists = iter_exists + 1
         else:
             if os.path.isdir(os.path.join(subject_dir_fullpath, 'fx', task)):
                 write_to_file(error_textfile, subject_confile_fullpath)
-                iter_missing = iter_missing + 1
-        new_filename_exists = output_textfile[0:-4] + '_' + str(iter_exists) + 'subs' +  output_textfile[-4:len(output_textfile)]
-        new_filename_missing = error_textfile[0:-4] + '_' + str(iter_missing) + 'subs' +  error_textfile[-4:len(error_textfile)]
-        os.rename(output_textfile, new_filename_exists)
-        os.rename(error_textfile, new_filename_missing)
 
 
 main()
