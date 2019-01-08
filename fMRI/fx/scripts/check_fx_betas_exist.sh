@@ -1,13 +1,18 @@
 #!/bin/bash
 
+# This script checks that the expected number of beta nifti files 
+# (created during first level modeling) exist for each participant.
+# Two summary text files are created for each task - one listing subjects that have
+# the expected number of betas, and one that lists subjects with missing betas along with
+# the number of beta files they acutually have.
+
 # NOTE: run with the bash, rather than sh command
 # e.g. `bash check_fx_betas_exist.sh`
 
 echo $BASH_VERSION
 
 # Set paths and tasks
-fx_outputdir="/Users/kristadestasio/Desktop/bids_data/derivatives/prepost_analysis"
-#'/projects/sanlab/shared/REV/bids_data/derivatives/prepost_analysis'
+fx_outputdir="/projects/sanlab/shared/REV/bids_data/derivatives/prepost_analysis"
 logdir="${fx_outputdir}/logs"
 declare -A TASKBETAS=([sst]=64 [gng]=96) # the task(s) to check and its expected number of beta files
 
