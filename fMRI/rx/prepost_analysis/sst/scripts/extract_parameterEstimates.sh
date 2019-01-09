@@ -20,7 +20,7 @@ rois=(con_07_cluster_p001_k75) #roi masks (without file formate, specified below
 images=(con_0007.nii) #images to extract parameter estimates from (alt. example: images=`echo $(printf "beta_%04d.nii\n" {1..36}) $(printf "beta_%04d.nii\n" {43..78})`)
 
 # paths
-image_dir=/projects/sanlab/shared/REV/bids_data/derivatives/prepost_analysis/sub-"${SUB}" #fx directory
+image_dir=/projects/sanlab/shared/REV/bids_data/derivatives/prepost_analysis/sub-"${SUB}"/fx/sst #fx directory
 roi_dir=/projects/sanlab/shared/REV/REV_scripts/fMRI/rx/prepost_analysis/sst/con-07 #roi directory (alt. example: roi_dir=/projects/dsnlab/shared/FP/bids_data/derivatives/freesurfer/sub-"${SUB}"/mri/fromannots)
 output_dir=/projects/sanlab/shared/REV/REV_scripts/fMRI/roi/parameterEstimates #parameter estimate output directory
 
