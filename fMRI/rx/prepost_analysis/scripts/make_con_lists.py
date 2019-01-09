@@ -80,8 +80,8 @@ def get_subject_dirs(toplevel_dir_confiles):
 def check_confiles(confiles, subject_dir_fullpaths, output_directory, task):
     for subject_dir_fullpath in subject_dir_fullpaths:
         for confile in confiles:
-            output_textfile = os.path.join(output_directory, confile[0:-4] + datetime.now().strftime("%Y%m%d-%H%M") + '.txt')
-            error_textfile = os.path.join(output_directory, 'missing_' + confile[0:-4] + datetime.now().strftime("%Y%m%d-%H%M") + '.txt')
+            output_textfile = os.path.join(output_directory, confile[0:-4] + '_' + datetime.now().strftime("%Y%m%d-%H%M") + '.txt')
+            error_textfile = os.path.join(output_directory, 'missing_' + confile[0:-4] + '_' + datetime.now().strftime("%Y%m%d-%H%M") + '.txt')
             subject_confile_fullpath = os.path.join(subject_dir_fullpath, 'fx', task, confile)
             if not os.path.isfile(output_textfile):
                 touch(output_textfile)
