@@ -32,8 +32,8 @@ fi
 # ------------------------------------------------------------------------------------------
 for roi in ${rois[@]}; do 
 	3dAllineate -source "${roi_dir}"/"${roi}".nii -master "${image_dir}"/mask.nii -final NN -1Dparam_apply '1D: 12@0'\' -prefix "${roi_dir}"/aligned_"${roi}"
-	for beta in ${rois[@]}; do 
-	echo "${SUB}" "${beta}" "${roi}" `3dmaskave -sigma -quiet -mask "${roi_dir}"/aligned_"${roi}"+tlrc "${image_dir}"/"${beta}"` >> "${output_dir}"/"${SUB}"_parameterEstimates.txt
+	for image in ${images[@]}; do 
+	echo "${SUB}" "${image}" "${roi}" `3dmaskave -sigma -quiet -mask "${roi_dir}"/aligned_"${roi}"+tlrc "${image_dir}"/"${image}"` >> "${output_dir}"/"${SUB}"_parameterEstimates.txt
 	done
 done
 
