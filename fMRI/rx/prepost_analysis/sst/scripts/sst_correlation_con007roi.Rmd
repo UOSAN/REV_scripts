@@ -1,0 +1,68 @@
+---
+title: "sst_correlation_con007roi"
+author: "Krista DeStasio"
+date: "1/9/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+# Clear workspace
+rm(list = ls()) 
+
+# Set paths and working directory
+working_dir = '~/Desktop/REV_scripts/fMRI/rx/prepost_analysis/sst/scripts'
+path_behavioral_datafile = '~/Desktop/REV_scripts/behavioral/REV_SST/scripts/analyses/df_SSRT.Rda'
+path_parameterEstimates = '~/Desktop/parameterEstimates'
+setwd(working_dir)
+
+# Install and load required packages
+list.of.packages <- c('janitor', 'stringr')
+new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])] 
+if (length(new.packages)) install.packages(new.packages, repos = "http://cran.us.r-project.org")
+lapply(list.of.packages, library, character.only = TRUE)
+
+# Knit options
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+# Stop signal behavioral data with average SSRT at pre and post. 
+# Outliers already omitted in SSRT_results.rmd script
+load(path_behavioral_datafile)
+behavioral_data <- clean_names(df_SSRTallSubs[ which(!is.na(df_SSRTallSubs$prepost)), 
+                                   c(1:3, 9) ])
+rm(df_SSRTallSubs)
+
+# Read in the parameter estimates for the roi pulled from the fMRI data for contrast 007 T2(CorrectStop>IncorrectStop)>T1(CorrectStop>IncorrectStop)
+
+file_list = list.files(path_parameterEstimates, pattern = "*_parameterEstimates.txt",recursive = T)
+
+
+for (file in file_list) {
+    # if the merged dataset does exist, append to it
+    if (exists("parameter_estimates")) {
+        temp_dataset <- read.delim(paste0(path_parameterEstimates, '/', file), 
+                                   header = FALSE, sep = " ")
+        if (ncol(temp_dataset) == 5) {
+            parameter_estimates <- rbind(parameter_estimates, temp_dataset)
+            }
+        rm(temp_dataset)
+        }
+    # if the merged dataset doesn't exist, create it
+    if (!exists("parameter_estimates")) {
+        parameter_estimates <- read.delim(paste0(path_parameterEstimates, '/', file), 
+                                          header = FALSE, sep = " ")
+        }
+}
+
+colnames(parameter_estimates) <- c('id', 'contrast', 'roi', 'mean_intensity', 'sd_intensity')
+
+# make participant ids the same format in the behavioral and brain dataframes
+parameter_estimates$id <- gsub("[^0-9]", "", parameter_estimates$id) 
+behavioral_data$id <- str_pad(behavioral_data$id, 3, pad = "0")
+
+# Create a single dataframe with behavioral and roi data
+dataframe <- merge(behavioral_data, parameter_estimates, by = "id", all = TRUE)
+rm(behavioral_data, parameter_estimates)
+```
+
