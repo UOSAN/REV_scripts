@@ -163,48 +163,48 @@ matlabbatch{25}.spm.stats.fmri_est.spmmat(1) = cfg_dep('fMRI model specification
 matlabbatch{25}.spm.stats.fmri_est.write_residuals = 0;
 matlabbatch{25}.spm.stats.fmri_est.method.Classical = 1;
 
-%% specify the contrasts of interest
-matlabbatch{26}.spm.stats.con.spmmat(1) = cfg_dep('Model estimation: SPM.mat File', substruct('.','val', '{}',{25}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','spmmat'));
-matlabbatch{26}.spm.stats.con.consess{1}.tcon.name = '1_CorrectStop>CorrectGo';
-matlabbatch{26}.spm.stats.con.consess{1}.tcon.weights = [-0.25 0 0.25 0 0 0 0 0 0 0 0 0 0 0 0 -0.25 0 0.25 0 0 0 0 0 0 0 0 0 0 0 0 -0.25 0 0.25 0 0 0 0 0 0 0 0 0 0 0 0 -0.25 0 0.25 0 0 0 0 0 0 0 0 0 0 0 0];
-matlabbatch{26}.spm.stats.con.consess{1}.tcon.sessrep = 'none';
-
-matlabbatch{26}.spm.stats.con.consess{2}.tcon.name = '2_CorrectStop>IncorrectStop';
-matlabbatch{26}.spm.stats.con.consess{2}.tcon.weights = [0 0 0.25 0 -0.25 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0 -0.25 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0 -0.25 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0 -0.25 0 0 0 0 0 0 0 0 0 0];
-matlabbatch{26}.spm.stats.con.consess{2}.tcon.sessrep = 'none';
-
-matlabbatch{26}.spm.stats.con.consess{3}.tcon.name = '3_AnyStop>Baseline';
-matlabbatch{26}.spm.stats.con.consess{3}.tcon.weights = [0 0 0.125 0 0.125 0 0 0 0 0 0 0 0 0 0 0 0 0.125 0 0.125 0 0 0 0 0 0 0 0 0 0 0 0 0.125 0 0.125 0 0 0 0 0 0 0 0 0 0 0 0 0.125 0 0.125 0 0 0 0 0 0 0 0 0 0];
-matlabbatch{26}.spm.stats.con.consess{3}.tcon.sessrep = 'none';
-
-matlabbatch{26}.spm.stats.con.consess{4}.tcon.name = '4_CorrectGo>Baseline';
-matlabbatch{26}.spm.stats.con.consess{4}.tcon.weights = [0.25 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0 0 0 0 0 0 0 0 0 0 0 0 0 0];
-matlabbatch{26}.spm.stats.con.consess{4}.tcon.sessrep = 'none';
-
-matlabbatch{26}.spm.stats.con.consess{5}.tcon.name = '5_AnyStop>CorrectGo';
-matlabbatch{26}.spm.stats.con.consess{5}.tcon.weights = [-0.25 0 0.125 0 0.125 0 0 0 0 0 0 0 0 0 0 -0.25 0 0.125 0 0.125 0 0 0 0 0 0 0 0 0 0 -0.25 0 0.125 0 0.125 0 0 0 0 0 0 0 0 0 0 -0.25 0 0.125 0 0.125 0 0 0 0 0 0 0 0 0 0];
-matlabbatch{26}.spm.stats.con.consess{5}.tcon.sessrep = 'none';
-
-matlabbatch{26}.spm.stats.con.consess{6}.tcon.name = '6_T2(CorrectStop>CorrectGo)>T1(CorrectStop>CorrectGo)';
-matlabbatch{26}.spm.stats.con.consess{6}.tcon.weights = [0.25 0 -0.25 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0 -0.25 0 0 0 0 0 0 0 0 0 0 0 0 -0.25 0 0.25 0 0 0 0 0 0 0 0 0 0 0 0 -0.25 0 0.25 0 0 0 0 0 0 0 0 0 0 0 0];
-matlabbatch{26}.spm.stats.con.consess{6}.tcon.sessrep = 'none';
-
-matlabbatch{26}.spm.stats.con.consess{7}.tcon.name = '7_T2(CorrectStop>CorrectGo)>T1(CorrectStop>CorrectGo)';
-matlabbatch{26}.spm.stats.con.consess{7}.tcon.weights = [0 0 -0.25 0 0.25 0 0 0 0 0 0 0 0 0 0 0 0 -0.25 0 0.25 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0 -0.25 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0 -0.25 0 0 0 0 0 0 0 0 0 0];
-matlabbatch{26}.spm.stats.con.consess{7}.tcon.sessrep = 'none';
-
-matlabbatch{26}.spm.stats.con.consess{8}.tcon.name = '8_T2(AnyStop>CorrectGo)>T1(AnyStop>CorrectGo)';
-matlabbatch{26}.spm.stats.con.consess{8}.tcon.weights = [0.25 0 -0.125 0 -0.125 0 0 0 0 0 0 0 0 0 0 0.25 0 -0.125 0 -0.125 0 0 0 0 0 0 0 0 0 0 -0.25 0 0.125 0 0.125 0 0 0 0 0 0 0 0 0 0 -0.25 0 0.125 0 0.125 0 0 0 0 0 0 0 0 0 0];
-matlabbatch{26}.spm.stats.con.consess{8}.tcon.sessrep = 'none';
-
-matlabbatch{26}.spm.stats.con.consess{9}.tcon.name = '9_T2(Correct Stop)>T1(Correct Stop)';
-matlabbatch{26}.spm.stats.con.consess{9}.tcon.weights = [0.000	0.000	-0.500	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	-0.500	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.500	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.500	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000];
-matlabbatch{26}.spm.stats.con.consess{9}.tcon.sessrep = 'none';
-
-matlabbatch{26}.spm.stats.con.consess{10}.tcon.name = '10_T2(Any Stop)>T1(Any Stop)';
-matlabbatch{26}.spm.stats.con.consess{10}.tcon.weights = [0.000	0.000	-0.250	0.000	-0.250	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	-0.250	0.000	-0.250	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.250	0.000	0.250	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.250	0.000	0.250	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000];
-matlabbatch{26}.spm.stats.con.consess{10}.tcon.sessrep = 'none';
-
-matlabbatch{26}.spm.stats.con.delete = 0;
+% %% specify the contrasts of interest
+% matlabbatch{26}.spm.stats.con.spmmat(1) = cfg_dep('Model estimation: SPM.mat File', substruct('.','val', '{}',{25}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','spmmat'));
+% matlabbatch{26}.spm.stats.con.consess{1}.tcon.name = '1_CorrectStop>CorrectGo';
+% matlabbatch{26}.spm.stats.con.consess{1}.tcon.weights = [-0.25 0 0.25 0 0 0 0 0 0 0 0 0 0 0 0 -0.25 0 0.25 0 0 0 0 0 0 0 0 0 0 0 0 -0.25 0 0.25 0 0 0 0 0 0 0 0 0 0 0 0 -0.25 0 0.25 0 0 0 0 0 0 0 0 0 0 0 0];
+% matlabbatch{26}.spm.stats.con.consess{1}.tcon.sessrep = 'none';
+% 
+% matlabbatch{26}.spm.stats.con.consess{2}.tcon.name = '2_CorrectStop>IncorrectStop';
+% matlabbatch{26}.spm.stats.con.consess{2}.tcon.weights = [0 0 0.25 0 -0.25 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0 -0.25 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0 -0.25 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0 -0.25 0 0 0 0 0 0 0 0 0 0];
+% matlabbatch{26}.spm.stats.con.consess{2}.tcon.sessrep = 'none';
+% 
+% matlabbatch{26}.spm.stats.con.consess{3}.tcon.name = '3_AnyStop>Baseline';
+% matlabbatch{26}.spm.stats.con.consess{3}.tcon.weights = [0 0 0.125 0 0.125 0 0 0 0 0 0 0 0 0 0 0 0 0.125 0 0.125 0 0 0 0 0 0 0 0 0 0 0 0 0.125 0 0.125 0 0 0 0 0 0 0 0 0 0 0 0 0.125 0 0.125 0 0 0 0 0 0 0 0 0 0];
+% matlabbatch{26}.spm.stats.con.consess{3}.tcon.sessrep = 'none';
+% 
+% matlabbatch{26}.spm.stats.con.consess{4}.tcon.name = '4_CorrectGo>Baseline';
+% matlabbatch{26}.spm.stats.con.consess{4}.tcon.weights = [0.25 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0 0 0 0 0 0 0 0 0 0 0 0 0 0];
+% matlabbatch{26}.spm.stats.con.consess{4}.tcon.sessrep = 'none';
+% 
+% matlabbatch{26}.spm.stats.con.consess{5}.tcon.name = '5_AnyStop>CorrectGo';
+% matlabbatch{26}.spm.stats.con.consess{5}.tcon.weights = [-0.25 0 0.125 0 0.125 0 0 0 0 0 0 0 0 0 0 -0.25 0 0.125 0 0.125 0 0 0 0 0 0 0 0 0 0 -0.25 0 0.125 0 0.125 0 0 0 0 0 0 0 0 0 0 -0.25 0 0.125 0 0.125 0 0 0 0 0 0 0 0 0 0];
+% matlabbatch{26}.spm.stats.con.consess{5}.tcon.sessrep = 'none';
+% 
+% matlabbatch{26}.spm.stats.con.consess{6}.tcon.name = '6_T2(CorrectStop>CorrectGo)>T1(CorrectStop>CorrectGo)';
+% matlabbatch{26}.spm.stats.con.consess{6}.tcon.weights = [0.25 0 -0.25 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0 -0.25 0 0 0 0 0 0 0 0 0 0 0 0 -0.25 0 0.25 0 0 0 0 0 0 0 0 0 0 0 0 -0.25 0 0.25 0 0 0 0 0 0 0 0 0 0 0 0];
+% matlabbatch{26}.spm.stats.con.consess{6}.tcon.sessrep = 'none';
+% 
+% matlabbatch{26}.spm.stats.con.consess{7}.tcon.name = '7_T2(CorrectStop>CorrectGo)>T1(CorrectStop>CorrectGo)';
+% matlabbatch{26}.spm.stats.con.consess{7}.tcon.weights = [0 0 -0.25 0 0.25 0 0 0 0 0 0 0 0 0 0 0 0 -0.25 0 0.25 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0 -0.25 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0 -0.25 0 0 0 0 0 0 0 0 0 0];
+% matlabbatch{26}.spm.stats.con.consess{7}.tcon.sessrep = 'none';
+% 
+% matlabbatch{26}.spm.stats.con.consess{8}.tcon.name = '8_T2(AnyStop>CorrectGo)>T1(AnyStop>CorrectGo)';
+% matlabbatch{26}.spm.stats.con.consess{8}.tcon.weights = [0.25 0 -0.125 0 -0.125 0 0 0 0 0 0 0 0 0 0 0.25 0 -0.125 0 -0.125 0 0 0 0 0 0 0 0 0 0 -0.25 0 0.125 0 0.125 0 0 0 0 0 0 0 0 0 0 -0.25 0 0.125 0 0.125 0 0 0 0 0 0 0 0 0 0];
+% matlabbatch{26}.spm.stats.con.consess{8}.tcon.sessrep = 'none';
+% 
+% matlabbatch{26}.spm.stats.con.consess{9}.tcon.name = '9_T2(Correct Stop)>T1(Correct Stop)';
+% matlabbatch{26}.spm.stats.con.consess{9}.tcon.weights = [0.000	0.000	-0.500	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	-0.500	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.500	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.500	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000];
+% matlabbatch{26}.spm.stats.con.consess{9}.tcon.sessrep = 'none';
+% 
+% matlabbatch{26}.spm.stats.con.consess{10}.tcon.name = '10_T2(Any Stop)>T1(Any Stop)';
+% matlabbatch{26}.spm.stats.con.consess{10}.tcon.weights = [0.000	0.000	-0.250	0.000	-0.250	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	-0.250	0.000	-0.250	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.250	0.000	0.250	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.250	0.000	0.250	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000	0.000];
+% matlabbatch{26}.spm.stats.con.consess{10}.tcon.sessrep = 'none';
+% 
+% matlabbatch{26}.spm.stats.con.delete = 0;
 
 
