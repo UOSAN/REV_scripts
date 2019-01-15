@@ -1,45 +1,23 @@
 %-----------------------------------------------------------------------
-% Job configuration created by cfg_util (rev $Rev: 3944 $)
+% Job saved on 15-Jan-2019 10:27:41 by cfg_util (rev $Rev: 6942 $)
+% spm SPM - SPM12 (7219)
+% cfg_basicio BasicIO - Unknown
 %-----------------------------------------------------------------------
-matlabbatch{1}.cfg_basicio.load_vars.matname = {'/projects/sanlab/shared/REV/bids_data/derivatives/prepost_analysis/sub-REV001/fx/gng/regressors/customContrasts_sub-REV001_gng_prepost_analysis.mat'};
-matlabbatch{1}.cfg_basicio.load_vars.loadvars.varname = {
-    'contrastNames'
-    'contrastCellArray'
-    }';
-matlabbatch{2}.cfg_basicio.subsrefvar.input(1) = cfg_dep;
-matlabbatch{2}.cfg_basicio.subsrefvar.input(1).tname = 'Input variable';
-matlabbatch{2}.cfg_basicio.subsrefvar.input(1).tgt_spec{1}.name = 'class';
-matlabbatch{2}.cfg_basicio.subsrefvar.input(1).tgt_spec{1}.value = 'cfg_entry';
-matlabbatch{2}.cfg_basicio.subsrefvar.input(1).sname = 'Load Variables from .mat File: Loaded Variable ''contrastNames''';
-matlabbatch{2}.cfg_basicio.subsrefvar.input(1).src_exbranch = substruct('.','val', '{}',{1}, '.','val', '{}',{1});
-matlabbatch{2}.cfg_basicio.subsrefvar.input(1).src_output = substruct('{}',{1});
-matlabbatch{2}.cfg_basicio.subsrefvar.subsreference{1}.subsindc = {2};
-matlabbatch{2}.cfg_basicio.subsrefvar.tgt_spec.s{1}.name = 'strtype';
-matlabbatch{2}.cfg_basicio.subsrefvar.tgt_spec.s{1}.value = 's';
-matlabbatch{3}.cfg_basicio.subsrefvar.input(1) = cfg_dep;
-matlabbatch{3}.cfg_basicio.subsrefvar.input(1).tname = 'Input variable';
-matlabbatch{3}.cfg_basicio.subsrefvar.input(1).tgt_spec{1}.name = 'class';
-matlabbatch{3}.cfg_basicio.subsrefvar.input(1).tgt_spec{1}.value = 'cfg_entry';
-matlabbatch{3}.cfg_basicio.subsrefvar.input(1).sname = 'Load Variables from .mat File: Loaded Variable ''contrastCellArray''';
-matlabbatch{3}.cfg_basicio.subsrefvar.input(1).src_exbranch = substruct('.','val', '{}',{1}, '.','val', '{}',{1});
-matlabbatch{3}.cfg_basicio.subsrefvar.input(1).src_output = substruct('{}',{2});
-matlabbatch{3}.cfg_basicio.subsrefvar.subsreference{1}.subsindc = {2};
-matlabbatch{3}.cfg_basicio.subsrefvar.tgt_spec.e{1}.name = 'strtype';
-matlabbatch{3}.cfg_basicio.subsrefvar.tgt_spec.e{1}.value = 'e';
+matlabbatch{1}.cfg_basicio.var_ops.load_vars.matname = {'/projects/sanlab/shared/REV/REV_scripts/fMRI/fx/gng/prepost_analysis/flexibleConCreation/customCons/gng/prepost_analysis/customContrasts_sub-REV001_gng_prepost_analysis.mat'};
+matlabbatch{1}.cfg_basicio.var_ops.load_vars.loadvars.varname = {
+                                                                 ' contrastNames'
+                                                                 'contrastCellArray'
+                                                                 }';
+matlabbatch{2}.cfg_basicio.var_ops.subsrefvar.input(1) = cfg_dep('Load Variables from .mat File: Loaded Variable ''contrastCellArray''', substruct('.','val', '{}',{1}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('{}',{2}));
+matlabbatch{2}.cfg_basicio.var_ops.subsrefvar.subsreference{1}.subsindc = {2};
+matlabbatch{2}.cfg_basicio.var_ops.subsrefvar.tgt_spec.r{1}.name = 'strtype';
+matlabbatch{2}.cfg_basicio.var_ops.subsrefvar.tgt_spec.r{1}.value = 'r';
+matlabbatch{3}.cfg_basicio.var_ops.subsrefvar.input(1) = cfg_dep('Load Variables from .mat File: Loaded Variable '' contrastNames''', substruct('.','val', '{}',{1}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('{}',{1}));
+matlabbatch{3}.cfg_basicio.var_ops.subsrefvar.subsreference{1}.subsindc = {2};
+matlabbatch{3}.cfg_basicio.var_ops.subsrefvar.tgt_spec.s{1}.name = 'strtype';
+matlabbatch{3}.cfg_basicio.var_ops.subsrefvar.tgt_spec.s{1}.value = 's';
 matlabbatch{4}.spm.stats.con.spmmat = {'/projects/sanlab/shared/REV/bids_data/derivatives/prepost_analysis/sub-REV001/fx/gng/SPM.mat'};
-matlabbatch{4}.spm.stats.con.consess{1}.tcon.name(1) = cfg_dep;
-matlabbatch{4}.spm.stats.con.consess{1}.tcon.name(1).tname = 'Name';
-matlabbatch{4}.spm.stats.con.consess{1}.tcon.name(1).tgt_spec{1}.name = 'strtype';
-matlabbatch{4}.spm.stats.con.consess{1}.tcon.name(1).tgt_spec{1}.value = 's';
-matlabbatch{4}.spm.stats.con.consess{1}.tcon.name(1).sname = 'Access part of MATLAB variable: val{2}';
-matlabbatch{4}.spm.stats.con.consess{1}.tcon.name(1).src_exbranch = substruct('.','val', '{}',{2}, '.','val', '{}',{1});
-matlabbatch{4}.spm.stats.con.consess{1}.tcon.name(1).src_output = substruct('.','output');
-matlabbatch{4}.spm.stats.con.consess{1}.tcon.convec(1) = cfg_dep;
-matlabbatch{4}.spm.stats.con.consess{1}.tcon.convec(1).tname = 'T contrast vector';
-matlabbatch{4}.spm.stats.con.consess{1}.tcon.convec(1).tgt_spec{1}.name = 'strtype';
-matlabbatch{4}.spm.stats.con.consess{1}.tcon.convec(1).tgt_spec{1}.value = 'e';
-matlabbatch{4}.spm.stats.con.consess{1}.tcon.convec(1).sname = 'Access part of MATLAB variable: val{2}';
-matlabbatch{4}.spm.stats.con.consess{1}.tcon.convec(1).src_exbranch = substruct('.','val', '{}',{3}, '.','val', '{}',{1});
-matlabbatch{4}.spm.stats.con.consess{1}.tcon.convec(1).src_output = substruct('.','output');
+matlabbatch{4}.spm.stats.con.consess{1}.tcon.name(1) = cfg_dep('Access part of MATLAB variable: val{2}', substruct('.','val', '{}',{3}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','output'));
+matlabbatch{4}.spm.stats.con.consess{1}.tcon.weights(1) = cfg_dep('Access part of MATLAB variable: val{2}', substruct('.','val', '{}',{2}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','output'));
 matlabbatch{4}.spm.stats.con.consess{1}.tcon.sessrep = 'none';
 matlabbatch{4}.spm.stats.con.delete = 0;
