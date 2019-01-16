@@ -14,13 +14,12 @@ cpuspertask=1
 mempercpu=2G
 
 for SCRIPT in {SCRIPTS[@]}; do
-    echo $SCRIPT
     module load matlab
     sbatch --export=ALL \
          --job-name=${RESULTS_INFIX} \
          -o "${OUTPUTDIR}"/rx-rev_${RESULTS_INFIX}.log \
          --cpus-per-task=${cpuspertask} \
          --mem-per-cpu=${mempercpu} \
-         $script
+         spm_job_rx.sh 
      sleep .25
 done
