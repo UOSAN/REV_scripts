@@ -11,7 +11,7 @@ mempercpu=2G
 for SCRIPT in ${SCRIPTS[@]}; do
     echo $SCRIPT | cut -c8-13
     SUBSTR=$(echo $SCRIPT | cut -c8-13) 
-    OUTPUTDIR=/projects/sanlab/shared/REV/REV_scripts/fMRI/rx/prepost_analysis/${SUBSTR}
+    OUTPUTDIR=/projects/sanlab/shared/REV/REV_scripts/fMRI/rx/prepost_analysis/gng/${SUBSTR}
         if [ ! -d "${OUTPUTDIR}" ]; then
             mkdir -v "${OUTPUTDIR}"
         fi
