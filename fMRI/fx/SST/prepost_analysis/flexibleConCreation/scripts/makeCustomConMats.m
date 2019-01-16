@@ -5,11 +5,11 @@ studyName='REV';
 startSub=1;
 endSub=144;
 nSubs = endSub - startSub + 1;
-leadingZeros = 1; % Set this to 0 if you don't want leading 0s in your sub numbers (e.g. sub-004)
+leadingZeros = 2; % Set this to 0 if you don't want leading 0s in your sub numbers (e.g. sub-004)
 
 % Run info
 nRuns = 4; % Adjust as nec
-standardCondsPerRun = 9; % In the example, correct go, correct stop, failed stop, + cue
+standardCondsPerRun = 5; % In the example, correct go, correct stop, failed stop, + cue
 
 % Adding trash by condition or run
 nCondTrash = 1; % Change to 0 if no trash per cond (common cond trash: time derivatives)
@@ -21,16 +21,14 @@ standardNCols = nRuns*standardCondsPerRun;
 
 % Change this to the folder where your condsRemoved (output from makeVecs), contrastNames, and
 % contrastWeights files live:
-DIR.conInput = '~/Desktop/REV_scripts/fMRI/fx/gng/prepost_analysis/flexibleConCreation/conInfo'; 
+DIR.conInput = '~/Desktop/REV_scripts/fMRI/fx/sst/prepost_analysis/flexibleConCreation/conInfo'; 
 % Change this to the folder where you want your custom contrast output
 % files to live:
-DIR.conOutput = '~/Desktop/REV_scripts/fMRI/fx/gng/prepost_analysis/flexibleConCreation/customCons/';
+DIR.conOutput = '~/Desktop/REV_scripts/fMRI/fx/sst/prepost_analysis/flexibleConCreation/customCons/';
 
 outputFilename = 'customContrasts';
-% analysis = 'basic'; % Change this to specify which model these contrasts are for
-% task = 'template'; % Change this to your task name (part of input filenames)
 analysis = 'prepost_analysis';
-task = 'gng';
+task = 'sst';
 
 mkdir([DIR.conOutput filesep task filesep analysis]);
 
