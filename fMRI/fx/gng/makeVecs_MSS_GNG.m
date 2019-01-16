@@ -18,6 +18,9 @@ condsRemovedFile = [DIR.condsRemoved filesep 'condsRemoved_' task '_' analysis '
 DIR.runsRemoved = '~/Desktop/REV_scripts/fMRI/fx/gng/prepost_analysis/flexibleConCreation/nodCreation/input'; % CHANGE THIS
 runsRemovedFile = [DIR.runsRemoved filesep 'runsRemoved_' task '_' analysis '.txt'];
 
+% Output
+DIR.fx = [DIR.repo 'names_onsets_durations/' task '/' analysis];    % Where you want the names_onsets_durations files to be saved
+
 runsRemovedMat = dlmread(runsRemovedFile,'\t');
 
 % Initialize condsRemoved variable (to be edited + exported later) *LEK
@@ -102,7 +105,6 @@ else
                     endCol = r*standardCondsPerRun;
                     condsRemoved(s,startCol:endCol) = currentCondsRemoved;
                     
-                    DIR.fx = [DIR.repo 'names_onsets_durations/' task '/'];
                     if exist(DIR.fx)==7 %do nothing
                     else mkdir(DIR.fx)
                     end
