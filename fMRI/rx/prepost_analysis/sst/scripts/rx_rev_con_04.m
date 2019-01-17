@@ -3,7 +3,7 @@
 % spm SPM - SPM12 (7219)
 % cfg_basicio BasicIO - Unknown
 %-----------------------------------------------------------------------
-matlabbatch{1}.spm.stats.factorial_design.dir = {'/projects/sanlab/shared/REV/REV_scripts/fMRI/rx/prepost_analysis/sst/con-04'};
+matlabbatch{1}.spm.stats.factorial_design.dir = {'/projects/sanlab/shared/REV/REV_scripts/fMRI/rx/prepost_analysis/sst/con_04'};
 matlabbatch{1}.spm.stats.factorial_design.des.t1.scans = {'/projects/sanlab/shared/REV/bids_data/derivatives/prepost_analysis/sub-REV044/fx/sst/con_0004.nii',
 '/projects/sanlab/shared/REV/bids_data/derivatives/prepost_analysis/sub-REV114/fx/sst/con_0004.nii',
 '/projects/sanlab/shared/REV/bids_data/derivatives/prepost_analysis/sub-REV003/fx/sst/con_0004.nii',
