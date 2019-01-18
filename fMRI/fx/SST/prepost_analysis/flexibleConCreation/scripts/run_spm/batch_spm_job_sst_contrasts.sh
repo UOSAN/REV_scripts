@@ -16,7 +16,7 @@
 STUDY=/projects/sanlab/shared/REV
 SUBJLIST=`cat subject_list_sst.txt`
 TASK='sst'
-PATH2SCRIPTS=$STUDY/REV_scripts/fMRI/fx/sst/prepost_analysis/flexibleConCreation/scripts/run_spm
+PATH2SCRIPTS=$STUDY/REV_scripts/fMRI/fx/${TASK}/prepost_analysis/flexibleConCreation/scripts/run_spm
 REPLACESID='REV001' # Which SID should be replaced?
 SCRIPT=${PATH2SCRIPTS}/REV001_adjustedCons_prepost_analysis.m
 SPM_PATH=/projects/sanlab/shared/spm12

@@ -1,15 +1,12 @@
-% project
-studyName='REV';    
-
 % Subject info
 startSub=1;
 endSub=144;
 nSubs = endSub - startSub + 1;
-leadingZeros = 2; % Set this to 0 if you don't want leading 0s in your sub numbers (e.g. sub-004)
+leadingZeros = 1; % Set this to 0 if you don't want leading 0s in your sub numbers (e.g. sub-004)
 
-% Run info
-nRuns = 4; % Adjust as nec
-standardCondsPerRun = 5; % In the example, correct go, correct stop, failed stop, + cue
+% Run info - ADJUST FOR EACH TASK
+nRuns = 4; 
+standardCondsPerRun = 5; % 9 for gng, 5 for sst
 
 % Adding trash by condition or run
 nCondTrash = 1; % Change to 0 if no trash per cond (common cond trash: time derivatives)
@@ -21,12 +18,15 @@ standardNCols = nRuns*standardCondsPerRun;
 
 % Change this to the folder where your condsRemoved (output from makeVecs), contrastNames, and
 % contrastWeights files live:
-DIR.conInput = '~/Desktop/REV_scripts/fMRI/fx/sst/prepost_analysis/flexibleConCreation/conInfo'; 
+DIR.conInput = '~/Desktop/REV_scripts/fMRI/fx/sst/prepost_analysis/flexibleConCreation/conInfo/';
+DIR.condsRemoved = '~/Desktop/REV_BxData/info/';
 % Change this to the folder where you want your custom contrast output
 % files to live:
 DIR.conOutput = '~/Desktop/REV_scripts/fMRI/fx/sst/prepost_analysis/flexibleConCreation/customCons/';
 
 outputFilename = 'customContrasts';
+% analysis = 'basic'; % Change this to specify which model these contrasts are for
+% task = 'template'; % Change this to your task name (part of input filenames)
 analysis = 'prepost_analysis';
 task = 'sst';
 
@@ -34,9 +34,11 @@ mkdir([DIR.conOutput filesep task filesep analysis]);
 
 % Specify filenames for contrast input
 defaultConMatFile = [DIR.conInput filesep 'contrastWeights_' task '_' analysis '.txt'];
-condsRemovedFile = [DIR.conInput filesep 'condsRemoved_' task '_' analysis '.txt'];
-condsAddedByRunFile = [DIR.conInput filesep 'condsAddedByRun.txt'];
 contrastNamesFile = [DIR.conInput filesep 'contrastNames_' task '_' analysis '.txt'];
+condsRemovedFile = [DIR.condsRemoved filesep 'condsRemoved_' task '_' analysis '.txt'];
+if addCustomTrash
+    condsAddedByRunFile = [DIR.condsRemoved filesep 'condsAddedByRun.txt']; % usually won't exist
+end
 
 % Import sub x cond matrix specifying removed conditions
 condsRemoved = dlmread(condsRemovedFile,'\t');
@@ -194,5 +196,5 @@ for s=startSub:endSub
     end
     
     % Save individual subject's subConMat and contrastNames
-    save([DIR.conOutput filesep task filesep analysis filesep outputFilename '_sub-' studyName placeholder num2str(s) '_' task '_' analysis '.mat'],'finalConMat','contrastCellArray','contrastNames')
+    save([DIR.conOutput filesep task filesep analysis filesep outputFilename '_sub-' placeholder num2str(s) '_' task '_' analysis '.mat'],'finalConMat','contrastCellArray','contrastNames')
 end

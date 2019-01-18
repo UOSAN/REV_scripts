@@ -1,5 +1,5 @@
-numCons=12
-templateDir=~/Desktop/REV_scripts/fMRI/fx/gng/prepost_analysis/flexibleConCreation/spmFiles/templates/
+	numCons=10
+templateDir=~/Desktop/REV_scripts/fMRI/fx/sst/prepost_analysis/flexibleConCreation/spmFiles/templates/
 templateScriptFilename=REV001_prepost_analysis_runCon999.m
 fxSuffix=_prepost_analysis
 
