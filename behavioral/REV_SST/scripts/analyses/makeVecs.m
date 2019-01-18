@@ -1,29 +1,10 @@
-studyCode = 'REV';
 studyFolder = '~/Desktop/REV_scripts/behavioral/REV_SST/';
 cd([studyFolder '/output/analysisReady/'])
 numSubs = 144;
-firstSub = 1;
-lastSub = 144;
+% numRuns = 4;
 runs = [1 2 13 14];
 repodir = '~/Desktop/REV_BxData/'; %edit this path for your local computer
 exclude = []; %[4 5 7 8 12 14 15 25 28 30 33 40 42 45 61 63 64 66 71 72 79 81 83 85 87 92 95 96 99 101 103 105 106 112 113 120 122 123 125 128 132 133 139 143]; % If you want to exclude any numbers, put them in this vector (e.g. exclude = [5 20];)
-analysis = 'prepost_analysis';
-task = 'SST';
-dataFolder = ['~/Desktop/REV_BxData/data/' task ];
-
-
-% List names of all conditions, assuming all exist *LEK
-standardNames = {'CorrectGo','CorrectStop','FailedStop','Cue','FailedGo'}; % baseline is crosshair and instructions
-standardCondsPerRun = length(standardNames);
-
-% Import sub x cond matrix specifying removed conditions *LEK
-DIR.condsRemoved = '~/Desktop/REV_BxData/names_onsets_durations'; % CHANGE THIS
-condsRemovedFile = [DIR.condsRemoved filesep 'condsRemoved_sst_' analysis '.txt'];
-
-% Initialize condsRemoved variable (to be edited + exported later) *LEK
-nSubs = lastSub-firstSub+1;
-nCols = length(runs)*standardCondsPerRun;
-condsRemoved = nan(nSubs,nCols);
 
 % These two codes should reflect what's in the response column of the Seeker variable
 % You'll specify exceptions to this rule below
@@ -95,9 +76,9 @@ for s=1:numSubs
                 end
                 
                 % Initialize names, onsets, durations variables
-                names = standardNames;
-                onsets = cell(1,length(names));
-                durations = cell(1,length(names));
+                names = {'CorrectGo' 'CorrectStop' 'FailedStop' 'Cue'}; % will append FailedGo as necessary
+                onsets = cell(1,4);
+                durations = cell(1,4);
                 
                 
                 % Get vectors of trial info
@@ -160,24 +141,10 @@ for s=1:numSubs
                     FailedGoCount(s,r)=sum(isIncorrectGo);
                 end
                 
-                % Determine which conditions to remove *LEK
-                currentCondsRemoved = cellfun('isempty',onsets);
-                
-                % Remove empty onsets/durations vectors + associated names *LEK
-                names = names(~currentCondsRemoved);
-                onsets = onsets(~currentCondsRemoved);
-                durations = durations(~currentCondsRemoved);
-                
-                % Insert list of condsRemoved for this run into condsRemoved variable *LEK
-                startCol = 1 + (r-1)*standardCondsPerRun;
-                endCol = r*standardCondsPerRun;
-                condsRemoved(s,startCol:endCol) = currentCondsRemoved;
-                
                 fxFolder = [repodir 'names_onsets_durations/SST/'];
                 if exist(fxFolder)==7 %do nothing
                 else mkdir(fxFolder)
                 end
-                
                 save([fxFolder 'sub-' subjectCode '_task-sst_acq-' num2str(r) '_onsets.mat'],'names','onsets','durations');
                 
             end % file exists if 
@@ -186,8 +153,5 @@ for s=1:numSubs
 end % subject loop
 
 dlmwrite([studyFolder '/compiledResults/upTo' studyPrefix placeholder num2str(numSubs) '/initialCheck/FailedGoCount_scanning.txt'],FailedGoCount,'delimiter','\t');
-
-% Export matrix of condsRemoved all subs, all runs *LEK
-dlmwrite(condsRemovedFile,condsRemoved,'delimiter','\t'); 
 
 clear
