@@ -196,5 +196,5 @@ for s=startSub:endSub
     end
     
     % Save individual subject's subConMat and contrastNames
-    save([DIR.conOutput filesep task filesep analysis filesep outputFilename '_sub-' placeholder num2str(s) '_' task '_' analysis '.mat'],'finalConMat','contrastCellArray','contrastNames')
+    save([DIR.conOutput filesep task filesep analysis filesep outputFilename '_sub-REV' placeholder num2str(s) '_' task '_' analysis '.mat'],'finalConMat','contrastCellArray','contrastNames')
 end
