@@ -5,9 +5,9 @@ def main():
     """
     Create a text file that lists the full path to first level model contrast files - one text file per contrast.  
     """
-    task = 'gng'
+    task = 'sst'
     study = 'REV'
-    number_confiles = 12
+    number_confiles = 10
     output_directory = os.path.join(os.path.sep, 'projects', 'sanlab', 'shared', study, study + '_scripts', 'fMRI', 'rx', 'prepost_analysis', task, 'confile_lists')
     check_dir(output_directory)
     toplevel_dir_confiles = os.path.join(os.path.sep, 'projects', 'sanlab', 'shared', study, 'bids_data', 'derivatives', 'prepost_analysis')
