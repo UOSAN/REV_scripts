@@ -1,6 +1,8 @@
 #!/bin/bash
 
-SCRIPTS=("rx_rev_con_01.m" "rx_rev_con_02.m" "rx_rev_con_03.m" "rx_rev_con_04.m" "rx_rev_con_05.m" "rx_rev_con_06.m" "rx_rev_con_07.m" "rx_rev_con_08.m" "rx_rev_con_09.m" "rx_rev_con_10.m")
+SCRIPTS=("rx_rev_con_07.m")
+#("rx_rev_con_07_ssrtCovariate.m")
+#("rx_rev_con_01.m" "rx_rev_con_02.m" "rx_rev_con_03.m" "rx_rev_con_04.m" "rx_rev_con_05.m" "rx_rev_con_06.m" "rx_rev_con_07.m" "rx_rev_con_08.m" "rx_rev_con_09.m" "rx_rev_con_10.m")
 SPM_PATH=/projects/sanlab/shared/spm12
 RESULTS_INFIX=rev_rx
 
