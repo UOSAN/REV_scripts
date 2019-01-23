@@ -1,8 +1,6 @@
 #!/bin/bash
 
-SCRIPTS=("rx_rev_con_07.m")
-#("rx_rev_con_07_ssrtCovariate.m")
-#("rx_rev_con_01.m" "rx_rev_con_02.m" "rx_rev_con_03.m" "rx_rev_con_04.m" "rx_rev_con_05.m" "rx_rev_con_06.m" "rx_rev_con_07.m" "rx_rev_con_08.m" "rx_rev_con_09.m" "rx_rev_con_10.m")
+SCRIPTS=("rx_rev_con_01.m", "rx_rev_con_02.m", "rx_rev_con_03.m", "rx_rev_con_04.m", "rx_rev_con_05.m", "rx_rev_con_06.m", "rx_rev_con_07_ssrtCovariate.m", "rx_rev_con_07.m", "rx_rev_con_08.m", "rx_rev_con_09.m", "rx_rev_con_10.m", "rx_rev_con_11.m", "rx_rev_con_12.m", "rx_rev_con_13.m", "rx_rev_con_14.m", "rx_rev_con_15.m", "rx_rev_con_16.m", "rx_rev_con_17.m", "rx_rev_con_18.m", "rx_rev_con_19.m", "rx_rev_con_20.m")
 SPM_PATH=/projects/sanlab/shared/spm12
 RESULTS_INFIX=rev_rx
 
@@ -11,8 +9,11 @@ cpuspertask=1
 mempercpu=2G
 
 for SCRIPT in ${SCRIPTS[@]}; do
-    echo $SCRIPT | cut -c8-13
-    SUBSTR=$(echo $SCRIPT | cut -c8-13) 
+    if [[ $SCRIPT == *"Covariate"* ]]; then 
+        SUBSTR=$(echo $SCRIPT | cut -c8-27)
+    else
+        SUBSTR=$(echo $SCRIPT | cut -c8-13) 
+    fi
     OUTPUTDIR=/projects/sanlab/shared/REV/REV_scripts/fMRI/rx/prepost_analysis/sst/${SUBSTR}
         if [ ! -d "${OUTPUTDIR}" ]; then
             mkdir -v "${OUTPUTDIR}"
