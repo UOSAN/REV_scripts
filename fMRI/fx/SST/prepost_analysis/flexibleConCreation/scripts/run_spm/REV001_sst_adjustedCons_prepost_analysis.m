@@ -20,7 +20,7 @@ matlabbatch{4}.spm.stats.con.spmmat = {'/projects/sanlab/shared/REV/bids_data/de
 matlabbatch{4}.spm.stats.con.consess{1}.tcon.name(1) = cfg_dep('Access part of MATLAB variable: val{1}', substruct('.','val', '{}',{3}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','output'));
 matlabbatch{4}.spm.stats.con.consess{1}.tcon.weights(1) = cfg_dep('Access part of MATLAB variable: val{1}', substruct('.','val', '{}',{2}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','output'));
 matlabbatch{4}.spm.stats.con.consess{1}.tcon.sessrep = 'none';
-matlabbatch{4}.spm.stats.con.delete = 0;
+matlabbatch{4}.spm.stats.con.delete = 1;
 matlabbatch{5}.cfg_basicio.var_ops.load_vars.matname = {'/projects/sanlab/shared/REV/REV_scripts/fMRI/fx/SST/prepost_analysis/flexibleConCreation/customCons/sst/prepost_analysis/customContrasts_sub-REV001_sst_prepost_analysis.mat'};
 matlabbatch{5}.cfg_basicio.var_ops.load_vars.loadvars.varname = {
                                                                  'contrastNames'
