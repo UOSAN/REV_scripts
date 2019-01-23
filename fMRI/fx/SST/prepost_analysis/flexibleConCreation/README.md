@@ -6,17 +6,10 @@ FIRST:
 - This set of scripts requires that you already have an estimated SPM.mat that you'd like to run contrasts on.
 
 TO CREATE CONTRAST VARS:
-<<<<<<< HEAD
 - (1) create txt file: `contrastNames_analysis.txt`, one contrast name per line (example in `flexibleConCreation/conInfo/`)
 - (2) create txt file: `contrastWeights_analysis.txt`, a matrix of weights, one contrast per line, tab delimited (example in `flexibleConCreation/conInfo/`)
 - (3) create txt file: condsRemoved_analysis.txt, a sub x cond matrix specifying missing (1) and existing (0) conditions (example in `flexibleConCreation/conInfo/`). Use the `makeVecs_SST.m` script to create it for SST or GNG.  
 - (4) make contrast mats for each sub, using matlab script `scripts/makeCustomConMats.m` (output goes to `flexibleConCreation/customCons/`, but you should change that)
-=======
-- (1) create txt file: contrastNames_analysis.txt, one contrast name per line (example in flexibleConCreation/conInfo/)
-- (2) create txt file: contrastWeights_analysis.txt, a matrix of weights, one contrast per line, tab delimited (example in flexibleConCreation/conInfo/)
-- (3) create txt file: condsRemoved_analysis.txt, a sub x cond matrix specifying missing (1) and existing (0) conditions (example in flexibleConCreation/conInfo/)
-- (4) make contrast mats for each sub, using matlab script scripts/makeCustomConMats.m (output goes to flexibleConCreation/customCons/, but you should change that)
->>>>>>> 8c94dbdb7d500ee83cf45a54a7f9eb4f387ec539
 
 
 STOP!
@@ -32,7 +25,6 @@ NOTE:
 - Finally, we replicate across subs as we usually would.
 
 MAKE CONTRAST TEMPLATE FOR SUB 1, CON999:
-<<<<<<< HEAD
 - An example is in `spmFiles/templates/`
 - Should have index 999 at the end of the filename
 - It will use "load matlab variables" and "access matlab variables" modules.
@@ -42,17 +34,6 @@ MAKE CONTRAST TEMPLATE FOR SUB 1, CON999:
 
 CREATE TEMPLATE FOR SUB 1:
 - Replicate the contrast template script you just made, for contrasts 1 through N, using the bash code in `scripts/replicateConJobs.txt`
-=======
-- An example is in spmFiles/templates/
-- Should have index 999 at the end of the filename
-- It will use "load matlab variables" and "access matlab variables" modules.
-- YOU MUST:
-(1) Update the path to the customContrasts .mat file for that subject
-(2) Update the path for the SPM.mat that was created from your model specification/estimation for that subject
-
-CREATE TEMPLATE FOR SUB 1:
-- Replicate the contrast template script you just made, for contrasts 1 through N, using the bash code in scripts/replicateConJobs.txt
->>>>>>> 8c94dbdb7d500ee83cf45a54a7f9eb4f387ec539
 - It's really primitive and uses "sed" to replace contrast numbers, but it works!
 - Just copy and paste the code from the text file into the terminal, + it'll be nearly instantaneous
 - You should now have N contrast scripts, for contrasts 1 thru N, for subject 1

@@ -16,8 +16,8 @@ echo ---------------------------------------------------------------------------
 # Set paths and variables
 # ------------------------------------------------------------------------------------------
 # variables
-rois=(con_07_cluster_p001_k75) #roi masks (without file formate, specified below as .nii)
-images=(con_0007.nii) #images to extract parameter estimates from (alt. example: images=`echo $(printf "beta_%04d.nii\n" {1..36}) $(printf "beta_%04d.nii\n" {43..78})`)
+rois=(con_07_cluster_p001_k75) #roi masks (without file format, specified below as .nii)
+images=(con_0012.nii con_0017.nii) #images to extract parameter estimates from (alt. example: images=`echo $(printf "beta_%04d.nii\n" {1..36}) $(printf "beta_%04d.nii\n" {43..78})`)
 
 # paths
 image_dir=/projects/sanlab/shared/REV/bids_data/derivatives/prepost_analysis/sub-"${SUB}"/fx/sst #fx directory
