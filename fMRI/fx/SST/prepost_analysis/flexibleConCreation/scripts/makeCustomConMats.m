@@ -18,11 +18,11 @@ standardNCols = nRuns*standardCondsPerRun;
 
 % Change this to the folder where your condsRemoved (output from makeVecs), contrastNames, and
 % contrastWeights files live:
-DIR.conInput = '~/Desktop/REV_scripts/fMRI/fx/sst/prepost_analysis/flexibleConCreation/conInfo/';
+DIR.conInput = '~/Desktop/REV_scripts/fMRI/fx/SST/prepost_analysis/flexibleConCreation/conInfo/';
 DIR.condsRemoved = '~/Desktop/REV_BxData/info/';
 % Change this to the folder where you want your custom contrast output
 % files to live:
-DIR.conOutput = '~/Desktop/REV_scripts/fMRI/fx/sst/prepost_analysis/flexibleConCreation/customCons/';
+DIR.conOutput = '~/Desktop/REV_scripts/fMRI/fx/SST/prepost_analysis/flexibleConCreation/customCons/';
 
 outputFilename = 'customContrasts';
 % analysis = 'basic'; % Change this to specify which model these contrasts are for
