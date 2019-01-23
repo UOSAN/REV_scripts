@@ -1,9 +1,9 @@
 %-----------------------------------------------------------------------
-% Job saved on 18-Jan-2019 10:09:26 by cfg_util (rev $Rev: 6942 $)
+% Job saved on 22-Jan-2019 17:27:06 by cfg_util (rev $Rev: 6942 $)
 % spm SPM - SPM12 (7219)
 % cfg_basicio BasicIO - Unknown
 %-----------------------------------------------------------------------
-matlabbatch{1}.cfg_basicio.var_ops.load_vars.matname = {'/projects/sanlab/shared/REV/REV_scripts/fMRI/fx/SST/prepost_analysis/flexibleConCreation/customCons/sst/prepost_analysis/customContrasts_sub-REV001_sst_prepost_analysis.mat'};
+matlabbatch{1}.cfg_basicio.var_ops.load_vars.matname = {'/projects/sanlab/shared/REV/REV_scripts/fMRI/fx/sst/prepost_analysis/flexibleConCreation/customCons/sst/prepost_analysis/customContrasts_sub-REV001_sst_prepost_analysis.mat'};
 matlabbatch{1}.cfg_basicio.var_ops.load_vars.loadvars.varname = {
                                                                  'contrastNames'
                                                                  'contrastCellArray'
@@ -21,7 +21,7 @@ matlabbatch{4}.spm.stats.con.consess{1}.tcon.name(1) = cfg_dep('Access part of M
 matlabbatch{4}.spm.stats.con.consess{1}.tcon.weights(1) = cfg_dep('Access part of MATLAB variable: val{1}', substruct('.','val', '{}',{2}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','output'));
 matlabbatch{4}.spm.stats.con.consess{1}.tcon.sessrep = 'none';
 matlabbatch{4}.spm.stats.con.delete = 0;
-matlabbatch{5}.cfg_basicio.var_ops.load_vars.matname = {'/projects/sanlab/shared/REV/REV_scripts/fMRI/fx/SST/prepost_analysis/flexibleConCreation/customCons/sst/prepost_analysis/customContrasts_sub-REV001_sst_prepost_analysis.mat'};
+matlabbatch{5}.cfg_basicio.var_ops.load_vars.matname = {'/projects/sanlab/shared/REV/REV_scripts/fMRI/fx/sst/prepost_analysis/flexibleConCreation/customCons/sst/prepost_analysis/customContrasts_sub-REV001_sst_prepost_analysis.mat'};
 matlabbatch{5}.cfg_basicio.var_ops.load_vars.loadvars.varname = {
                                                                  'contrastNames'
                                                                  'contrastCellArray'
@@ -39,7 +39,7 @@ matlabbatch{8}.spm.stats.con.consess{1}.tcon.name(1) = cfg_dep('Access part of M
 matlabbatch{8}.spm.stats.con.consess{1}.tcon.weights(1) = cfg_dep('Access part of MATLAB variable: val{2}', substruct('.','val', '{}',{6}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','output'));
 matlabbatch{8}.spm.stats.con.consess{1}.tcon.sessrep = 'none';
 matlabbatch{8}.spm.stats.con.delete = 0;
-matlabbatch{9}.cfg_basicio.var_ops.load_vars.matname = {'/projects/sanlab/shared/REV/REV_scripts/fMRI/fx/SST/prepost_analysis/flexibleConCreation/customCons/sst/prepost_analysis/customContrasts_sub-REV001_sst_prepost_analysis.mat'};
+matlabbatch{9}.cfg_basicio.var_ops.load_vars.matname = {'/projects/sanlab/shared/REV/REV_scripts/fMRI/fx/sst/prepost_analysis/flexibleConCreation/customCons/sst/prepost_analysis/customContrasts_sub-REV001_sst_prepost_analysis.mat'};
 matlabbatch{9}.cfg_basicio.var_ops.load_vars.loadvars.varname = {
                                                                  'contrastNames'
                                                                  'contrastCellArray'
@@ -57,7 +57,7 @@ matlabbatch{12}.spm.stats.con.consess{1}.tcon.name(1) = cfg_dep('Access part of 
 matlabbatch{12}.spm.stats.con.consess{1}.tcon.weights(1) = cfg_dep('Access part of MATLAB variable: val{3}', substruct('.','val', '{}',{10}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','output'));
 matlabbatch{12}.spm.stats.con.consess{1}.tcon.sessrep = 'none';
 matlabbatch{12}.spm.stats.con.delete = 0;
-matlabbatch{13}.cfg_basicio.var_ops.load_vars.matname = {'/projects/sanlab/shared/REV/REV_scripts/fMRI/fx/SST/prepost_analysis/flexibleConCreation/customCons/sst/prepost_analysis/customContrasts_sub-REV001_sst_prepost_analysis.mat'};
+matlabbatch{13}.cfg_basicio.var_ops.load_vars.matname = {'/projects/sanlab/shared/REV/REV_scripts/fMRI/fx/sst/prepost_analysis/flexibleConCreation/customCons/sst/prepost_analysis/customContrasts_sub-REV001_sst_prepost_analysis.mat'};
 matlabbatch{13}.cfg_basicio.var_ops.load_vars.loadvars.varname = {
                                                                   'contrastNames'
                                                                   'contrastCellArray'
@@ -75,7 +75,7 @@ matlabbatch{16}.spm.stats.con.consess{1}.tcon.name(1) = cfg_dep('Access part of 
 matlabbatch{16}.spm.stats.con.consess{1}.tcon.weights(1) = cfg_dep('Access part of MATLAB variable: val{4}', substruct('.','val', '{}',{14}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','output'));
 matlabbatch{16}.spm.stats.con.consess{1}.tcon.sessrep = 'none';
 matlabbatch{16}.spm.stats.con.delete = 0;
-matlabbatch{17}.cfg_basicio.var_ops.load_vars.matname = {'/projects/sanlab/shared/REV/REV_scripts/fMRI/fx/SST/prepost_analysis/flexibleConCreation/customCons/sst/prepost_analysis/customContrasts_sub-REV001_sst_prepost_analysis.mat'};
+matlabbatch{17}.cfg_basicio.var_ops.load_vars.matname = {'/projects/sanlab/shared/REV/REV_scripts/fMRI/fx/sst/prepost_analysis/flexibleConCreation/customCons/sst/prepost_analysis/customContrasts_sub-REV001_sst_prepost_analysis.mat'};
 matlabbatch{17}.cfg_basicio.var_ops.load_vars.loadvars.varname = {
                                                                   'contrastNames'
                                                                   'contrastCellArray'
@@ -93,7 +93,7 @@ matlabbatch{20}.spm.stats.con.consess{1}.tcon.name(1) = cfg_dep('Access part of 
 matlabbatch{20}.spm.stats.con.consess{1}.tcon.weights(1) = cfg_dep('Access part of MATLAB variable: val{5}', substruct('.','val', '{}',{18}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','output'));
 matlabbatch{20}.spm.stats.con.consess{1}.tcon.sessrep = 'none';
 matlabbatch{20}.spm.stats.con.delete = 0;
-matlabbatch{21}.cfg_basicio.var_ops.load_vars.matname = {'/projects/sanlab/shared/REV/REV_scripts/fMRI/fx/SST/prepost_analysis/flexibleConCreation/customCons/sst/prepost_analysis/customContrasts_sub-REV001_sst_prepost_analysis.mat'};
+matlabbatch{21}.cfg_basicio.var_ops.load_vars.matname = {'/projects/sanlab/shared/REV/REV_scripts/fMRI/fx/sst/prepost_analysis/flexibleConCreation/customCons/sst/prepost_analysis/customContrasts_sub-REV001_sst_prepost_analysis.mat'};
 matlabbatch{21}.cfg_basicio.var_ops.load_vars.loadvars.varname = {
                                                                   'contrastNames'
                                                                   'contrastCellArray'
@@ -111,7 +111,7 @@ matlabbatch{24}.spm.stats.con.consess{1}.tcon.name(1) = cfg_dep('Access part of 
 matlabbatch{24}.spm.stats.con.consess{1}.tcon.weights(1) = cfg_dep('Access part of MATLAB variable: val{6}', substruct('.','val', '{}',{22}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','output'));
 matlabbatch{24}.spm.stats.con.consess{1}.tcon.sessrep = 'none';
 matlabbatch{24}.spm.stats.con.delete = 0;
-matlabbatch{25}.cfg_basicio.var_ops.load_vars.matname = {'/projects/sanlab/shared/REV/REV_scripts/fMRI/fx/SST/prepost_analysis/flexibleConCreation/customCons/sst/prepost_analysis/customContrasts_sub-REV001_sst_prepost_analysis.mat'};
+matlabbatch{25}.cfg_basicio.var_ops.load_vars.matname = {'/projects/sanlab/shared/REV/REV_scripts/fMRI/fx/sst/prepost_analysis/flexibleConCreation/customCons/sst/prepost_analysis/customContrasts_sub-REV001_sst_prepost_analysis.mat'};
 matlabbatch{25}.cfg_basicio.var_ops.load_vars.loadvars.varname = {
                                                                   'contrastNames'
                                                                   'contrastCellArray'
@@ -129,7 +129,7 @@ matlabbatch{28}.spm.stats.con.consess{1}.tcon.name(1) = cfg_dep('Access part of 
 matlabbatch{28}.spm.stats.con.consess{1}.tcon.weights(1) = cfg_dep('Access part of MATLAB variable: val{7}', substruct('.','val', '{}',{26}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','output'));
 matlabbatch{28}.spm.stats.con.consess{1}.tcon.sessrep = 'none';
 matlabbatch{28}.spm.stats.con.delete = 0;
-matlabbatch{29}.cfg_basicio.var_ops.load_vars.matname = {'/projects/sanlab/shared/REV/REV_scripts/fMRI/fx/SST/prepost_analysis/flexibleConCreation/customCons/sst/prepost_analysis/customContrasts_sub-REV001_sst_prepost_analysis.mat'};
+matlabbatch{29}.cfg_basicio.var_ops.load_vars.matname = {'/projects/sanlab/shared/REV/REV_scripts/fMRI/fx/sst/prepost_analysis/flexibleConCreation/customCons/sst/prepost_analysis/customContrasts_sub-REV001_sst_prepost_analysis.mat'};
 matlabbatch{29}.cfg_basicio.var_ops.load_vars.loadvars.varname = {
                                                                   'contrastNames'
                                                                   'contrastCellArray'
@@ -147,7 +147,7 @@ matlabbatch{32}.spm.stats.con.consess{1}.tcon.name(1) = cfg_dep('Access part of 
 matlabbatch{32}.spm.stats.con.consess{1}.tcon.weights(1) = cfg_dep('Access part of MATLAB variable: val{8}', substruct('.','val', '{}',{30}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','output'));
 matlabbatch{32}.spm.stats.con.consess{1}.tcon.sessrep = 'none';
 matlabbatch{32}.spm.stats.con.delete = 0;
-matlabbatch{33}.cfg_basicio.var_ops.load_vars.matname = {'/projects/sanlab/shared/REV/REV_scripts/fMRI/fx/SST/prepost_analysis/flexibleConCreation/customCons/sst/prepost_analysis/customContrasts_sub-REV001_sst_prepost_analysis.mat'};
+matlabbatch{33}.cfg_basicio.var_ops.load_vars.matname = {'/projects/sanlab/shared/REV/REV_scripts/fMRI/fx/sst/prepost_analysis/flexibleConCreation/customCons/sst/prepost_analysis/customContrasts_sub-REV001_sst_prepost_analysis.mat'};
 matlabbatch{33}.cfg_basicio.var_ops.load_vars.loadvars.varname = {
                                                                   'contrastNames'
                                                                   'contrastCellArray'
@@ -165,7 +165,7 @@ matlabbatch{36}.spm.stats.con.consess{1}.tcon.name(1) = cfg_dep('Access part of 
 matlabbatch{36}.spm.stats.con.consess{1}.tcon.weights(1) = cfg_dep('Access part of MATLAB variable: val{9}', substruct('.','val', '{}',{34}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','output'));
 matlabbatch{36}.spm.stats.con.consess{1}.tcon.sessrep = 'none';
 matlabbatch{36}.spm.stats.con.delete = 0;
-matlabbatch{37}.cfg_basicio.var_ops.load_vars.matname = {'/projects/sanlab/shared/REV/REV_scripts/fMRI/fx/SST/prepost_analysis/flexibleConCreation/customCons/sst/prepost_analysis/customContrasts_sub-REV001_sst_prepost_analysis.mat'};
+matlabbatch{37}.cfg_basicio.var_ops.load_vars.matname = {'/projects/sanlab/shared/REV/REV_scripts/fMRI/fx/sst/prepost_analysis/flexibleConCreation/customCons/sst/prepost_analysis/customContrasts_sub-REV001_sst_prepost_analysis.mat'};
 matlabbatch{37}.cfg_basicio.var_ops.load_vars.loadvars.varname = {
                                                                   'contrastNames'
                                                                   'contrastCellArray'

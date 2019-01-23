@@ -4,7 +4,7 @@
 % cfg_basicio BasicIO - Unknown
 %-----------------------------------------------------------------------
 matlabbatch{1}.cfg_basicio.var_ops.load_vars.matname = {'/projects/sanlab/shared/REV/REV_scripts/fMRI/fx/sst/prepost_analysis/flexibleConCreation/customCons/sst/prepost_analysis/customContrasts_sub-REV001_sst_prepost_analysis.mat'};
-matlabbatch{1}.cfg_basicio.var_ops.load_vars.loadvars.varname = {
+matlabbatch{1}.cfg_basicio.var_ops.load_vars.loadvars.varname = { 
                                                                  'contrastNames'
                                                                  'contrastCellArray'
                                                                  }';

@@ -11,7 +11,7 @@ rm(list = ls())
 
 # Set paths and working directory
 working_dir = '~/Desktop/REV_scripts/fMRI/rx/prepost_analysis/sst/scripts'
-path_behavioral_datafile = '~/Desktop/REV_scripts/behavioral/REV_SST/scripts/analyses/df_SSRT.Rda'
+path_behavioral_datafile = '~/Desktop/REV_scripts/behavioral/REV_SST/scripts/analyses/df_ssrt.Rda'
 path_parameterEstimates = '~/Desktop/parameterEstimates'
 setwd(working_dir)
 
@@ -85,7 +85,7 @@ str(prepost_dataframe)
 
 ```{r}
 # Change across time, error term is within subject
-aov_out <- aov(data = prepost_dataframe, ssrt_avg ~ prepost*mean_intensity + Error(id))
+aov_out <- aov(data = prepost_dataframe, mean_intensity ~ ssrt_avg*prepost + Error(id))
 summary(aov_out)
 # Check RT distribution; use log transform if skewed 
 mean(subset(dataframe, prepost == "pre")$mean_intensity, na.rm = TRUE)
