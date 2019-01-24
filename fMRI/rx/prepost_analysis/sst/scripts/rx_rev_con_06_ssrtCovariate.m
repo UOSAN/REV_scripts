@@ -3,7 +3,7 @@
 % spm SPM - SPM12 (7219)
 % cfg_basicio BasicIO - Unknown
 %-----------------------------------------------------------------------
-matlabbatch{1}.spm.stats.factorial_design.dir = {'/projects/sanlab/shared/REV/REV_scripts/fMRI/rx/prepost_analysis/sst/con_06'};
+matlabbatch{1}.spm.stats.factorial_design.dir = {'/projects/sanlab/shared/REV/REV_scripts/fMRI/rx/prepost_analysis/sst/con_06_ssrtCovariate'};
 %%
 matlabbatch{1}.spm.stats.factorial_design.des.t1.scans = {
                                                           '/projects/sanlab/shared/REV/bids_data/derivatives/prepost_analysis/sub-REV044/fx/sst/con_0006.nii'
@@ -184,6 +184,6 @@ matlabbatch{3}.spm.stats.con.consess{3}.tcon.name = 'corelation_with_increases_i
 matlabbatch{3}.spm.stats.con.consess{3}.tcon.weights = [0 1];
 matlabbatch{3}.spm.stats.con.consess{3}.tcon.sessrep = 'none';
 matlabbatch{3}.spm.stats.con.consess{4}.tcon.name = 'corelation_with_decreases_in_SSRT';
-matlabbatch{3}.spm.stats.con.consess{4}.tcon.weights = [0 1];
+matlabbatch{3}.spm.stats.con.consess{4}.tcon.weights = [0 -1];
 matlabbatch{3}.spm.stats.con.consess{4}.tcon.sessrep = 'none';
 matlabbatch{3}.spm.stats.con.delete = 0;
