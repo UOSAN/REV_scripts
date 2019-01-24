@@ -1,5 +1,5 @@
 %-----------------------------------------------------------------------
-% Job saved on 22-Jan-2019 20:31:53 by cfg_util (rev $Rev: 6942 $)
+% Job saved on 24-Jan-2019 11:19:10 by cfg_util (rev $Rev: 6942 $)
 % spm SPM - SPM12 (7219)
 % cfg_basicio BasicIO - Unknown
 %-----------------------------------------------------------------------
@@ -160,7 +160,7 @@ matlabbatch{1}.spm.stats.factorial_design.cov.c = [20.865
                                                    71.465
                                                    4.07999999999998];
 %%
-matlabbatch{1}.spm.stats.factorial_design.cov.cname = 'ssrt_change';
+matlabbatch{1}.spm.stats.factorial_design.cov.cname = 'change_in_ssrt_post-pre';
 matlabbatch{1}.spm.stats.factorial_design.cov.iCFI = 1;
 matlabbatch{1}.spm.stats.factorial_design.cov.iCC = 5;
 matlabbatch{1}.spm.stats.factorial_design.multi_cov = struct('files', {}, 'iCFI', {}, 'iCC', {});
@@ -180,4 +180,10 @@ matlabbatch{3}.spm.stats.con.consess{1}.tcon.sessrep = 'none';
 matlabbatch{3}.spm.stats.con.consess{2}.tcon.name = 'T1(CorrectStop>IncorrectStop)>T2(CorrectStop>IncorrectStop)_ssrtCovariate';
 matlabbatch{3}.spm.stats.con.consess{2}.tcon.weights = -1;
 matlabbatch{3}.spm.stats.con.consess{2}.tcon.sessrep = 'none';
+matlabbatch{3}.spm.stats.con.consess{3}.tcon.name = 'correlation_with_incresases_in_SSRT';
+matlabbatch{3}.spm.stats.con.consess{3}.tcon.weights = [0 1];
+matlabbatch{3}.spm.stats.con.consess{3}.tcon.sessrep = 'none';
+matlabbatch{3}.spm.stats.con.consess{4}.tcon.name = 'correlation_with_decreases_in_SSRT';
+matlabbatch{3}.spm.stats.con.consess{4}.tcon.weights = [0 -1];
+matlabbatch{3}.spm.stats.con.consess{4}.tcon.sessrep = 'none';
 matlabbatch{3}.spm.stats.con.delete = 0;

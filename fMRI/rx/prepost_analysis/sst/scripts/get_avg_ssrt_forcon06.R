@@ -1,5 +1,5 @@
 # Cange the contrast number and the subject list to match that contrast subject list
-contrast <- 'con_07' 
+contrast <- 'con_06' 
 subjectlist <- c(044, 114, 003, 035, 090, 141, 070, 102, 052, 039, 111, 069, 097, 084, 027, 075, 011, 118, 023, 080, 065, 036, 100, 094, 010, 029, 037, 041, 074, 142, 073, 121, 021, 018, 076, 077, 031, 050, 107, 082, 056, 022, 048, 115, 006, 024, 093, 140, 131, 108, 144, 054, 104, 109, 130, 137, 129, 053, 098, 016, 046, 017, 110, 126, 135, 067, 020, 038, 127, 089, 086, 013, 001, 060, 078)
 
 setwd(paste0('~/Desktop/REV_scripts/fMRI/rx/prepost_analysis/sst/scripts'))
