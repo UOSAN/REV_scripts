@@ -18,3 +18,4 @@ write.table(change_in_ssrt, paste0("ssrt_change_covariate_", contrast, ".txt"),
             row.names = FALSE, 
             col.names = FALSE)
 
+table(sign(differences_inverted$x))
