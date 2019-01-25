@@ -533,7 +533,7 @@ ezmultilevel_model <- ez::ezANOVA(data = df_ssrt_hasprepost,
                                   within = prepost, 
                                   between = condition, 
                                   type = 3, detailed = TRUE) 
-kable(ezmultilevel_model$ANOVA, digits = 2)
+kable(ezmultilevel_model$ANOVA, digits = 2, caption = "Change in Stop-Signal Response Time")
 ```
 
 ### Plots
@@ -615,7 +615,8 @@ full_mlModel <- lmer( ssrt ~ condition*session_number + (1 + session_number | id
 summary(full_mlModel)
 ```
 
-# Plots
+# Plots and summary stats of change
+## Plots
 ```{r Boxplots of SST performance across time}
 ggplot(subset(df_ssrt, condition == "train" | condition == "control" & session_number %in% c("run1", "run2", "run13", "run14"))) + 
     aes(x = session_number, y = ssrt, fill = condition) +
@@ -629,6 +630,34 @@ ggplot(subset(df_ssrt, condition == "train" | condition == "control" & session_n
                          breaks = c("control", "train"),
                          labels = c("Control", "Training"))
 ```
+
+## Summary stats
+```{r}
+subjectlist_included_final_analysis <- c(044, 114, 003, 035, 090, 141, 070, 102, 052, 039, 111, 069, 097, 084, 027, 075, 011, 118, 023, 080, 065, 036, 100, 094, 010, 029, 037, 041, 074, 142, 073, 121, 021, 018, 076, 077, 031, 050, 107, 082, 056, 022, 048, 115, 006, 024, 093, 140, 131, 108, 144, 054, 104, 109, 130, 137, 129, 053, 098, 016, 046, 017, 110, 126, 135, 067, 020, 038, 127, 089, 086, 013, 001, 060, 078)
+df_ssrt_final_included <- df_ssrt[which(df_ssrt$id %in% subjectlist_included_final_analysis), ]
+df_ssrt_final_included <- unique(df_ssrt_final_included[!is.na(df_ssrt_final_included$prepost),])
+tt <- table(df_ssrt_final_included$id)
+df_ssrt_final_included <- df_ssrt_final_included[df_ssrt_final_included$id %in% names(tt[tt > 1]), ]
+df_ssrt_final_included$id <- factor(df_ssrt_final_included$id)
+df_ssrt_final_included$prepost <- relevel(df_ssrt_final_included$prepost, ref = "pre")
+kable(aggregate(df_ssrt_final_included[, 9], list(df_ssrt_final_included$prepost), mean))
+kable(aggregate(df_ssrt_final_included[, 9], list(df_ssrt_final_included$prepost, df_ssrt_final_included$condition), mean))
+```
+
+```{r}
+pre <- subset(df_ssrt_final_included, prepost == 'pre')
+post <- subset(df_ssrt_final_included, prepost == 'post')
+par(mfrow = c(2,2))
+hist(pre$ssrt_avg, xlim = c(100,500), xlab = "Mean SSRT", main = "Histogram of SSRT Averaged \nat Baseline")
+hist(post$ssrt_avg, xlim = c(100,500), xlab = "Mean SSRT",  main = "Histogram of SSRT Averaged \n at Endpoint")
+
+pre_run2 <- subset(df_ssrt_final_included, session_number == 'run2')
+post_run2 <- subset(df_ssrt_final_included, session_number == 'run14')
+hist(pre_run2$ssrt, xlim = c(100,500), xlab = "SSRT", main = "Histogram of SSRT During \n2nd Run at Baseline")
+hist(post_run2$ssrt, xlim = c(100,500), xlab = "SSRT",  main = "Histogram of SSRT During \n2nd Run at Endpoint")
+```
+
+
 
 <!-- # Post-hoc -->
 <!-- ## Partial eta-squared -->
