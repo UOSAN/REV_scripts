@@ -1,0 +1,60 @@
+Running rx_rev_con_21v09.m
+Sun Jan 27 15:06:21 PST 2019
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2018 The MathWorks, Inc.
+                   R2018b (9.5.0.944444) 64-bit (glnxa64)
+                              August 28, 2018
+
+ 
+To get started, type doc.
+For product information, visit www.mathworks.com.
+ 
+
+
+------------------------------------------------------------------------
+Running job #1
+------------------------------------------------------------------------
+Running 'Factorial design specification'
+Mapping files                           :                        ...done
+Design configuration                    :                        ...done
+Saving SPM configuration                :               ...SPM.mat saved
+Completed                               :          15:07:07 - 27/01/2019
+Done    'Factorial design specification'
+Running 'Model estimation'
+
+SPM12: spm_spm (v6842)                             15:07:07 - 27/01/2019
+========================================================================
+
+SPM12: spm_est_non_sphericity (v6913)              15:07:08 - 27/01/2019
+========================================================================
+Chunk   1/5                             :                  ...processing                       ...doneChunk   2/5                             :                  ...processing                       ...doneChunk   3/5                             :                  ...processing                       ...doneChunk   4/5                             :                  ...processing                       ...doneChunk   5/5                             :                  ...processing                       ...done
+Temporal non-sphericity (5244 voxels)   :             ...ReML estimation
+  ReML Iteration 1                      :        ...6.372642e+01 [+4.25]
+  ReML Iteration 2                      :        ...1.331906e-25 [+4.50]
+
+SPM12: spm_spm (v6842)                             15:07:53 - 27/01/2019
+========================================================================
+Chunk   1/5                             :                  ...processing                       ...doneChunk   2/5                             :                  ...processing                       ...doneChunk   3/5                             :                  ...processing                       ...doneChunk   4/5                             :                  ...processing                       ...doneChunk   5/5                             :                  ...processing                       ...done
+Spatial non-sphericity (over scans)     :      ...estimating derivatives ...writing resels/voxel image                       ...done
+Saving SPM.mat                          :                     ...writing                       ...done
+Completed                               :          15:08:27 - 27/01/2019
+Done
+Done    'Model estimation'
+Running 'Contrast Manager'
+
+SPM12: spm_contrasts.m                             15:09:40 - 27/01/2019
+========================================================================
+Contrasts folder                        :                ./sst/con_21v09
+	contrast image  1               :                   ...computing       ...written con_0001.nii
+	spm{T} image  1                 :                   ...computing      ...written spmT_0001.nii
+	contrast image  2               :                   ...computing       ...written con_0002.nii
+	spm{T} image  2                 :                   ...computing      ...written spmT_0002.nii
+	contrast image  3               :                   ...computing       ...written con_0003.nii
+	spm{T} image  3                 :                   ...computing      ...written spmT_0003.nii
+	contrast image  4               :                   ...computing       ...written con_0004.nii
+	spm{T} image  4                 :                   ...computing      ...written spmT_0004.nii
+Completed                               :          15:09:41 - 27/01/2019
+Done    'Contrast Manager'
+Done
+
