@@ -17,7 +17,7 @@ echo ---------------------------------------------------------------------------
 # ------------------------------------------------------------------------------------------
 # variables
 rois=(rIFG_con06_T2T1_corrStop_corrGo_increaseSSRT) #roi masks (without file format, specified below as .nii)
-images=(con_0014.nii con_0019.nii con con_0023.nii con_0024.nii) #corrGo_T1 corrGo_T2 corrStop_T1 corrStop_T2 #images to extract parameter estimates from (alt. example: images=`echo $(printf "beta_%04d.nii\n" {1..36}) $(printf "beta_%04d.nii\n" {43..78})`)
+images=(con_0014.nii con_0019.nii con con_0022.nii con_0023.nii) #corrGo_T1 corrGo_T2 corrStop_T1 corrStop_T2 #images to extract parameter estimates from (alt. example: images=`echo $(printf "beta_%04d.nii\n" {1..36}) $(printf "beta_%04d.nii\n" {43..78})`)
 
 # paths
 image_dir=/projects/sanlab/shared/REV/bids_data/derivatives/prepost_analysis/sub-"${SUB}"/fx/sst #fx directory
