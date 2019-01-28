@@ -1,0 +1,99 @@
+---
+title: "sst_correlation_con007roi"
+author: "Krista DeStasio"
+date: "1/9/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+# Clear workspace
+rm(list = ls()) 
+
+# Set paths and working directory
+working_dir = '~/Desktop/REV_scripts/fMRI/rx/prepost_analysis/sst/scripts/brain_bx_correlation'
+path_behavioral_datafile = '~/Desktop/REV_scripts/behavioral/REV_SST/scripts/analyses/df_ssrt.Rda'
+path_parameterEstimates = '~/Desktop/REV_scripts/fMRI/roi/parameterEstimates'
+setwd(working_dir)
+
+# Install and load required packages
+list.of.packages <- c('janitor', 'stringr')
+new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])] 
+if (length(new.packages)) install.packages(new.packages, repos = "http://cran.us.r-project.org")
+lapply(list.of.packages, library, character.only = TRUE)
+rm(list.of.packages, new.packages)
+
+# Knit options
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+# Stop signal behavioral data with average SSRT at pre and post. 
+# Outliers already omitted in SSRT_results.rmd script
+load(path_behavioral_datafile)
+behavioral_data <- clean_names(df_ssrt[ which(!is.na(df_ssrt$prepost)), 
+                                   c(1:3, 9) ])
+rm(df_ssrt)
+
+# Read in the parameter estimates for the roi pulled from the fMRI data for contrast 007 T2(CorrectStop>IncorrectStop)>T1(CorrectStop>IncorrectStop)
+
+file_list = list.files(path_parameterEstimates, pattern = "*_parameterEstimates.txt",recursive = T)
+
+
+for (file in file_list) {
+    # if the merged dataset does exist, append to it
+    if (exists("parameter_estimates")) {
+        temp_dataset <- read.delim(paste0(path_parameterEstimates, '/', file), 
+                                   header = FALSE, sep = " ")
+        if (ncol(temp_dataset) == 5) {
+            parameter_estimates <- rbind(parameter_estimates, temp_dataset)
+            }
+        rm(temp_dataset)
+        }
+    # if the merged dataset doesn't exist, create it
+    if (!exists("parameter_estimates")) {
+        parameter_estimates <- read.delim(paste0(path_parameterEstimates, '/', file), 
+                                          header = FALSE, sep = " ")
+        }
+}
+
+colnames(parameter_estimates) <- c('id', 'contrast', 'roi', 'mean_intensity', 'sd_intensity')
+
+# make participant ids the same format in the behavioral and brain dataframes
+parameter_estimates$id <- gsub("[^0-9]", "", parameter_estimates$id) 
+behavioral_data$id <- str_pad(behavioral_data$id, 3, pad = "0")
+
+# Create a single dataframe with behavioral and roi data
+dataframe <- merge(behavioral_data, parameter_estimates, by = "id", all = TRUE)
+rm(behavioral_data, parameter_estimates)
+
+# Make participant IDs a factor
+dataframe$id <- as.factor(dataframe$id)
+
+# Re-order prepost so that the baseline scan is the factor reference level
+dataframe$prepost <- relevel(dataframe$prepost, ref = "pre" )
+
+# Retain participants with pre AND post data
+prepost_dataframe <- dataframe[complete.cases(dataframe),]
+incomplete_cases <- dataframe[!complete.cases(dataframe),]
+length(unique(incomplete_cases$id))
+tt <- table(prepost_dataframe$id)
+prepost_dataframe <- prepost_dataframe[prepost_dataframe$id %in% names(tt[tt > 1]), ]
+length(unique(prepost_dataframe$id))
+barplot(prepost_dataframe$ssrt_avg)
+str(prepost_dataframe)
+```
+** This seems unacceptable -> there are only 69 participants with viable pre/post data?**
+
+```{r}
+# Change across time, error term is within subject
+aov_out <- aov(data = prepost_dataframe, mean_intensity ~ ssrt_avg*prepost + Error(id))
+summary(aov_out)
+# Check RT distribution; use log transform if skewed 
+mean(subset(dataframe, prepost == "pre")$mean_intensity, na.rm = TRUE)
+mean(subset(dataframe, prepost == "post")$mean_intensity, na.rm = TRUE)
+
+
+
+
+```
+
