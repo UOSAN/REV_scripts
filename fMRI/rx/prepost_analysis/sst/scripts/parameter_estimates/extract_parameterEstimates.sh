@@ -21,7 +21,7 @@ images=(con_0014.nii con_0019.nii con con_0023.nii con_0024.nii) #corrGo_T1 corr
 
 # paths
 image_dir=/projects/sanlab/shared/REV/bids_data/derivatives/prepost_analysis/sub-"${SUB}"/fx/sst #fx directory
-roi_dir=/projects/sanlab/shared/REV/REV_scripts/fMRI/rx/prepost_analysis/sst/con-06_ssrtCovariate #roi directory (alt. example: roi_dir=/projects/dsnlab/shared/FP/bids_data/derivatives/freesurfer/sub-"${SUB}"/mri/fromannots)
+roi_dir=/projects/sanlab/shared/REV/REV_scripts/fMRI/rx/prepost_analysis/sst/con_06_ssrtCovariate #roi directory (alt. example: roi_dir=/projects/dsnlab/shared/FP/bids_data/derivatives/freesurfer/sub-"${SUB}"/mri/fromannots)
 output_dir=/projects/sanlab/shared/REV/REV_scripts/fMRI/roi/parameterEstimates #parameter estimate output directory
 
 if [ ! -d ${output_dir} ]; then
