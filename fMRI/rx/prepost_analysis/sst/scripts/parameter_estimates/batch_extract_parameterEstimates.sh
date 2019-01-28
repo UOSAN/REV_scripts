@@ -12,7 +12,7 @@ STUDY=/projects/sanlab/shared/REV/REV_scripts
 SUBJLIST=`cat subject_list.txt`
 
 # Set shell script to execute
-SHELL_SCRIPT=extract_parameterEstimates.sh
+SHELL_SCRIPT=extract_parameterEstimates_06.sh
 
 # study the results files
 RESULTS_INFIX=extract
