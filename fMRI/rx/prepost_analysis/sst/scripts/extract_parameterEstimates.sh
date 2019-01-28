@@ -16,12 +16,12 @@ echo ---------------------------------------------------------------------------
 # Set paths and variables
 # ------------------------------------------------------------------------------------------
 # variables
-rois=(con_07_cluster_p001_k75) #roi masks (without file format, specified below as .nii)
-images=(con_0012.nii con_0017.nii) #images to extract parameter estimates from (alt. example: images=`echo $(printf "beta_%04d.nii\n" {1..36}) $(printf "beta_%04d.nii\n" {43..78})`)
+rois=(rIFG_con06_T2T1_corrStop_corrGo_increaseSSRT) #roi masks (without file format, specified below as .nii)
+images=(con_0014.nii con_0019.nii con con_0023.nii con_0024.nii) #corrGo_T1 corrGo_T2 corrStop_T1 corrStop_T2 #images to extract parameter estimates from (alt. example: images=`echo $(printf "beta_%04d.nii\n" {1..36}) $(printf "beta_%04d.nii\n" {43..78})`)
 
 # paths
 image_dir=/projects/sanlab/shared/REV/bids_data/derivatives/prepost_analysis/sub-"${SUB}"/fx/sst #fx directory
-roi_dir=/projects/sanlab/shared/REV/REV_scripts/fMRI/rx/prepost_analysis/sst/con-07 #roi directory (alt. example: roi_dir=/projects/dsnlab/shared/FP/bids_data/derivatives/freesurfer/sub-"${SUB}"/mri/fromannots)
+roi_dir=/projects/sanlab/shared/REV/REV_scripts/fMRI/rx/prepost_analysis/sst/con-06_ssrtCovariate #roi directory (alt. example: roi_dir=/projects/dsnlab/shared/FP/bids_data/derivatives/freesurfer/sub-"${SUB}"/mri/fromannots)
 output_dir=/projects/sanlab/shared/REV/REV_scripts/fMRI/roi/parameterEstimates #parameter estimate output directory
 
 if [ ! -d ${output_dir} ]; then
