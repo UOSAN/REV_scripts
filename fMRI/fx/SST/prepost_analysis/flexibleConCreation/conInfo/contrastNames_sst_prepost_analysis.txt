@@ -19,3 +19,5 @@
 19_CorrectGo>Baseline_post
 20_AnyStopTrial>CorrectGo_post
 21_T2(CorrectGo)>T1(CorrectGo)
+22_CorrectStop>Baseline_pre
+23_CorrectStop>Baseline_post
