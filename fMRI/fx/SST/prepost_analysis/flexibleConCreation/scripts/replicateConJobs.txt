@@ -1,4 +1,4 @@
-numCons=21
+numCons=23
 templateDir=~/Desktop/REV_scripts/fMRI/fx/SST/prepost_analysis/flexibleConCreation/spmFiles/templates/
 templateScriptFilename=REV001_prepost_analysis_runCon999.m
 fxSuffix=_prepost_analysis
