@@ -71,9 +71,7 @@ for i=1:length(idxList.numPRC)
                 bmap2=strcat('/projects/sanlab/shared/REV/bids_data/derivatives/baseline_analyses/sub-REV', idxList.sub{i} ,'/fx/react/prc/beta_0016.nii');
                 
                 fprintf(fid,'%s ',bmap1);
-                fprintf(fid,'\n');
                 fprintf(fid,'%s ',bmap2);
-                fprintf(fid,'\n');
                 
             elseif idxList.numPRC(i)==2
                 bmap1=strcat('/projects/sanlab/shared/REV/bids_data/derivatives/baseline_analyses/sub-REV', idxList.sub{i} ,'/fx/react/prc/beta_0005.nii');
@@ -82,13 +80,9 @@ for i=1:length(idxList.numPRC)
                 bmap4=strcat('/projects/sanlab/shared/REV/bids_data/derivatives/baseline_analyses/sub-REV', idxList.sub{i} ,'/fx/react/prc/beta_0020.nii');
                 
                 fprintf(fid,'%s ',bmap1);
-                fprintf(fid,'\n');
                 fprintf(fid,'%s ',bmap2);
-                fprintf(fid,'\n');
                 fprintf(fid,'%s ',bmap3);
-                fprintf(fid,'\n');
                 fprintf(fid,'%s ',bmap4);
-                fprintf(fid,'\n');
                 
             elseif idxList.numPRC(i)==3
                 bmap1=strcat('/projects/sanlab/shared/REV/bids_data/derivatives/baseline_analyses/sub-REV', idxList.sub{i} ,'/fx/react/prc/beta_0005.nii');
@@ -99,17 +93,11 @@ for i=1:length(idxList.numPRC)
                 bmap6=strcat('/projects/sanlab/shared/REV/bids_data/derivatives/baseline_analyses/sub-REV', idxList.sub{i} ,'/fx/react/prc/beta_0024.nii');
                 
                 fprintf(fid,'%s ',bmap1);
-                fprintf(fid,'\n');
                 fprintf(fid,'%s ',bmap2);
-                fprintf(fid,'\n');
                 fprintf(fid,'%s ',bmap3);
-                fprintf(fid,'\n');
                 fprintf(fid,'%s ',bmap4);
-                fprintf(fid,'\n');
                 fprintf(fid,'%s ',bmap5);
-                fprintf(fid,'\n');
                 fprintf(fid,'%s ',bmap6);
-                fprintf(fid,'\n');
                 
             elseif idxList.numPRC(i)==4
                 bmap1=strcat('/projects/sanlab/shared/REV/bids_data/derivatives/baseline_analyses/sub-REV', idxList.sub{i} ,'/fx/react/prc/beta_0005.nii');
@@ -122,21 +110,13 @@ for i=1:length(idxList.numPRC)
                 bmap8=strcat('/projects/sanlab/shared/REV/bids_data/derivatives/baseline_analyses/sub-REV', idxList.sub{i} ,'/fx/react/prc/beta_0028.nii');
                 
                 fprintf(fid,'%s ',bmap1);
-                fprintf(fid,'\n');
                 fprintf(fid,'%s ',bmap2);
-                fprintf(fid,'\n');
                 fprintf(fid,'%s ',bmap3);
-                fprintf(fid,'\n');
                 fprintf(fid,'%s ',bmap4);
-                fprintf(fid,'\n');
                 fprintf(fid,'%s ',bmap5);
-                fprintf(fid,'\n');
                 fprintf(fid,'%s ',bmap6);
-                fprintf(fid,'\n');
                 fprintf(fid,'%s ',bmap7);
-                fprintf(fid,'\n');
                 fprintf(fid,'%s ',bmap8);
-                fprintf(fid,'\n')
                 
             else
                 disp('something weird here...')
@@ -146,16 +126,13 @@ for i=1:length(idxList.numPRC)
                 bmap1=strcat('/projects/sanlab/shared/REV/bids_data/derivatives/baseline_analyses/sub-REV', idxList.sub{i} ,'/fx/react/prc/beta_0005.nii');
                 
                 fprintf(fid,'%s ',bmap1);
-                fprintf(fid,'\n');
                 
             elseif idxList.numPRC(i)==2
                 bmap1=strcat('/projects/sanlab/shared/REV/bids_data/derivatives/baseline_analyses/sub-REV', idxList.sub{i} ,'/fx/react/prc/beta_0005.nii');
                 bmap2=strcat('/projects/sanlab/shared/REV/bids_data/derivatives/baseline_analyses/sub-REV', idxList.sub{i} ,'/fx/react/prc/beta_0007.nii');
                 
                 fprintf(fid,'%s ',bmap1);
-                fprintf(fid,'\n');
                 fprintf(fid,'%s ',bmap2);
-                fprintf(fid,'\n');
                 
             elseif idxList.numPRC(i)==3
                 bmap1=strcat('/projects/sanlab/shared/REV/bids_data/derivatives/baseline_analyses/sub-REV', idxList.sub{i} ,'/fx/react/prc/beta_0005.nii');
@@ -163,11 +140,8 @@ for i=1:length(idxList.numPRC)
                 bmap3=strcat('/projects/sanlab/shared/REV/bids_data/derivatives/baseline_analyses/sub-REV', idxList.sub{i} ,'/fx/react/prc/beta_0009.nii');
                 
                 fprintf(fid,'%s ',bmap1);
-                fprintf(fid,'\n');
                 fprintf(fid,'%s ',bmap2);
-                fprintf(fid,'\n');
                 fprintf(fid,'%s ',bmap3);
-                fprintf(fid,'\n');
                 
             elseif idxList.numPRC(i)==4
                 bmap1=strcat('/projects/sanlab/shared/REV/bids_data/derivatives/baseline_analyses/sub-REV', idxList.sub{i} ,'/fx/react/prc/beta_0005.nii');
@@ -176,13 +150,9 @@ for i=1:length(idxList.numPRC)
                 bmap4=strcat('/projects/sanlab/shared/REV/bids_data/derivatives/baseline_analyses/sub-REV', idxList.sub{i} ,'/fx/react/prc/beta_0011.nii');
                 
                 fprintf(fid,'%s ',bmap1);
-                fprintf(fid,'\n');
                 fprintf(fid,'%s ',bmap2);
-                fprintf(fid,'\n');
                 fprintf(fid,'%s ',bmap3);
-                fprintf(fid,'\n');
                 fprintf(fid,'%s ',bmap4);
-                fprintf(fid,'\n');
                 
             else
                 disp('something weird here...')
