@@ -48,35 +48,41 @@ for sub = 1:length(sublist)
     nii_dir=[STUDY '/bids_data/derivatives/baseline_analyses/' sublist{sub} '/fx/react/prc'];
     if exist(nii_dir,'dir')
         cd(nii_dir)
-
-        load('SPM.mat')
         
-        %idxN = strfind(SPM.xX.name, 'neutral');
-        %idx = find(not(cellfun('isempty',idxN)));
-        
-        idxR = strfind(SPM.xX.name, 'risk');
-        idx = find(not(cellfun('isempty',idxR)));
-        %idx = horzcat(idx, find(not(cellfun('isempty',idxR))));
-        
-        odd = mod(idx,2);
-        condIdx = idx(find(odd));
-        
-        % ======================================================================
-        % Condition names (in same order as beta maps)
-        condnames={};
-        for i = 1:length(condIdx)
-            names = strsplit(SPM.xX.name{condIdx(i)},{'*',') '});
-            condnames = [condnames; names{2}];
+        if exist('SPM.mat','file')
+            
+            load('SPM.mat')
+            
+            %idxN = strfind(SPM.xX.name, 'neutral');
+            %idx = find(not(cellfun('isempty',idxN)));
+            
+            idxR = strfind(SPM.xX.name, 'risk');
+            idx = find(not(cellfun('isempty',idxR)));
+            %idx = horzcat(idx, find(not(cellfun('isempty',idxR))));
+            
+            odd = mod(idx,2);
+            condIdx = idx(find(odd));
+            
+            % ======================================================================
+            % Condition names (in same order as beta maps)
+            condnames={};
+            for i = 1:length(condIdx)
+                names = strsplit(SPM.xX.name{condIdx(i)},{'*',') '});
+                condnames = [condnames; names{2}];
+            end
+            
+            cd(wdpath)
+            
+            for i = 1:length(condnames)
+                fprintf(fid,'%s',sublist{sub});
+                fprintf(fid,'\t');
+                fprintf(fid,'%s',condnames{i});
+                fprintf(fid,'\n');
+            end
+        else
+            disp(sublist{sub});
         end
-        
-        cd(wdpath)
-        
-        for i = 1:length(condnames)
-            fprintf(fid,'%s',sublist{sub});
-            fprintf(fid,'\t');
-            fprintf(fid,'%s',condnames{i});
-            fprintf(fid,'\n');
-        end
-        
+    else
+        disp(sublist{sub});
     end
 end
