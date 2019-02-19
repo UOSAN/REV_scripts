@@ -68,7 +68,8 @@ for sub = 1:length(sublist)
             condnames={};
             for i = 1:length(condIdx)
                 names = strsplit(SPM.xX.name{condIdx(i)},{'*',') '});
-                condnames = [condnames; names{2}];
+                %condnames = [condnames; names{2}];
+                condnames = [condnames; strcat(names{2}, '_', names{3}(4))];
             end
             
             cd(wdpath)
