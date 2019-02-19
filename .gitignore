@@ -24,6 +24,8 @@ credentials.yaml.DEFAULT
 **/.vscode
 
 ## Folders
+**/confile_lists/
+**/con-*
 **/sid_batches/
 **/output_logs/
 **/__pycache__/*
@@ -46,3 +48,4 @@ behavioral/GNG/scripts/analyses/Figs/
 **/scripts/output_logs/
 **/scripts/sid_batches/**
 fMRI/fx/motion/auto-motion-fmriprep/**
+**/con_*

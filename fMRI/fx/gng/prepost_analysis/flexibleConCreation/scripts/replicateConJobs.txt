@@ -1,0 +1,14 @@
+numCons=12
+templateDir=~/Desktop/REV_scripts/fMRI/fx/gng/prepost_analysis/flexibleConCreation/spmFiles/templates/
+templateScriptFilename=REV001_prepost_analysis_runCon999.m
+fxSuffix=_prepost_analysis
+
+cd $templateDir
+mkdir ../runCons$fxSuffix
+
+for con in $(seq 1 ${numCons})
+do
+
+sed -e 's/999/'${con}'/g' ${templateScriptFilename} > ../runCons${fxSuffix}/${templateScriptFilename:0:$((${#templateScriptFilename}-5))}${con}.m
+
+done
