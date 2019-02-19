@@ -40,7 +40,7 @@ end
 
 % Need to run both 'subDoc' files to get full set of data
 % NOTE TO SELF: This should be automated in a for-loop or a switch case...
-subDoc = AllSubPRC;
+subDoc = MoreSubPRC;
 %subDoc = MoreSubPRC;
 prcFolder = strcat(prcFolder,'sub_PRCcats/');
 

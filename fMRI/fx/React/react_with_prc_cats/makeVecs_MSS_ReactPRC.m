@@ -33,9 +33,9 @@ prcListForVecs = table2dataset(readtable([repodir 'prc_mappings/prcListForVecs.t
 %DTF: 11
 %ADTF: 6
 
-
-%for s = firstSub
-for s = firstSub:lastSub
+reruns=[59];
+for s = reruns
+%for s = firstSub:lastSub
     if find(exclude==s) % if they're on the exclusion list
         sprintf('sub %d excluded',s)
     else
@@ -83,11 +83,11 @@ for s = firstSub:lastSub
                 %strfind(fEnd,'F');
                 
                 PRC={'risk_alcohol' 'risk_drug' 'risk_tobacco' 'risk_food'};
-                tagStr={'10' '11' '12' '13'};
+                tagStr={10 11 12 13};
                 pos=3;
                 
                 names = {'neutral_view' 'rating'}; % baseline = instructions, blank screen, & fixation
-                searchStrings = {'2' '3'};
+                searchStrings = {2 3};
                     %saveFile = [fxFolder 'sub-' subject_code '_task-' task '_acq-' num2str(r) '_onsets_', upper(fileEnd), '.mat'];
                     
                 for p=1:length(lst)
@@ -105,7 +105,8 @@ for s = firstSub:lastSub
 
                 for c = 1:length(names)
                     %currentIndices = find(~cellfun(@isempty,strcmp(run_info.tag,searchStrings{c})) == 1);
-                    currentIndices = find(strcmp(run_info.tag,searchStrings{c}));
+                    %currentIndices = find(strcmp(num2str(run_info.tag),searchStrings{c}));
+                    currentIndices = find(run_info.tag==searchStrings{c});
                     onsets{c} = run_info.onsets(currentIndices);
                     durations{c} = run_info.durations(currentIndices);
                 end
