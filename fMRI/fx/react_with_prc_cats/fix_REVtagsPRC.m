@@ -24,7 +24,8 @@ prcFolder=[repodir,'prc_mappings/'];
 
 cd(dataFolder)
 
-for s = firstSub:lastSub
+%for s = firstSub:lastSub
+for s = 59
     if find(exclude==s) % if they're on the exclusion list
         sprintf('sub %d excluded',s)
     else
@@ -46,8 +47,8 @@ for s = firstSub:lastSub
         elseif size(prcImgs,1)==0
             warning('No data file found for sub %d run %d',s)
         elseif exist(prcImgs)
-            %prcList=table2array(readtable([prcFolder,'sub_PRCcats/',subject_code,'_PRC.txt'],'Delimiter','\t','ReadVariableNames',true,'ReadRowNames',false));
-            prcList=readtable([prcFolder,'sub_PRCcats/',subject_code,'_PRC.txt'],'Delimiter','\t');
+            prcList=table2array(readtable([prcFolder,'sub_PRCcats/',subject_code,'_PRC.txt'],'Delimiter','\t','ReadVariableNames',true,'ReadRowNames',false));
+            %prcList=readtable([prcFolder,'sub_PRCcats/',subject_code,'_PRC.txt'],'Delimiter','\t');
             
             for r=runs % For runs defined previously (scanning only here)
                 runFile = [reactRunsFolder task num2str(r) '.txt'];
@@ -65,25 +66,42 @@ for s = firstSub:lastSub
                     
                     if length(reactRun)==length(run_info.tag)
                         for i=1:length(reactRun)
-                            img=strsplit(reactRun{i,:},{'\t'});
-                            img_name=strsplit(img{10},'.jpg');
+                            %img=strsplit(reactRun{i,:},{'\t'});
+                            %img_name=strsplit(img{10},'.jpg');
+                            %img_name=img_name{1};
+                            img=reactRun;
+                            img_name=strsplit(img{i,10},'.jpg');
                             img_name=img_name{1};
-                            for v=1:height(prcList)
+                            
+                            start=strfind(img_name,'justlook');
+                            blnk=strfind(img_name,'blank');
+                            neutr=strfind(img_name,'Neutral');
+                            rate=strfind(img_name,'desire');
+                            
+                            if ~isempty(neutr)
+                                run_info.tag(i)=2;
+                            elseif ~isempty(rate)
+                                run_info.tag(i)=3;
+                            elseif ~isempty(start) || ~isempty(blnk)
+                                run_info.tag(i)=0;
+                            end
+                            for v=1:length(prcList)
                                 %if strfind(reactRun{i,:},prcList(v,2))
-                                z=strfind(prcList{v,2},img_name);
-                                if ~isempty(z{:})
+                                z=strfind(img_name,num2str(prcList{v,2}));
+                                %if ~isempty(z{:})
+                                if ~isempty(z)
                                     aa=strfind(prcList{v,3},'alcohol');
                                     dd=strfind(prcList{v,3},'drug');
                                     tt=strfind(prcList{v,3},'tobacco');
                                     ff=strfind(prcList{v,3},'food');
-                                    if ~isempty(aa{:})
-                                        run_info.tag{i}='10';
-                                    elseif ~isempty(dd{:})
-                                        run_info.tag{i}='11';
-                                    elseif ~isempty(tt{:})
-                                        run_info.tag{i}='12';
+                                    if ~isempty(aa)
+                                        run_info.tag(i)=10;
+                                    elseif ~isempty(dd)
+                                        run_info.tag(i)=11;
+                                    elseif ~isempty(tt)
+                                        run_info.tag(i)=12;
                                     else %food
-                                        run_info.tag{i}='13';
+                                        run_info.tag(i)=13;
                                     end
                                     
                                 end
