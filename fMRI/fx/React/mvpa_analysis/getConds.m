@@ -75,7 +75,7 @@ for sub = 1:length(sublist)
         fprintf(fid,'%s',sublist{sub});
         fprintf(fid,'\t');
         fprintf(fid,'%s',condnames{i});
-        fprintf(fid,'\t');
+        fprintf(fid,'\n');
     end
 
 end
