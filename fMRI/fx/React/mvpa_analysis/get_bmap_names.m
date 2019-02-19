@@ -57,23 +57,23 @@ cd(wdpath)
 
 subsList=readtable('sub_conds_list.txt');
 subsList=table2array(subsList);
-for i=1:length(subsList)
-    subsList{i}=strtok(subsList{i});
-end
+subsList=subsList(:,1);
+% for i=1:length(subsList)
+%     subsList{i}=strtok(subsList{i});
+% end
 
 subsList=unique(subsList);
 subsList2=cell(length(subsList),1);
 for i=1:length(subsList)
     subsNums=strsplit(subsList{i},'V');
-    subsList2(i)=subsNums(2);
+    subsList2{i}=subsNums{2};
     
 end
 
 subIdx=zeros(length(subsList2),1);
-for i=1:length(subsList2)
+for i=1:length(subsList)
     for v=1:length(prcListForVecs)
         if strcmpi(prcListForVecs{v,2},subsList2{i})
-            disp(v)
             subIdx(i)=v;
         end
     end
