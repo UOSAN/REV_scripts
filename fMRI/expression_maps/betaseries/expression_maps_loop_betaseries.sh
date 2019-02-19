@@ -53,6 +53,34 @@ do
 
 	# multiply maps
 	echo "${subid}" "${beta}" PEV_Crave `3ddot -dodot "${react_betaMap}" "${aligned_cravingMap}"` >> "${outputDir}"/"${subid}".txt
+
+
+	### Cognitive Control Expression Values
+
+	# define maps
+	react_betaMap="${betaDir}"/"${beta}"
+	ccMap="${mapDir}"/cognitive_control_uniformity-test_z_FDR_0.01.nii.gz
+
+	# align maps
+	3dAllineate -source "${ccMap}" -master "${react_betaMap}" -final NN -1Dparam_apply '1D: 12@0'\' -prefix "${mapDir}"/aligned_maps/aligned_cc_"${subid}"
+	aligned_ccMap="${mapDir}"/aligned_maps/aligned_cc_"${subid}"+tlrc.BRIK
+
+	# multiply maps
+	echo "${subid}" "${beta}" PEV_CC `3ddot -dodot "${react_betaMap}" "${aligned_ccMap}"` >> "${outputDir}"/"${subid}".txt
+
+
+	### Reward Expression Values
+
+	# define maps
+	react_betaMap="${betaDir}"/"${beta}"
+	rewardMap="${mapDir}"/reward_uniformity-test_z_FDR_0.01.nii.gz
+
+	# align maps
+	3dAllineate -source "${rewardMap}" -master "${react_betaMap}" -final NN -1Dparam_apply '1D: 12@0'\' -prefix "${mapDir}"/aligned_maps/aligned_reward_"${subid}"
+	aligned_rewardMap="${mapDir}"/aligned_maps/aligned_reward_"${subid}"+tlrc.BRIK
+
+	# multiply maps
+	echo "${subid}" "${beta}" PEV_Reward `3ddot -dodot "${react_betaMap}" "${aligned_rewardMap}"` >> "${outputDir}"/"${subid}".txt
 done
 done
 
