@@ -8,38 +8,19 @@ cd(wdpath)
 
 % Get subject list
 
-%% Import data from text file.
-% Script for importing data from the following text file:
-%
-%    /Users/Melissa/Dropbox/1prc_fx_stuff/prc_fx/sublist.txt
-
-% Initialize variables.
+%% Read in sublist data from text file.
 filename = '/projects/sanlab/shared/REV/REV_scripts/fMRI/fx/React/mvpa_analysis/sublist.txt';
 delimiter = '';
-
-% Format string for each line of text:
-%   column1: text (%s)
 formatSpec = '%s%[^\n\r]';
-
-% Open the text file.
 fileID = fopen(filename,'r');
-
-% Read columns of data according to format string.
 dataArray = textscan(fileID, formatSpec, 'Delimiter', delimiter,  'ReturnOnError', false);
-
-% Close the text file.
 fclose(fileID);
-
-% Create output variable
 sublist = table(dataArray{1:end-1}, 'VariableNames', {'VarName1'});
-
-% Clear temporary variables
 clearvars filename delimiter formatSpec fileID dataArray ans;
-
 
 sublist = table2array(sublist);
 
-%%
+%% Record which subjects/conditions/runs have the appropriate nifti files.
 fid = fopen('sub_conds_list.txt', 'a');
 
 for sub = 1:length(sublist)
@@ -87,3 +68,52 @@ for sub = 1:length(sublist)
         disp(sublist{sub});
     end
 end
+
+
+%% Create second sub conditions text file with 3 columns:
+%   1. subject number (as numeric, not character string)
+%   2. PRC condition (1=alcohol, 2=drugs, 3=tobacco, 4=food)
+%   3. run number (1 or 2)
+
+%Import data from text file.
+filename = '/projects/sanlab/shared/REV/REV_scripts/fMRI/fx/React/mvpa_analysis/sub_conds_list.txt';
+%filename = '/Users/Melissa/Dropbox/REV_repos/REV_scripts/fMRI/fx/React/mvpa_analysis/sub_conds_list.txt';
+delimiter = '\t';
+formatSpec = '%s%s%[^\n\r]';
+fileID = fopen(filename,'r');
+dataArray = textscan(fileID, formatSpec, 'Delimiter', delimiter,  'ReturnOnError', false);
+fclose(fileID);
+subcondslist = table(dataArray{1:end-1}, 'VariableNames', {'SUB','PRC_RUN'});
+clearvars filename delimiter formatSpec fileID dataArray ans;
+
+%%
+subcondslist.subs=zeros(height(subcondslist),1);
+subcondslist.prc=zeros(height(subcondslist),1);
+subcondslist.run=zeros(height(subcondslist),1);
+
+
+for r=1:height(subcondslist)
+    subcondslist.subs(r)=str2num(subcondslist.SUB{r}(8:end));
+    
+    x=subcondslist.PRC_RUN{r};
+    %run_num=x(end);
+    subcondslist.run(r)=x(end);  
+end
+
+subcondslist.run=subcondslist.run-48; %don't know why I have to do this...
+
+PRC={'risk_alcohol' 'risk_drug' 'risk_tobacco' 'risk_food'};
+tagStr={1 2 3 4};
+                
+for r=1:length(PRC)
+    subcondslist.prc(strncmp(subcondslist.PRC_RUN, PRC(r), 8))=tagStr{r};
+    
+end
+        
+subcondslist2=subcondslist(:,3:end);               
+
+cd(wdpath)
+writetable(subcondslist2,'sub_conds_final.txt','Delimiter','\t');   
+
+
+
