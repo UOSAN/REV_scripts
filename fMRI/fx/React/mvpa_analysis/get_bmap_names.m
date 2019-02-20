@@ -55,13 +55,24 @@ cd(wdpath)
 %     idxList.numPRC(i)=length(prcListForVecs{i,1})-1;
 % end
 
-subsList=readtable('sub_conds_list.txt');
-subsList=table2array(subsList);
-subsList=subsList(:,1);
+filename = '/projects/sanlab/shared/REV/REV_scripts/fMRI/fx/React/mvpa_analysis/sub_conds_list.txt';
+%filename = '/Users/Melissa/Dropbox/REV_repos/REV_scripts/fMRI/fx/React/mvpa_analysis/sub_conds_list.txt';
+delimiter = '\t';
+formatSpec = '%s%s%[^\n\r]';
+fileID = fopen(filename,'r');
+dataArray = textscan(fileID, formatSpec, 'Delimiter', delimiter,  'ReturnOnError', false);
+fclose(fileID);
+subsList = table(dataArray{1:end-1}, 'VariableNames', {'SUB','PRC_RUN'});
+clearvars filename delimiter formatSpec fileID dataArray ans;
+
+% subsList=readtable('sub_conds_list.txt');
+% subsList=table2array(subsList);
+% subsList=subsList(:,1);
 % for i=1:length(subsList)
 %     subsList{i}=strtok(subsList{i});
 % end
 
+subsList=subsList.SUB;
 subsList=unique(subsList);
 subsList2=cell(length(subsList),1);
 for i=1:length(subsList)
@@ -191,6 +202,8 @@ for i=1:length(idxList.numPRC)
                 disp('something weird here...')
             end
         end
+    else
+        disp(idxList.sub(i));
     end
 end
 
