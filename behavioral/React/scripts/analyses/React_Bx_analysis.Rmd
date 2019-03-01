@@ -72,23 +72,23 @@ for (file in file_list) {
 ```{r Plots}
 # create var explicitly labeling image type for each trial
 dataset <- dataset %>% 
-  mutate(condition = ifelse(condition == 1, "risk",
+  mutate(condition = ifelse(condition == 1, "PRC",
                     ifelse(condition == 2, "neutral", NA))) %>% # label conditions
-  mutate(condition = factor(condition, levels = c("neutral", "risk"))) %>% # convert to factor
+  mutate(condition = factor(condition, levels = c("neutral", "PRC"))) %>% # convert to factor
   filter(acq == 1 | acq == 2) # select only baseline data 
 
 # plot desire ratings by image type
 ggplot(dataset, aes(condition, desire_rating)) +
   geom_boxplot() +
   geom_jitter(aes(color = condition), alpha = .05) +
-  labs(x = "Condition", y = "Desire rating", title = "Boxplot of desire ratings for Neutral vs. Risk trials")
+  labs(x = "Condition", y = "Desire rating", title = "Boxplot of desire ratings for Neutral vs. PRC trials")
 
 # plot desire ratings by image type for each acq separately 
 ggplot(dataset, aes(condition, desire_rating)) +
   geom_boxplot() +
   geom_jitter(aes(color = condition), alpha = .05) +
   facet_wrap(~acq) +
-  labs(x = "Condition", y = "Desire rating", title = "Boxplot of desire ratings for Neutral vs. Risk trials \n (by acquisition)")
+  labs(x = "Condition", y = "Desire rating", title = "Boxplot of desire ratings for Neutral vs. PRC trials \n (by acquisition)")
 ```
 
 #Plots for publication
