@@ -34,15 +34,20 @@ for sub = 1:length(sublist)
             
             load('SPM.mat')
             
-            %idxN = strfind(SPM.xX.name, 'neutral');
-            %idx = find(not(cellfun('isempty',idxN)));
+            idxN = strfind(SPM.xX.name, 'neutral');
+            idx1 = find(not(cellfun('isempty',idxN)));
             
             idxR = strfind(SPM.xX.name, 'risk');
             idx = find(not(cellfun('isempty',idxR)));
             %idx = horzcat(idx, find(not(cellfun('isempty',idxR))));
             
+            odd1 = mod(idx1,2);
+            condIdx1 = idx1(find(odd1));
+            
             odd = mod(idx,2);
             condIdx = idx(find(odd));
+            
+            condIdx = horzcat(condIdx1, condIdx);
             
             % ======================================================================
             % Condition names (in same order as beta maps)
@@ -102,8 +107,8 @@ end
 
 subcondslist.run=subcondslist.run-48; %don't know why I have to do this...
 
-PRC={'risk_alcohol' 'risk_drug' 'risk_tobacco' 'risk_food'};
-tagStr={1 2 3 4};
+PRC={'neutral_view','risk_alcohol' 'risk_drug' 'risk_tobacco' 'risk_food'};
+tagStr={0 1 2 3 4};
                 
 for r=1:length(PRC)
     subcondslist.prc(strncmp(subcondslist.PRC_RUN, PRC(r), 8))=tagStr{r};
