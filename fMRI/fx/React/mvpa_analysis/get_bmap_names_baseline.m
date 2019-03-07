@@ -172,8 +172,8 @@ for i=1:length(idxList.numPRC)
                 
             elseif idxList.numPRC(i)==2
                 
-                bmap0_3=strcat('/projects/sanlab/shared/REV/bids_data/derivatives/baseline_analyses/sub-REV', idxList.sub{i} ,'/fx/react/prc/beta_00014.nii');
-                bmap0_4=strcat('/projects/sanlab/shared/REV/bids_data/derivatives/baseline_analyses/sub-REV', idxList.sub{i} ,'/fx/react/prc/beta_00015.nii');
+                bmap0_3=strcat('/projects/sanlab/shared/REV/bids_data/derivatives/baseline_analyses/sub-REV', idxList.sub{i} ,'/fx/react/prc/beta_0014.nii');
+                bmap0_4=strcat('/projects/sanlab/shared/REV/bids_data/derivatives/baseline_analyses/sub-REV', idxList.sub{i} ,'/fx/react/prc/beta_0015.nii');
             
                 fprintf(fid,'%s ',bmap0_3);
                 fprintf(fid,'%s ',bmap0_4);
@@ -190,8 +190,8 @@ for i=1:length(idxList.numPRC)
                 
             elseif idxList.numPRC(i)==3
                 
-                bmap0_3=strcat('/projects/sanlab/shared/REV/bids_data/derivatives/baseline_analyses/sub-REV', idxList.sub{i} ,'/fx/react/prc/beta_00016.nii');
-                bmap0_4=strcat('/projects/sanlab/shared/REV/bids_data/derivatives/baseline_analyses/sub-REV', idxList.sub{i} ,'/fx/react/prc/beta_00017.nii');
+                bmap0_3=strcat('/projects/sanlab/shared/REV/bids_data/derivatives/baseline_analyses/sub-REV', idxList.sub{i} ,'/fx/react/prc/beta_0016.nii');
+                bmap0_4=strcat('/projects/sanlab/shared/REV/bids_data/derivatives/baseline_analyses/sub-REV', idxList.sub{i} ,'/fx/react/prc/beta_0017.nii');
             
                 fprintf(fid,'%s ',bmap0_3);
                 fprintf(fid,'%s ',bmap0_4);
@@ -212,8 +212,8 @@ for i=1:length(idxList.numPRC)
                 
             elseif idxList.numPRC(i)==4
                 
-                bmap0_3=strcat('/projects/sanlab/shared/REV/bids_data/derivatives/baseline_analyses/sub-REV', idxList.sub{i} ,'/fx/react/prc/beta_00018.nii');
-                bmap0_4=strcat('/projects/sanlab/shared/REV/bids_data/derivatives/baseline_analyses/sub-REV', idxList.sub{i} ,'/fx/react/prc/beta_00019.nii');
+                bmap0_3=strcat('/projects/sanlab/shared/REV/bids_data/derivatives/baseline_analyses/sub-REV', idxList.sub{i} ,'/fx/react/prc/beta_0018.nii');
+                bmap0_4=strcat('/projects/sanlab/shared/REV/bids_data/derivatives/baseline_analyses/sub-REV', idxList.sub{i} ,'/fx/react/prc/beta_0019.nii');
             
                 fprintf(fid,'%s ',bmap0_3);
                 fprintf(fid,'%s ',bmap0_4);
