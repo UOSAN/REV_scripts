@@ -8,9 +8,8 @@
 cd /projects/sanlab/shared/REV/REV_scripts/fMRI/fx/React/mvpa_analysis
 
 # This is the text file that lists the full paths for all beta files to be concatenated
-b_list=`cat list_of_bmaps.txt`
-
+b_list=`cat list_of_bmaps_baseline.txt`
 
 # Merge all the beta maps
 module load fsl
-fslmerge -t "/projects/sanlab/shared/REV/archive/react_mvpa/prc_betas.nii" $b_list
+fslmerge -t "/projects/sanlab/shared/REV/archive/react_mvpa/neutr_prc_betas.nii" $b_list

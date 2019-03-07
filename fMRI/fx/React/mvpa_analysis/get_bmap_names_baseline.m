@@ -243,12 +243,12 @@ for i=1:length(idxList.numPRC)
         
     end
 
+end
+
 % Close the file.
 fclose(fid);
 
 disp('Done!')
-
-end
 
 
 
