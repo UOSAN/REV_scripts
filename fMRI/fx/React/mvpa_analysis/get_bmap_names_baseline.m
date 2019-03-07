@@ -158,8 +158,8 @@ for i=1:length(idxList.numPRC)
 
             if idxList.numPRC(i)==1
                 
-                bmap0_3=strcat('/projects/sanlab/shared/REV/bids_data/derivatives/baseline_analyses/sub-REV', idxList.sub{i} ,'/fx/react/prc/beta_00012.nii');
-                bmap0_4=strcat('/projects/sanlab/shared/REV/bids_data/derivatives/baseline_analyses/sub-REV', idxList.sub{i} ,'/fx/react/prc/beta_00013.nii');
+                bmap0_3=strcat('/projects/sanlab/shared/REV/bids_data/derivatives/baseline_analyses/sub-REV', idxList.sub{i} ,'/fx/react/prc/beta_0012.nii');
+                bmap0_4=strcat('/projects/sanlab/shared/REV/bids_data/derivatives/baseline_analyses/sub-REV', idxList.sub{i} ,'/fx/react/prc/beta_0013.nii');
             
                 fprintf(fid,'%s ',bmap0_3);
                 fprintf(fid,'%s ',bmap0_4);
