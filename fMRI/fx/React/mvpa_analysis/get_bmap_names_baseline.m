@@ -56,7 +56,7 @@ cd(wdpath)
 % end
 
 filename = '/projects/sanlab/shared/REV/REV_scripts/fMRI/fx/React/mvpa_analysis/sub_conds_list.txt';
-%filename = '/Users/Melissa/Dropbox/REV_repos/REV_scripts/fMRI/fx/React/mvpa_analysis/sub_conds_list.txt';
+% filename = '/Users/Melissa/Dropbox/REV_repos/REV_scripts/fMRI/fx/React/mvpa_analysis/sub_conds_list.txt';
 delimiter = '\t';
 formatSpec = '%s%s%[^\n\r]';
 fileID = fopen(filename,'r');
