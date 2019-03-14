@@ -635,6 +635,13 @@ survey_data$bscs_ma_numcrave <- as.numeric(survey_data$bscs_ma_4_1) # BSCS Marij
 survey_data$bscs_me_numcrave <- as.numeric(survey_data$bscs_me_4_1) # BSCS Meth number of cravings in past 24 hrs
 survey_data$bscs_p_numcrave <- as.numeric(survey_data$bscs_p_4_1) # BSCS Presciption Pills number of cravings in past 24 hrs
 
+# reliability
+omega_bscs_a_tot <- omega(survey_data[bscs_key_list[[1]]])[[4]]
+#omega_bscs_c_tot <- omega(survey_data[bscs_key_list[[2]]])[[4]]
+#omega_bscs_h_tot <- omega(survey_data[bscs_key_list[[3]]])[[4]]
+omega_bscs_ma_tot <- omega(survey_data[bscs_key_list[[4]]])[[4]]
+omega_bscs_me_tot <- omega(survey_data[bscs_key_list[[5]]])[[4]]
+omega_bscs_p_tot <- omega(survey_data[bscs_key_list[[6]]])[[4]]
 
 ###### Drug Use History (DUH)
     # Alcohol (DUH-A) = CONSUMPTION
@@ -669,6 +676,10 @@ survey_data[,reverse_cols] = 8 - survey_data[,reverse_cols] # Reverse score the 
 # Calculate total score
 survey_data$acq_sf_r_total <- rowMeans(survey_data[acq_sf_r_cols], na.rm = TRUE) # acq_sf_r_data total score
 
+# reliability
+key_acq_sf_r <- ifelse(acq_sf_r_cols %in% reverse_cols, -1, 1)
+omega_acq_sf_r_tot <- omega(survey_data[acq_sf_r_cols], key = key_acq_sf_r)[[4]]
+
 ###### Alcohol Use Disorders Identification Test (AUDIT; Babor, de la Fuente, Saunders, & Grant, 1989) = CONSUMPTION
 
 # Isolate the AUDIT items
@@ -678,6 +689,9 @@ survey_data[audit_cols] <- lapply(survey_data[audit_cols], as.numeric)
 # Calculate total score 
 survey_data$audit_total <- rowMeans(survey_data[audit_cols], na.rm = TRUE) # audit total score
 
+# reliability
+omega_audit_tot <- omega(survey_data[audit_cols])[[4]]
+
 ###### Penn Alcohol Craving Scale (PACS; Flannery, Volpicelli, & Pettinati, 1999) = CRAVING
 
 # Isolate the pacs items
@@ -686,6 +700,9 @@ survey_data[pacs_cols] <- lapply(survey_data[pacs_cols], as.numeric)
 
 # Calculate total score 
 survey_data$pacs_total <- rowMeans(survey_data[pacs_cols], na.rm = TRUE) # pacs total score
+
+# reliability
+omega_pacs_tot <- omega(survey_data[pacs_cols])[[4]]
 
 ###### Cocaine Craving Questionnaire-Brief (CCQ-Brief; Tiffany, Singleton, Haertzen, & Henningfield, 1993) = CRAVING
 
@@ -722,6 +739,9 @@ survey_data[mcq_sf_cols] <- lapply(survey_data[mcq_sf_cols], as.numeric)
 # Calculate total score
 survey_data$mcq_sf_total <- rowMeans(survey_data[mcq_sf_cols], na.rm = TRUE) # mcq_sf total score
 
+# reliability
+omega_mcq_sf_tot <- omega(survey_data[mcq_sf_cols])[[4]]
+
 ###### Meth Craving Intensity Yesterday (MCIY) = CRAVING (NOTE: Single item)
 
 # Isolate the mciy items
@@ -739,6 +759,9 @@ survey_data[ceq_s_p_cols] <- lapply(survey_data[ceq_s_p_cols], as.numeric)
 
 # Calculate total score
 survey_data$ceq_s_p_total <- rowMeans(survey_data[ceq_s_p_cols], na.rm = TRUE) # ceq_s total score
+
+# reliability
+# omega_ceq_s_p_tot <- omega(survey_data[ceq_s_p_cols])[[4]]
 
 ###### Fagerstrom Test for Nicotine Dependence (FTND; Heatherton, Frecker, & Fagerstrom, 1991) = CONSUMPTION
 
@@ -758,6 +781,9 @@ survey_data$ftnd_6 <- recode(survey_data$ftnd_6, "1=0;2=1")
 # Calculate total score
 survey_data$ftnd_total <- rowMeans(survey_data[ftnd_cols], na.rm = TRUE) # ftnd total score
 
+# reliability
+omega_ftnd_tot <- omega(survey_data[ftnd_cols])[[4]]
+
 ###### Questionnaire of Smoking Urges-Brief (QSU-brief; Cox, Tiffany, & Christen, 2011) = CRAVING
 
 # Isolate the qsu_brief items
@@ -770,6 +796,9 @@ survey_data[qsu_cols] <- lapply(survey_data[qsu_cols], FUN = function(X) recode(
 
 # Calculate total score
 survey_data$qsu_total <- rowMeans(survey_data[qsu_cols], na.rm = TRUE) # qsu total score
+
+# reliability
+omega_qsu_tot <- omega(survey_data[qsu_cols])[[4]]
 
 ###### Dutch Eating Behavior Questionnaire (DEBQ; Van Strien, Frijters, Bergers, & Defares, 1986) = CONSUMPTION
 
@@ -794,6 +823,10 @@ survey_data[,reverse_cols] = 6 - survey_data[,reverse_cols] # Reverse score the 
 
 # Calculate total score
 survey_data$debq_total <- rowMeans(survey_data[debq_cols], na.rm = TRUE) # debq total score
+
+# reliability
+key_debq <- ifelse(debq_cols %in% reverse_cols, -1, 1)
+omega_debq_tot <- omega(survey_data[debq_cols], key = key_debq)[[4]]
 
 ###### Food craving inventory (FCI; White et al., 2002)* NOTE: There is a single item for "craving" and a single item for "liking"
     # Chocolate (FCI-Ch) = CRAVING
@@ -826,6 +859,10 @@ survey_data[fci_cols] <- lapply(survey_data[fci_cols], as.numeric)
 
 # # Calculate total score for craving
 # survey_data$fci_crave_total <- rowMeans(survey_data[fci_cols], na.rm = TRUE) # fci craving total score
+
+# reliability
+key_fci <- ifelse(fci_cols %in% reverse_cols, -1, 1)
+omega_fci_tot <- omega(survey_data[fci_cols], key = key_fci)[[4]]
 ```
 
 
@@ -1216,7 +1253,11 @@ survey_data$bis_bas_bas_total <- rowMeans(survey_data[,c("bis_bas_bas_drive", "b
 survey_data$bis_bas_bis_total <- rowMeans(survey_data[,bis_bas_key_list[[4]]]) # BIS
 
 # # How many survey responses do we have?
-# table(!is.na(survey_data[,"bis_bas_bis_total"]))          
+# table(!is.na(survey_data[,"bis_bas_bis_total"])) 
+
+# reliability
+key_bis_bas <- ifelse(bis_bas_cols %in% reverse_cols, -1, 1)
+omega_bis_bas_tot <- omega(survey_data[bis_bas_cols], key = key_bis_bas)[[4]]
 ```
 
 ## Score the UPPS questionnaire
@@ -1270,6 +1311,10 @@ survey_data$upps_lack_premed <- rowMeans(survey_data[,upps_key_list[[2]]]) # UPP
 survey_data$upps_lack_persev <- rowMeans(survey_data[,upps_key_list[[3]]]) # UPPS (lack of) Perseverance
 survey_data$upps_sens_seek <- rowMeans(survey_data[,upps_key_list[[4]]]) # UPPS Sensation Seeking
 survey_data$upps_pos_urg <- rowMeans(survey_data[,upps_key_list[[5]]]) # UPPS Positive  Urgency
+
+# reliability
+key_upps <- ifelse(upps_cols %in% reverse_cols, -1, 1)
+omega_upps_tot <- omega(survey_data[upps_cols], key = key_upps)[[4]]
 ```
 
 
@@ -1367,7 +1412,7 @@ pca_cor_matrix_omitted
 survey_data_with_pca <- merge(survey_data, pca.orthogonal_omitted_scores, by = "ID")
 ```
 
-```{r}
+```{r Summary of omega reliability}
 # concatenate omega values in a data frame
 om_pattern<-grep("omega",names(.GlobalEnv),value=TRUE)
 omegas<-do.call("data.frame",mget(om_pattern))
