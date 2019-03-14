@@ -1137,6 +1137,11 @@ survey_data$scons_total <- rowMeans(survey_data[scons_cols], na.rm = TRUE) # Tot
 
 # How many survey responses do we have? 114
 table(!is.na(survey_data[,"scons_total"]))
+
+# reliability
+key_scons <- ifelse(scons_cols %in% reverse_cols, -1, 1)
+omega_scons_tot <- omega(survey_data[scons_cols], key = key_scons)[[4]]
+
 ```
 
 ## Score the BIS questionnaire
@@ -1169,6 +1174,10 @@ survey_data$bis_total <- rowMeans(survey_data[,c("bis_attn", "bis_motor", "bis_n
 
 # How many survey responses do we have? 116
 table(!is.na(survey_data[,"bis_total"]))
+
+# reliability
+key_bis <- ifelse(bis_cols %in% reverse_cols, -1, 1)
+omega_bis_tot <- omega(survey_data[bis_cols], key = key_bis)[[4]]
 ```
 
 ## Score the BIS BAS questionnaire
@@ -1358,6 +1367,11 @@ pca_cor_matrix_omitted
 survey_data_with_pca <- merge(survey_data, pca.orthogonal_omitted_scores, by = "ID")
 ```
 
+```{r}
+# concatenate omega values in a data frame
+om_pattern<-grep("omega",names(.GlobalEnv),value=TRUE)
+omegas<-do.call("data.frame",mget(om_pattern))
+```
 
 
 ```{r get_lists_for_each_prc}
