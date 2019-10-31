@@ -33,15 +33,27 @@ for s=1:length(idxList.numPRC)
         con1=strcat(' [',num2str([1, zeros(1, ncats*2 + 5)]),'];');
         con2=strcat(' [0 0 0 0', repmat([sprintf(' %.04f ', weight), '0 '], 1, ncats), ' 0 0];');
 
-        load(fname);
-    
-        matlabbatch{18}.spm.stats.con.spmmat(1) = 'cfg_dep(''Model estimation: SPM.mat File'', substruct(''.'',''val'', ''{}'',{17}, ''.'',''val'', ''{}'',{1}, ''.'',''val'', ''{}'',{1}), substruct(''.'',''spmmat''));';
-        matlabbatch{18}.spm.stats.con.consess{1}.tcon.name = '1_Neutral>Baseline';
-        matlabbatch{18}.spm.stats.con.consess{1}.tcon.weights = con1;
-        matlabbatch{18}.spm.stats.con.consess{2}.tcon.name = '2_Craved>Baseline';
-        matlabbatch{18}.spm.stats.con.consess{2}.tcon.weights = con2;
         
-        save(fname,'matlabbatch');
+        l1='matlabbatch{18}.spm.stats.con.spmmat(1) = cfg_dep(''Model estimation: SPM.mat File'', substruct(''.'',''val'', ''{}'',{17}, ''.'',''val'', ''{}'',{1}, ''.'',''val'', ''{}'',{1}), substruct(''.'',''spmmat''));';
+        l2='matlabbatch{18}.spm.stats.con.consess{1}.tcon.name = ''1_Neutral>Baseline'';';
+        l3='matlabbatch{18}.spm.stats.con.consess{1}.tcon.weights = con1;';
+        l4='matlabbatch{18}.spm.stats.con.consess{2}.tcon.name = ''2_Craved>Baseline'';';
+        l5='matlabbatch{18}.spm.stats.con.consess{2}.tcon.weights = con2;';
+        
+        fid = fopen(fname,'a');
+        
+        fprintf(fid,'%s ',l1);
+        fprintf(fid,'\n');
+        fprintf(fid,'%s ',l2);
+        fprintf(fid,'\n');
+        fprintf(fid,'%s ',l3);
+        fprintf(fid,'\n');
+        fprintf(fid,'%s ',l4);
+        fprintf(fid,'\n');
+        fprintf(fid,'%s ',l5);
+        
+        fclose(fid);
+
     end
     
     
@@ -53,15 +65,26 @@ for s=1:length(idxList.numPRC)
         con1=strcat(' [',num2str([1, zeros(1, ncats*2 + 5)]),'];');
         con2=strcat(' [0 0 0 0', repmat([sprintf(' %.04f ', weight), '0 '], 1, ncats), ' 0 0];');
     
-        load(fname);
+        l1='matlabbatch{12}.spm.stats.con.spmmat(1) = cfg_dep(''Model estimation: SPM.mat File'', substruct(''.'',''val'', ''{}'',{11}, ''.'',''val'', ''{}'',{1}, ''.'',''val'', ''{}'',{1}), substruct(''.'',''spmmat''));';
+        l2='matlabbatch{12}.spm.stats.con.consess{1}.tcon.name = ''1_Neutral>Baseline'';';
+        l3='matlabbatch{12}.spm.stats.con.consess{1}.tcon.weights = con1;';
+        l4='matlabbatch{12}.spm.stats.con.consess{2}.tcon.name = ''2_Craved>Baseline'';';
+        l5='matlabbatch{12}.spm.stats.con.consess{2}.tcon.weights = con2;';
         
-        matlabbatch{12}.spm.stats.con.spmmat(1) = cfg_dep('Model estimation: SPM.mat File', substruct('.','val', '{}',{11}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','spmmat'));;
-        matlabbatch{12}.spm.stats.con.consess{1}.tcon.name = '1_Neutral>Baseline';
-        matlabbatch{12}.spm.stats.con.consess{1}.tcon.weights = con1;
-        matlabbatch{12}.spm.stats.con.consess{2}.tcon.name = '2_Craved>Baseline';
-        matlabbatch{12}.spm.stats.con.consess{2}.tcon.weights = con2;
+        fid = fopen(fname,'a');
         
-        save(fname,'matlabbatch');
+        fprintf(fid,'%s ',l1);
+        fprintf(fid,'\n');
+        fprintf(fid,'%s ',l2);
+        fprintf(fid,'\n');
+        fprintf(fid,'%s ',l3);
+        fprintf(fid,'\n');
+        fprintf(fid,'%s ',l4);
+        fprintf(fid,'\n');
+        fprintf(fid,'%s ',l5);
+        
+        fclose(fid);
+        
     end
     
     fname=['REV', sub, '_matlabbatch_job_react_acq2_only.mat'];
@@ -72,15 +95,26 @@ for s=1:length(idxList.numPRC)
         con1=strcat(' [',num2str([1, zeros(1, ncats*2 + 5)]),'];');
         con2=strcat(' [0 0 0 0', repmat([sprintf(' %.04f ', weight), '0 '], 1, ncats), ' 0 0];');
     
-        load(fname);
+        l1='matlabbatch{12}.spm.stats.con.spmmat(1) = cfg_dep(''Model estimation: SPM.mat File'', substruct(''.'',''val'', ''{}'',{11}, ''.'',''val'', ''{}'',{1}, ''.'',''val'', ''{}'',{1}), substruct(''.'',''spmmat''));';
+        l2='matlabbatch{12}.spm.stats.con.consess{1}.tcon.name = ''1_Neutral>Baseline'';';
+        l3='matlabbatch{12}.spm.stats.con.consess{1}.tcon.weights = con1;';
+        l4='matlabbatch{12}.spm.stats.con.consess{2}.tcon.name = ''2_Craved>Baseline'';';
+        l5='matlabbatch{12}.spm.stats.con.consess{2}.tcon.weights = con2;';
         
-        matlabbatch{12}.spm.stats.con.spmmat(1) = cfg_dep('Model estimation: SPM.mat File', substruct('.','val', '{}',{11}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','spmmat'));;
-        matlabbatch{12}.spm.stats.con.consess{1}.tcon.name = '1_Neutral>Baseline';
-        matlabbatch{12}.spm.stats.con.consess{1}.tcon.weights = con1;
-        matlabbatch{12}.spm.stats.con.consess{2}.tcon.name = '2_Craved>Baseline';
-        matlabbatch{12}.spm.stats.con.consess{2}.tcon.weights = con2;
+        fid = fopen(fname,'a');
         
-        save(fname,'matlabbatch');
+        fprintf(fid,'%s ',l1);
+        fprintf(fid,'\n');
+        fprintf(fid,'%s ',l2);
+        fprintf(fid,'\n');
+        fprintf(fid,'%s ',l3);
+        fprintf(fid,'\n');
+        fprintf(fid,'%s ',l4);
+        fprintf(fid,'\n');
+        fprintf(fid,'%s ',l5);
+        
+        fclose(fid);
+        
     end
     
     if ~exist(fname,'file')
@@ -92,4 +126,4 @@ for s=1:length(idxList.numPRC)
 end
 
 
-rsync -auxv --progress mmoss2@Talapas-ln1.uoregon.edu:/gpfs/projects/sanlab/shared/REV/REV_scripts/fMRI/fx/React/baseline_analyses/prc_analysis/both_acqs/scripts/sid_batches/matlabbatch_job_react_both_acqs/REV001_matlabbatch_job_react_both_acqs.mat /Users/melmo/Desktop/REV001_matlabbatch_job_react_both_acqs.mat
+%rsync -auxv --progress mmoss2@Talapas-ln1.uoregon.edu:/gpfs/projects/sanlab/shared/REV/REV_scripts/fMRI/fx/React/baseline_analyses/prc_analysis/both_acqs/scripts/sid_batches/matlabbatch_job_react_both_acqs/REV001_matlabbatch_job_react_both_acqs.mat /Users/melmo/Desktop/REV001_matlabbatch_job_react_both_acqs.mat
