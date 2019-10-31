@@ -3,10 +3,13 @@
 % Close both files with fclose(). Delete the input file with delete(). 
 % Rename the output file to the input filename with movefile().
 
-path='projects/sanlab/shared/REV/REV_scripts/fMRI/fx/React/mvpa_analysis/';
-load([path,'cond_nums.mat']); % this is where idxList comes from
+% WILL ALREADY BE IN PRC_ANALYSIS FOLDER
+mypath='~/../../projects/sanlab/shared/REV/REV_scripts/fMRI/fx/React/mvpa_analysis/'; addpath(mypath);
+%cd('../../mvpa_analysis/');
+cd(mypath)
+load('cond_nums.mat'); % this is where idxList comes from
 
-batch_path='projects/sanlab/shared/REV/REV_scripts/fMRI/fx/React/baseline_analyses/prc_analysis/';
+batch_path='~/../../projects/sanlab/shared/REV/REV_scripts/fMRI/fx/React/baseline_analyses/prc_analysis/';
 
 both_acqs=[batch_path 'both_acqs/scripts/sid_batches/matlabbatch_job_react_both_acqs/']; addpath(both_acqs);
 acq_1=[batch_path 'acq1_only/scripts/sid_batches/matlabbatch_job_react_acq1_only/']; addpath(acq_1);
@@ -32,7 +35,7 @@ for s=1:length(idxList.numPRC)
 
         load(fname);
     
-        matlabbatch{18}.spm.stats.con.spmmat(1) = cfg_dep('Model estimation: SPM.mat File', substruct('.','val', '{}',{17}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','spmmat'));;
+        matlabbatch{18}.spm.stats.con.spmmat(1) = 'cfg_dep(''Model estimation: SPM.mat File'', substruct(''.'',''val'', ''{}'',{17}, ''.'',''val'', ''{}'',{1}, ''.'',''val'', ''{}'',{1}), substruct(''.'',''spmmat''));';
         matlabbatch{18}.spm.stats.con.consess{1}.tcon.name = '1_Neutral>Baseline';
         matlabbatch{18}.spm.stats.con.consess{1}.tcon.weights = con1;
         matlabbatch{18}.spm.stats.con.consess{2}.tcon.name = '2_Craved>Baseline';
