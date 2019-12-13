@@ -21,7 +21,7 @@ do
 	betaDir=/projects/sanlab/shared/REV/bids_data/derivatives/baseline_analyses/sub-"${subid}"/fx/react/betaseries
 	echo $betaDir
 	mapDir=/projects/sanlab/shared/REV/bids_data/derivatives/baseline_analyses/sub-"${subid}"/fx/sst
-	outputDir=/projects/sanlab/shared/REV/bids_data/derivatives/baseline_analyses/expression_maps/betaseries/IC_MelSAP
+	outputDir=/projects/sanlab/shared/REV/bids_data/derivatives/baseline_analyses/expression_maps/betaseries/ICdp_MM
 
 	betas=`cat /projects/sanlab/shared/REV/REV_scripts/fMRI/expression_maps/betaseries/subject_beta_info/all_"${subid}".txt` #list of beta map file names
 
@@ -34,7 +34,7 @@ do
 	icMap="${mapDir}"/con_0001.nii
 
 	# multiply maps
-	echo "${subid}" "${beta}" PEV_IC `3ddot -dodot "${react_betaMap}" "${icMap}"` >> "${outputDir}"/"${subid}".txt
+	echo "${subid}" "${beta}" PEV_IC `3ddot -dodot -demean "${react_betaMap}" "${icMap}"` >> "${outputDir}"/"${subid}".txt
 
 done
 done
